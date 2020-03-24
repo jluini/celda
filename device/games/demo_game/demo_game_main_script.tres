@@ -37,13 +37,13 @@ guybrush.say \"Ok.\"
 
 .wait 2
 
-bust.say \"Come here Guybrush.\"
+room1/bust.say \"Come here Guybrush.\"
 
 guybrush.walk to=pos3
 
 guybrush.say \"What?\"
 
-bust.say \"Nothing.\"
+room1/bust.say \"Nothing.\"
 
 .wait 1
 

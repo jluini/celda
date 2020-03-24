@@ -202,6 +202,8 @@ func _get_item_at(position: Vector2):
 		return null
 	
 	for item in server.current_room.get_items():
+		if not item.is_enabled():
+			continue
 		
 		var disp: Vector2 = item.global_position - position
 		var distance = disp.length()

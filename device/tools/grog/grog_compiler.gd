@@ -3,7 +3,7 @@ class_name GrogCompiler
 # Compiler patterns
 const sequence_header_regex_pattern = "^\\:([a-zA-Z0-9\\.\\-\\_\\ \\#]+)$"
 
-const command_regex_pattern = "^([a-zA-Z0-9\\-\\_\\ \\#]*)\\.([a-zA-Z0-9\\-\\_\\ \\#]+)$"
+const command_regex_pattern = "^([a-z0-9\\-\\_\\/]*)\\.([a-z\\_]+)$"
 
 const float_regex_pattern = "^\\ *([0-9]+|[0-9]*\\.[0-9]+)\\ *$"
 
@@ -105,9 +105,20 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 			
 			var command_requirements = grog.commands[command]
 			
-			if subject and not command_requirements.has_subject:
-				compiled_script.add_error("Command '%s' can't has subject (line %s)" % [command, line_num])
-				return
+			match command_requirements.subject:
+				grog.SubjectType.None:
+					if subject:
+						compiled_script.add_error("Command '%s' can't has subject (line %s)" % [command, line_num])
+						return
+				grog.SubjectType.Required:
+					if not subject:
+						compiled_script.add_error("Command '%s' must have a subject (line %s)" % [command, line_num])
+						return
+				grog.SubjectType.Optional:
+					pass
+				var d:
+					compiled_script.add_error("Grog error: unexpected subject type %s" % grog.SubjectType.keys()[d])
+					return
 			
 			var total = params.size()
 			var required = command_requirements.required_params
@@ -119,7 +130,7 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 			
 			var final_params = []
 			
-			if command_requirements.has_subject:
+			if command_requirements.subject != grog.SubjectType.None:
 				final_params.append(subject)
 			
 			# checks and pushes required parameters and removes them from params list

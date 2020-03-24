@@ -14,6 +14,8 @@ signal stop_walking
 
 var _compiled_script: CompiledGrogScript
 
+var enabled = true
+
 ##############################
 
 func _ready():
@@ -34,15 +36,8 @@ func get_sequence(trigger_name: String) -> Sequence:
 		# returns null so it defaults to fallback
 		return null
 
-func is_ready():
-	# TODO implement or remove
-	return true
-
-##############################
-
-func is_active():
-	# TODO
-	return true
+func is_enabled():
+	return enabled
 	
 ##############################
 
@@ -62,3 +57,11 @@ func position_of_child_at(position_path: NodePath):
 	
 func get_interact_position():
 	return position_of_child_at("interact_position")
+
+func enable():
+	enabled = true
+	visible = true
+
+func disable():
+	enabled = false
+	visible = false

@@ -47,7 +47,7 @@ position = Vector2( 0, -23 )
 navpoly = SubResource( 1 )
 
 [node name="default_player_position" type="Position2D" parent="."]
-position = Vector2( 282.39, 540.543 )
+position = Vector2( 479.504, 702.666 )
 
 [node name="pos1" type="Position2D" parent="."]
 position = Vector2( -279.725, 685.195 )
@@ -63,7 +63,7 @@ position = Vector2( 205.384, 533.165 )
 [node name="bust" type="Node2D" parent="items"]
 position = Vector2( 327.674, 303.018 )
 script = ExtResource( 5 )
-global_id = "bust"
+global_id = "room1/bust"
 color = Color( 0.76, 0.76, 0.76, 1 )
 code = "# 'self' is the item
 # 'you' is the interacting player
@@ -80,22 +80,64 @@ code = "# 'self' is the item
 #:pull
 
 :look_at
-you.say \"Nice bust\"
-.set_global bust_seen true
+you.say DEMO_GAME_NICE_BUST
+.set bust_seen true
 
 :pick_up
-you.say \"It's too heavy\"
+self.disable
 
-#if bust_seen
-#	you.say \"Ya te dije que es un lindo busto\"
-#else
-#	you.say \"Lindo busto\"
-#	
-#	.set bust_seen=true"
+"
 
 [node name="interact_position" type="Position2D" parent="items/bust"]
 position = Vector2( -46.8669, 237.481 )
 
 [node name="Sprite" type="Sprite" parent="items/bust"]
-visible = false
+texture = ExtResource( 6 )
+
+[node name="thing" type="Node2D" parent="items"]
+position = Vector2( 181.877, 435.783 )
+z_index = 571
+z_as_relative = false
+script = ExtResource( 5 )
+global_id = "room1/thing"
+color = Color( 0.678431, 0.815686, 0.929412, 1 )
+code = "# 'self' is the item
+# 'you' is the interacting player
+
+#:walk_to
+#:give
+#:pick_up
+#:use
+#:open
+#:look_at
+#:push
+#:close
+#:talk_to
+#:pull
+
+:look_at
+you.say DEMO_GAME_NICE_THING
+self.say DEMO_GAME_THING_THANKS
+
+:pick_up
+you.say DEMO_GAME_THING_NO_TAKE
+
+:use
+.disable_input
+.load_room room2
+.wait 1
+.load_room room1
+.load_actor mark at=pos=2
+.enable_input
+
+:pull
+room1/bust.enable"
+
+[node name="interact_position" type="Position2D" parent="items/thing"]
+position = Vector2( 63.9061, 119.377 )
+
+[node name="speech_position" type="Position2D" parent="items/thing"]
+position = Vector2( -35.835, -66.408 )
+
+[node name="Sprite" type="Sprite" parent="items/thing"]
 texture = ExtResource( 6 )

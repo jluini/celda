@@ -217,10 +217,24 @@ func walk(item_name: String, opts: Dictionary):
 func end(_opts = {}):
 	return { stop = true }
 
-func set_global(var_name: String, value: bool, _opts = {}):
-	globals[var_name] = value
+func set(var_name: String, value: bool, _opts = {}):
+	_set_global(var_name, value)
 	
 	return empty_action
+
+func enable(subject: String, _opts = {}):
+	_enable_item(subject)
+	return empty_action
+	
+func disable(subject: String, _opts = {}):
+	_disable_item(subject)
+	return empty_action
+
+#func new_command(_opts = {}):
+#	return empty_action
+
+#func new_command(subject: String, _opts = {}):
+#	return empty_action
 
 ##############################
 
@@ -252,7 +266,7 @@ func go_to_request(target_position: Vector2):
 	if not _input_enabled:
 		return
 	
-	if not current_player or not current_player.is_ready():
+	if not current_player: # or not current_player.is_ready():
 		return
 	
 	event_queue.push_action({
@@ -264,7 +278,7 @@ func interact_request(item: Node2D, trigger_name: String):
 	if not _input_enabled:
 		return
 		
-	if not current_player or not current_player.is_ready():
+	if not current_player: # or not current_player.is_ready():
 		return
 		
 	if not current_room.is_a_parent_of(item):
@@ -341,9 +355,8 @@ func _load_room(room_name: String) -> Node:
 		var item_id = item.global_id
 		#print("Loading item '%s'" % item_id)
 		
-		if disabled_items.has(item_id):
-			item.set_visible(false)
-		
+		if _item_is_disabled(item_id):
+			item.disable()
 	
 	root_node.add_child(room) # _ready is called here for room and its items
 	
@@ -492,9 +505,9 @@ func _get_item_named(item_name: String) -> Node:
 		print("Unknown item '%s'" % item_name)
 		return null
 	
-	if not item.is_active():
-		print("Item '%s' is inactive" % item_name)
-		return null
+#	if not item.is_active():
+#		print("Item '%s' is inactive" % item_name)
+#		return null
 	
 	return item
 	
@@ -562,3 +575,40 @@ func log_command_error(args: Array):
 	
 func log_command(level, args: Array):
 	print("%s:\t%s" % [LogLevel.keys()[level], args])
+
+##############################
+
+#	@GLOBAL STATE ACCESS
+
+func _set_global(var_name, value):
+	globals[var_name] = value
+
+func _item_is_disabled(item_id):
+	return disabled_items.has(item_id)
+
+func _enable_item(item_id):
+	if _item_is_disabled(item_id):
+		disabled_items.erase(item_id)
+		
+		var item = _find_item_named(item_id)
+		
+		if item:
+			# item is in scene
+			item.enable()
+	else:
+		print("'%s' is already enabled" % item_id)
+
+func _disable_item(item_id):
+	if not _item_is_disabled(item_id):
+		disabled_items[item_id] = true
+		
+		var item = _find_item_named(item_id)
+		
+		if item:
+			# item is in scene
+			item.disable()
+			
+	else:
+		print("'%s' is already disabled" % item_id)
+	
+

@@ -4,6 +4,12 @@ signal grog_update
 
 var tree
 
+enum SubjectType {
+	None,
+	Required,
+	Optional
+}
+
 enum ParameterType {
 	# accepts quoted and raw strings, passes it as String
 	StringType,
@@ -17,14 +23,14 @@ enum ParameterType {
 
 var commands = {
 	load_room = {
-		has_subject = false,
+		subject = SubjectType.None,
 		required_params = [
 			ParameterType.StringType
 		],
 		named_params = []
 	},
 	load_actor = {
-		has_subject = false,
+		subject = SubjectType.None,
 		required_params = [
 			ParameterType.StringType
 		],
@@ -33,17 +39,17 @@ var commands = {
 		]
 	},
 	enable_input = {
-		has_subject = false,
+		subject = SubjectType.None,
 		required_params = [],
 		named_params = []
 	},
 	disable_input = {
-		has_subject = false,
+		subject = SubjectType.None,
 		required_params = [],
 		named_params = []
 	},
 	wait = {
-		has_subject = false,
+		subject = SubjectType.None,
 		required_params = [
 			ParameterType.FloatType
 		],
@@ -52,7 +58,7 @@ var commands = {
 		]
 	},
 	say = {
-		has_subject = true,
+		subject = SubjectType.Optional,
 		required_params = [
 			ParameterType.StringTokenType
 		],
@@ -62,25 +68,35 @@ var commands = {
 		]
 	},
 	walk = {
-		has_subject = true,
+		subject = SubjectType.Required,
 		required_params = [],
 		named_params = [
 			{ name = "to", required = true, type = ParameterType.StringType }
 		]
 	},
 	end = {
-		has_subject = false,
+		subject = SubjectType.None,
 		required_params = [],
 		named_params = []
 	},
-	set_global = {
-		has_subject = false,
+	set = {
+		subject = SubjectType.None,
 		required_params = [
 			ParameterType.StringType, # TODO accept only raw?
 			ParameterType.BooleanType
 		],
 		named_params = []
-	}
+	},
+	enable = {
+		subject = SubjectType.Required,
+		required_params = [],
+		named_params = []
+	},
+	disable = {
+		subject = SubjectType.Required,
+		required_params = [],
+		named_params = []
+	},
 }
 
 #	@PUBLIC

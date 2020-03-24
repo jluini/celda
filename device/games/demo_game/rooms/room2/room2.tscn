@@ -54,7 +54,7 @@ position = Vector2( 242.467, 580.856 )
 [node name="bust" type="Node2D" parent="items"]
 position = Vector2( 327.005, 330.521 )
 script = ExtResource( 5 )
-global_id = "bust2"
+global_id = "room2/bust"
 color = Color( 0.768627, 0.301961, 0.862745, 1 )
 code = "# 'self' is the item
 # 'you' is the interacting player
@@ -63,11 +63,9 @@ code = "# 'self' is the item
 :look_at
 
 you.say \"Lindo busto\"
-.set_global bust_seen true
+.set bust_seen true
 
 "
-walk_speed = 300.0
-radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/bust"]
 position = Vector2( -80.8721, 233.826 )
