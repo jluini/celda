@@ -15,6 +15,9 @@ var root_node : Node
 
 # State
 var globals = {}
+var disabled_items = {}
+var inventory_items = {}
+
 var current_room: Node = null
 var current_player: Node = null
 
@@ -332,7 +335,17 @@ func _load_room(room_name: String) -> Node:
 	
 	current_room = room
 	
-	root_node.add_child(room) # room's _ready is called here
+	# care: items are not _ready yet
+	
+	for item in current_room.get_items():
+		var item_id = item.global_id
+		#print("Loading item '%s'" % item_id)
+		
+		if disabled_items.has(item_id):
+			item.set_visible(false)
+		
+	
+	root_node.add_child(room) # _ready is called here for room and its items
 	
 	_server_event("room_loaded", [room]) # TODO parameter is not necessary
 

@@ -4,3 +4,6 @@ device/.import/
 device/export.cfg
 device/export_presets.cfg
 
+# Imported translations (automatically generated from CSV files)
+device/*.translation
+

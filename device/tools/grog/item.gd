@@ -17,16 +17,17 @@ var _compiled_script: CompiledGrogScript
 ##############################
 
 func _ready():
+	#print("%s::_ready()" % global_id)
 	add_to_group("item")
-
-func get_sequence(trigger_name: String) -> Sequence:
-	if not _compiled_script and code:
+	
+	if code:
 		_compiled_script = grog.compile_text(code)
 		
 		if not _compiled_script.is_valid:
 			print("Item '%s': script is invalid" % global_id)
 			_compiled_script.print_errors()
-	
+
+func get_sequence(trigger_name: String) -> Sequence:
 	if _compiled_script and _compiled_script.is_valid and _compiled_script.has_sequence(trigger_name):
 		return _compiled_script.get_sequence(trigger_name)
 	else:
