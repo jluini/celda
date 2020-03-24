@@ -16,9 +16,15 @@ func compile(script: Resource) -> CompiledGrogScript:
 	return compile_text(script.get_code())
 
 func compile_text(code: String) -> CompiledGrogScript:
-	var raw_lines: Array = code.split("\n")
-	
 	var compiled_script = CompiledGrogScript.new()
+	
+	if code.find("\r") != -1:
+		print("Warning: unexpected carriage returns in code")
+		print("removing them...")
+		
+		code = code.replace("\r", "")
+	
+	var raw_lines: Array = code.split("\n")
 	
 	var tokenized_lines = tokenize_lines(compiled_script, raw_lines)
 	
