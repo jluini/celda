@@ -219,6 +219,7 @@ margin_right = 764.0
 margin_bottom = 245.0
 
 [node name="quit_button" type="Button" parent="."]
+modulate = Color( 1, 1, 1, 0.368627 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -233,13 +234,14 @@ __meta__ = {
 }
 
 [node name="flags" type="NinePatchRect" parent="."]
-self_modulate = Color( 0.811765, 0.588235, 0.588235, 0.180392 )
+visible = false
+self_modulate = Color( 0.811765, 0.588235, 0.588235, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 1695.92
-margin_top = 841.108
-margin_right = -28.0833
-margin_bottom = -138.892
+margin_left = 1744.0
+margin_top = 841.0
+margin_right = -28.0
+margin_bottom = -139.0
 texture = ExtResource( 4 )
 patch_margin_left = 10
 patch_margin_top = 10
@@ -261,7 +263,7 @@ __meta__ = {
 }
 
 [node name="input_enabled" type="Control" parent="flags/VBoxContainer"]
-margin_right = 175.0
+margin_right = 128.0
 margin_bottom = 38.0
 size_flags_vertical = 3
 
@@ -272,21 +274,17 @@ margin_left = 4.10669
 margin_top = -22.2402
 margin_right = 126.107
 margin_bottom = 28.7598
-text = "Input enabled"
+text = "Input"
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CheckButton" type="CheckButton" parent="flags/VBoxContainer/input_enabled"]
-anchor_left = 1.0
-anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 0.5
-margin_left = -92.1805
-margin_top = -16.7601
-margin_right = -16.1805
-margin_bottom = 23.2399
+anchor_bottom = 1.0
+margin_left = 58.0
+margin_bottom = 2.0
 disabled = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -294,19 +292,15 @@ __meta__ = {
 
 [node name="skippable" type="Control" parent="flags/VBoxContainer"]
 margin_top = 42.0
-margin_right = 175.0
+margin_right = 128.0
 margin_bottom = 80.0
 size_flags_vertical = 3
 
 [node name="CheckButton" type="CheckButton" parent="flags/VBoxContainer/skippable"]
-anchor_left = 1.0
-anchor_top = 0.5
 anchor_right = 1.0
-anchor_bottom = 0.5
-margin_left = -92.1805
-margin_top = -16.7601
-margin_right = -16.1805
-margin_bottom = 23.2399
+anchor_bottom = 1.0
+margin_left = 58.0
+margin_bottom = 2.0
 disabled = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -319,7 +313,7 @@ margin_left = 4.10669
 margin_top = -22.2402
 margin_right = 126.107
 margin_bottom = 28.7598
-text = "Skippable"
+text = "Skip"
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
