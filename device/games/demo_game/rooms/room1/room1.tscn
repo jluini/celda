@@ -79,13 +79,21 @@ code = "# 'self' is the item
 #:talk_to
 #:pull
 
-:look_at
-#if bust_seen:
-#	you.say DEMO_GAME_NICE_BUST_AGAIN
-#else:
-#	you.say DEMO_GAME_NICE_BUST
 
-you.say DEMO_GAME_NICE_BUST
+:push
+.set var2 false
+:pull
+.set var2 true
+
+:look_at
+you.say \"Antes\"
+if bust_seen:
+	you.say \"Ya lo viste\"
+	if var2:
+		you.say \"y lo tiraste\"
+	you.say \"-- END ya lo viste\"
+you.say \"despues\"
+
 .set bust_seen true
 
 :pick_up

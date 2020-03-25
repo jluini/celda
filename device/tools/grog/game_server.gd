@@ -651,7 +651,6 @@ func get_global(var_name):
 	if globals.has(var_name):
 		return globals[var_name]
 	
-	print("Warning: no var '%s', defaulting to false")
 	return false
 	
 func set_global(var_name, value):

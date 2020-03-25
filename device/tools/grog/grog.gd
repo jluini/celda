@@ -21,7 +21,7 @@ enum ParameterType {
 	BooleanType
 }
 
-enum LineType { Header, Command, If }
+enum LineType { Header, Command, If, Else }
 
 var commands = {
 	load_room = {

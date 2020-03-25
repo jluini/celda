@@ -54,7 +54,11 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 		
 		if current_line.type != grog.LineType.Header:
 			# this can only happen at the start of the script
-			compiled_script.add_error("Expecting action header (line %s)" % line_num)
+			compiled_script.add_error("Expecting sequence header (line %s)" % line_num)
+			return
+		
+		if current_line.indent_level != 0:
+			compiled_script.add_error("Sequence header can't be indented (line %s)" % line_num)
 			return
 		
 		# reading sequence header line
@@ -82,161 +86,211 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 				compiled_script.add_error("Sequence '%s': invalid param '%s' (line %s)" % [sequence_trigger, token_str(param), line_num])
 				return
 		
-		var statements = []
+		var stack = []
+		var statements: Array = []
+		
+		var level = 0
 		
 		while true:
 			var more_statements = i < num_lines and lines[i].type != grog.LineType.Header
+			
+			var current_level
+			
+			if more_statements:
+				current_line = lines[i]
+				line_num = current_line.line_number
+				i += 1
+				
+				current_level = current_line.indent_level
+				if current_level > level:
+					compiled_script.add_error("Invalid indentation (line %s)" % line_num)
+					return
+			else:
+				current_level = 0
+			
+			if current_level < level:
+				var diff_level = level - current_line.indent_level
+				
+				for _j in range(diff_level):
+					var previous_level = stack.pop_back()
+					
+					if previous_level.state == "reading_if":
+						previous_level.state = "waiting_else"
+						previous_level.main_branch = statements
+						level -= 1
+						statements = previous_level.previous_statements
+						previous_level.erase("previous_statements")
+						statements.push_back(previous_level)
+					else:
+						compiled_script.add_error("Unexpected level state %s (line %s)" % [previous_level.state, line_num])
+						return
+			
 			if not more_statements:
 				break
 			
-			assert(lines[i].type == grog.LineType.Command)
-			
-			# reading command line
-			
-			current_line = lines[i]
-			line_num = current_line.line_number
-			i += 1
-			var subject: String = current_line.subject
-			var command: String = current_line.command
-			params = current_line.params
-			
-			if not grog.commands.has(command):
-				compiled_script.add_error("Unknown command '%s' (line %s)" % [command, line_num])
-				return
-			
-			var command_requirements = grog.commands[command]
-			
-			match command_requirements.subject:
-				grog.SubjectType.None:
-					if subject:
-						compiled_script.add_error("Command '%s' can't has subject (line %s)" % [command, line_num])
-						return
-				grog.SubjectType.Required:
-					if not subject:
-						compiled_script.add_error("Command '%s' must have a subject (line %s)" % [command, line_num])
-						return
-				grog.SubjectType.Optional:
-					pass
-				_:
-					compiled_script.add_error("Grog error: unexpected subject type %s" % grog.SubjectType.keys()[command_requirements.subject])
+			match current_line.type:
+				grog.LineType.If:
+					stack.push_back({
+						type = grog.LineType.If,
+						state = "reading_if",
+						condition = GlobalVarIsTrueCondition.new(current_line.var_name),
+						previous_statements = statements
+					})
+					statements = []
+					level += 1
+					
+				grog.LineType.Else:
+					compiled_script.add_error("'else' block not implemented (line %s)" % line_num)
 					return
-			
-			var total = params.size()
-			var required = command_requirements.required_params
-			var num_required = required.size()
-			
-			if total < num_required:
-				compiled_script.add_error("Command '%s' needs at least %s parameters (line %s)" % [command, num_required, line_num])
-				return
-			
-			var final_params = []
-			
-			if command_requirements.subject != grog.SubjectType.None:
-				final_params.append(subject)
-			
-			# checks and pushes required parameters and removes them from params list
-			for j in range(num_required):
-				var param_token = params.pop_front() # removes first param
-				
-				var param
-				
-				match required[j]:
-					grog.ParameterType.StringType:
-						param = param_token.content
-					grog.ParameterType.StringTokenType:
-						param = param_token
-					grog.ParameterType.FloatType:
-						var float_str = param_token.content
-						if not float_str_is_valid(float_str):
-							compiled_script.add_error("Token '%s' is not a valid float parameter (line %s)" % [float_str, line_num])
-							return
-						param = float(param_token.content)
-					grog.ParameterType.BooleanType:
-						var option_raw_value = param_token.content
-						if option_raw_value.to_lower() == "false":
-							param = false
-						elif option_raw_value.to_lower() == "true":
-							param = true
-						else:
-							compiled_script.add_error("Option '%s' is not a valid boolean (line %s)" % [option_raw_value, line_num])
-							return
-					_:
-						compiled_script.add_error("Grog error: unexpected parameter type %s" % grog.ParameterType.keys()[required[j]])
+					
+				grog.LineType.Command:
+					var subject: String = current_line.subject
+					var command: String = current_line.command
+					params = current_line.params
+					
+					if not grog.commands.has(command):
+						compiled_script.add_error("Unknown command '%s' (line %s)" % [command, line_num])
 						return
-				
-				final_params.append(param)
-			
-			var options = {}
-			
-			var named: Array = command_requirements.named_params
-			var num_named = named.size()
-			
-			for j in range(num_named):
-				var named_option: Dictionary = named[j]
-				
-				var option_name: String = named_option.name
-				var option_type = named_option.type
-				var is_required: bool = named_option.required
-				
-				var option_values: Array = extract_option_values(params, option_name)
-				
-				match option_values.size():
-					0:
-						if is_required:
-							compiled_script.add_error("Command '%s' requires option '%s' (line %s)" % [command, option_name, line_num])
+					
+					var command_requirements = grog.commands[command]
+					
+					match command_requirements.subject:
+						grog.SubjectType.None:
+							if subject:
+								compiled_script.add_error("Command '%s' can't has subject (line %s)" % [command, line_num])
+								return
+						grog.SubjectType.Required:
+							if not subject:
+								compiled_script.add_error("Command '%s' must have a subject (line %s)" % [command, line_num])
+								return
+						grog.SubjectType.Optional:
+							pass
+						_:
+							compiled_script.add_error("Grog error: unexpected subject type %s" % grog.SubjectType.keys()[command_requirements.subject])
 							return
-
-					1:
-						var option_raw_value: String = option_values[0]
-						var option_value
-						match option_type:
+					
+					var total = params.size()
+					var required = command_requirements.required_params
+					var num_required = required.size()
+					
+					if total < num_required:
+						compiled_script.add_error("Command '%s' needs at least %s parameters (line %s)" % [command, num_required, line_num])
+						return
+					
+					var final_params = []
+					
+					if command_requirements.subject != grog.SubjectType.None:
+						final_params.append(subject)
+					
+					# checks and pushes required parameters and removes them from params list
+					for j in range(num_required):
+						var param_token = params.pop_front() # removes first param
+						
+						var param
+						
+						match required[j]:
 							grog.ParameterType.StringType:
-								option_value = option_raw_value
+								param = param_token.content
+							grog.ParameterType.StringTokenType:
+								param = param_token
 							grog.ParameterType.FloatType:
-								if not float_str_is_valid(option_raw_value):
-									compiled_script.add_error("Option '%s' is not a valid float (line %s)" % [option_raw_value, line_num])
+								var float_str = param_token.content
+								if not float_str_is_valid(float_str):
+									compiled_script.add_error("Token '%s' is not a valid float parameter (line %s)" % [float_str, line_num])
 									return
-								
-								option_value = float(option_raw_value)
-								
+								param = float(param_token.content)
 							grog.ParameterType.BooleanType:
+								var option_raw_value = param_token.content
 								if option_raw_value.to_lower() == "false":
-									option_value = false
+									param = false
 								elif option_raw_value.to_lower() == "true":
-									option_value = true
+									param = true
 								else:
 									compiled_script.add_error("Option '%s' is not a valid boolean (line %s)" % [option_raw_value, line_num])
 									return
-								
 							_:
-								compiled_script.add_error("Grog error: unexpected option type %s" % option_type)
+								compiled_script.add_error("Grog error: unexpected parameter type %s" % grog.ParameterType.keys()[required[j]])
 								return
 						
-						options[option_name] = option_value
-					_:
-						compiled_script.add_error("Duplicated option '%s' (line %s)" % [option_name, line_num])
-						return
-				
-			if params.size() > 0:
-				for j in range(params.size()):
-					var param = params[j]
-					compiled_script.add_error("%s: invalid param '%s' (line %s)" % [command, token_str(param), line_num])
-					return
-			
-			# saves array of options parameters
-			final_params.append(options)
-			
-			statements.append({
-				type = grog.LineType.Command,
-				command = command,
-				params = final_params
-			})
+						final_params.append(param)
+					
+					var options = {}
+					
+					var named: Array = command_requirements.named_params
+					var num_named = named.size()
+					
+					for j in range(num_named):
+						var named_option: Dictionary = named[j]
+						
+						var option_name: String = named_option.name
+						var option_type = named_option.type
+						var is_required: bool = named_option.required
+						
+						var option_values: Array = extract_option_values(params, option_name)
+						
+						match option_values.size():
+							0:
+								if is_required:
+									compiled_script.add_error("Command '%s' requires option '%s' (line %s)" % [command, option_name, line_num])
+									return
+		
+							1:
+								var option_raw_value: String = option_values[0]
+								var option_value
+								match option_type:
+									grog.ParameterType.StringType:
+										option_value = option_raw_value
+									grog.ParameterType.FloatType:
+										if not float_str_is_valid(option_raw_value):
+											compiled_script.add_error("Option '%s' is not a valid float (line %s)" % [option_raw_value, line_num])
+											return
+										
+										option_value = float(option_raw_value)
+										
+									grog.ParameterType.BooleanType:
+										if option_raw_value.to_lower() == "false":
+											option_value = false
+										elif option_raw_value.to_lower() == "true":
+											option_value = true
+										else:
+											compiled_script.add_error("Option '%s' is not a valid boolean (line %s)" % [option_raw_value, line_num])
+											return
+										
+									_:
+										compiled_script.add_error("Grog error: unexpected option type %s" % option_type)
+										return
+								
+								options[option_name] = option_value
+							_:
+								compiled_script.add_error("Duplicated option '%s' (line %s)" % [option_name, line_num])
+								return
+						
+					if params.size() > 0:
+						for j in range(params.size()):
+							var param = params[j]
+							compiled_script.add_error("%s: invalid param '%s' (line %s)" % [command, token_str(param), line_num])
+							return
+					
+					# saves array of options parameters
+					final_params.append(options)
+					
+					statements.append({
+						type = grog.LineType.Command,
+						command = command,
+						params = final_params
+					})
+			# end match
+		
+		# end while (until next sequence or end of script)
 		
 		var sequence = Sequence.new(statements, telekinetic)
 		
 		compiled_script.add_sequence(sequence_trigger, sequence)
 		
 	#return compiled_script
+
+func print_sequence(sequence: Array):
+	print(sequence)
 
 func extract_option_values(params: Array, option_name: String) -> Array:
 	var ret = []
@@ -257,9 +311,9 @@ func identify_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 		identify_line(compiled_script, lines[i])
 
 func identify_line(compiled_script: CompiledGrogScript, line: Dictionary) -> void:
-	if line.indent_level != 0:
-		compiled_script.add_error("Indentation levels not implemented (line %s)" % line.line_number)
-		return
+#	if line.indent_level != 0:
+#		compiled_script.add_error("Indentation levels not implemented (line %s)" % line.line_number)
+#		return
 	
 	var first_token: Dictionary = line.tokens[0]
 	
@@ -267,6 +321,7 @@ func identify_line(compiled_script: CompiledGrogScript, line: Dictionary) -> voi
 		compiled_script.add_error("Invalid first token %s (line %s)" % [token_str(first_token), line.line_number])
 		return
 	
+	var num_tokens = line.tokens.size()
 	var first_content: String = first_token.content
 	
 	if first_content.begins_with(":"):
@@ -278,6 +333,43 @@ func identify_line(compiled_script: CompiledGrogScript, line: Dictionary) -> voi
 		
 		line.type = grog.LineType.Header
 		line.sequence_trigger = result.strings[1]
+		
+	elif first_content == "if":
+		#it's an if block
+		if num_tokens < 2 or num_tokens > 3 or line.tokens[1].type != TOKEN_RAW:
+			compiled_script.add_error("Invalid if (line %s)" % line.line_number)
+			return
+		
+		var var_name = line.tokens[1].content
+		
+		if num_tokens == 3:
+			if line.tokens.type != TOKEN_RAW or line.tokens[2].content != ":":
+				compiled_script.add_error("Invalid if (line %s)" % line.line_number)
+				return
+		else:
+			if var_name.length() < 2 or not var_name.ends_with(":"):
+				compiled_script.add_error("Invalid if (line %s)" % line.line_number)
+				return
+			
+			var_name = var_name.substr(0, var_name.length() - 1)
+		
+		var reg = build_regex("^[a-z0-9\\-\\_]+(\\/[a-z0-9\\-\\_]+)*$")
+		var res = reg.search(var_name)
+		if not res:
+			compiled_script.add_error("Invalid if (line %s)" % line.line_number)
+			return
+			
+		#print("Funciono! '%s'" % var_name)
+		
+		line.type = grog.LineType.If
+		line.var_name = var_name
+	
+	elif first_content == "else:":
+		if num_tokens != 1:
+			compiled_script.add_error("Invalid else (line %s)" % line.line_number)
+			return
+		
+		line.type = grog.LineType.Else
 		
 	else:
 		# it's a command
@@ -428,7 +520,7 @@ func get_tokens(compiled_script: CompiledGrogScript, line: String, line_number: 
 #####################
 
 func float_str_is_valid(float_str: String) -> bool:
-	return contains_pattern(float_str, float_regex())
+	return contains_regex(float_str, float_regex())
 
 func token_str(token: Dictionary) -> String:
 	match token.type:
@@ -455,21 +547,25 @@ func number_of_leading_tabs(raw_line: String) -> int:
 
 #####################
 
-func contains_pattern(a_string: String, pattern: RegEx) -> bool:
-	var result = pattern.search(a_string)
+func contains_pattern(a_string: String, pattern_str: String) -> bool:
+	var regex = build_regex(pattern_str)
+	return contains_regex(a_string, regex)
+
+func contains_regex(a_string: String, regex: RegEx) -> bool:
+	var result = regex.search(a_string)
 	
 	return result != null
 
 func sequence_header_regex():
-	return regex(sequence_header_regex_pattern)
+	return build_regex(sequence_header_regex_pattern)
 
 func command_regex():
-	return regex(command_regex_pattern)
+	return build_regex(command_regex_pattern)
 
 func float_regex():
-	return regex(float_regex_pattern)
+	return build_regex(float_regex_pattern)
 
-func regex(pattern):
+func build_regex(pattern):
 	var ret = RegEx.new()
 	ret.compile(pattern)
 	return ret

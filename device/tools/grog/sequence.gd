@@ -16,23 +16,34 @@ func is_telekinetic() -> bool:
 func in_context(context: Dictionary) -> Array:
 	var ret: Array = _instructions.duplicate(true)
 	
+	_contextualize(ret, context)
+	
+	return ret
+
+func _contextualize(ret: Array, context: Dictionary):
 	for i in range(ret.size()):
 		var instruction = ret[i]
 		
-		if instruction.type != grog.LineType.Command:
-			continue
+		if instruction.type == grog.LineType.Command:
+			var command = instruction.command
+			var requirements = grog.commands[command]
+			
+			if requirements.subject == grog.SubjectType.None:
+				continue
+			
+			var current_subject = instruction.params[0]
+			
+			if context.has(current_subject):
+				# does the replacement
+				var new_subject = context[current_subject]
+				instruction.params[0] = new_subject
 		
-		var command = instruction.command
-		var requirements = grog.commands[command]
+		elif instruction.type == grog.LineType.If:
+			_contextualize(instruction.main_branch, context)
+			if instruction.has("else_branch"):
+				_contextualize(instruction.else_branch, context)
 		
-		if requirements.subject == grog.SubjectType.None:
-			continue
-		
-		var current_subject = instruction.params[0]
-		
-		if context.has(current_subject):
-			# does the replacement
-			var new_subject = context[current_subject]
-			instruction.params[0] = new_subject
+		else:
+			push_error("Unexpected line type %s" % grog.LineType.keys()[instruction.type])
 	
 	return ret
