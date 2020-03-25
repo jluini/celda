@@ -114,34 +114,44 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 				for _j in range(diff_level):
 					var previous_level = stack.pop_back()
 					
-					if previous_level.state == "reading_if":
-						previous_level.state = "waiting_else"
-						previous_level.main_branch = statements
-						level -= 1
-						statements = previous_level.previous_statements
-						previous_level.erase("previous_statements")
-						statements.push_back(previous_level)
+					var current_if = previous_level.back()
+					
+					if current_if.has("main_branch"):
+						assert(not current_if.has("else_branch"))
+						current_if.else_branch = statements
 					else:
-						compiled_script.add_error("Unexpected level state %s (line %s)" % [previous_level.state, line_num])
-						return
+						current_if.main_branch = statements
+					
+					level -= 1
+					statements = previous_level
 			
 			if not more_statements:
 				break
 			
 			match current_line.type:
 				grog.LineType.If:
-					stack.push_back({
+					statements.append({
 						type = grog.LineType.If,
-						state = "reading_if",
 						condition = GlobalVarIsTrueCondition.new(current_line.var_name),
-						previous_statements = statements
 					})
+					
+					stack.push_back(statements)
 					statements = []
 					level += 1
 					
 				grog.LineType.Else:
-					compiled_script.add_error("'else' block not implemented (line %s)" % line_num)
-					return
+					if statements.size() == 0:
+						compiled_script.add_error("Unexpected 'else' block (line %s)" % line_num)
+						return
+
+					var current_if = statements.back()
+					if current_if.type != grog.LineType.If or current_if.has("else_branch"):
+						compiled_script.add_error("Unexpected 'else' block (line %s)" % line_num)
+						return
+					
+					stack.push_back(statements)
+					statements = []
+					level += 1
 					
 				grog.LineType.Command:
 					var subject: String = current_line.subject
@@ -288,9 +298,6 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 		compiled_script.add_sequence(sequence_trigger, sequence)
 		
 	#return compiled_script
-
-func print_sequence(sequence: Array):
-	print(sequence)
 
 func extract_option_values(params: Array, option_name: String) -> Array:
 	var ret = []

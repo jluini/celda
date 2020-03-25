@@ -91,7 +91,17 @@ if bust_seen:
 	you.say \"Ya lo viste\"
 	if var2:
 		you.say \"y lo tiraste\"
+	else:
+		you.say \"pero no lo tiraste\"
 	you.say \"-- END ya lo viste\"
+else:
+	you.say \"No lo viste\"
+	if var2:
+		you.say \"Pero lo tiraste\"
+	else:
+		you.say \"Ni tampoco lo tiraste\"
+	you.say \"-- END no lo viste\"
+	
 you.say \"despues\"
 
 .set bust_seen true
@@ -100,8 +110,6 @@ you.say \"despues\"
 self.disable
 
 "
-walk_speed = 300.0
-radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/bust"]
 position = Vector2( -46.8669, 237.481 )
@@ -147,8 +155,6 @@ you.say DEMO_GAME_THING_NO_TAKE
 
 :pull
 room1/bust.enable"
-walk_speed = 300.0
-radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/thing"]
 position = Vector2( 63.9061, 119.377 )
