@@ -244,7 +244,7 @@ func _run_end(_opts = {}):
 	return { stop = true }
 
 func _run_set(var_name: String, value: bool, _opts = {}):
-	_set_global(var_name, value)
+	set_global(var_name, value)
 	
 	return empty_action
 
@@ -302,6 +302,7 @@ func go_to_request(target_position: Vector2):
 		return
 	
 	_run([{
+		type = grog.LineType.Command,
 		command = "walk_resolved",
 		params = [
 			current_player,
@@ -342,6 +343,7 @@ func interact_request(item: Node2D, trigger_name: String):
 	if not _sequence.is_telekinetic():
 		var target_position = item.get_interact_position()
 		instructions.push_front({
+			type = grog.LineType.Command,
 			command = "walk_resolved",
 			params = [
 				current_player,
@@ -645,7 +647,14 @@ func log_command(level, args: Array):
 
 #	@GLOBAL STATE ACCESS
 
-func _set_global(var_name, value):
+func get_global(var_name):
+	if globals.has(var_name):
+		return globals[var_name]
+	
+	print("Warning: no var '%s', defaulting to false")
+	return false
+	
+func set_global(var_name, value):
 	globals[var_name] = value
 
 func _item_is_disabled(item_id):

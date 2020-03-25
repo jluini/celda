@@ -80,6 +80,11 @@ code = "# 'self' is the item
 #:pull
 
 :look_at
+#if bust_seen:
+#	you.say DEMO_GAME_NICE_BUST_AGAIN
+#else:
+#	you.say DEMO_GAME_NICE_BUST
+
 you.say DEMO_GAME_NICE_BUST
 .set bust_seen true
 

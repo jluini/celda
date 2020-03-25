@@ -21,6 +21,8 @@ enum ParameterType {
 	BooleanType
 }
 
+enum LineType { Header, Command, If }
+
 var commands = {
 	load_room = {
 		subject = SubjectType.None,

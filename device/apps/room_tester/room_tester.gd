@@ -80,17 +80,24 @@ func _on_quit_button_pressed():
 	
 func test_room(_room_resource, _actor_resource):
 	var compiled_script = CompiledGrogScript.new()
-	var start_sequence = [{ command = "load_room", params = [_room_resource.get_name()] }]
-	
-	if _actor_resource:
-		start_sequence.append({ command = "load_actor", params = [_actor_resource.get_name()] })
-	
-	start_sequence.append({ command = "enable_input", params = [] })
+	var start_sequence = build_start_sequence(_room_resource, _actor_resource)
 	
 	compiled_script.add_sequence("start", Sequence.new(start_sequence))
 	
 	play_game(GameServer.StartMode.FromCompiledScript, compiled_script)
 
+func build_start_sequence(room_resource, actor_resource):
+	var ret = []
+	ret.append({ type=grog.LineType.Command, command="load_room", params=[room_resource.get_name()] })
+	
+	if actor_resource:
+		ret.append({ type=grog.LineType.Command, command="load_actor", params=[actor_resource.get_name()] })
+	
+	ret.append({ type=grog.LineType.Command, command="say", params=["", { type="quoted", content="done"}] })
+	
+	ret.append({ type=grog.LineType.Command, command = "enable_input", params = [] })
+	
+	return ret
 
 func play_game(game_mode = GameServer.StartMode.Default, param = null):
 	_grog_game = GameServer.new()  

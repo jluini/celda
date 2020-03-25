@@ -50,9 +50,9 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 		var line_num = current_line.line_number
 		i += 1
 		
-		# expecting actions like ":pick_up" or ":start"
+		# expecting a header ":look TK" or ":start"
 		
-		if not current_line.is_sequence_header:
+		if current_line.type != grog.LineType.Header:
 			# this can only happen at the start of the script
 			compiled_script.add_error("Expecting action header (line %s)" % line_num)
 			return
@@ -85,10 +85,11 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 		var statements = []
 		
 		while true:
-			var more_statements = i < num_lines and not lines[i].is_sequence_header
-			
+			var more_statements = i < num_lines and lines[i].type != grog.LineType.Header
 			if not more_statements:
 				break
+			
+			assert(lines[i].type == grog.LineType.Command)
 			
 			# reading command line
 			
@@ -226,6 +227,7 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 			final_params.append(options)
 			
 			statements.append({
+				type = grog.LineType.Command,
 				command = command,
 				params = final_params
 			})
@@ -274,9 +276,7 @@ func identify_line(compiled_script: CompiledGrogScript, line: Dictionary) -> voi
 			compiled_script.add_error("Sequence name '%s' is not valid (line %s)" % [first_content, line.line_number])
 			return
 		
-		# TODO check sequence headers parameters or additional tokens (if any)
-		
-		line.is_sequence_header = true
+		line.type = grog.LineType.Header
 		line.sequence_trigger = result.strings[1]
 		
 	else:
@@ -295,7 +295,7 @@ func identify_line(compiled_script: CompiledGrogScript, line: Dictionary) -> voi
 			
 		# TODO do a basic check over parameters?
 		
-		line.is_sequence_header = false
+		line.type = grog.LineType.Command
 		line.subject = result.strings[1]
 		line.command = result.strings[2]
 	

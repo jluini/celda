@@ -18,13 +18,21 @@ func in_context(context: Dictionary) -> Array:
 	
 	for i in range(ret.size()):
 		var instruction = ret[i]
+		
+		if instruction.type != grog.LineType.Command:
+			continue
+		
 		var command = instruction.command
 		var requirements = grog.commands[command]
 		
-		if requirements.subject != grog.SubjectType.None:
-			var current_subject = instruction.params[0]
-			if context.has(current_subject):
-				var new_subject = context[current_subject]
-				instruction.params[0] = new_subject
+		if requirements.subject == grog.SubjectType.None:
+			continue
+		
+		var current_subject = instruction.params[0]
+		
+		if context.has(current_subject):
+			# does the replacement
+			var new_subject = context[current_subject]
+			instruction.params[0] = new_subject
 	
 	return ret
