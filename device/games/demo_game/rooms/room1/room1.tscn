@@ -87,6 +87,8 @@ you.say DEMO_GAME_NICE_BUST
 self.disable
 
 "
+walk_speed = 300.0
+radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/bust"]
 position = Vector2( -46.8669, 237.481 )
@@ -127,11 +129,13 @@ you.say DEMO_GAME_THING_NO_TAKE
 .load_room room2
 .wait 1
 .load_room room1
-.load_actor mark at=pos=2
+.load_actor mark at=pos2
 .enable_input
 
 :pull
 room1/bust.enable"
+walk_speed = 300.0
+radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/thing"]
 position = Vector2( 63.9061, 119.377 )

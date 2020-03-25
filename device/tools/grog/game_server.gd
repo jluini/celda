@@ -13,7 +13,18 @@ var data
 # current room is added as child of this node, and actors as children of the room
 var root_node : Node
 
-# State
+# Server state
+
+enum ServerState {
+	None,
+	Prepared,
+	Running,
+	Stopping,
+	Stopped
+}
+var _server_state = ServerState.None
+
+# Game state
 var globals = {}
 var disabled_items = {}
 var inventory_items = {}
@@ -24,7 +35,7 @@ var current_player: Node = null
 var fallback_script: CompiledGrogScript
 var default_script: CompiledGrogScript
 
-var event_queue : EventQueue = EventQueue.new()
+var runner: Runner = null
 
 enum StartMode {
 	Default,
@@ -36,22 +47,18 @@ enum StartMode {
 var _game_start_mode
 var _game_start_param
 
-const empty_action = { block = false }
+const empty_action = { }
 
-enum State {
-	None,
-	Waiting,
-	WaitingSkippable,
-	Skipped
-}
-
-var _state = State.None
 var _input_enabled = false
+var _skippable = false
+var _skipped = false
 
 func init_game(game_data: Resource, p_game_start_mode = StartMode.Default, p_game_start_param = null) -> bool:
-	data = game_data
+	if _server_state != ServerState.None:
+		push_error("Invalid call to init_game")
+		return false
 	
-	# TODO check game data
+	data = game_data
 	
 	if game_data.get_all_scripts().size() > 0:
 		fallback_script = grog.compile(game_data.get_all_scripts()[0])
@@ -78,38 +85,40 @@ func init_game(game_data: Resource, p_game_start_mode = StartMode.Default, p_gam
 	
 	match p_game_start_mode:
 		StartMode.Default:
-			return true
+			pass
+			
 		StartMode.FromRawScript:
 			var compiled_script = grog.compile_text(_game_start_param)
 			
 			if compiled_script.is_valid:
 				_game_start_param = compiled_script
-				return true
 			else:
 				print("Script is invalid")
-				
 				compiled_script.print_errors()
 				return false
+		
 		StartMode.FromScriptResource:
 			var compiled_script = grog.compile(_game_start_param)
 			if compiled_script.is_valid:
 				_game_start_param = compiled_script
-				return true
 			else:
 				print("Script is invalid")
-				
 				compiled_script.print_errors()
 				return false
-		StartMode.FromCompiledScript:
-			return _game_start_param.is_valid
 		
-	return false
+		StartMode.FromCompiledScript:
+			if not _game_start_param.is_valid:
+				return false
+	
+	_server_state = ServerState.Prepared
+	
+	return true
 
 ##############################
 
 #	@COMMANDS
 
-func load_room(room_name: String, _opts = {}):
+func _run_load_room(room_name: String, _opts = {}):
 	var room = _load_room(room_name)
 	
 	if room:
@@ -120,7 +129,7 @@ func load_room(room_name: String, _opts = {}):
 	
 	return empty_action
 
-func load_actor(actor_name: String, opts = {}):
+func _run_load_actor(actor_name: String, opts = {}):
 	if not current_room:
 		print("There's no room!")
 		return empty_action
@@ -146,7 +155,7 @@ func load_actor(actor_name: String, opts = {}):
 	
 	return empty_action
 
-func enable_input(_opts = {}):
+func _run_enable_input(_opts = {}):
 	if _input_enabled:
 		log_command_warning(["enable_input", "input is already enabled"])
 		return
@@ -156,7 +165,7 @@ func enable_input(_opts = {}):
 	
 	return empty_action
 
-func disable_input(_opts = {}):
+func _run_disable_input(_opts = {}):
 	if not _input_enabled:
 		log_command_warning(["disable_input", "input is not enabled"])
 		return
@@ -166,14 +175,14 @@ func disable_input(_opts = {}):
 	
 	return empty_action
 
-func wait(duration: float, opts = {}):
+func _run_wait(duration: float, opts = {}):
 	var skippable: bool = opts.get("skippable", true) # TODO harcoded default wait skippable
 	
 	_server_event("wait_started", [duration, skippable])
 	
-	return { block = true, routine = _wait_coroutine(duration, skippable) }
+	return { coroutine = _wait_coroutine(duration, skippable) }
 
-func say(item_name: String, speech_token: Dictionary, opts = {}):
+func _run_say(item_name: String, speech_token: Dictionary, opts = {}):
 	var speech: String
 	if speech_token.type == GrogCompiler.TOKEN_QUOTED:
 		speech = speech_token.content
@@ -193,9 +202,9 @@ func say(item_name: String, speech_token: Dictionary, opts = {}):
 
 	_server_event("say", [item, speech, duration, skippable])
 	
-	return { block = true, routine = _wait_coroutine(duration, skippable) }
+	return { coroutine = _wait_coroutine(duration, skippable) }
 
-func walk(item_name: String, opts: Dictionary):
+func _run_walk(item_name: String, opts: Dictionary):
 	if not item_name:
 		print("Walk action needs a subject") # TODO check in compiler?
 		return empty_action
@@ -212,21 +221,38 @@ func walk(item_name: String, opts: Dictionary):
 	
 	var target_position = to_node.position
 	
-	return _walk_to(item, target_position)
+	return _run_walk_resolved(item, target_position)
+
+func _run_walk_resolved(actor, target_position: Vector2, global = false) -> Dictionary:
+	var nav : Navigation2D = current_room.get_navigation()
 	
-func end(_opts = {}):
+	if not nav:
+		return empty_action
+	
+	if global:
+		target_position = target_position - nav.global_position
+	
+	target_position = nav.get_closest_point(target_position)
+	
+	var current_position = actor.position
+	
+	var path = nav.get_simple_path(current_position, target_position)
+	
+	return { coroutine = _walk_coroutine(actor, path) }
+	
+func _run_end(_opts = {}):
 	return { stop = true }
 
-func set(var_name: String, value: bool, _opts = {}):
+func _run_set(var_name: String, value: bool, _opts = {}):
 	_set_global(var_name, value)
 	
 	return empty_action
 
-func enable(subject: String, _opts = {}):
+func _run_enable(subject: String, _opts = {}):
 	_enable_item(subject)
 	return empty_action
 	
-func disable(subject: String, _opts = {}):
+func _run_disable(subject: String, _opts = {}):
 	_disable_item(subject)
 	return empty_action
 
@@ -241,9 +267,13 @@ func disable(subject: String, _opts = {}):
 #	@CLIENT REQUESTS
 
 func start_game_request(p_root_node: Node) -> bool:
+	if _server_state != ServerState.Prepared:
+		push_error("Invalid start_game request")
+		return false
+	
 	root_node = p_root_node
 	
-	event_queue.start(self)
+	_server_event("game_started")
 	
 	match _game_start_mode:
 		StartMode.Default:
@@ -252,37 +282,48 @@ func start_game_request(p_root_node: Node) -> bool:
 		_:
 			_run_compiled(_game_start_param, "start")
 	
-	_server_event("game_started")
-	
-	# TODO detect more error cases and return false for them
-	
+	_server_state = ServerState.Running
 	return true
 	
 func skip_request():
-	if _state == State.WaitingSkippable:
-		_state = State.Skipped
+	if _skippable and not _skipped:
+		_skipped = true
 
 func go_to_request(target_position: Vector2):
-	if not _input_enabled:
+	if _server_state != ServerState.Running:
 		return
 	
-	if not current_player: # or not current_player.is_ready():
+	if not _input_enabled or not current_player:
 		return
 	
-	event_queue.push_action({
-		command = "_walk_to",
-		params = [current_player, target_position, true]
-	})
-
+	if is_busy():
+		# TODO cancel current actions
+		#print("I'm busy'")
+		return
+	
+	_run([{
+		command = "walk_resolved",
+		params = [
+			current_player,
+			target_position,
+			true
+		]
+	}])
+	
 func interact_request(item: Node2D, trigger_name: String):
-	if not _input_enabled:
+	if _server_state != ServerState.Running:
 		return
-		
-	if not current_player: # or not current_player.is_ready():
+	
+	if not _input_enabled or not current_player:
 		return
 		
 	if not current_room.is_a_parent_of(item):
 		print("No item in room")
+		return
+	
+	if is_busy():
+		# TODO cancel current actions
+		#print("I'm busy'")
 		return
 	
 	var context = {
@@ -296,20 +337,34 @@ func interact_request(item: Node2D, trigger_name: String):
 		# get fallback
 		_sequence = fallback_script.get_sequence(trigger_name)
 	
-	if not _sequence.is_telekinetic():
-		var target_position = item.get_interact_position()
-		
-		event_queue.push_action({
-			command = "_walk_to",
-			params = [current_player, target_position, false]
-		})
-	
 	var instructions = _sequence.in_context(context)
 	
-	event_queue.push_actions(instructions)
+	if not _sequence.is_telekinetic():
+		var target_position = item.get_interact_position()
+		instructions.push_front({
+			command = "walk_resolved",
+			params = [
+				current_player,
+				target_position
+			]
+		})
 	
+	_run(instructions)
+
 func stop_request():
-	event_queue.stop_asap()
+	if _server_state != ServerState.Running:
+		return
+	
+	if runner:
+		_server_state = ServerState.Stopping
+		runner.stop_asap()
+	else:
+		_stop()
+
+func _stop():
+	_server_state = ServerState.Stopped
+	_free_all()
+	_server_event("game_ended")
 
 ##############################
 
@@ -319,6 +374,7 @@ func _event_queue_set_ready():
 	pass # _server_event("set_ready")
 
 func _event_queue_stopped():
+	# TODO
 	_free_all()
 	_server_event("game_ended")
 
@@ -391,34 +447,17 @@ func _load_actor(actor_name: String, starting_position: Vector2) -> Node:
 func _wait_coroutine(delay_seconds: float, skippable: bool):
 	var elapsed = 0.0
 	
-	if skippable:
-		_state = State.WaitingSkippable
-	else:
-		_state = State.Waiting
+	_skippable = skippable
+	_skipped = false
 	
 	while elapsed < delay_seconds:
-		if skippable and _state == State.Skipped:
+		if _skipped:
 			break
 		elapsed += yield()
 	
+	_skippable = false
+	
 	_server_event("wait_ended")
-
-func _walk_to(actor, target_position: Vector2, global = false) -> Dictionary:
-	var nav : Navigation2D = current_room.get_navigation()
-	
-	if not nav:
-		return empty_action
-	
-	if global:
-		target_position = target_position - nav.global_position
-	
-	target_position = nav.get_closest_point(target_position)
-	
-	var current_position = actor.position
-	
-	var path = nav.get_simple_path(current_position, target_position)
-	
-	return { block = true, routine = _walk_coroutine(actor, path) }
 
 func _walk_coroutine(item, path: PoolVector2Array):
 	while path.size() >= 2:
@@ -468,6 +507,31 @@ func _free_all():
 
 #	@RUNNING
 
+func is_busy():
+	return runner != null
+
+func _runner_over(status):
+	runner = null
+	if _server_state == ServerState.Stopping:
+		if status != Runner.RunnerStatus.Canceled:
+			print("Expecting runner canceled")
+		
+		_stop()
+	
+	#print("Runner over with status %s" % Runner.RunnerStatus.keys()[status])
+
+func _run(instructions: Array):
+	assert(runner == null)
+	
+	runner = Runner.new()
+	
+	var r = runner.run(instructions, self)
+	
+	if not r:
+		runner = null
+	
+	# else it's running and i'm busy until this runner is over
+	
 func _run_script_named(script_name: String, sequence_name: String):
 	var script_resource = _get_script_resource(script_name)
 	
@@ -491,7 +555,12 @@ func _run_compiled(compiled_script: CompiledGrogScript, sequence_name: String):
 	if compiled_script.has_sequence(sequence_name):
 		var sequence: Sequence = compiled_script.get_sequence(sequence_name)
 		
-		event_queue.push_actions(sequence.get_instructions())
+		if is_busy():
+			#print("I'm busy")
+			return
+		
+		_run(sequence.in_context({}))
+		
 	else:
 		print("Sequence '%s' not found" % sequence_name)
 
@@ -504,10 +573,6 @@ func _get_item_named(item_name: String) -> Node:
 	if not item:
 		print("Unknown item '%s'" % item_name)
 		return null
-	
-#	if not item.is_active():
-#		print("Item '%s' is inactive" % item_name)
-#		return null
 	
 	return item
 	
@@ -611,4 +676,3 @@ func _disable_item(item_id):
 	else:
 		print("'%s' is already disabled" % item_id)
 	
-

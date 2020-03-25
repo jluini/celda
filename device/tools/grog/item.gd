@@ -19,7 +19,6 @@ var enabled = true
 ##############################
 
 func _ready():
-	#print("%s::_ready()" % global_id)
 	add_to_group("item")
 	
 	if code:
@@ -55,6 +54,7 @@ func position_of_child_at(position_path: NodePath):
 	else:
 		return position
 	
+# relative position
 func get_interact_position():
 	return position_of_child_at("interact_position")
 

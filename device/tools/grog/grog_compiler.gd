@@ -116,8 +116,8 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 						return
 				grog.SubjectType.Optional:
 					pass
-				var d:
-					compiled_script.add_error("Grog error: unexpected subject type %s" % grog.SubjectType.keys()[d])
+				_:
+					compiled_script.add_error("Grog error: unexpected subject type %s" % grog.SubjectType.keys()[command_requirements.subject])
 					return
 			
 			var total = params.size()
