@@ -117,7 +117,7 @@ func _input(event):
 		
 	
 func on_server_event(event_name, args):
-	var handler_name = "on_" + event_name
+	var handler_name = "_on_server_" + event_name
 	
 	if self.has_method(handler_name):
 		self.callv(handler_name, args)
@@ -126,37 +126,37 @@ func on_server_event(event_name, args):
 
 #	@SERVER EVENTS
 
-func on_game_started():
+func _on_server_game_started():
 	_hide_all()
 	_set_current_action(default_action)
 
-func on_game_ended():
+func _on_server_game_ended():
 	_end_game()
 
-func on_input_enabled():
+func _on_server_input_enabled():
 	_set_input_enabled(true)
 	_show_controls()
 	
-func on_input_disabled():
+func _on_server_input_disabled():
 	_set_input_enabled(false)
 	_hide_controls()
 
-func on_room_loaded(_room):
+func _on_server_room_loaded(_room):
 	pass
 
-func on_actor_loaded(_actor):
+func _on_server_actor_loaded(_actor):
 	pass
 
-func on_wait_started(_duration: float, skippable: bool):
+func _on_server_wait_started(_duration: float, skippable: bool):
 	# start waiting '_duration' seconds
 	_set_skippable(skippable)
 
-func on_wait_ended():
+func _on_server_wait_ended():
 	_text_label.clear() # do always?
 	if _skippable:
 		_set_skippable(false)
 
-func on_say(subject: Node, speech: String, _duration: float, skippable: bool):
+func _on_server_say(subject: Node, speech: String, _duration: float, skippable: bool):
 	# start waiting '_duration' seconds
 	
 	if subject:
@@ -166,6 +166,12 @@ func on_say(subject: Node, speech: String, _duration: float, skippable: bool):
 		_say_text(speech, server.options.default_color, _default_text_position)
 	
 	_set_skippable(skippable)
+
+func _on_server_item_added(_item_name: String):
+	pass
+
+func _on_server_item_removed(_item_name: String):
+	pass
 
 #	@PRIVATE
 

@@ -91,7 +91,7 @@ func build_start_sequence(room_resource, actor_resource):
 	ret.append({ type=grog.LineType.Command, command="load_room", params=[room_resource.get_name()] })
 	
 	if actor_resource:
-		ret.append({ type=grog.LineType.Command, command="load_actor", params=[actor_resource.get_name()] })
+		ret.append({ type=grog.LineType.Command, command="load_actor", params=[actor_resource.get_name(), {}] })
 	
 	ret.append({ type=grog.LineType.Command, command = "enable_input", params = [] })
 	

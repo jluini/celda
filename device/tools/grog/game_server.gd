@@ -118,7 +118,7 @@ func init_game(game_data: Resource, p_game_start_mode = StartMode.Default, p_gam
 
 #	@COMMANDS
 
-func _run_load_room(room_name: String, _opts = {}):
+func _run_load_room(room_name: String):
 	var room = _load_room(room_name)
 	
 	if room:
@@ -129,7 +129,7 @@ func _run_load_room(room_name: String, _opts = {}):
 	
 	return empty_action
 
-func _run_load_actor(actor_name: String, opts = {}):
+func _run_load_actor(actor_name: String, opts: Dictionary):
 	if not current_room:
 		print("There's no room!")
 		return empty_action
@@ -155,7 +155,7 @@ func _run_load_actor(actor_name: String, opts = {}):
 	
 	return empty_action
 
-func _run_enable_input(_opts = {}):
+func _run_enable_input():
 	if _input_enabled:
 		log_command_warning(["enable_input", "input is already enabled"])
 		return
@@ -165,7 +165,7 @@ func _run_enable_input(_opts = {}):
 	
 	return empty_action
 
-func _run_disable_input(_opts = {}):
+func _run_disable_input():
 	if not _input_enabled:
 		log_command_warning(["disable_input", "input is not enabled"])
 		return
@@ -175,14 +175,14 @@ func _run_disable_input(_opts = {}):
 	
 	return empty_action
 
-func _run_wait(duration: float, opts = {}):
+func _run_wait(duration: float, opts: Dictionary):
 	var skippable: bool = opts.get("skippable", true) # TODO harcoded default wait skippable
 	
 	_server_event("wait_started", [duration, skippable])
 	
 	return { coroutine = _wait_coroutine(duration, skippable) }
 
-func _run_say(item_name: String, speech_token: Dictionary, opts = {}):
+func _run_say(item_name: String, speech_token: Dictionary, opts: Dictionary):
 	var speech: String
 	if speech_token.type == GrogCompiler.TOKEN_QUOTED:
 		speech = speech_token.content
@@ -240,26 +240,37 @@ func _run_walk_resolved(actor, target_position: Vector2, global = false) -> Dict
 	
 	return { coroutine = _walk_coroutine(actor, path) }
 	
-func _run_end(_opts = {}):
+func _run_end():
 	return { stop = true }
 
-func _run_set(var_name: String, value: bool, _opts = {}):
+func _run_set(var_name: String, value: bool):
 	set_global(var_name, value)
 	
 	return empty_action
 
-func _run_enable(subject: String, _opts = {}):
+func _run_enable(subject: String):
 	_enable_item(subject)
 	return empty_action
 	
-func _run_disable(subject: String, _opts = {}):
+func _run_disable(subject: String):
 	_disable_item(subject)
 	return empty_action
 
-#func new_command(_opts = {}):
+func _run_add(item_name: String):
+	_add_item(item_name)
+	return empty_action
+
+func _run_remove(item_name: String):
+	_remove_item(item_name)
+	return empty_action
+	
+#func new_command():
 #	return empty_action
 
-#func new_command(subject: String, _opts = {}):
+#func new_command(subject: String):
+#	return empty_action
+
+#func new_command(subject: String, opts: Dictionary):
 #	return empty_action
 
 ##############################
@@ -684,3 +695,18 @@ func _disable_item(item_id):
 	else:
 		print("'%s' is already disabled" % item_id)
 	
+func _add_item(item_name):
+	if inventory_items.has(item_name):
+		print("Item '%s' already in inventory" % item_name)
+		return
+	
+	inventory_items[item_name] = true
+	_server_event("item_added", [item_name])
+	
+func _remove_item(item_name):
+	if not inventory_items.has(item_name):
+		print("Item '%s' not in inventory" % item_name)
+		return
+	
+	inventory_items.erase(item_name)
+	_server_event("item_removed", [item_name])

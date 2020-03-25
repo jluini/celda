@@ -47,7 +47,7 @@ position = Vector2( 0, -23 )
 navpoly = SubResource( 1 )
 
 [node name="default_player_position" type="Position2D" parent="."]
-position = Vector2( 479.504, 702.666 )
+position = Vector2( -176.453, 680.505 )
 
 [node name="pos1" type="Position2D" parent="."]
 position = Vector2( -279.725, 685.195 )
@@ -61,7 +61,7 @@ position = Vector2( 205.384, 533.165 )
 [node name="items" type="Node2D" parent="."]
 
 [node name="bust" type="Node2D" parent="items"]
-position = Vector2( 327.674, 303.018 )
+position = Vector2( 329.389, 333.026 )
 script = ExtResource( 5 )
 global_id = "room1/bust"
 color = Color( 0.76, 0.76, 0.76, 1 )
@@ -80,41 +80,52 @@ code = "# 'self' is the item
 #:pull
 
 
-:push
-.set var2 false
-:pull
-.set var2 true
-
 :look_at
-you.say \"Antes\"
 if bust_seen:
-	you.say \"Ya lo viste\"
-	if var2:
-		you.say \"y lo tiraste\"
-	else:
-		you.say \"pero no lo tiraste\"
-	you.say \"-- END ya lo viste\"
+	you.say DEMO_GAME_NICE_BUST_AGAIN
 else:
-	you.say \"No lo viste\"
-	if var2:
-		you.say \"Pero lo tiraste\"
-	else:
-		you.say \"Ni tampoco lo tiraste\"
-	you.say \"-- END no lo viste\"
-	
-you.say \"despues\"
-
+	you.say DEMO_GAME_NICE_BUST
 .set bust_seen true
 
 :pick_up
-self.disable
+you.say DEMO_GAME_BUST_HEAVY
 
 "
 
 [node name="interact_position" type="Position2D" parent="items/bust"]
-position = Vector2( -46.8669, 237.481 )
+position = Vector2( -7.42757, 203.186 )
 
-[node name="Sprite" type="Sprite" parent="items/bust"]
+[node name="mask" type="Node2D" parent="items"]
+position = Vector2( 505.993, 471.611 )
+z_index = 585
+script = ExtResource( 5 )
+global_id = "room1/mask"
+color = Color( 0.76, 0.76, 0.76, 1 )
+code = "# 'self' is the item
+# 'you' is the interacting player
+
+#:walk_to
+#:give
+#:pick_up
+#:use
+#:open
+#:look_at
+#:push
+#:close
+#:talk_to
+#:pull
+
+:pick_up
+self.disable
+.add inv_mask
+
+:look_at
+you.say DEMO_GAME_MASK"
+
+[node name="interact_position" type="Position2D" parent="items/mask"]
+position = Vector2( -66.8115, 166.567 )
+
+[node name="Sprite" type="Sprite" parent="items/mask"]
 texture = ExtResource( 6 )
 
 [node name="thing" type="Node2D" parent="items"]
@@ -152,15 +163,10 @@ you.say DEMO_GAME_THING_NO_TAKE
 .load_room room1
 .load_actor mark at=pos2
 .enable_input
-
-:pull
-room1/bust.enable"
+"
 
 [node name="interact_position" type="Position2D" parent="items/thing"]
-position = Vector2( 63.9061, 119.377 )
+position = Vector2( 59.716, 176.641 )
 
 [node name="speech_position" type="Position2D" parent="items/thing"]
 position = Vector2( -35.835, -66.408 )
-
-[node name="Sprite" type="Sprite" parent="items/thing"]
-texture = ExtResource( 6 )

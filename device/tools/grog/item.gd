@@ -22,6 +22,10 @@ func _ready():
 	add_to_group("item")
 	
 	if code:
+		if not grog.has_method("compile_text"):
+			print("Warning: weird case")
+			return
+		
 		_compiled_script = grog.compile_text(code)
 		
 		if not _compiled_script.is_valid:

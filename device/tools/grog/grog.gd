@@ -28,8 +28,7 @@ var commands = {
 		subject = SubjectType.None,
 		required_params = [
 			ParameterType.StringType
-		],
-		named_params = []
+		]
 	},
 	load_actor = {
 		subject = SubjectType.None,
@@ -42,13 +41,11 @@ var commands = {
 	},
 	enable_input = {
 		subject = SubjectType.None,
-		required_params = [],
-		named_params = []
+		required_params = []
 	},
 	disable_input = {
 		subject = SubjectType.None,
-		required_params = [],
-		named_params = []
+		required_params = []
 	},
 	wait = {
 		subject = SubjectType.None,
@@ -76,29 +73,48 @@ var commands = {
 			{ name = "to", required = true, type = ParameterType.StringType }
 		]
 	},
+	
+	# end the game
 	end = {
 		subject = SubjectType.None,
-		required_params = [],
-		named_params = []
+		required_params = []
 	},
+	
+	# set value to global variable
+	# (currently only bool values, they are false by default)
 	set = {
 		subject = SubjectType.None,
 		required_params = [
-			ParameterType.StringType, # TODO accept only raw?
+			ParameterType.StringType,
 			ParameterType.BooleanType
-		],
-		named_params = []
+		]
 	},
+	
+	# enable/disable item
+	# (they are active by default and can be disabled to hide them and prevent interaction)
 	enable = {
 		subject = SubjectType.Required,
-		required_params = [],
-		named_params = []
+		required_params = []
 	},
 	disable = {
 		subject = SubjectType.Required,
-		required_params = [],
-		named_params = []
+		required_params = []
 	},
+	
+	# add/remove inventory item
+	add = {
+		subject = SubjectType.None,
+		required_params = [
+			ParameterType.StringType,
+		]
+	},
+	remove = {
+		subject = SubjectType.None,
+		required_params = [
+			ParameterType.StringType,
+		]
+	},
+	
 }
 
 #	@PUBLIC

@@ -226,10 +226,9 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 					
 					var options = {}
 					
-					var named: Array = command_requirements.named_params
-					var num_named = named.size()
+					var named: Array = command_requirements.named_params if command_requirements.has("named_params") else []
 					
-					for j in range(num_named):
+					for j in range(named.size()):
 						var named_option: Dictionary = named[j]
 						
 						var option_name: String = named_option.name
@@ -282,7 +281,8 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 							return
 					
 					# saves array of options parameters
-					final_params.append(options)
+					if command_requirements.has("named_params"):
+						final_params.append(options)
 					
 					statements.append({
 						type = grog.LineType.Command,
