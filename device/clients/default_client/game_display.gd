@@ -289,3 +289,8 @@ func rect_includes_point(rect: Rect2, point: Vector2) -> bool:
 	var eq = eq_x and eq_y
 	
 	return eq
+
+### TODO!!!
+func _process(delta):
+	if server and server.get_state() == GameServer.ServerState.Running:
+		server.update(delta)

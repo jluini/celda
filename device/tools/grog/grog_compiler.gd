@@ -10,12 +10,34 @@ const float_regex_pattern = "^\\ *([0-9]+|[0-9]*\\.[0-9]+)\\ *$"
 const TOKEN_RAW = "raw"
 const TOKEN_QUOTED = "quoted"
 
+enum SubjectType {
+	None,
+	Required,
+	Optional
+}
+
+enum ParameterType {
+	# accepts quoted and raw strings, passes it as String
+	StringType,
+	# accepts quoted and raw strings, passes full token (keeping that information)
+	StringTokenType,
+	# parses and passes parameter as float
+	FloatType,
+	# parses and passes parameter as float (either 'true' or 'false')
+	BooleanType
+}
+
 #	@PUBLIC
 
-func compile(script: Resource) -> CompiledGrogScript:
+var grammar = null
+
+func set_grammar(p_grammar):
+	grammar = p_grammar
+
+func compile(script: Resource):
 	return compile_text(script.get_code())
 
-func compile_text(code: String) -> CompiledGrogScript:
+func compile_text(code: String):
 	var compiled_script = CompiledGrogScript.new()
 	
 	if code.find("\r") != -1:
@@ -52,7 +74,7 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 		
 		# expecting a header ":look TK" or ":start"
 		
-		if current_line.type != grog.LineType.Header:
+		if current_line.type != "header":
 			# this can only happen at the start of the script
 			compiled_script.add_error("Expecting sequence header (line %s)" % line_num)
 			return
@@ -92,7 +114,7 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 		var level = 0
 		
 		while true:
-			var more_statements = i < num_lines and lines[i].type != grog.LineType.Header
+			var more_statements = i < num_lines and lines[i].type != "header"
 			
 			var current_level
 			
@@ -129,9 +151,9 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 				break
 			
 			match current_line.type:
-				grog.LineType.If:
+				"if":
 					statements.append({
-						type = grog.LineType.If,
+						type = "if",
 						condition = GlobalVarIsTrueCondition.new(current_line.var_name),
 					})
 					
@@ -139,13 +161,13 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 					statements = []
 					level += 1
 					
-				grog.LineType.Else:
+				"else":
 					if statements.size() == 0:
 						compiled_script.add_error("Unexpected 'else' block (line %s)" % line_num)
 						return
 
 					var current_if = statements.back()
-					if current_if.type != grog.LineType.If or current_if.has("else_branch"):
+					if current_if.type != "if" or current_if.has("else_branch"):
 						compiled_script.add_error("Unexpected 'else' block (line %s)" % line_num)
 						return
 					
@@ -153,30 +175,30 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 					statements = []
 					level += 1
 					
-				grog.LineType.Command:
+				"command":
 					var subject: String = current_line.subject
 					var command: String = current_line.command
 					params = current_line.params
 					
-					if not grog.commands.has(command):
+					if not grammar.commands.has(command):
 						compiled_script.add_error("Unknown command '%s' (line %s)" % [command, line_num])
 						return
 					
-					var command_requirements = grog.commands[command]
+					var command_requirements = grammar.commands[command]
 					
 					match command_requirements.subject:
-						grog.SubjectType.None:
+						SubjectType.None:
 							if subject:
 								compiled_script.add_error("Command '%s' can't has subject (line %s)" % [command, line_num])
 								return
-						grog.SubjectType.Required:
+						SubjectType.Required:
 							if not subject:
 								compiled_script.add_error("Command '%s' must have a subject (line %s)" % [command, line_num])
 								return
-						grog.SubjectType.Optional:
+						SubjectType.Optional:
 							pass
 						_:
-							compiled_script.add_error("Grog error: unexpected subject type %s" % grog.SubjectType.keys()[command_requirements.subject])
+							compiled_script.add_error("Grog error: unexpected subject type %s" % SubjectType.keys()[command_requirements.subject])
 							return
 					
 					var total = params.size()
@@ -189,7 +211,7 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 					
 					var final_params = []
 					
-					if command_requirements.subject != grog.SubjectType.None:
+					if command_requirements.subject != SubjectType.None:
 						final_params.append(subject)
 					
 					# checks and pushes required parameters and removes them from params list
@@ -199,17 +221,17 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 						var param
 						
 						match required[j]:
-							grog.ParameterType.StringType:
+							ParameterType.StringType:
 								param = param_token.content
-							grog.ParameterType.StringTokenType:
+							ParameterType.StringTokenType:
 								param = param_token
-							grog.ParameterType.FloatType:
+							ParameterType.FloatType:
 								var float_str = param_token.content
 								if not float_str_is_valid(float_str):
 									compiled_script.add_error("Token '%s' is not a valid float parameter (line %s)" % [float_str, line_num])
 									return
 								param = float(param_token.content)
-							grog.ParameterType.BooleanType:
+							ParameterType.BooleanType:
 								var option_raw_value = param_token.content
 								if option_raw_value.to_lower() == "false":
 									param = false
@@ -219,7 +241,7 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 									compiled_script.add_error("Option '%s' is not a valid boolean (line %s)" % [option_raw_value, line_num])
 									return
 							_:
-								compiled_script.add_error("Grog error: unexpected parameter type %s" % grog.ParameterType.keys()[required[j]])
+								compiled_script.add_error("Grog error: unexpected parameter type %s" % ParameterType.keys()[required[j]])
 								return
 						
 						final_params.append(param)
@@ -247,16 +269,16 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 								var option_raw_value: String = option_values[0]
 								var option_value
 								match option_type:
-									grog.ParameterType.StringType:
+									ParameterType.StringType:
 										option_value = option_raw_value
-									grog.ParameterType.FloatType:
+									ParameterType.FloatType:
 										if not float_str_is_valid(option_raw_value):
 											compiled_script.add_error("Option '%s' is not a valid float (line %s)" % [option_raw_value, line_num])
 											return
 										
 										option_value = float(option_raw_value)
 										
-									grog.ParameterType.BooleanType:
+									ParameterType.BooleanType:
 										if option_raw_value.to_lower() == "false":
 											option_value = false
 										elif option_raw_value.to_lower() == "true":
@@ -285,7 +307,7 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 						final_params.append(options)
 					
 					statements.append({
-						type = grog.LineType.Command,
+						type = "command",
 						command = command,
 						params = final_params
 					})
@@ -293,7 +315,7 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 		
 		# end while (until next sequence or end of script)
 		
-		var sequence = Sequence.new(statements, telekinetic)
+		var sequence = { statements=statements, telekinetic=telekinetic }
 		
 		compiled_script.add_sequence(sequence_trigger, sequence)
 		
@@ -338,7 +360,7 @@ func identify_line(compiled_script: CompiledGrogScript, line: Dictionary) -> voi
 			compiled_script.add_error("Sequence name '%s' is not valid (line %s)" % [first_content, line.line_number])
 			return
 		
-		line.type = grog.LineType.Header
+		line.type = "header"
 		line.sequence_trigger = result.strings[1]
 		
 	elif first_content == "if":
@@ -368,7 +390,7 @@ func identify_line(compiled_script: CompiledGrogScript, line: Dictionary) -> voi
 			
 		#print("Funciono! '%s'" % var_name)
 		
-		line.type = grog.LineType.If
+		line.type = "if"
 		line.var_name = var_name
 	
 	elif first_content == "else:":
@@ -376,7 +398,7 @@ func identify_line(compiled_script: CompiledGrogScript, line: Dictionary) -> voi
 			compiled_script.add_error("Invalid else (line %s)" % line.line_number)
 			return
 		
-		line.type = grog.LineType.Else
+		line.type = "else"
 		
 	else:
 		# it's a command
@@ -385,7 +407,7 @@ func identify_line(compiled_script: CompiledGrogScript, line: Dictionary) -> voi
 			compiled_script.add_error("Command '%s' is not valid (line %s)" % [first_content, line.line_number])
 			
 			if first_content.find(".") == -1:
-				if grog.commands.has(first_content):
+				if grammar.commands.has(first_content):
 					compiled_script.add_error("Did you mean .%s?" % first_content)
 				else:
 					compiled_script.add_error("Did you forget the leading dot?")
@@ -394,7 +416,7 @@ func identify_line(compiled_script: CompiledGrogScript, line: Dictionary) -> voi
 			
 		# TODO do a basic check over parameters?
 		
-		line.type = grog.LineType.Command
+		line.type = "command"
 		line.subject = result.strings[1]
 		line.command = result.strings[2]
 	

@@ -31,6 +31,7 @@ var inventory_items = {}
 
 var current_room: Node = null
 var current_player: Node = null
+var interacting_item: Node = null # TODO
 
 var fallback_script: CompiledGrogScript
 var default_script: CompiledGrogScript
@@ -61,7 +62,7 @@ func init_game(game_data: Resource, p_game_start_mode = StartMode.Default, p_gam
 	data = game_data
 	
 	if game_data.get_all_scripts().size() > 0:
-		fallback_script = grog.compile(game_data.get_all_scripts()[0])
+		fallback_script = Grog.compile(game_data.get_all_scripts()[0])
 		if not fallback_script.is_valid:
 			print("Fallback script is invalid")
 			fallback_script.print_errors()
@@ -71,7 +72,7 @@ func init_game(game_data: Resource, p_game_start_mode = StartMode.Default, p_gam
 		fallback_script = CompiledGrogScript.new()
 	
 	if game_data.get_all_scripts().size() > 1:
-		default_script = grog.compile(game_data.get_all_scripts()[1])
+		default_script = Grog.compile(game_data.get_all_scripts()[1])
 		if not default_script.is_valid:
 			print("Default script is invalid")
 			default_script.print_errors()
@@ -88,7 +89,7 @@ func init_game(game_data: Resource, p_game_start_mode = StartMode.Default, p_gam
 			pass
 			
 		StartMode.FromRawScript:
-			var compiled_script = grog.compile_text(_game_start_param)
+			var compiled_script = Grog.compile_text(_game_start_param)
 			
 			if compiled_script.is_valid:
 				_game_start_param = compiled_script
@@ -98,7 +99,7 @@ func init_game(game_data: Resource, p_game_start_mode = StartMode.Default, p_gam
 				return false
 		
 		StartMode.FromScriptResource:
-			var compiled_script = grog.compile(_game_start_param)
+			var compiled_script = Grog.compile(_game_start_param)
 			if compiled_script.is_valid:
 				_game_start_param = compiled_script
 			else:
@@ -113,6 +114,12 @@ func init_game(game_data: Resource, p_game_start_mode = StartMode.Default, p_gam
 	_server_state = ServerState.Prepared
 	
 	return true
+
+##############################
+
+func update(delta):
+	if runner != null:
+		runner.update(delta)
 
 ##############################
 
@@ -313,7 +320,7 @@ func go_to_request(target_position: Vector2):
 		return
 	
 	_run([{
-		type = grog.LineType.Command,
+		type = "command",
 		command = "walk_resolved",
 		params = [
 			current_player,
@@ -338,23 +345,26 @@ func interact_request(item: Node2D, trigger_name: String):
 		#print("I'm busy'")
 		return
 	
+	interacting_item = item
+	
 	var context = {
 		"self": item.global_id,
 		"you": current_player.global_id
 	}
 	
-	var _sequence: Sequence = item.get_sequence(trigger_name)
+	var _sequence: Dictionary = item.get_sequence(trigger_name)
 	
-	if _sequence == null:
+	if not _sequence.has("statements"):
 		# get fallback
 		_sequence = fallback_script.get_sequence(trigger_name)
 	
-	var instructions = _sequence.in_context(context)
+	#var instructions = _sequence.in_context(context)
+	var instructions = _sequence.statements.duplicate(true)
 	
-	if not _sequence.is_telekinetic():
+	if not _sequence.telekinetic:
 		var target_position = item.get_interact_position()
 		instructions.push_front({
-			type = grog.LineType.Command,
+			type = "command",
 			command = "walk_resolved",
 			params = [
 				current_player,
@@ -555,7 +565,7 @@ func _run_script_named(script_name: String, sequence_name: String):
 	_run_script(script_resource, sequence_name)
 
 func _run_script(script_resource: Resource, sequence_name: String):
-	var compiled_script = grog.compile(script_resource)
+	var compiled_script = Grog.compile(script_resource)
 	if not compiled_script.is_valid:
 		print("Script is invalid")
 
@@ -566,13 +576,15 @@ func _run_script(script_resource: Resource, sequence_name: String):
 
 func _run_compiled(compiled_script: CompiledGrogScript, sequence_name: String):
 	if compiled_script.has_sequence(sequence_name):
-		var sequence: Sequence = compiled_script.get_sequence(sequence_name)
+		var sequence = compiled_script.get_sequence(sequence_name)
 		
 		if is_busy():
 			#print("I'm busy")
 			return
 		
-		_run(sequence.in_context({}))
+		var instructions = sequence.statements.duplicate(true)
+		
+		_run(instructions) # TODO context sequence.in_context({}))
 		
 	else:
 		print("Sequence '%s' not found" % sequence_name)
@@ -582,6 +594,12 @@ func _run_compiled(compiled_script: CompiledGrogScript, sequence_name: String):
 #	@FIND ITEMS AND RESOURCES
 
 func _get_item_named(item_name: String) -> Node:
+	# TODO
+	if item_name == "you":
+		return current_player
+	elif item_name == "self":
+		return interacting_item
+	
 	var item = _find_item_named(item_name)
 	if not item:
 		print("Unknown item '%s'" % item_name)
@@ -590,8 +608,8 @@ func _get_item_named(item_name: String) -> Node:
 	return item
 	
 func _find_item_named(item_name: String) -> Node:
-	# TODO make it efficient
-	var items = grog.tree.get_nodes_in_group("item")
+	# TODO
+	var items = current_room.tree.get_nodes_in_group("item")
 	
 	for i in items:
 		if i.global_id == item_name:
@@ -710,3 +728,8 @@ func _remove_item(item_name):
 	
 	inventory_items.erase(item_name)
 	_server_event("item_removed", [item_name])
+
+###
+
+func get_state():
+	return _server_state

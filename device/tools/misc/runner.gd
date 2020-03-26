@@ -36,14 +36,12 @@ func __init(p_output) -> bool:
 	
 	output = p_output
 	
-	var _ret = grog.connect("grog_update", self, "grog_update")
 	return true
 	
 func coroutine(sequence: Array):
 	status = RunnerStatus.Running
 	
 	#var elapsed_time = 0
-	#var num_instructions = sequence.size()
 	var i = 0
 	
 	_stopped = false
@@ -58,7 +56,7 @@ func coroutine(sequence: Array):
 			return null
 		
 		match instruction.type:
-			grog.LineType.Command:
+			"command":
 				if not instruction.has("command") or not instruction.has("params"):
 					end_with_error("Invalid command: %s" % instruction)
 					return null
@@ -94,7 +92,7 @@ func coroutine(sequence: Array):
 					# end while
 				# end if (no coroutine so we continue)
 			
-			grog.LineType.If:
+			"if":
 				if not instruction.has("condition") or not instruction.has("main_branch"):
 					end_with_error("Invalid if: %s" % instruction)
 					return null
@@ -124,39 +122,14 @@ func stop_asap():
 
 #######################
 
-func grog_update(delta):
+func update(delta):
 	if _routine:
 		_routine = _routine.resume(delta)
 		
 		if not _routine:
-			#print("Routine is over: %s" % RunnerStatus.keys()[status])
-			
 			output._runner_over(status)
 			
 func end_with_error(msg):
 	status = RunnerStatus.Error
 	message = msg
 	print(msg)
-
-#######################
-
-#func run_raw(inner_coroutine, output) -> bool:
-#	if not __init(output):
-#		return false
-#
-#	_routine = coroutine_raw(inner_coroutine)
-#
-#	return true
-#
-#func coroutine_raw(inner_coroutine):
-#	status = RunnerStatus.Running
-#
-#	var elapsed_time = 0
-#
-#	while inner_coroutine:
-#		var delta = yield()
-#		elapsed_time += delta
-#		inner_coroutine = inner_coroutine.resume(delta)
-#
-#	status = RunnerStatus.Ok
-#	return null

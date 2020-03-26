@@ -1,7 +1,7 @@
 
 class_name CompiledGrogScript
 
-var empty_sequence = Sequence.new([], true)
+var empty_sequence = { statements=[], telekinetic=true }
 
 var is_valid
 var errors = []
@@ -13,13 +13,15 @@ var _sequences = {}
 func _init():
 	is_valid = true
 
-func add_sequence(sequence_name: String, sequence: Sequence):
+func add_sequence(sequence_name: String, sequence: Dictionary):
 	if has_sequence(sequence_name):
 		push_error("Already has sequence '%s'" % sequence_name)
 		return
 	
-	if not sequence:
-		print("Error grave")
+	if not sequence or typeof(sequence) != TYPE_DICTIONARY or not sequence.has("statements") or not sequence.has("telekinetic"):
+		print("Error grave: %s" % str(sequence))
+		return
+	
 	
 	_sequences[sequence_name] = sequence
 
@@ -31,7 +33,7 @@ func has_sequence(sequence_name: String):
 	
 	return _sequences.has(sequence_name)
 
-func get_sequence(sequence_name: String) -> Sequence:
+func get_sequence(sequence_name: String) -> Dictionary:
 	if not is_valid:
 		return empty_sequence
 	elif not has_sequence(sequence_name):

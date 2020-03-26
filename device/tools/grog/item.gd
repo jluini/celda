@@ -12,7 +12,7 @@ signal start_walking
 #warning-ignore:unused_signal
 signal stop_walking
 
-var _compiled_script: CompiledGrogScript
+var _compiled_script
 
 var enabled = true
 
@@ -22,22 +22,18 @@ func _ready():
 	add_to_group("item")
 	
 	if code:
-		if not grog.has_method("compile_text"):
-			print("Warning: weird case")
-			return
-		
-		_compiled_script = grog.compile_text(code)
+		_compiled_script = Grog.compile_text(code)
 		
 		if not _compiled_script.is_valid:
 			print("Item '%s': script is invalid" % global_id)
 			_compiled_script.print_errors()
 
-func get_sequence(trigger_name: String) -> Sequence:
+func get_sequence(trigger_name: String) -> Dictionary:
 	if _compiled_script and _compiled_script.is_valid and _compiled_script.has_sequence(trigger_name):
 		return _compiled_script.get_sequence(trigger_name)
 	else:
-		# returns null so it defaults to fallback
-		return null
+		# returns empty dict so it defaults to fallback
+		return {}
 
 func is_enabled():
 	return enabled

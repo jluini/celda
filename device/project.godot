@@ -19,11 +19,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/grog/compiled_grog_script.gd"
 }, {
-"base": "Reference",
-"class": "EventQueue",
-"language": "GDScript",
-"path": "res://tools/misc/event_queue.gd"
-}, {
 "base": "Resource",
 "class": "GameResource",
 "language": "GDScript",
@@ -38,6 +33,11 @@ _global_script_classes=[ {
 "class": "GlobalVarIsTrueCondition",
 "language": "GDScript",
 "path": "res://tools/grog/compile/global_var_is_true_condition.gd"
+}, {
+"base": "Reference",
+"class": "Grog",
+"language": "GDScript",
+"path": "res://tools/grog/grog.gd"
 }, {
 "base": "Reference",
 "class": "GrogCompiler",
@@ -60,11 +60,6 @@ _global_script_classes=[ {
 "path": "res://tools/misc/runner.gd"
 }, {
 "base": "Reference",
-"class": "Sequence",
-"language": "GDScript",
-"path": "res://tools/grog/sequence.gd"
-}, {
-"base": "Reference",
 "class": "TestCase",
 "language": "GDScript",
 "path": "res://tools/test/test.gd"
@@ -72,15 +67,14 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "ActorResource": "",
 "CompiledGrogScript": "",
-"EventQueue": "",
 "GameResource": "",
 "GameServer": "",
 "GlobalVarIsTrueCondition": "",
+"Grog": "",
 "GrogCompiler": "",
 "GrogScript": "",
 "RoomResource": "",
 "Runner": "",
-"Sequence": "",
 "TestCase": ""
 }
 
@@ -89,10 +83,6 @@ _global_script_class_icons={
 config/name="Grog"
 run/main_scene="res://apps/room_tester/room_tester.tscn"
 config/icon="res://icon.png"
-
-[autoload]
-
-grog="*res://tools/grog/grog.gd"
 
 [display]
 
