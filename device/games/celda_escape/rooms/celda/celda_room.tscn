@@ -64,7 +64,6 @@ texture = ExtResource( 2 )
 centered = false
 
 [node name="gate" type="Sprite" parent="background"]
-visible = false
 position = Vector2( -1, -36.916 )
 z_index = 1000
 texture = ExtResource( 3 )
