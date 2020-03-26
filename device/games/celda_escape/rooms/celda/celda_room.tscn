@@ -1,0 +1,184 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://games/demo_game/rooms/room1/images/desk.png" type="Texture" id=1]
+[ext_resource path="res://games/demo_game/rooms/room1/images/table.png" type="Texture" id=2]
+[ext_resource path="res://tools/grog/room.gd" type="Script" id=4]
+[ext_resource path="res://tools/2d/item2d.gd" type="Script" id=5]
+[ext_resource path="res://games/celda_escape/rooms/celda/images/celdafondo.jpg" type="Texture" id=6]
+
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( 670.913, 578.145, 914.348, 787.213, -829.795, 791.509, 234.161, 618.24, -822.635, 674.087, -940.057, 570.985, -832.659, 499.386, -693.757, 575.281, 244.19, 576.673, -113.808, 626.832, -129.556, 575.385 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7 ), PoolIntArray( 3, 8, 0 ), PoolIntArray( 9, 3, 2, 4 ), PoolIntArray( 9, 4, 7, 10 ) ]
+outlines = [ PoolVector2Array( -693.757, 575.281, -832.659, 499.386, -940.057, 570.985, -822.635, 674.087, -829.795, 791.509, 914.348, 787.213, 670.913, 578.145, 244.19, 576.673, 234.161, 618.24, -113.808, 626.832, -129.556, 575.385 ) ]
+
+[node name="celda" type="Control"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -960.0
+margin_right = 960.0
+margin_bottom = 850.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+default_player_position_path = NodePath("../celda/default_player_position")
+navigation_path = NodePath("../celda/Navigation2D")
+
+[node name="background" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="background"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.215686, 0.133333, 0.054902, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="background" type="TextureRect" parent="background"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 6 )
+stretch_mode = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="desk" type="Sprite" parent="background"]
+position = Vector2( 844, 405 )
+z_index = 597
+texture = ExtResource( 1 )
+centered = false
+
+[node name="table" type="Sprite" parent="background"]
+visible = false
+position = Vector2( 1367, 472 )
+z_index = 610
+texture = ExtResource( 2 )
+centered = false
+
+[node name="Navigation2D" type="Navigation2D" parent="."]
+
+[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
+position = Vector2( 961.305, 29.1782 )
+navpoly = SubResource( 1 )
+
+[node name="default_player_position" type="Position2D" parent="."]
+position = Vector2( 657.987, 730.793 )
+
+[node name="pos1" type="Position2D" parent="."]
+position = Vector2( 697.843, 718.947 )
+
+[node name="pos2" type="Position2D" parent="."]
+position = Vector2( 913.596, 718.352 )
+
+[node name="pos3" type="Position2D" parent="."]
+position = Vector2( 1206.05, 586.552 )
+
+[node name="items" type="Node2D" parent="."]
+
+[node name="thing" type="Node2D" parent="items"]
+position = Vector2( 1721.24, 417.167 )
+z_index = 571
+z_as_relative = false
+script = ExtResource( 5 )
+global_id = "celda/thing"
+color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
+code = "# 'self' is the item
+# 'you' is the interacting player
+
+#:walk_to
+#:give
+#:pick_up
+#:use
+#:open
+#:look_at
+#:push
+#:close
+#:talk_to
+#:pull
+
+:look_at
+you.say CELDA_ESCAPE_NICE_THING
+self.say CELDA_ESCAPE_THING_THANKS
+
+:pick_up
+you.say CELDA_ESCAPE_THING_NO_TAKE
+"
+
+[node name="interact_position" type="Position2D" parent="items/thing"]
+position = Vector2( -89.2092, 261.127 )
+
+[node name="speech_position" type="Position2D" parent="items/thing"]
+position = Vector2( -0.0356827, -135.143 )
+
+[node name="door" type="Node2D" parent="items"]
+position = Vector2( 555.421, 383.942 )
+z_index = 571
+z_as_relative = false
+script = ExtResource( 5 )
+global_id = "celda/door1"
+color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
+code = "# 'self' is the item
+# 'you' is the interacting player
+
+#:walk_to
+#:pick_up
+#:use
+#:open
+#:look_at
+#:close
+#:talk_to
+
+:look_at
+you.say \"Es alta puerta.\"
+
+:talk_to
+you.say \"¿Posta?\"
+
+:pick_up
+you.say \"¿Me decís en serio?\""
+radius = 200.0
+
+[node name="interact_position" type="Position2D" parent="items/door"]
+position = Vector2( 10.0393, 239.253 )
+
+[node name="desk" type="Node2D" parent="items"]
+position = Vector2( 1020.81, 522.843 )
+z_index = 571
+z_as_relative = false
+script = ExtResource( 5 )
+global_id = "celda/desk"
+color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
+code = "# 'self' is the item
+# 'you' is the interacting player
+
+#:walk_to
+#:pick_up
+#:use
+#:open
+#:look_at
+#:close
+#:talk_to
+
+:look_at
+you.say \"Es un escritorio de pino.\" duration=1.5
+you.say \"Detalle en los rieles de dos cajones.\" duration=1.5
+you.say \"Está con muy poco uso.\" duration=1.5
+you.say \"Se retira en mi domicilio\" duration=1.5
+
+:talk_to
+you.say \"¿Posta?\"
+
+:pick_up
+you.say \"¿Me decís en serio?\""
+radius = 150.0
+
+[node name="interact_position" type="Position2D" parent="items/desk"]
+position = Vector2( -8.57617, 146.175 )

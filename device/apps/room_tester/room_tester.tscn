@@ -1,6 +1,6 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://games/demo_game/demo_game.tres" type="Resource" id=1]
+[ext_resource path="res://games/celda_escape/game_data.tres" type="Resource" id=1]
 [ext_resource path="res://tools/ui_tools/label.gd" type="Script" id=2]
 [ext_resource path="res://apps/room_tester/room_tester.gd" type="Script" id=3]
 [ext_resource path="res://clients/default_client/game_display.tscn" type="PackedScene" id=4]
@@ -19,6 +19,10 @@ default_font = SubResource( 1 )
 [sub_resource type="DynamicFont" id=3]
 size = 18
 font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 60
+font_data = ExtResource( 6 )
 
 [node name="room_tester" type="Node"]
 script = ExtResource( 3 )
@@ -53,10 +57,10 @@ __meta__ = {
 self_modulate = Color( 0, 0, 0, 0.352941 )
 anchor_right = 0.5
 anchor_bottom = 0.75
-margin_left = 50.0
-margin_top = 50.0
-margin_right = -50.0
-margin_bottom = -50.0
+margin_left = 76.427
+margin_top = 155.708
+margin_right = -23.573
+margin_bottom = 55.7078
 texture = ExtResource( 8 )
 patch_margin_left = 10
 patch_margin_top = 10
@@ -75,7 +79,7 @@ __meta__ = {
 
 [node name="room_list_column" type="Control" parent="ui_layer/ui/test_rooms/lists"]
 margin_right = 428.0
-margin_bottom = 710.0
+margin_bottom = 709.0
 size_flags_horizontal = 3
 
 [node name="room_list_border" type="NinePatchRect" parent="ui_layer/ui/test_rooms/lists/room_list_column"]
@@ -107,7 +111,7 @@ text = "ROOM_TESTER_ROOMS"
 [node name="actor_list_column" type="Control" parent="ui_layer/ui/test_rooms/lists"]
 margin_left = 432.0
 margin_right = 860.0
-margin_bottom = 710.0
+margin_bottom = 709.0
 size_flags_horizontal = 3
 
 [node name="actor_list_border" type="NinePatchRect" parent="ui_layer/ui/test_rooms/lists/actor_list_column"]
@@ -301,6 +305,17 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Label" type="Label" parent="ui_layer/ui"]
+margin_left = 132.201
+margin_top = 2.51953
+margin_right = 872.201
+margin_bottom = 154.52
+custom_fonts/font = SubResource( 4 )
+custom_colors/font_color = Color( 0.87, 0.9, 0.81, 1 )
+text = "Celda escape"
+align = 1
+valign = 1
 
 [node name="display" parent="." instance=ExtResource( 4 )]
 visible = false

@@ -1,0 +1,41 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://tools/grog/grog_script.gd" type="Script" id=1]
+
+[resource]
+resource_name = "fallbacks"
+script = ExtResource( 1 )
+code_or_filename = "# 'self' is the item
+# 'you' is the interacting player
+
+:walk_to
+# does nothing
+
+:look_at
+you.say CELDA_ESCAPE_FALLBACK_LOOK
+
+:give TK
+# does nothing
+
+:use TK
+you.say CELDA_ESCAPE_FALLBACK_CANT
+:pull TK
+you.say CELDA_ESCAPE_FALLBACK_CANT
+:push TK
+you.say CELDA_ESCAPE_FALLBACK_CANT
+:open TK
+you.say CELDA_ESCAPE_FALLBACK_CANT_OPEN
+:close TK
+you.say CELDA_ESCAPE_FALLBACK_CANT_CLOSE
+
+:pick_up TK
+you.say CELDA_ESCAPE_FALLBACK_PICK_UP
+
+#:walk_to
+#:pick_up
+#:use
+#:open
+#:look_at
+#:close
+#:talk_to
+"

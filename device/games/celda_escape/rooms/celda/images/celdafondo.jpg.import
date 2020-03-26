@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/celdafondo.jpg-7c74b8f7cf9f909c50f81e01fe61cc60.stex"
+path="res://.import/celdafondo.jpg-5f733b965a4c0da432ebcd2196f76a3e.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda/rooms/celda/celdafondo.jpg"
-dest_files=[ "res://.import/celdafondo.jpg-7c74b8f7cf9f909c50f81e01fe61cc60.stex" ]
+source_file="res://games/celda_escape/rooms/celda/images/celdafondo.jpg"
+dest_files=[ "res://.import/celdafondo.jpg-5f733b965a4c0da432ebcd2196f76a3e.stex" ]
 
 [params]
 

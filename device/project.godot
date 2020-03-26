@@ -105,7 +105,7 @@ window/stretch/aspect="keep"
 
 [locale]
 
-translations=PoolStringArray( "res://apps/room_tester/translations.en.translation", "res://apps/room_tester/translations.es.translation", "res://games/demo_game/translations.en.translation", "res://games/demo_game/translations.es.translation" )
+translations=PoolStringArray( "res://apps/room_tester/translations.en.translation", "res://apps/room_tester/translations.es.translation", "res://games/demo_game/translations.en.translation", "res://games/demo_game/translations.es.translation", "res://games/celda_escape/translations.en.translation", "res://games/celda_escape/translations.es.translation" )
 
 [rendering]
 

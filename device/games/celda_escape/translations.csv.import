@@ -1,0 +1,16 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+
+[deps]
+
+files=[ "res://games/celda_escape/translations.en.translation", "res://games/celda_escape/translations.es.translation" ]
+
+source_file="res://games/celda_escape/translations.csv"
+dest_files=[ "res://games/celda_escape/translations.en.translation", "res://games/celda_escape/translations.es.translation" ]
+
+[params]
+
+compress=true
+delimiter=2

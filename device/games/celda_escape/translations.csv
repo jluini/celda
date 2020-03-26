@@ -1,0 +1,22 @@
+id	en	es
+ACTION_WALK_TO	walk to	ir a
+ACTION_GIVE	give	dar
+ACTION_PICK_UP	pick up	recoger
+ACTION_USE	use	usar
+ACTION_OPEN	open	abrir
+ACTION_LOOK_AT	look at	mirar
+ACTION_PUSH	push	empujar
+ACTION_CLOSE	close	cerrar
+ACTION_TALK_TO	talk to	hablar
+ACTION_PULL	pull	tirar
+CELDA_ESCAPE_FALLBACK_LOOK	I see.	Veo.
+CELDA_ESCAPE_FALLBACK_CANT	I can't.	No puedo.
+CELDA_ESCAPE_FALLBACK_CANT_OPEN	I can't open that.	No puedo abrirlo.
+CELDA_ESCAPE_FALLBACK_CANT_CLOSE	I can't close that.	No puedo cerrarlo.
+CELDA_ESCAPE_FALLBACK_PICK_UP	I better leave it there.	Mejor lo dejo ahí.
+CELDA_ESCAPE_NICE_THING	Nice thing.	Alta cosa.
+CELDA_ESCAPE_THING_THANKS	Thank you.	Gracias.
+CELDA_ESCAPE_THING_NO_TAKE	Never!	No sería capaz de recoger semejante cosa.
+ITEM_CELDA/THING	thing	cosa
+ITEM_CELDA/DOOR1	door	puerta
+ITEM_CELDA/DESK	desk	escritorio
