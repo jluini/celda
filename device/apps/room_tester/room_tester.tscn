@@ -17,18 +17,19 @@ font_data = ExtResource( 6 )
 default_font = SubResource( 1 )
 
 [sub_resource type="DynamicFont" id=3]
-size = 18
-font_data = ExtResource( 5 )
-
-[sub_resource type="DynamicFont" id=4]
 size = 60
 font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 18
+font_data = ExtResource( 5 )
 
 [node name="room_tester" type="Node"]
 script = ExtResource( 3 )
 game_to_load = ExtResource( 1 )
 ui_path = NodePath("ui_layer/ui")
 display_path = NodePath("display")
+game_name_label_path = NodePath("ui_layer/ui/game_name")
 room_list_path = NodePath("ui_layer/ui/test_rooms/lists/room_list_column/room_list_border/room_list")
 actor_list_path = NodePath("ui_layer/ui/test_rooms/lists/actor_list_column/actor_list_border/actor_list")
 script_list_path = NodePath("ui_layer/ui/test_scripts/script_list_column/script_list_border/script_list")
@@ -49,6 +50,20 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.458824, 0.47451, 0.427451, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="game_name" type="Label" parent="ui_layer/ui"]
+margin_left = 132.201
+margin_top = 2.51953
+margin_right = 872.201
+margin_bottom = 154.52
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0.87, 0.9, 0.81, 1 )
+text = "(game name)"
+align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -242,7 +257,7 @@ margin_left = 10.0
 margin_top = 10.0
 margin_right = -10.0
 margin_bottom = -10.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 4 )
 text = "# grog script
 
 :start
@@ -305,17 +320,6 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Label" type="Label" parent="ui_layer/ui"]
-margin_left = 132.201
-margin_top = 2.51953
-margin_right = 872.201
-margin_bottom = 154.52
-custom_fonts/font = SubResource( 4 )
-custom_colors/font_color = Color( 0.87, 0.9, 0.81, 1 )
-text = "Celda escape"
-align = 1
-valign = 1
 
 [node name="display" parent="." instance=ExtResource( 4 )]
 visible = false

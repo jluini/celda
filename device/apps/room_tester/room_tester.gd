@@ -5,6 +5,7 @@ export (Resource) var game_to_load
 export (NodePath) var ui_path
 export (NodePath) var display_path
 
+export (NodePath) var game_name_label_path
 export (NodePath) var room_list_path
 export (NodePath) var actor_list_path
 export (NodePath) var script_list_path
@@ -16,6 +17,7 @@ var _grog_game: GameServer = null
 onready var _ui = get_node(ui_path)
 onready var _display = get_node(display_path)
 
+onready var _game_name_label = get_node(game_name_label_path)
 onready var _room_list = get_node(room_list_path)
 onready var _actor_list = get_node(actor_list_path)
 onready var _script_list = get_node(script_list_path)
@@ -30,6 +32,8 @@ func _ready():
 		return
 	
 	_default_script = _raw_script_edit.text
+	
+	_game_name_label.set_text(game_to_load.get_name())
 	
 	list_elements("rooms", game_to_load.get_all_rooms(), _room_list)
 	list_elements("actors", game_to_load.get_all_actors(), _actor_list)

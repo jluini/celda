@@ -7,8 +7,8 @@
 [ext_resource path="res://games/celda_escape/rooms/celda/celda_room.tres" type="Resource" id=5]
 [ext_resource path="res://games/demo_game/actors/guybrush/guybrush.tres" type="Resource" id=6]
 
-
 [resource]
+resource_name = "Celda escape"
 script = ExtResource( 1 )
 default_action = "walk_to"
 actions = [ "look_at", "pick_up", "talk_to", "open", "close", "use" ]
