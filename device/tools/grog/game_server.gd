@@ -24,6 +24,8 @@ enum ServerState {
 }
 var _server_state = ServerState.None
 
+var player_resource
+
 # Game state
 var globals = {}
 var disabled_items = {}
@@ -113,7 +115,18 @@ func init_game(game_data: Resource, p_game_start_mode = StartMode.Default, p_gam
 	
 	_server_state = ServerState.Prepared
 	
+	if not game_data.get_all_actors():
+		print("No actors")
+	else:
+		player_resource = game_data.get_all_actors()[0]
+	
 	return true
+
+##############################
+
+func set_player(p_player_resource):
+	player_resource = p_player_resource
+	
 
 ##############################
 
@@ -128,37 +141,8 @@ func update(delta):
 func _run_load_room(room_name: String):
 	var room = _load_room(room_name)
 	
-	if room:
-		# TODO check this (clearing player when loading new room)
-		current_player = null
-	else:
+	if not room:
 		print("Couldn't load room '%s'" % room_name)
-	
-	return empty_action
-
-func _run_load_actor(actor_name: String, opts: Dictionary):
-	if not current_room:
-		print("There's no room!")
-		return empty_action
-	
-	var starting_position
-	
-	var at_node: Node = _get_option_as_room_node("at", opts)
-	
-	if at_node:
-		starting_position = at_node.position
-	else:
-		starting_position = current_room.get_default_player_position()
-
-	var actor = _load_actor(actor_name, starting_position)
-	
-	if not actor:
-		print("Couldn't load actor '%s'" % actor_name)
-		return
-	
-	# TODO
-	if not current_player:
-		current_player = actor
 	
 	return empty_action
 
@@ -212,10 +196,6 @@ func _run_say(item_name: String, speech_token: Dictionary, opts: Dictionary):
 	return { coroutine = _wait_coroutine(duration, skippable) }
 
 func _run_walk(item_name: String, opts: Dictionary):
-	if not item_name:
-		print("Walk action needs a subject") # TODO check in compiler?
-		return empty_action
-	
 	var item = _get_item_named(item_name)
 	if not item:
 		return empty_action
@@ -293,6 +273,8 @@ func start_game_request(p_root_node: Node) -> bool:
 	
 	_server_event("game_started")
 	
+	current_player = player_resource.actor_scene.instance()
+	
 	match _game_start_mode:
 		StartMode.Default:
 			_run_compiled(default_script, "start")
@@ -308,6 +290,7 @@ func skip_request():
 		_skipped = true
 
 func go_to_request(target_position: Vector2):
+	
 	if _server_state != ServerState.Running:
 		return
 	
@@ -347,18 +330,14 @@ func interact_request(item: Node2D, trigger_name: String):
 	
 	interacting_item = item
 	
-	var context = {
-		"self": item.global_id,
-		"you": current_player.global_id
-	}
-	
+
 	var _sequence: Dictionary = item.get_sequence(trigger_name)
 	
 	if not _sequence.has("statements"):
 		# get fallback
 		_sequence = fallback_script.get_sequence(trigger_name)
 	
-	#var instructions = _sequence.in_context(context)
+	# TODO context and avoid duplication
 	var instructions = _sequence.statements.duplicate(true)
 	
 	if not _sequence.telekinetic:
@@ -376,6 +355,7 @@ func interact_request(item: Node2D, trigger_name: String):
 
 func stop_request():
 	if _server_state != ServerState.Running:
+		print("Unexpected stop")
 		return
 	
 	if runner:
@@ -391,25 +371,13 @@ func _stop():
 
 ##############################
 
-#	@EVENT QUEUE EVENTS
-
-func _event_queue_set_ready():
-	pass # _server_event("set_ready")
-
-func _event_queue_stopped():
-	# TODO
-	_free_all()
-	_server_event("game_ended")
-
-##############################
-
 #	@PRIVATE
 
 func _server_event(event_name: String, args: Array = []):
 	emit_signal("game_server_event", event_name, args)
 
 func _load_room(room_name: String) -> Node:
-	var room_resource = _get_room(room_name)
+	var room_resource = _get_room_resource(room_name)
 	if not room_resource:
 		print("No room '%s'" % room_name)
 		return null
@@ -424,15 +392,27 @@ func _load_room(room_name: String) -> Node:
 		push_error("Couldn't load room '%s'"  % room_name)
 		return null
 	
-	_free_all()
+	# detaches player from previous room
+	if current_room and current_player:
+		current_room.remove_child(current_player)
+	
+	if current_room:
+		root_node.remove_child(current_room)
+		current_room.queue_free()
+		current_room = null
 	
 	current_room = room
 	
+	if current_player:
+		room.add_child(current_player)
+		current_player.teleport(room.get_default_player_position())
+	else:
+		print("Playing with no player")
+	
 	# care: items are not _ready yet
 	
-	for item in current_room.get_items():
+	for item in room.get_items():
 		var item_id = item.global_id
-		#print("Loading item '%s'" % item_id)
 		
 		if _item_is_disabled(item_id):
 			item.disable()
@@ -442,30 +422,6 @@ func _load_room(room_name: String) -> Node:
 	_server_event("room_loaded", [room]) # TODO parameter is not necessary
 
 	return room
-
-func _load_actor(actor_name: String, starting_position: Vector2) -> Node:
-	var actor_resource = _get_actor(actor_name)
-	if not actor_resource:
-		print("No actor '%s'" % actor_name)
-		return null
-	
-	if not actor_resource.actor_scene:
-		print("No actor_scene in actor '%s'" % actor_name)
-		return null
-	
-	var actor = actor_resource.actor_scene.instance()
-	
-	if not actor:
-		push_error("Couldn't load actor '%s'"  % actor_name)
-		return null
-	
-	current_room.add_child(actor)
-	
-	actor.teleport(starting_position)
-	
-	_server_event("actor_loaded", [actor])
-	
-	return actor
 
 func _wait_coroutine(delay_seconds: float, skippable: bool):
 	var elapsed = 0.0
@@ -515,7 +471,8 @@ func _walk_coroutine(item, path: PoolVector2Array):
 
 func _free_all():
 	if current_player:
-		current_room.remove_child(current_player)
+		if current_room:
+			current_room.remove_child(current_player)
 		current_player.queue_free()
 		current_player = null
 	
@@ -540,7 +497,10 @@ func _runner_over(status):
 			print("Expecting runner canceled")
 		
 		_stop()
-	
+	else:
+		if status == Runner.RunnerStatus.Canceled:
+			print("Not expected cancel")
+		
 	#print("Runner over with status %s" % Runner.RunnerStatus.keys()[status])
 
 func _run(instructions: Array):
@@ -582,9 +542,9 @@ func _run_compiled(compiled_script: CompiledGrogScript, sequence_name: String):
 			#print("I'm busy")
 			return
 		
+		# TODO context and avoid duplication
 		var instructions = sequence.statements.duplicate(true)
-		
-		_run(instructions) # TODO context sequence.in_context({}))
+		_run(instructions)
 		
 	else:
 		print("Sequence '%s' not found" % sequence_name)
@@ -617,10 +577,10 @@ func _find_item_named(item_name: String) -> Node:
 	
 	return null
 
-func _get_room(room_name):
+func _get_room_resource(room_name):
 	return _get_resource_in(data.get_all_rooms(), room_name)
 
-func _get_actor(actor_name):
+func _get_actor_resource(actor_name):
 	return _get_resource_in(data.get_all_actors(), actor_name)
 
 func _get_script_resource(script_name):

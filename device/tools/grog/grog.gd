@@ -1,24 +1,10 @@
 class_name Grog
 
-#signal grog_update
-
-
-#enum LineType { Header, Command, If, Else }
-
 const commands = {
 	load_room = {
 		subject = GrogCompiler.SubjectType.None,
 		required_params = [
 			GrogCompiler.ParameterType.StringType
-		]
-	},
-	load_actor = {
-		subject = GrogCompiler.SubjectType.None,
-		required_params = [
-			GrogCompiler.ParameterType.StringType
-		],
-		named_params = [
-			{ name = "at", required = false, type = GrogCompiler.ParameterType.StringType }
 		]
 	},
 	enable_input = {
@@ -101,22 +87,12 @@ const commands = {
 
 #	@PUBLIC
 
-# TODO
 static func compile(script: Resource):
 	var compiler = load("res://tools/grog/grog_compiler.gd").new()
 	compiler.set_grammar({ commands = commands })
 	return compiler.compile(script)
 
-# TODO
 static func compile_text(code: String):
 	var compiler = load("res://tools/grog/grog_compiler.gd").new()
 	compiler.set_grammar({ commands = commands })
 	return compiler.compile_text(code)
-#
-#static func get_compiler():
-#	return GrogCompiler.new()
-#
-#	@GODOT
-	
-#func _process(delta):
-#	emit_signal("grog_update", delta)

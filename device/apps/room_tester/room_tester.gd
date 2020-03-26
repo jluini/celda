@@ -72,39 +72,39 @@ func _on_test_room_button_pressed():
 	test_room(current_room, current_player)
 
 func _on_play_game_button_pressed():
-	play_game()
+	play_game(null)
 	
 func _on_test_script_button_pressed():
 	var script_text = _raw_script_edit.text
 	
-	play_game(GameServer.StartMode.FromRawScript, script_text)
+	play_game(null, GameServer.StartMode.FromRawScript, script_text)
 	
 func _on_quit_button_pressed():
 	get_tree().quit()
 	
 func test_room(_room_resource, _actor_resource):
 	var compiled_script = CompiledGrogScript.new()
-	var start_sequence = build_start_sequence(_room_resource, _actor_resource)
+	var start_sequence = build_start_sequence(_room_resource)
 	
 	compiled_script.add_sequence("start", start_sequence)
 	
-	play_game(GameServer.StartMode.FromCompiledScript, compiled_script)
+	play_game(_actor_resource, GameServer.StartMode.FromCompiledScript, compiled_script)
 
-func build_start_sequence(room_resource, actor_resource):
+func build_start_sequence(room_resource):#, actor_resource):
 	var ret = []
+	
 	ret.append({ type="command", command="load_room", params=[room_resource.get_name()] })
-	
-	if actor_resource:
-		ret.append({ type="command", command="load_actor", params=[actor_resource.get_name(), {}] })
-	
 	ret.append({ type="command", command = "enable_input", params = [] })
 	
 	return { statements=ret, telekinetic=false }
 
-func play_game(game_mode = GameServer.StartMode.Default, param = null):
+func play_game(actor, game_mode = GameServer.StartMode.Default, param = null):
 	_grog_game = GameServer.new()  
 	
 	var is_valid = _grog_game.init_game(game_to_load, game_mode, param)
+	
+	if actor:
+		_grog_game.set_player(actor)
 	
 	if is_valid:
 		_ui.hide()

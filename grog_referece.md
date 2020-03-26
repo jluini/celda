@@ -1,7 +1,6 @@
 
 
            .load_room        <room_id>: String
-           .load_actor       <actor_id>: String
            .enable_input
            .disable_input
            .wait             <delay>: float            [skippable=true|false]

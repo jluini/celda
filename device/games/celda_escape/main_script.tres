@@ -13,7 +13,5 @@ code_or_filename = "
 .say \"Érase una celda...\"
 
 .load_room celda
-.load_actor mark
-
 .enable_input
 "

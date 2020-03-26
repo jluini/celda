@@ -144,9 +144,6 @@ func _on_server_input_disabled():
 func _on_server_room_loaded(_room):
 	pass
 
-func _on_server_actor_loaded(_actor):
-	pass
-
 func _on_server_wait_started(_duration: float, skippable: bool):
 	# start waiting '_duration' seconds
 	_set_skippable(skippable)
@@ -290,7 +287,6 @@ func rect_includes_point(rect: Rect2, point: Vector2) -> bool:
 	
 	return eq
 
-### TODO!!!
 func _process(delta):
-	if server and server.get_state() == GameServer.ServerState.Running:
+	if server:
 		server.update(delta)
