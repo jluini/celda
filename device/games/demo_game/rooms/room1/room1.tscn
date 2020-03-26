@@ -71,13 +71,13 @@ navpoly = SubResource( 1 )
 position = Vector2( 657.987, 730.793 )
 
 [node name="pos1" type="Position2D" parent="."]
-position = Vector2( 927.431, 723.858 )
+position = Vector2( 697.843, 718.947 )
 
 [node name="pos2" type="Position2D" parent="."]
-position = Vector2( 1121.08, 723.263 )
+position = Vector2( 913.596, 718.352 )
 
 [node name="pos3" type="Position2D" parent="."]
-position = Vector2( 739.511, 606.196 )
+position = Vector2( 1206.05, 586.552 )
 
 [node name="items" type="Node2D" parent="."]
 
