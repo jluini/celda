@@ -1,4 +1,4 @@
-extends Node2D
+extends Node
 
 export (NodePath) var default_player_position_path
 export (NodePath) var navigation_path

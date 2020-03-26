@@ -23,11 +23,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 action_button_model = ExtResource( 3 )
-actions_path = NodePath("command_area/controls/actions")
-action_display_path = NodePath("command_area/action_display")
+actions_path = NodePath("text_layer/command_area/controls/actions")
+action_display_path = NodePath("text_layer/command_area/action_display")
 room_area_path = NodePath("world_layer/room_area")
-room_place_path = NodePath("world_layer/room_area/room_anchor")
-controls_place_path = NodePath("command_area")
+room_place_path = NodePath("world_layer/room_area")
+controls_place_path = NodePath("text_layer/command_area")
 text_label_path = NodePath("text_layer/text_anchor/text")
 text_label_anchor_path = NodePath("text_layer/text_anchor")
 input_enabled_flag_path = NodePath("flags/VBoxContainer/input_enabled/CheckButton")
@@ -61,15 +61,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="room_anchor" type="Control" parent="world_layer/room_area"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_right = 40.0
-margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="text_layer" type="CanvasLayer" parent="."]
 
 [node name="text_anchor" type="Control" parent="text_layer"]
@@ -96,16 +87,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="command_area" type="Control" parent="."]
+[node name="command_area" type="Control" parent="text_layer"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -309.0
+margin_top = -230.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ColorRect" type="ColorRect" parent="command_area"]
+[node name="ColorRect" type="ColorRect" parent="text_layer/command_area"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -113,7 +104,7 @@ margin_top = -0.513306
 margin_bottom = -0.513306
 color = Color( 1, 1, 1, 0.0588235 )
 
-[node name="action_display" type="Label" parent="command_area"]
+[node name="action_display" type="Label" parent="text_layer/command_area"]
 modulate = Color( 0.564706, 0.2, 0.564706, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -127,7 +118,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="controls" type="Control" parent="command_area"]
+[node name="controls" type="Control" parent="text_layer/command_area"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = 53.0
@@ -135,7 +126,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="actions" type="GridContainer" parent="command_area/controls"]
+[node name="actions" type="GridContainer" parent="text_layer/command_area/controls"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 101.0
@@ -152,71 +143,54 @@ __meta__ = {
 element_view_model = ExtResource( 3 )
 list_path = NodePath(".")
 
-[node name="Control" parent="command_area/controls/actions" instance=ExtResource( 3 )]
+[node name="Control" parent="text_layer/command_area/controls/actions" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_right = 252.0
-margin_bottom = 79.0
+margin_bottom = 81.0
+label_path = NodePath("../../../../text_layer/command_area/controls/actions/Control/check")
 
-[node name="Control2" parent="command_area/controls/actions" instance=ExtResource( 3 )]
+[node name="Control2" parent="text_layer/command_area/controls/actions" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 256.0
 margin_right = 508.0
-margin_bottom = 79.0
+margin_bottom = 81.0
+label_path = NodePath("../../../../text_layer/command_area/controls/actions/Control2/check")
 
-[node name="Control3" parent="command_area/controls/actions" instance=ExtResource( 3 )]
+[node name="Control3" parent="text_layer/command_area/controls/actions" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 512.0
 margin_right = 764.0
-margin_bottom = 79.0
+margin_bottom = 81.0
+label_path = NodePath("../../../../text_layer/command_area/controls/actions/Control3/check")
 
-[node name="Control4" parent="command_area/controls/actions" instance=ExtResource( 3 )]
+[node name="Control4" parent="text_layer/command_area/controls/actions" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 83.0
+margin_top = 85.0
 margin_right = 252.0
-margin_bottom = 162.0
+margin_bottom = 166.0
+label_path = NodePath("../../../../text_layer/command_area/controls/actions/Control4/check")
 
-[node name="Control5" parent="command_area/controls/actions" instance=ExtResource( 3 )]
+[node name="Control5" parent="text_layer/command_area/controls/actions" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 256.0
-margin_top = 83.0
+margin_top = 85.0
 margin_right = 508.0
-margin_bottom = 162.0
+margin_bottom = 166.0
+label_path = NodePath("../../../../text_layer/command_area/controls/actions/Control5/check")
 
-[node name="Control6" parent="command_area/controls/actions" instance=ExtResource( 3 )]
+[node name="Control6" parent="text_layer/command_area/controls/actions" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_left = 512.0
-margin_top = 83.0
+margin_top = 85.0
 margin_right = 764.0
-margin_bottom = 162.0
-
-[node name="Control7" parent="command_area/controls/actions" instance=ExtResource( 3 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 166.0
-margin_right = 252.0
-margin_bottom = 245.0
-
-[node name="Control8" parent="command_area/controls/actions" instance=ExtResource( 3 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 256.0
-margin_top = 166.0
-margin_right = 508.0
-margin_bottom = 245.0
-
-[node name="Control9" parent="command_area/controls/actions" instance=ExtResource( 3 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 512.0
-margin_top = 166.0
-margin_right = 764.0
-margin_bottom = 245.0
+margin_bottom = 166.0
+label_path = NodePath("../../../../text_layer/command_area/controls/actions/Control6/check")
 
 [node name="quit_button" type="Button" parent="."]
 modulate = Color( 1, 1, 1, 0.368627 )
