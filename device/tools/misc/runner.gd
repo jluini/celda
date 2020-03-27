@@ -91,12 +91,19 @@ func coroutine(sequence: Array):
 					
 					while command_termination:
 						if _stopped:
-							status = RunnerStatus.Canceled
+							status = RunnerStatus.Stopped
 							return null
 						
 						delta = yield()
 						#elapsed_time += delta
 						command_termination = command_termination.resume(delta)
+						
+						if typeof(command_termination) == TYPE_DICTIONARY:
+							status = RunnerStatus.Canceled
+							return null
+						
+						
+
 					
 					# end while
 				# end if (no coroutine so we continue)

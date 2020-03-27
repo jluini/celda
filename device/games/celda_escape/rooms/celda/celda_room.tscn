@@ -189,10 +189,10 @@ else:
 	you.say \"Es alta puerta.\"
 	.set door_seen true
 
-:talk_to
+:talk_to TK
 you.say \"¿Posta?\"
 
-:pick_up
+:pick_up TK
 you.say \"¿Me decís en serio?\"
 
 :open
@@ -230,7 +230,7 @@ you.say \"Detalle en los rieles de dos cajones.\" duration=1.5
 you.say \"Está con muy poco uso.\" duration=1.5
 you.say \"Se retira en mi domicilio\" duration=1.5
 
-:talk_to
+:talk_to TK
 you.say \"¿Posta?\"
 
 :pick_up

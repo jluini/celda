@@ -108,11 +108,8 @@ func _input(event):
 					input_state = InputState.Nothing
 		elif event.button_index == BUTTON_RIGHT:
 			if event.pressed:
-				if _skippable:
-					server.skip_request()
-				else:
+				if not server.skip_or_cancel_request():
 					_actions.deselect()
-					
 				
 	elif event is InputEventMouseMotion:
 		var mouse_position: Vector2 = event.position
@@ -185,17 +182,10 @@ func _on_server_say(subject: Node, speech: String, _duration: float, skippable: 
 	_set_skippable(skippable)
 
 func _on_server_item_added(_item_resource: Resource):
-#	if _item_resource:
-#		print(_item_resource)
-#		var texture = _item_resource.texture
-#		print(texture)
-#	else:
-#		print("Adding invalid item")
-	
 	_inventory.add_item(_item_resource)
 
-func _on_server_item_removed(_item_name: String):
-	pass
+func _on_server_item_removed(_item_resource: Resource):
+	_inventory.remove_item(_item_resource)
 
 #	@PRIVATE
 

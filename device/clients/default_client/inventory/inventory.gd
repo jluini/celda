@@ -41,6 +41,9 @@ func add_item(item_resource):
 	
 	_update_arrows()
 
+func remove_item(_item_resource):
+	print("Implement remove_item")
+	
 func _draw(holder, item_resource):
 	var texture = null
 	if item_resource:

@@ -62,8 +62,18 @@ var _game_start_param
 const empty_action = { }
 
 var _input_enabled = false
-var _skippable = false
-var _skipped = false
+
+enum BlockedState {
+	None,
+	Ready,
+	Blocked,
+	Skippable,
+	Skipping,
+	Cancelable,
+	Canceling
+}
+var _blocked_state = BlockedState.None
+#var _skipped = false
 
 func init_game(game_data: Resource, p_game_start_mode = StartMode.Default, p_game_start_param = null) -> bool:
 	if _server_state != ServerState.None:
@@ -226,9 +236,9 @@ func _run_walk(item_name: String, opts: Dictionary):
 	
 	var target_position = to_node.position
 	
-	return _run_walk_resolved(item, target_position)
+	return _run_walk_resolved(item, target_position, false, false)
 
-func _run_walk_resolved(actor, target_position: Vector2, global = false) -> Dictionary:
+func _run_walk_resolved(actor, target_position: Vector2, global, can_be_stopped) -> Dictionary:
 	var nav : Navigation2D = current_room.get_navigation()
 	
 	if not nav:
@@ -243,9 +253,10 @@ func _run_walk_resolved(actor, target_position: Vector2, global = false) -> Dict
 	
 	var path = nav.get_simple_path(current_position, target_position)
 	
-	return { coroutine = _walk_coroutine(actor, path) }
+	return { coroutine = _walk_coroutine(actor, path, can_be_stopped) }
 	
 func _run_end():
+	_server_state = ServerState.Stopping
 	return { stop = true }
 
 func _run_set(var_name: String, new_value: bool):
@@ -400,14 +411,26 @@ func start_game_request(p_root_node: Node) -> bool:
 			_run_compiled(_game_start_param, "start")
 	
 	_server_state = ServerState.Running
+	_blocked_state = BlockedState.None
+	
 	return true
 	
-func skip_request():
-	if _skippable and not _skipped:
-		_skipped = true
+func skip_or_cancel_request():
+	if _blocked_state == BlockedState.Skippable:
+		_set_blocked_state(BlockedState.Skipping)
+		return true
+	elif _blocked_state == BlockedState.Cancelable:
+		_set_blocked_state(BlockedState.Canceling)
+		#print("Canceling")
+		return true
+	else:
+		return false
+
+#func cancel_request():
+#	if _blocked_state == BlockedState
+	
 
 func go_to_request(target_position: Vector2):
-	
 	if _server_state != ServerState.Running:
 		return
 	
@@ -425,6 +448,7 @@ func go_to_request(target_position: Vector2):
 		params = [
 			current_player,
 			target_position,
+			true,
 			true
 		]
 	}])
@@ -451,10 +475,6 @@ func interact_request(item: Node2D, trigger_name: String):
 		print("Item '%s' is disabled" % item.global_id)
 		return
 	
-#	if not current_room.is_a_parent_of(item):
-#		print("No item in room")
-#		return
-#
 	if is_busy():
 		# TODO cancel current actions
 		#print("I'm busy'")
@@ -465,11 +485,6 @@ func interact_request(item: Node2D, trigger_name: String):
 	if not _sequence.has("statements"):
 		# get fallback
 		_sequence = fallback_script.get_sequence(trigger_name)
-	
-	# TODO context and avoid duplication
-	
-	#assert(not symbols.has_symbol("self"))
-	#symbols.add_symbol("self", "scene_item",)
 	
 	interacting_symbol = symbol
 	
@@ -482,7 +497,9 @@ func interact_request(item: Node2D, trigger_name: String):
 			command = "walk_resolved",
 			params = [
 				current_player,
-				target_position
+				target_position,
+				false,
+				true
 			]
 		})
 	
@@ -606,19 +623,24 @@ func _load_room(room_name: String) -> Node:
 func _wait_coroutine(delay_seconds: float, skippable: bool):
 	var elapsed = 0.0
 	
-	_skippable = skippable
-	_skipped = false
+	if skippable:
+		_set_blocked_state(BlockedState.Skippable)
+	else:
+		_set_blocked_state(BlockedState.Blocked)
 	
 	while elapsed < delay_seconds:
-		if _skipped:
+		if _blocked_state == BlockedState.Skipping:
 			break
 		elapsed += yield()
 	
-	_skippable = false
-	
 	_server_event("wait_ended")
 
-func _walk_coroutine(item, path: PoolVector2Array):
+func _walk_coroutine(item, path: PoolVector2Array, can_be_stopped):
+	if not can_be_stopped:
+		_set_blocked_state(BlockedState.Blocked)
+	else:
+		_set_blocked_state(BlockedState.Cancelable)
+	
 	while path.size() >= 2:
 		var time = 0.0
 	
@@ -634,6 +656,11 @@ func _walk_coroutine(item, path: PoolVector2Array):
 		var finish_step = false
 		
 		while not finish_step:
+			if _blocked_state == BlockedState.Canceling:
+				#print("Should cancel walk")
+				item.emit_signal("stop_walking")
+				return {} # returning a dict makes Runner cancel all remaining tasks
+			
 			time += yield()
 			
 			var step_distance = item.walk_speed * time
@@ -672,18 +699,24 @@ func is_busy():
 
 func _runner_over(status):
 	runner = null
-	if status == Runner.RunnerStatus.Stopped:
-		_stop()
-	elif _server_state == ServerState.Stopping:
-		if status != Runner.RunnerStatus.Canceled:
-			print("Expecting runner canceled")
+	
+	var stopped1 = status == Runner.RunnerStatus.Stopped
+	var stopped2 = _server_state == ServerState.Stopping
+	
+	if stopped1 != stopped2:
+		print("_runner_over inconsistence: %s != %s" % [stopped1, stopped2])
 		
+	if stopped1 or stopped2:
 		_stop()
+	elif status == Runner.RunnerStatus.Ok:
+		pass
+	elif status == Runner.RunnerStatus.Canceled and _blocked_state == BlockedState.Canceling:
+		pass
 	else:
-		if status == Runner.RunnerStatus.Canceled:
-			print("Not expected cancel")
-		
-	#print("Runner over with status %s" % Runner.RunnerStatus.keys()[status])
+		print("Runner over with status %s" % Runner.RunnerStatus.keys()[status])
+	
+	_set_blocked_state(BlockedState.Ready)
+
 
 # TODO change name of this functions starting with '_run' like commands
 
@@ -872,3 +905,9 @@ func get_global(var_name: String):
 	else:
 		return symbol.target
 	
+func _set_blocked_state(new_state):
+	if _blocked_state == new_state:
+		pass # print("BLOCKED: keep '%s'" % BlockedState.keys()[new_state])
+	else:
+		pass # print("BLOCKED: %s -> %s" % [BlockedState.keys()[_blocked_state], BlockedState.keys()[new_state]])
+		_blocked_state = new_state

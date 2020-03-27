@@ -68,7 +68,7 @@ position = Vector2( 961.305, 29.1782 )
 navpoly = SubResource( 1 )
 
 [node name="default_player_position" type="Position2D" parent="."]
-position = Vector2( 1393.4, 693.961 )
+position = Vector2( 716.915, 709.922 )
 
 [node name="pos1" type="Position2D" parent="."]
 position = Vector2( 697.843, 718.947 )
