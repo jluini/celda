@@ -5,7 +5,8 @@ enum RunnerStatus {
 	Running,
 	Ok,
 	Canceled,
-	Error
+	Error,
+	Stopped
 }
 
 var status = RunnerStatus.Start
@@ -77,6 +78,13 @@ func coroutine(sequence: Array):
 				if typeof(command_result) != TYPE_DICTIONARY:
 					end_with_error("Command '%s': invalid result of execution" % method_name)
 					return null
+				
+				if command_result.has("stop"):
+					if command_result.stop == true:
+						status = RunnerStatus.Stopped
+						return null # stops coroutine
+					else:
+						print("Warning, stop in result but it's not true; doing nothing'")
 				
 				if command_result.has("coroutine"):
 					var command_termination = command_result.coroutine

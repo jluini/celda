@@ -665,7 +665,9 @@ func is_busy():
 
 func _runner_over(status):
 	runner = null
-	if _server_state == ServerState.Stopping:
+	if status == Runner.RunnerStatus.Stopped:
+		_stop()
+	elif _server_state == ServerState.Stopping:
 		if status != Runner.RunnerStatus.Canceled:
 			print("Expecting runner canceled")
 		
