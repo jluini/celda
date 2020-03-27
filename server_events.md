@@ -1,7 +1,11 @@
 
 
-game_started
+game_started         player: Node
 game_ended
+
+item_enabled         item: Node
+item_disabled        item: Node
+
 input_enabled
 input_disabled
 room_loaded          room: Node

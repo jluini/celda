@@ -131,7 +131,7 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 				current_level = 0
 			
 			if current_level < level:
-				var diff_level = level - current_line.indent_level
+				var diff_level = level - current_level
 				
 				for _j in range(diff_level):
 					var previous_level = stack.pop_back()
@@ -311,14 +311,22 @@ func compile_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 						command = command,
 						params = final_params
 					})
+				_:
+					print("Unexpected line type '%s'" % current_line.type)
 			# end match
 		
 		# end while (until next sequence or end of script)
 		
 		var sequence = { statements=statements, telekinetic=telekinetic }
 		
-		compiled_script.add_sequence(sequence_trigger, sequence)
+		if stack.size() > 0:
+			print("Stack is not empty!!! %s" % stack.size())
+			assert(false)
 		
+		compiled_script.add_sequence(sequence_trigger, sequence)
+	
+	#end while (until no more lines)
+	
 	#return compiled_script
 
 func extract_option_values(params: Array, option_name: String) -> Array:
@@ -340,10 +348,6 @@ func identify_lines(compiled_script: CompiledGrogScript, lines: Array) -> void:
 		identify_line(compiled_script, lines[i])
 
 func identify_line(compiled_script: CompiledGrogScript, line: Dictionary) -> void:
-#	if line.indent_level != 0:
-#		compiled_script.add_error("Indentation levels not implemented (line %s)" % line.line_number)
-#		return
-	
 	var first_token: Dictionary = line.tokens[0]
 	
 	if first_token.type != TOKEN_RAW:
@@ -352,7 +356,7 @@ func identify_line(compiled_script: CompiledGrogScript, line: Dictionary) -> voi
 	
 	var num_tokens = line.tokens.size()
 	var first_content: String = first_token.content
-	
+	#print("first: '%s'" % first_content)
 	if first_content.begins_with(":"):
 		# it's a sequence header
 		var result = sequence_header_regex().search(first_content)

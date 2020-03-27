@@ -103,12 +103,14 @@ func coroutine(sequence: Array):
 				var else_branch = instruction.else_branch if instruction.has("else_branch") else []
 				
 				var result = condition.evaluate(output)
-				
+				print("running if")
 				var branch: Array = main_branch if result else else_branch
 				
 				if branch.size() > 0:
 					for j in range(branch.size()):
 						sequence.insert(i, branch[branch.size() - 1 - j])
+			_:
+				print("Unexpected instruction type '%s'" % instruction.type)
 		
 		# end match line type
 	# end while more instructions

@@ -126,7 +126,9 @@ func on_server_event(event_name, args):
 
 #	@SERVER EVENTS
 
-func _on_server_game_started():
+func _on_server_game_started(_player):
+	# do something with player
+	
 	_hide_all()
 	_set_current_action(default_action)
 
@@ -143,6 +145,12 @@ func _on_server_input_disabled():
 
 func _on_server_room_loaded(_room):
 	pass
+
+func _on_server_item_enabled(item):
+	pass # TODO do something with item
+
+func _on_server_item_disabled(item):
+	pass # TODO do something with item
 
 func _on_server_wait_started(_duration: float, skippable: bool):
 	# start waiting '_duration' seconds
@@ -203,6 +211,8 @@ func _left_click(position: Vector2):
 func _get_item_at(position: Vector2):
 	if not server.current_room:
 		return null
+	
+	# TODO change this
 	
 	for item in server.current_room.get_items():
 		if not item.is_enabled():
