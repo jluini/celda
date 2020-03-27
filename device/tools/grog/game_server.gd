@@ -30,7 +30,8 @@ var player_resource
 
 var current_player: Node = null # TODO needs reference? it's in symbols
 var current_room: Node = null
-var interacting_item: Node = null # TODO
+#var interacting_item: Node = null # TODO
+var interacting_symbol: Dictionary
 
 var symbols = SymbolTable.new(["player", "scene_item", "inventory_item", "global_variable"])
 var loaded_scene_items = {}
@@ -188,16 +189,18 @@ func _run_say(item_name: String, speech_token: Dictionary, opts: Dictionary):
 		speech = tr(speech_token.content)
 	
 	var item = null
+	
 	if item_name:
-		# TODO
-		if item_name == "self" and interacting_item:
-			item = interacting_item
+		var item_symbol
+		
+		if item_name == "self":
+			item_symbol = interacting_symbol
 		else:
-			var item_symbol = _get_interacting_item(item_name)
+			item_symbol = _get_interacting_item(item_name)
 			if not item_symbol.type:
 				return empty_action
-			item = item_symbol.target
-	
+		item = item_symbol.target
+		
 	# else item will be null (it's a 'global' say)
 	
 	var duration: float = opts.get("duration", 2.0) # TODO harcoded default say duration
@@ -263,9 +266,14 @@ func _run_set(var_name: String, new_value: bool):
 	return empty_action
 
 func _run_enable(item_id: String):
-	var item_symbol = _get_scene_item(item_id)
-	if not item_symbol.type:
-		return
+	var item_symbol
+	if item_id == "self":
+		item_symbol = interacting_symbol
+		item_id = interacting_symbol.symbol_name
+	else:
+		item_symbol = _get_scene_item(item_id)
+		if not item_symbol.type:
+			return
 	
 	if not item_symbol.disabled:
 		print("Item '%s' is already enabled")
@@ -288,9 +296,14 @@ func _run_enable(item_id: String):
 	return empty_action
 	
 func _run_disable(item_id: String):
-	var item_symbol = _get_scene_item(item_id)
-	if not item_symbol.type:
-		return
+	var item_symbol
+	if item_id == "self":
+		item_symbol = interacting_symbol
+		item_id = interacting_symbol.symbol_name
+	else:
+		item_symbol = _get_scene_item(item_id)
+		if not item_symbol.type:
+			return
 	
 	if item_symbol.disabled:
 		print("Item '%s' is already disabled")
@@ -394,17 +407,30 @@ func interact_request(item: Node2D, trigger_name: String):
 	
 	if not _input_enabled or not current_player:
 		return
-		
-	if not current_room.is_a_parent_of(item):
-		print("No item in room")
+	
+	var symbol = _get_scene_item(item.global_id)
+	
+	assert(symbol.type == "scene_item")
+	assert(symbol.symbol_name == item.global_id)
+	assert(symbol.target == item)
+	
+	assert(current_room.is_a_parent_of(item))
+	assert(symbol.loaded)
+	
+	assert(symbol.disabled == disabled_items.has(item.global_id))
+	
+	if symbol.disabled:
+		print("Item '%s' is disabled" % item.global_id)
 		return
 	
+#	if not current_room.is_a_parent_of(item):
+#		print("No item in room")
+#		return
+#
 	if is_busy():
 		# TODO cancel current actions
 		#print("I'm busy'")
 		return
-	
-	interacting_item = item
 	
 	var _sequence: Dictionary = item.get_sequence(trigger_name)
 	
@@ -413,6 +439,12 @@ func interact_request(item: Node2D, trigger_name: String):
 		_sequence = fallback_script.get_sequence(trigger_name)
 	
 	# TODO context and avoid duplication
+	
+	#assert(not symbols.has_symbol("self"))
+	#symbols.add_symbol("self", "scene_item",)
+	
+	interacting_symbol = symbol
+	
 	var instructions = _sequence.statements.duplicate(true)
 	
 	if not _sequence.telekinetic:
@@ -427,6 +459,8 @@ func interact_request(item: Node2D, trigger_name: String):
 		})
 	
 	_run(instructions)
+	
+	# should clean interacting_symbol
 
 func stop_request():
 	if _server_state != ServerState.Running:
@@ -495,7 +529,7 @@ func _load_room(room_name: String) -> Node:
 		if symbols.has_symbol(item_id):
 			print("Already has symbol '%s'" % item_id)
 			print("TODO!!!")
-			return null # TODO case of already registered
+			continue # TODO case of already registered
 
 		# these lines will change
 		assert(not disabled_items.has(item_id))

@@ -103,7 +103,7 @@ func coroutine(sequence: Array):
 				var else_branch = instruction.else_branch if instruction.has("else_branch") else []
 				
 				var result = condition.evaluate(output)
-				print("running if")
+				
 				var branch: Array = main_branch if result else else_branch
 				
 				if branch.size() > 0:

@@ -20,3 +20,4 @@ CELDA_ESCAPE_THING_NO_TAKE	Never!	No sería capaz de recoger semejante cosa.
 ITEM_CELDA/THING	thing	cosa
 ITEM_CELDA/DOOR1	door	puerta
 ITEM_CELDA/DESK	desk	escritorio
+ITEM_CELDA/MASK	mask	máscara

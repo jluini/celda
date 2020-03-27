@@ -46,7 +46,7 @@ func add_symbol(symbol_name: String, symbol_type: String, target) -> Dictionary:
 func get_symbol_of_types(symbol_name:String, types: Array, required: bool):
 	if not _symbols_by_name.has(symbol_name):
 		if required:
-			print("SymbolTable::get_symbol_of_types: no symbol '%s'" % symbol_name)
+			print("SymbolTable: no symbol '%s' in %s" % [symbol_name, types])
 			return empty_symbol
 		else:
 			return null
