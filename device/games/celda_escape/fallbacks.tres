@@ -11,16 +11,13 @@ code_or_filename = "# 'self' is the item
 :walk_to # goes but nothing more
 :give TK # does nothing
 :talk_to TK # does nothing
+:use TK # does nothing
 
 :look_at
 you.say CELDA_ESCAPE_FALLBACK_LOOK
 
-:use TK
-you.say CELDA_ESCAPE_FALLBACK_CANT
-:pull TK
-you.say CELDA_ESCAPE_FALLBACK_CANT
-:push TK
-you.say CELDA_ESCAPE_FALLBACK_CANT
+
+
 :open TK
 you.say CELDA_ESCAPE_FALLBACK_CANT_OPEN
 :close TK
