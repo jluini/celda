@@ -326,13 +326,34 @@ func _run_disable(item_id: String):
 	return empty_action
 
 func _run_add(item_name: String):
-	#_add_item(item_name)
-	print("implement _run_add")
+	var item_symbol = symbols.get_symbol_of_types(item_name, ["inventory_item"], false)
+	
+	if item_symbol == null:
+		#absent
+		symbols.add_symbol(item_name, "inventory_item", true)
+		_server_event("item_added", [item_name])
+	elif not item_symbol.type:
+		# type mismatch
+		print("No inventory_item '%s'" % item_name)
+	else:
+		# already present
+		print("Already has inventory item '%s'" % item_name)
+	
 	return empty_action
 
 func _run_remove(item_name: String):
-	#_remove_item(item_name)
-	print("implement _run_remove")
+	var item_symbol = symbols.get_symbol_of_types(item_name, ["inventory_item"], false)
+	
+	if item_symbol == null or not item_symbol.type:
+		# absent or type mismatch
+		print("No inventory_item '%s'" % item_name)
+	else:
+		# already present
+		print("Implement _run_remove!")
+
+		#symbols.remove_symbol(item_name)
+		#_server_event("item_removed", [item_name])
+		
 	return empty_action
 	
 #func new_command():

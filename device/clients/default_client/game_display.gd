@@ -146,10 +146,10 @@ func _on_server_input_disabled():
 func _on_server_room_loaded(_room):
 	pass
 
-func _on_server_item_enabled(item):
+func _on_server_item_enabled(_item):
 	pass # TODO do something with item
 
-func _on_server_item_disabled(item):
+func _on_server_item_disabled(_item):
 	pass # TODO do something with item
 
 func _on_server_wait_started(_duration: float, skippable: bool):
