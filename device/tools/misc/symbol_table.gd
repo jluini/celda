@@ -18,6 +18,16 @@ func _init(symbol_types: Array):
 func has_symbol(symbol_name: String) -> bool:
 	return _symbols_by_name.has(symbol_name)
 
+func get_symbol(symbol_name: String):
+	if not has_symbol(symbol_name):
+		return null
+	return _symbols_by_name[symbol_name]
+	
+func get_symbol_type(symbol_name: String) -> String:
+	if not has_symbol(symbol_name):
+		return ""
+	return _symbols_by_name[symbol_name].type
+	
 func add_symbol(symbol_name: String, symbol_type: String, target) -> Dictionary:
 	if _symbols_by_name.has(symbol_name):
 		print("SymbolTable::add_symbol: Already has symbol '%s'" % symbol_name)

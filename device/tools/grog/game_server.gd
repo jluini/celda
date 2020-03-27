@@ -527,8 +527,25 @@ func _load_room(room_name: String) -> Node:
 		current_room.remove_child(current_player)
 	
 	if current_room:
-		for item in room.get_items():
-			print("TODO: Disable item '%s'!!!" % item.global_id)
+#		for item_key in loaded_scene_items:
+#			print("TODO: A.Disable item '%s'!!!" % item_key)
+#
+#		for item in current_room.get_items():
+#			print("TODO: B.Disable item '%s'!!!" % item.global_id)
+		
+		for item_key in loaded_scene_items:
+			var item_symbol = symbols.get_symbol(item_key)
+			
+			assert(item_symbol.type == "scene_item")
+			assert(item_symbol.loaded)
+			
+			if not item_symbol.disabled:
+				# then is loaded, so tell the client to disable it
+				_server_event("item_disabled", [item_symbol.target])
+			
+			item_symbol.loaded = false
+		
+		loaded_scene_items = {}
 		
 		root_node.remove_child(current_room)
 		current_room.queue_free()
@@ -546,19 +563,23 @@ func _load_room(room_name: String) -> Node:
 	
 	for item in room.get_items():
 		var item_id = item.global_id
+		var item_symbol = symbols.get_symbol_of_types(item_id, ["scene_item"], false)
 		
-		if symbols.has_symbol(item_id):
-			print("Already has symbol '%s'" % item_id)
-			print("TODO!!!")
-			continue # TODO case of already registered
-
-		# these lines will change
-		assert(not disabled_items.has(item_id))
-		var item_symbol = symbols.add_symbol(item_id, "scene_item", item)
-		item_symbol.disabled = false
-		item_symbol.loaded = false
+		if item_symbol == null:
+			# absent
+			item_symbol = symbols.add_symbol(item_id, "scene_item", item)
+			item_symbol.disabled = false
+			item_symbol.loaded = false
+		elif not item_symbol.type:
+			# type mismatch
+			print("Symbol '%s' was registered as %s" % [item_id, symbols.get_symbol_type(item_id)])
+			continue
+		else:
+			# already present
+			# reload item, it was destroyed when destroying a previous room
+			
+			item_symbol.target = item
 		
-		# these not
 		assert(not item_symbol.loaded)
 		item_symbol.loaded = true
 		assert(not loaded_scene_items.has(item_id))

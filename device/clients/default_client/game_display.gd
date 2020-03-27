@@ -24,6 +24,7 @@ var data: GameResource
 
 var _skippable: bool
 var _input_enabled: bool
+var _loaded_items: Array
 
 # Input
 enum InputState { Nothing, DoingLeftClick }
@@ -127,7 +128,8 @@ func on_server_event(event_name, args):
 #	@SERVER EVENTS
 
 func _on_server_game_started(_player):
-	# do something with player
+	_loaded_items = []
+	# TODO register player as an "item"
 	
 	_hide_all()
 	_set_current_action(default_action)
@@ -146,11 +148,14 @@ func _on_server_input_disabled():
 func _on_server_room_loaded(_room):
 	pass
 
-func _on_server_item_enabled(_item):
-	pass # TODO do something with item
+func _on_server_item_enabled(item):
+	_loaded_items.append(item)
 
-func _on_server_item_disabled(_item):
-	pass # TODO do something with item
+func _on_server_item_disabled(item):
+	_loaded_items.erase(item)
+	
+	if current_item == item:
+		_set_current_item(null)
 
 func _on_server_wait_started(_duration: float, skippable: bool):
 	# start waiting '_duration' seconds
@@ -209,15 +214,7 @@ func _left_click(position: Vector2):
 		server.go_to_request(position)
 
 func _get_item_at(position: Vector2):
-	if not server.current_room:
-		return null
-	
-	# TODO change this
-	
-	for item in server.current_room.get_items():
-		if not item.is_enabled():
-			continue
-		
+	for item in _loaded_items:
 		var disp: Vector2 = item.global_position - position
 		var distance = disp.length()
 		

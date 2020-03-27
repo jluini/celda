@@ -77,7 +77,7 @@ position = Vector2( 961.305, 29.1782 )
 navpoly = SubResource( 1 )
 
 [node name="default_player_position" type="Position2D" parent="."]
-position = Vector2( 1482.05, 635.834 )
+position = Vector2( 726.789, 756.676 )
 
 [node name="pos1" type="Position2D" parent="."]
 position = Vector2( 697.843, 718.947 )
@@ -118,8 +118,6 @@ self.say CELDA_ESCAPE_THING_THANKS
 :pick_up
 you.say CELDA_ESCAPE_THING_NO_TAKE
 "
-walk_speed = 300.0
-radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/thing"]
 position = Vector2( -89.2092, 261.127 )
@@ -155,8 +153,6 @@ you.say DEMO_GAME_MASK
 self.disable
 .add inv_mask
 "
-walk_speed = 300.0
-radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/mask"]
 position = Vector2( -58.6827, 193.758 )
@@ -194,7 +190,6 @@ you.say \"¿Posta?\"
 
 :pick_up
 you.say \"¿Me decís en serio?\""
-walk_speed = 300.0
 radius = 200.0
 
 [node name="interact_position" type="Position2D" parent="items/door"]
@@ -229,7 +224,6 @@ you.say \"¿Posta?\"
 
 :pick_up
 you.say \"¿Me decís en serio?\""
-walk_speed = 300.0
 radius = 150.0
 
 [node name="interact_position" type="Position2D" parent="items/desk"]

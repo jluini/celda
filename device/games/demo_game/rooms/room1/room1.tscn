@@ -182,7 +182,8 @@ you.say DEMO_GAME_THING_NO_TAKE
 .load_room room2
 .wait 1
 .load_room room1
-.load_actor mark at=pos2
+.wait 1
+#.load_actor mark at=pos2
 .enable_input
 "
 

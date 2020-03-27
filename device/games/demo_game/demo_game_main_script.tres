@@ -18,30 +18,30 @@ code_or_filename = "
 
 .load_room room1
 
-.load_actor guybrush at=pos1
-.load_actor mark at=pos2
+#.load_actor guybrush at=pos1
+#.load_actor mark at=pos2
 
 .wait 2
 
-guybrush.say \"Hi.\"
-mark.say \"Hi.\"
+you.say \"Hi\"
+room1/bust.say \"Hi.\"
 
 .wait 0.7
 
-guybrush.say \"How are you doing?\"
-mark.say \"I'm just fine.\"
+you.say \"How are you doing?\"
+room1/bust.say \"I'm just fine.\"
 
 .wait 1
 
-guybrush.say \"Ok.\"
+you.say \"Ok.\"
 
 .wait 2
 
-room1/bust.say \"Come here Guybrush.\"
+room1/bust.say \"Come here man.\"
 
-guybrush.walk to=pos3
+you.walk to=pos3
 
-guybrush.say \"What?\"
+you.say \"What?\"
 
 room1/bust.say \"Nothing.\"
 
