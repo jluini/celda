@@ -68,7 +68,7 @@ position = Vector2( 961.305, 29.1782 )
 navpoly = SubResource( 1 )
 
 [node name="default_player_position" type="Position2D" parent="."]
-position = Vector2( 657.987, 730.793 )
+position = Vector2( 1393.4, 693.961 )
 
 [node name="pos1" type="Position2D" parent="."]
 position = Vector2( 697.843, 718.947 )
@@ -112,6 +112,8 @@ else:
 you.say DEMO_GAME_BUST_HEAVY
 
 "
+walk_speed = 300.0
+radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/bust"]
 position = Vector2( -7.42757, 203.186 )
@@ -142,6 +144,8 @@ self.disable
 
 :look_at
 you.say DEMO_GAME_MASK"
+walk_speed = 300.0
+radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/mask"]
 position = Vector2( -66.8115, 166.567 )
@@ -186,6 +190,8 @@ you.say DEMO_GAME_THING_NO_TAKE
 #.load_actor mark at=pos2
 .enable_input
 "
+walk_speed = 300.0
+radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/thing"]
 position = Vector2( 59.716, 176.641 )

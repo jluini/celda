@@ -50,6 +50,11 @@ _global_script_classes=[ {
 "path": "res://tools/grog/grog_script.gd"
 }, {
 "base": "Resource",
+"class": "InventoryItemResource",
+"language": "GDScript",
+"path": "res://tools/grog/inventory_item_resource.gd"
+}, {
+"base": "Resource",
 "class": "RoomResource",
 "language": "GDScript",
 "path": "res://tools/grog/room_resource.gd"
@@ -78,6 +83,7 @@ _global_script_class_icons={
 "Grog": "",
 "GrogCompiler": "",
 "GrogScript": "",
+"InventoryItemResource": "",
 "RoomResource": "",
 "Runner": "",
 "SymbolTable": "",

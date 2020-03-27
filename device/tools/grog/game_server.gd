@@ -330,8 +330,11 @@ func _run_add(item_name: String):
 	
 	if item_symbol == null:
 		#absent
+		var item_resource = _get_inventory_resource(item_name)
+		if not item_resource:
+			print("Inventory item '%s' not found; adding anyways" % item_name)
 		symbols.add_symbol(item_name, "inventory_item", true)
-		_server_event("item_added", [item_name])
+		_server_event("item_added", [item_resource])
 	elif not item_symbol.type:
 		# type mismatch
 		print("No inventory_item '%s'" % item_name)
@@ -738,6 +741,9 @@ func _get_actor_resource(actor_name):
 
 func _get_script_resource(script_name):
 	return _get_resource_in(data.get_all_scripts(), script_name)
+
+func _get_inventory_resource(item_name):
+	return _get_resource_in(data.inventory_items, item_name)
 
 func _get_resource_in(list, elem_name):
 	for i in range(list.size()):

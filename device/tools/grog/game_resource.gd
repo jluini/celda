@@ -12,6 +12,8 @@ export (Array, Resource) var rooms setget , get_all_rooms
 
 export (Array, Resource) var actors setget , get_all_actors
 
+export (Array, Resource) var inventory_items
+
 func get_all_rooms():
 	return rooms
 
@@ -20,3 +22,4 @@ func get_all_scripts():
 	
 func get_all_actors():
 	return actors
+

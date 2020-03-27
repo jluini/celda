@@ -4,12 +4,15 @@ signal game_ended
 
 export (Resource) var action_button_model
 
-export (NodePath) var actions_path
-export (NodePath) var action_display_path
 
 export (NodePath) var room_area_path
 export (NodePath) var room_place_path
+
+export (NodePath) var inventory_path
 export (NodePath) var controls_place_path
+
+export (NodePath) var actions_path
+export (NodePath) var action_display_path
 
 export (NodePath) var text_label_path
 export (NodePath) var text_label_anchor_path
@@ -36,12 +39,14 @@ var default_action: Node
 var current_item: Node
 
 # Node hooks
-onready var _actions: Control = get_node(actions_path)
-onready var _action_display: Control = get_node(action_display_path)
-
 onready var _room_area: Control = get_node(room_area_path)
 onready var _room_place: Control = get_node(room_place_path)
+
 onready var _controls_place: Control = get_node(controls_place_path)
+onready var _inventory: Control = get_node(inventory_path)
+
+onready var _actions: Control = get_node(actions_path)
+onready var _action_display: Control = get_node(action_display_path)
 
 onready var _text_label: RichTextLabel = get_node(text_label_path)
 onready var _text_label_anchor: Control = get_node(text_label_anchor_path)
@@ -65,6 +70,8 @@ func init(p_game_server: GameServer):
 	default_action.set_target(data.default_action)
 		
 	_hide_controls()
+	
+	_inventory.clear()
 	
 	make_empty(_actions)
 	
@@ -177,8 +184,15 @@ func _on_server_say(subject: Node, speech: String, _duration: float, skippable: 
 	
 	_set_skippable(skippable)
 
-func _on_server_item_added(_item_name: String):
-	pass
+func _on_server_item_added(_item_resource: Resource):
+#	if _item_resource:
+#		print(_item_resource)
+#		var texture = _item_resource.texture
+#		print(texture)
+#	else:
+#		print("Adding invalid item")
+	
+	_inventory.add_item(_item_resource)
 
 func _on_server_item_removed(_item_name: String):
 	pass

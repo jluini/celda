@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://clients/default_client/game_display.gd" type="Script" id=1]
 [ext_resource path="res://clients/default_client/pixel_intv.otf" type="DynamicFontData" id=2]
@@ -6,6 +6,10 @@
 [ext_resource path="res://apps/room_tester/rounded_rect.png" type="Texture" id=4]
 [ext_resource path="res://tools/ui_tools/object_list.gd" type="Script" id=5]
 [ext_resource path="res://clients/default_client/fondo.png" type="Texture" id=6]
+[ext_resource path="res://clients/default_client/inventory/inventory_item.tscn" type="PackedScene" id=7]
+[ext_resource path="res://clients/default_client/sample_images/tile004.png" type="Texture" id=8]
+[ext_resource path="res://clients/default_client/sample_images/tile005.png" type="Texture" id=9]
+[ext_resource path="res://clients/default_client/inventory/inventory.gd" type="Script" id=10]
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -23,11 +27,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 action_button_model = ExtResource( 3 )
-actions_path = NodePath("text_layer/command_area/controls/actions")
-action_display_path = NodePath("text_layer/command_area/action_display")
 room_area_path = NodePath("world_layer/room_area")
 room_place_path = NodePath("world_layer/room_area")
+inventory_path = NodePath("text_layer/command_area/controls/inventory")
 controls_place_path = NodePath("text_layer/command_area")
+actions_path = NodePath("text_layer/command_area/controls/actions")
+action_display_path = NodePath("text_layer/command_area/action_display")
 text_label_path = NodePath("text_layer/text_anchor/text")
 text_label_anchor_path = NodePath("text_layer/text_anchor")
 input_enabled_flag_path = NodePath("flags/VBoxContainer/input_enabled/CheckButton")
@@ -127,12 +132,13 @@ __meta__ = {
 }
 
 [node name="actions" type="GridContainer" parent="text_layer/command_area/controls"]
-anchor_right = 1.0
+anchor_top = 0.154
+anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = 101.0
-margin_top = 3.0
-margin_right = -1053.0
-margin_bottom = -7.0
+margin_left = 100.0
+margin_top = 10.0
+margin_right = -100.0
+margin_bottom = -10.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 columns = 3
@@ -146,51 +152,134 @@ list_path = NodePath(".")
 [node name="Control" parent="text_layer/command_area/controls/actions" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 252.0
-margin_bottom = 81.0
+margin_right = 250.0
+margin_bottom = 62.0
 label_path = NodePath("../../../../text_layer/command_area/controls/actions/Control/check")
 
 [node name="Control2" parent="text_layer/command_area/controls/actions" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 256.0
-margin_right = 508.0
-margin_bottom = 81.0
+margin_left = 254.0
+margin_right = 504.0
+margin_bottom = 62.0
 label_path = NodePath("../../../../text_layer/command_area/controls/actions/Control2/check")
 
 [node name="Control3" parent="text_layer/command_area/controls/actions" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 512.0
-margin_right = 764.0
-margin_bottom = 81.0
+margin_left = 508.0
+margin_right = 758.0
+margin_bottom = 62.0
 label_path = NodePath("../../../../text_layer/command_area/controls/actions/Control3/check")
 
 [node name="Control4" parent="text_layer/command_area/controls/actions" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 85.0
-margin_right = 252.0
-margin_bottom = 166.0
+margin_top = 66.0
+margin_right = 250.0
+margin_bottom = 128.0
 label_path = NodePath("../../../../text_layer/command_area/controls/actions/Control4/check")
 
 [node name="Control5" parent="text_layer/command_area/controls/actions" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 256.0
-margin_top = 85.0
-margin_right = 508.0
-margin_bottom = 166.0
+margin_left = 254.0
+margin_top = 66.0
+margin_right = 504.0
+margin_bottom = 128.0
 label_path = NodePath("../../../../text_layer/command_area/controls/actions/Control5/check")
 
 [node name="Control6" parent="text_layer/command_area/controls/actions" instance=ExtResource( 3 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 512.0
-margin_top = 85.0
-margin_right = 764.0
-margin_bottom = 166.0
+margin_left = 508.0
+margin_top = 66.0
+margin_right = 758.0
+margin_bottom = 128.0
 label_path = NodePath("../../../../text_layer/command_area/controls/actions/Control6/check")
+
+[node name="inventory" type="GridContainer" parent="text_layer/command_area/controls"]
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -84.0
+margin_right = -97.0
+columns = 5
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="arrow_up" type="Control" parent="text_layer/command_area/controls/inventory"]
+margin_right = 80.0
+margin_bottom = 86.0
+rect_min_size = Vector2( 80, 0 )
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="text_layer/command_area/controls/inventory/arrow_up"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 91.0
+texture = ExtResource( 8 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="elem11" parent="text_layer/command_area/controls/inventory" instance=ExtResource( 7 )]
+
+[node name="elem12" parent="text_layer/command_area/controls/inventory" instance=ExtResource( 7 )]
+margin_left = 300.0
+margin_right = 512.0
+
+[node name="elem13" parent="text_layer/command_area/controls/inventory" instance=ExtResource( 7 )]
+margin_left = 516.0
+margin_right = 728.0
+
+[node name="elem14" parent="text_layer/command_area/controls/inventory" instance=ExtResource( 7 )]
+margin_left = 732.0
+margin_right = 944.0
+
+[node name="arrow_down" type="Control" parent="text_layer/command_area/controls/inventory"]
+margin_top = 90.0
+margin_right = 80.0
+margin_bottom = 176.0
+rect_min_size = Vector2( 80, 0 )
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="text_layer/command_area/controls/inventory/arrow_down"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 91.0
+texture = ExtResource( 9 )
+expand = true
+stretch_mode = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="elem21" parent="text_layer/command_area/controls/inventory" instance=ExtResource( 7 )]
+margin_top = 90.0
+margin_bottom = 176.0
+
+[node name="elem22" parent="text_layer/command_area/controls/inventory" instance=ExtResource( 7 )]
+margin_left = 300.0
+margin_top = 90.0
+margin_right = 512.0
+margin_bottom = 176.0
+
+[node name="elem23" parent="text_layer/command_area/controls/inventory" instance=ExtResource( 7 )]
+margin_left = 516.0
+margin_top = 90.0
+margin_right = 728.0
+margin_bottom = 176.0
+
+[node name="elem24" parent="text_layer/command_area/controls/inventory" instance=ExtResource( 7 )]
+margin_left = 732.0
+margin_top = 90.0
+margin_right = 944.0
+margin_bottom = 176.0
 
 [node name="quit_button" type="Button" parent="text_layer"]
 modulate = Color( 1, 1, 1, 0.686275 )
@@ -198,10 +287,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = 739.339
-margin_top = -119.143
-margin_right = 927.339
-margin_bottom = -44.1423
+margin_left = 864.0
+margin_top = -170.0
+margin_right = 942.0
+margin_bottom = -24.0
 text = "Quit"
 __meta__ = {
 "_edit_use_anchors_": false
