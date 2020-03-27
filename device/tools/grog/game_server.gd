@@ -332,15 +332,19 @@ func _run_add(item_name: String):
 		#absent
 		var item_resource = _get_inventory_resource(item_name)
 		if not item_resource:
-			print("Inventory item '%s' not found; adding anyways" % item_name)
-		symbols.add_symbol(item_name, "inventory_item", true)
+			print("Inventory item '%s' not found" % item_name)
+			return empty_action
+		var new_symbol = symbols.add_symbol(item_name, "inventory_item", 1)
+		new_symbol.item_resource = item_resource
 		_server_event("item_added", [item_resource])
 	elif not item_symbol.type:
 		# type mismatch
 		print("No inventory_item '%s'" % item_name)
 	else:
 		# already present
-		print("Already has inventory item '%s'" % item_name)
+		#print("Already has inventory item '%s'" % item_name)
+		item_symbol.target += 1
+		_server_event("item_added", [item_symbol.item_resource])
 	
 	return empty_action
 
