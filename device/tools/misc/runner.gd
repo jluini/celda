@@ -89,20 +89,41 @@ func coroutine(sequence: Array):
 				if command_result.has("coroutine"):
 					var command_termination = command_result.coroutine
 					
-					while command_termination:
-						if _stopped:
-							status = RunnerStatus.Stopped
-							return null
-						
-						delta = yield()
-						#elapsed_time += delta
-						command_termination = command_termination.resume(delta)
-						
-						if typeof(command_termination) == TYPE_DICTIONARY:
-							status = RunnerStatus.Canceled
-							return null
-						
-						
+					if typeof(command_termination) != TYPE_OBJECT or command_termination.get_class() != "GDScriptFunctionState":
+						print("%s: invalid coroutine (%s)" % [method_name, command_termination])
+					
+					else:
+						while true:
+							if _stopped:
+								print("Stopped")
+								status = RunnerStatus.Stopped
+								return null
+							
+							delta = yield()
+							#elapsed_time += delta
+							command_termination = command_termination.resume(delta)
+							
+							if command_termination == null:
+								# ended ok
+								break
+							elif typeof(command_termination) == TYPE_OBJECT and command_termination.get_class() == "GDScriptFunctionState":
+								if not command_termination.is_valid(true):
+									print("Invalid coroutine")
+									break
+								# continue
+							elif typeof(command_termination) == TYPE_DICTIONARY:
+								status = RunnerStatus.Canceled
+								return null
+							else:
+								print("Invalid result %s" % command_termination)
+								end_with_error("Invalid coroutine execution result")
+								return null
+							
+							#if typeof(command_termination) == TYPE_DICTIONARY:
+							#	status = RunnerStatus.Canceled
+							#	return null
+							
+							
 
 					
 					# end while
