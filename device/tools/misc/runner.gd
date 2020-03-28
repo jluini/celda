@@ -95,7 +95,6 @@ func coroutine(sequence: Array):
 					else:
 						while true:
 							if _stopped:
-								print("Stopped")
 								status = RunnerStatus.Stopped
 								return null
 							
