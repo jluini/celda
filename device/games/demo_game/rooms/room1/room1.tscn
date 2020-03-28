@@ -86,6 +86,7 @@ position = Vector2( 1290.24, 381.713 )
 script = ExtResource( 5 )
 global_id = "room1/bust"
 color = Color( 0.76, 0.76, 0.76, 1 )
+interact_angle = 270
 code = "# 'self' is the item
 # 'you' is the interacting player
 
@@ -112,8 +113,6 @@ else:
 you.say DEMO_GAME_BUST_HEAVY
 
 "
-walk_speed = 300.0
-radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/bust"]
 position = Vector2( -7.42757, 203.186 )
@@ -124,6 +123,7 @@ z_index = 673
 script = ExtResource( 5 )
 global_id = "room1/mask"
 color = Color( 0.76, 0.76, 0.76, 1 )
+interact_angle = 0
 code = "# 'self' is the item
 # 'you' is the interacting player
 
@@ -144,8 +144,6 @@ self.disable
 
 :look_at
 you.say DEMO_GAME_MASK"
-walk_speed = 300.0
-radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/mask"]
 position = Vector2( -66.8115, 166.567 )
@@ -160,6 +158,7 @@ z_as_relative = false
 script = ExtResource( 5 )
 global_id = "room1/thing"
 color = Color( 0.678431, 0.815686, 0.929412, 1 )
+interact_angle = 180
 code = "# 'self' is the item
 # 'you' is the interacting player
 
@@ -190,11 +189,9 @@ you.say DEMO_GAME_THING_NO_TAKE
 #.load_actor mark at=pos2
 .enable_input
 "
-walk_speed = 300.0
-radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/thing"]
-position = Vector2( 59.716, 176.641 )
+position = Vector2( 65.8548, 153.314 )
 
 [node name="speech_position" type="Position2D" parent="items/thing"]
 position = Vector2( -35.835, -66.408 )

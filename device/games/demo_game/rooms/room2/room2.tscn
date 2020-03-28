@@ -86,6 +86,7 @@ position = Vector2( 1290.24, 381.713 )
 script = ExtResource( 5 )
 global_id = "room2/bust"
 color = Color( 0.76, 0.76, 0.76, 1 )
+interact_angle = 270
 code = "# 'self' is the item
 # 'you' is the interacting player
 
@@ -112,8 +113,6 @@ else:
 you.say DEMO_GAME_BUST_HEAVY
 
 "
-walk_speed = 300.0
-radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/bust"]
 position = Vector2( -7.42757, 203.186 )
