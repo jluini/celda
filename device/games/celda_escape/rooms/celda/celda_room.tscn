@@ -97,6 +97,7 @@ z_as_relative = false
 script = ExtResource( 5 )
 global_id = "celda/thing"
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
+interact_angle = 22
 code = "# 'self' is the item
 # 'you' is the interacting player
 
@@ -118,8 +119,6 @@ self.say CELDA_ESCAPE_THING_THANKS
 :pick_up
 you.say CELDA_ESCAPE_THING_NO_TAKE
 "
-walk_speed = 300.0
-radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/thing"]
 position = Vector2( -89.2092, 261.127 )
@@ -134,6 +133,7 @@ z_as_relative = false
 script = ExtResource( 5 )
 global_id = "celda/mask"
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
+interact_angle = 315
 code = "# 'self' is the item
 # 'you' is the interacting player
 
@@ -155,11 +155,9 @@ you.say DEMO_GAME_MASK
 self.disable
 .add inv_mask
 "
-walk_speed = 300.0
-radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/mask"]
-position = Vector2( -58.6827, 193.758 )
+position = Vector2( -57.0124, 193.758 )
 
 [node name="Sprite" type="Sprite" parent="items/mask"]
 texture = ExtResource( 7 )
@@ -171,6 +169,7 @@ z_as_relative = false
 script = ExtResource( 5 )
 global_id = "celda/door1"
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
+interact_angle = 270
 code = "# 'self' is the item
 # 'you' is the interacting player
 
@@ -200,7 +199,6 @@ you.say \"Está cerrada con llave\"
 
 :close TK
 you.say \"Ya está cerrada\""
-walk_speed = 300.0
 radius = 200.0
 
 [node name="interact_position" type="Position2D" parent="items/door"]
@@ -213,6 +211,7 @@ z_as_relative = false
 script = ExtResource( 5 )
 global_id = "celda/desk"
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
+interact_angle = 270
 code = "# 'self' is the item
 # 'you' is the interacting player
 
@@ -235,7 +234,6 @@ you.say \"¿Posta?\"
 
 :pick_up
 .add inv_paper"
-walk_speed = 300.0
 radius = 150.0
 
 [node name="interact_position" type="Position2D" parent="items/desk"]

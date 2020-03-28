@@ -17,6 +17,9 @@ onready var _sprite = get_node(sprite_path)
 var last_direction = null
 
 func _on_start_walking(direction: Vector2):
+	if not direction:
+		print("No direction")
+	
 	var deg_angle = get_degrees(direction)
 	
 	var index = get_range_index(deg_angle, config)
@@ -26,6 +29,11 @@ func _on_start_walking(direction: Vector2):
 	
 	last_direction = direction
 
+func _on_angle_changed(angle_degrees: int):
+	var index = get_range_index(angle_degrees, config)
+	var key = config[index].idle
+	play_animation(key)
+	
 func _on_stop_walking():
 	var key: String = config.back().idle
 	
@@ -34,6 +42,8 @@ func _on_stop_walking():
 		
 		var index = get_range_index(deg_angle, config)
 		key = config[index].idle
+	else:
+		print("No last direction")
 	
 	play_animation(key)
 	

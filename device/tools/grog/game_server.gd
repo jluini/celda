@@ -55,6 +55,8 @@ var default_script: CompiledGrogScript
 # Intern
 var runner: Runner = null # TODO reuse instead of dereference and recreate?
 
+var interact_distance_threshold = 10
+
 enum StartMode {
 	Default,
 	FromRawScript,
@@ -428,12 +430,15 @@ func skip_or_cancel_request():
 		_skipped = true
 		return true
 	elif _server_state == ServerState.Serving and _is_cancelable and not _canceled:
+		# cancel current walking and clear _goal
 		_canceled = true
+		_goal = null
+		
 		return true
 	else:
 		return false
 		
-func build_path(origin_position, target_position, is_global):
+func build_path(origin_position: Vector2, target_position: Vector2, is_global):
 	var nav : Navigation2D = current_room.get_navigation()
 	if not nav:
 		return null
@@ -442,7 +447,14 @@ func build_path(origin_position, target_position, is_global):
 		target_position = target_position - nav.global_position
 	
 	target_position = nav.get_closest_point(target_position)
-
+	
+	var distance = origin_position.distance_to(target_position)
+	
+	var close_enough = distance <= interact_distance_threshold
+	
+	if close_enough:
+		return []
+	
 	var path: PoolVector2Array = nav.get_simple_path(origin_position, target_position)
 	
 	return path
@@ -457,9 +469,15 @@ func go_to_request(target_position: Vector2):
 		# go_to request rejected
 		return
 
-	var path = build_path(current_player.position, target_position, true)
+	var origin_position = current_player.position
+	
+	var path = build_path(origin_position, target_position, true)
 	
 	if not path:
+		if _server_state == ServerState.Serving:
+			# cancel current walking and clear _goal
+			_canceled = true
+			_goal = null
 		return
 	
 	# TODO check trivial paths and cancel?
@@ -570,17 +588,31 @@ func interact_request(item: Node2D, trigger_name: String):
 		_sequence = fallback_script.get_sequence(trigger_name)
 
 	interacting_symbol = symbol
-
+	
+#	if _server_state != ServerState.Ready:
+#		print("Should cancel !!!")
+#		return
+	
 	# TODO context and avoid duplication
 	var instructions = _sequence.statements.duplicate(true)
 
-	_goal = { instructions = instructions }
+	_goal = { instructions = instructions, subject = current_player }
+	
+	var origin_position: Vector2 = current_player.position
+	var target_position: Vector2 = item.get_interact_position()
+	
+	var distance = origin_position.distance_to(target_position)
+	
+	# TODO duplicated check, use that from build_path
+	var close_enough = distance <= interact_distance_threshold
 	
 	if not _sequence.telekinetic:
-		# walk towards the item first (and set _goal)
+		_goal.angle = item.interact_angle
+	
+	if not _sequence.telekinetic and not close_enough:
+		# Non-telekinetic sequence (walk towards the item first)
 		
-		var target_position = item.get_interact_position()
-		var path = build_path(current_player.position, target_position, false)
+		var path = build_path(origin_position, target_position, false)
 		
 		if not path:
 			return
@@ -606,10 +638,21 @@ func interact_request(item: Node2D, trigger_name: String):
 			else:
 				print("Unexpected")
 	else:
-		# do it immediately
-		_do_goal()
+		# Telekinetic sequence
+		
+		if _server_state == ServerState.Ready:
+			# do it immediately
+			_do_goal()
+		else:
+			# cancel current walking but don't clear _goal
+			# it will be executed later
+			_canceled = true
+			
 
 func _do_goal():
+	if _goal.has("angle"):
+		_goal.subject.emit_signal("angle_changed", _goal.angle)
+	
 	var ok = _run_sequence(_goal.instructions)
 	
 	if ok:
@@ -658,7 +701,7 @@ func _runner_over(status):
 			
 			_set_state(ServerState.Ready)
 			
-			if status == Runner.RunnerStatus.Ok and _goal != null:
+			if _goal != null:
 				_do_goal()
 		_:
 			print("_runner_over: unexpected state %s" % _server_state)

@@ -3,6 +3,8 @@ extends Node2D
 export (String) var global_id
 export (Color) var color
 
+export (int) var interact_angle = 90
+
 export (String, MULTILINE) var code
 
 export (float) var walk_speed = 300 # pixels per second
@@ -11,6 +13,9 @@ export (float) var walk_speed = 300 # pixels per second
 signal start_walking
 #warning-ignore:unused_signal
 signal stop_walking
+#warning-ignore:unused_signal
+signal angle_changed
+
 
 var _compiled_script
 

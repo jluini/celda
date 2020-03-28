@@ -253,7 +253,7 @@ tracks/0/keys = {
 script = ExtResource( 66 )
 global_id = "guybrush"
 color = Color( 0.98, 0.9702, 0.392, 1 )
-walk_speed = 300.0
+interact_angle = 0
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 1.3, 1.3 )
@@ -314,5 +314,6 @@ config = [ {
 } ]
 animation_path = NodePath("../animation")
 sprite_path = NodePath("../Sprite")
+[connection signal="angle_changed" from="." to="ndirections" method="_on_angle_changed"]
 [connection signal="start_walking" from="." to="ndirections" method="_on_start_walking"]
 [connection signal="stop_walking" from="." to="ndirections" method="_on_stop_walking"]

@@ -141,6 +141,7 @@ tracks/0/keys = {
 script = ExtResource( 66 )
 global_id = "mark"
 color = Color( 0.65, 0.169, 0.169, 1 )
+interact_angle = 0
 walk_speed = 350.0
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
@@ -189,5 +190,6 @@ config = [ {
 } ]
 animation_path = NodePath("../animation")
 sprite_path = NodePath("../Sprite")
+[connection signal="angle_changed" from="." to="ndirections" method="_on_angle_changed"]
 [connection signal="start_walking" from="." to="ndirections" method="_on_start_walking"]
 [connection signal="stop_walking" from="." to="ndirections" method="_on_stop_walking"]

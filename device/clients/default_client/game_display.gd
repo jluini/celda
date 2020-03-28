@@ -23,7 +23,7 @@ export (NodePath) var input_enabled_flag_path
 export (NodePath) var skippable_flag_path
 
 # Server
-var server: GameServer
+var server
 var data: GameResource
 
 var _skippable: bool
@@ -63,7 +63,7 @@ func _ready():
 	#warning-ignore:return_value_discarded
 	_actions.connect("on_element_deselected", self, "_on_action_deselected")
 
-func init(p_game_server: GameServer):
+func init(p_game_server):
 	server = p_game_server
 	data = server.data
 	
