@@ -2,8 +2,9 @@ extends Node
 
 signal game_ended
 
-export (Resource) var action_button_model
+export (float) var distance_threshold = 50
 
+export (Resource) var action_button_model
 
 export (NodePath) var room_area_path
 export (NodePath) var room_place_path
@@ -102,7 +103,8 @@ func _input(event):
 					input_position = mouse_position
 			else:
 				if input_state == InputState.DoingLeftClick:
-					if mouse_position.is_equal_approx(input_position):
+					var dist = mouse_position.distance_to(input_position)
+					if dist < distance_threshold:
 						_left_click(input_position)
 					
 					input_state = InputState.Nothing

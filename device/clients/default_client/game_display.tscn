@@ -63,7 +63,7 @@ layer = 0
 
 [node name="room_area" type="Control" parent="world_layer"]
 anchor_right = 1.0
-margin_bottom = 777.0
+margin_bottom = 850.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
