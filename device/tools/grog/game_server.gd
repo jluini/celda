@@ -504,8 +504,6 @@ func go_to_request(target_position: Vector2):
 			_goal = null
 		return
 	
-	# TODO check trivial paths and cancel?
-	
 	_path_changed = true
 	_walking_path = path
 	_walking_subject = current_player
@@ -562,14 +560,7 @@ func interact_request(item: Node2D, trigger_name: String):
 
 	interacting_symbol = symbol
 	
-#	if _server_state != ServerState.Ready:
-#		print("Should cancel !!!")
-#		return
-	
-	# TODO context and avoid duplication
-	var instructions = _sequence.statements.duplicate(true)
-
-	_goal = { instructions = instructions, subject = current_player }
+	_goal = { instructions = _sequence.statements, subject = current_player }
 	
 	var origin_position: Vector2 = current_player.position
 	var target_position: Vector2 = item.get_interact_position()
@@ -589,8 +580,6 @@ func interact_request(item: Node2D, trigger_name: String):
 		
 		if not path:
 			return
-		
-		# TODO check trivial paths and cancel?
 		
 		_path_changed = true
 		_walking_path = path
@@ -896,9 +885,7 @@ func _run_compiled(compiled_script: CompiledGrogScript, sequence_name: String) -
 	if compiled_script.has_sequence(sequence_name):
 		var sequence = compiled_script.get_sequence(sequence_name)
 		
-		# TODO context and avoid duplication
-		var instructions = sequence.statements.duplicate(true)
-		return _run_sequence(instructions)
+		return _run_sequence(sequence.statements)
 	else:
 		print("Sequence '%s' not found" % sequence_name)
 		return false
@@ -1070,6 +1057,7 @@ func get_value(var_name: String):
 	if symbol == null:
 		# absent
 		# TODO check this; var defaulting to zero
+		print("Absent symbol '%s' defaulting to zero" % var_name)
 		return 0
 	
 	match symbol.type:

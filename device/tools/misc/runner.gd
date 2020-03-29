@@ -39,7 +39,7 @@ func __init(p_output) -> bool:
 	
 	return true
 	
-func coroutine(sequence: Array):
+func coroutine(instructions: Array):
 	status = RunnerStatus.Running
 	
 	#var elapsed_time = 0
@@ -47,11 +47,24 @@ func coroutine(sequence: Array):
 	
 	_stopped = false
 	
+	var stack = []
+	
 	var delta = yield()
 	
-	while i < sequence.size():
-		var instruction = sequence[i]
+	while true:
+		while i >= instructions.size() and stack.size() > 0:
+				# this branch is over
+				var previous_level = stack.pop_back()
+				instructions = previous_level.instructions
+				i = previous_level.index
+		
+		if i >= instructions.size(): # now stack.size() == 0
+			# whole sequence is over
+			break
+		
+		var instruction = instructions[i]
 		i += 1
+		
 		if not typeof(instruction) == TYPE_DICTIONARY:
 			end_with_error("Invalid instruction type: %s" % instruction)
 			return null
@@ -130,13 +143,19 @@ func coroutine(sequence: Array):
 				var result = condition.evaluate(output)
 				
 				if typeof(result) != TYPE_BOOL:
+					var original_result = result
 					result = true if result else false
+					print("Evaluating %s as bool (%s)" % [original_result, result])
 				
 				var branch: Array = main_branch if result else else_branch
 				
 				if branch.size() > 0:
-					for j in range(branch.size()):
-						sequence.insert(i, branch[branch.size() - 1 - j])
+					stack.push_back({
+						instructions = instructions,
+						index = i
+					})
+					instructions = branch
+					i = 0
 			_:
 				print("Unexpected instruction type '%s'" % instruction.type)
 		

@@ -11,6 +11,7 @@ start:
 	.say \"Érase una celda...\"
 	
 	.set number=0
+	.set door_seen=false
 	
 	.load_room celda
 	.enable_input
