@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://games/celda_escape/game_data.tres" type="Resource" id=1]
 [ext_resource path="res://tools/ui_tools/label.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://apps/room_tester/pixel_intv.otf" type="DynamicFontData" id=6]
 [ext_resource path="res://apps/room_tester/object_list.tscn" type="PackedScene" id=7]
 [ext_resource path="res://apps/room_tester/rounded_rect.png" type="Texture" id=8]
+[ext_resource path="res://tools/grog/compile/compiler.gd" type="Script" id=9]
 
 [sub_resource type="DynamicFont" id=1]
 size = 24
@@ -323,6 +324,9 @@ __meta__ = {
 
 [node name="display" parent="." instance=ExtResource( 4 )]
 visible = false
+
+[node name="grog_compiler" type="Node" parent="."]
+script = ExtResource( 9 )
 [connection signal="pressed" from="ui_layer/ui/test_rooms/test_room_button" to="." method="_on_test_room_button_pressed"]
 [connection signal="pressed" from="ui_layer/ui/test_scripts/test_script_button" to="." method="_on_test_script_button_pressed"]
 [connection signal="pressed" from="ui_layer/ui/play_game_button" to="." method="_on_play_game_button_pressed"]

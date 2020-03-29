@@ -12,6 +12,8 @@ export (NodePath) var script_list_path
 
 export (NodePath) var raw_script_edit_path
 
+onready var _compiler = $grog_compiler
+
 var _grog_game: GameServer = null
 
 onready var _ui = get_node(ui_path)
@@ -99,9 +101,9 @@ func build_start_sequence(room_resource):#, actor_resource):
 	return { statements=ret, telekinetic=false }
 
 func play_game(actor, game_mode = GameServer.StartMode.Default, param = null):
-	_grog_game = GameServer.new()  
+	_grog_game = GameServer.new()
 	
-	var is_valid = _grog_game.init_game(game_to_load, game_mode, param)
+	var is_valid = _grog_game.init_game(_compiler, game_to_load, game_mode, param)
 	
 	if actor:
 		_grog_game.set_player(actor)

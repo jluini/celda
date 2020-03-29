@@ -1,98 +1,112 @@
 class_name Grog
 
+enum SubjectType {
+	None,
+	Required,
+	Optional
+}
+
+enum ParameterType {
+	Identifier,
+	EqualsSign,
+	BooleanType,
+	FloatType,
+	QuoteOrIdentifier,
+	Fixed
+}
+
+enum TokenType {
+	Standard, Keyword, Command, Identifier,
+	Number, Integer, Float,
+	Quote,
+	Operator
+}
+
+const keywords = ["if", "else", "not", "and", "or", "true", "false"]
+
 const commands = {
 	load_room = {
-		subject = GrogCompiler.SubjectType.None,
+		subject = SubjectType.None,
 		required_params = [
-			GrogCompiler.ParameterType.StringType
+			{ name = "room_name", type = ParameterType.Identifier }
 		]
 	},
 	enable_input = {
-		subject = GrogCompiler.SubjectType.None,
+		subject = SubjectType.None,
 		required_params = []
 	},
 	disable_input = {
-		subject = GrogCompiler.SubjectType.None,
+		subject = SubjectType.None,
 		required_params = []
 	},
 	wait = {
-		subject = GrogCompiler.SubjectType.None,
+		subject = SubjectType.None,
 		required_params = [
-			GrogCompiler.ParameterType.FloatType
+			{ name = "duration", type = ParameterType.FloatType }
 		],
 		named_params = [
-			{ name = "skippable", required = false, type = GrogCompiler.ParameterType.BooleanType }
+			{ name = "skippable", type = ParameterType.BooleanType }
 		]
 	},
 	say = {
-		subject = GrogCompiler.SubjectType.Optional,
+		subject = SubjectType.Optional,
 		required_params = [
-			GrogCompiler.ParameterType.StringTokenType
+			{ name = "speech", type = ParameterType.QuoteOrIdentifier }
 		],
 		named_params = [
-			{ name = "duration", required = false, type = GrogCompiler.ParameterType.FloatType },
-			{ name = "skippable", required = false, type = GrogCompiler.ParameterType.BooleanType }
+			{ name = "duration", type = ParameterType.FloatType },
+			{ name = "skippable", type = ParameterType.BooleanType }
 		]
 	},
 	walk = {
-		subject = GrogCompiler.SubjectType.Required,
-		required_params = [],
-		named_params = [
-			{ name = "to", required = true, type = GrogCompiler.ParameterType.StringType }
+		subject = SubjectType.Required,
+		required_params = [
+			{ name = "to", type = ParameterType.Fixed },
+			{ name = "equals", type = ParameterType.EqualsSign },
+			{ name = "value", type = ParameterType.Identifier }
 		]
 	},
 	
 	# end the game
 	end = {
-		subject = GrogCompiler.SubjectType.None,
+		subject = SubjectType.None,
 		required_params = []
 	},
 	
 	# set value to global variable
 	# (currently only bool values, they are false by default)
 	set = {
-		subject = GrogCompiler.SubjectType.None,
+		subject = SubjectType.None,
 		required_params = [
-			GrogCompiler.ParameterType.StringType,
-			GrogCompiler.ParameterType.BooleanType
+			{ name = "variable_name", type = ParameterType.Identifier },
+			{ name = "equals", type = ParameterType.EqualsSign },
+			{ name = "value", type = ParameterType.BooleanType }
 		]
 	},
 	
 	# enable/disable item
 	# (they are active by default and can be disabled to hide them and prevent interaction)
 	enable = {
-		subject = GrogCompiler.SubjectType.Required,
+		subject = SubjectType.Required,
 		required_params = []
 	},
 	disable = {
-		subject = GrogCompiler.SubjectType.Required,
+		subject = SubjectType.Required,
 		required_params = []
 	},
 	
 	# add/remove inventory item
 	add = {
-		subject = GrogCompiler.SubjectType.None,
+		subject = SubjectType.None,
 		required_params = [
-			GrogCompiler.ParameterType.StringType,
+			{ name = "item_id", type = ParameterType.Identifier }
 		]
 	},
 	remove = {
-		subject = GrogCompiler.SubjectType.None,
+		subject = SubjectType.None,
 		required_params = [
-			GrogCompiler.ParameterType.StringType,
+			{ name = "item_id", type = ParameterType.Identifier }
 		]
 	},
 	
 }
-
-#	@PUBLIC
-
-static func compile(script: Resource):
-	var compiler = load("res://tools/grog/grog_compiler.gd").new()
-	compiler.set_grammar({ commands = commands })
-	return compiler.compile(script)
-
-static func compile_text(code: String):
-	var compiler = load("res://tools/grog/grog_compiler.gd").new()
-	compiler.set_grammar({ commands = commands })
-	return compiler.compile_text(code)

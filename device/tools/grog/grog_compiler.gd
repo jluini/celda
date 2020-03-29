@@ -1,4 +1,4 @@
-class_name GrogCompiler
+#class_name GrogCompiler
 
 # Compiler patterns
 const sequence_header_regex_pattern = "^\\:([a-zA-Z0-9\\.\\-\\_\\ \\#]+)$"

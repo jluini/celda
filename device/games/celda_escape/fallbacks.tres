@@ -8,29 +8,22 @@ script = ExtResource( 1 )
 code_or_filename = "# 'self' is the item
 # 'you' is the interacting player
 
-:walk_to # goes but nothing more
-:give TK # does nothing
-:talk_to TK # does nothing
-:use TK # does nothing
+walk_to: # goes but nothing more
+give: TK # does nothing
+talk_to: TK # does nothing
+use: TK # does nothing
 
-:look_at
-you.say CELDA_ESCAPE_FALLBACK_LOOK
+look_at:
+	you.say CELDA_ESCAPE_FALLBACK_LOOK
 
 
 
-:open TK
-you.say CELDA_ESCAPE_FALLBACK_CANT_OPEN
-:close TK
-you.say CELDA_ESCAPE_FALLBACK_CANT_CLOSE
+open: TK
+	you.say CELDA_ESCAPE_FALLBACK_CANT_OPEN
+close: TK
+	you.say CELDA_ESCAPE_FALLBACK_CANT_CLOSE
 
-:pick_up TK
-you.say CELDA_ESCAPE_FALLBACK_PICK_UP
+pick_up: TK
+	you.say CELDA_ESCAPE_FALLBACK_PICK_UP
 
-#:walk_to
-#:pick_up
-#:use
-#:open
-#:look_at
-#:close
-#:talk_to
 "

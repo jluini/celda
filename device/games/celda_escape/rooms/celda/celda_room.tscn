@@ -98,26 +98,13 @@ script = ExtResource( 5 )
 global_id = "celda/thing"
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
 interact_angle = 22
-code = "# 'self' is the item
-# 'you' is the interacting player
+code = "
+look_at:
+	you.say CELDA_ESCAPE_NICE_THING
+	self.say CELDA_ESCAPE_THING_THANKS
 
-#:walk_to
-#:give
-#:pick_up
-#:use
-#:open
-#:look_at
-#:push
-#:close
-#:talk_to
-#:pull
-
-:look_at
-you.say CELDA_ESCAPE_NICE_THING
-self.say CELDA_ESCAPE_THING_THANKS
-
-:pick_up
-you.say CELDA_ESCAPE_THING_NO_TAKE
+pick_up:
+	you.say CELDA_ESCAPE_THING_NO_TAKE
 "
 
 [node name="interact_position" type="Position2D" parent="items/thing"]
@@ -134,26 +121,12 @@ script = ExtResource( 5 )
 global_id = "celda/mask"
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
 interact_angle = 315
-code = "# 'self' is the item
-# 'you' is the interacting player
+code = "look_at:
+	you.say DEMO_GAME_MASK
 
-#:walk_to
-#:give
-#:pick_up
-#:use
-#:open
-#:look_at
-#:push
-#:close
-#:talk_to
-#:pull
-
-:look_at
-you.say DEMO_GAME_MASK
-
-:pick_up
-self.disable
-.add inv_mask
+pick_up:
+	self.disable
+	.add inv_mask
 "
 
 [node name="interact_position" type="Position2D" parent="items/mask"]
@@ -170,35 +143,25 @@ script = ExtResource( 5 )
 global_id = "celda/door1"
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
 interact_angle = 270
-code = "# 'self' is the item
-# 'you' is the interacting player
+code = "
+look_at:
+	if $door_seen:
+		you.say \"Ya te dije que es alta puerta.\"
+	else:
+		you.say \"Es alta puerta.\"
+		.set door_seen=true
 
-#:walk_to
-#:pick_up
-#:use
-#:open
-#:look_at
-#:close
-#:talk_to
+talk_to: TK
+	you.say \"¿Posta?\"
 
-:look_at
-if door_seen:
-	you.say \"Ya te dije que es alta puerta.\"
-else:
-	you.say \"Es alta puerta.\"
-	.set door_seen true
+pick_up: TK
+	you.say \"¿Me decís en serio?\"
 
-:talk_to TK
-you.say \"¿Posta?\"
+open:
+	you.say \"Está cerrada con llave\"
 
-:pick_up TK
-you.say \"¿Me decís en serio?\"
-
-:open
-you.say \"Está cerrada con llave\"
-
-:close TK
-you.say \"Ya está cerrada\""
+close: TK
+	you.say \"Ya está cerrada\""
 radius = 200.0
 
 [node name="interact_position" type="Position2D" parent="items/door"]
@@ -212,28 +175,18 @@ script = ExtResource( 5 )
 global_id = "celda/desk"
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
 interact_angle = 270
-code = "# 'self' is the item
-# 'you' is the interacting player
+code = "
+look_at:
+	you.say \"Es un escritorio de pino.\" duration=1.5
+	you.say \"Detalle en los rieles de dos cajones.\" duration=1.5
+	you.say \"Está con muy poco uso.\" duration=1.5
+	you.say \"Se retira en mi domicilio\" duration=1.5
 
-#:walk_to
-#:pick_up
-#:use
-#:open
-#:look_at
-#:close
-#:talk_to
+talk_to: TK
+	you.say \"¿Posta?\"
 
-:look_at
-you.say \"Es un escritorio de pino.\" duration=1.5
-you.say \"Detalle en los rieles de dos cajones.\" duration=1.5
-you.say \"Está con muy poco uso.\" duration=1.5
-you.say \"Se retira en mi domicilio\" duration=1.5
-
-:talk_to TK
-you.say \"¿Posta?\"
-
-:pick_up
-.add inv_paper"
+pick_up:
+	.add inv_paper"
 radius = 150.0
 
 [node name="interact_position" type="Position2D" parent="items/desk"]

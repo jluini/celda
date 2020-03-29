@@ -6,12 +6,10 @@
 resource_name = "main"
 script = ExtResource( 1 )
 code_or_filename = "
-:start
+start:
 
-#.load_room room2
+	.say \"Érase una celda...\"
 
-.say \"Érase una celda...\"
-
-.load_room celda
-.enable_input
+	.load_room celda
+	.enable_input
 "

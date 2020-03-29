@@ -39,11 +39,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/grog/grog.gd"
 }, {
-"base": "Reference",
-"class": "GrogCompiler",
-"language": "GDScript",
-"path": "res://tools/grog/grog_compiler.gd"
-}, {
 "base": "Resource",
 "class": "GrogScript",
 "language": "GDScript",
@@ -81,7 +76,6 @@ _global_script_class_icons={
 "GameServer": "",
 "GlobalVarIsTrueCondition": "",
 "Grog": "",
-"GrogCompiler": "",
 "GrogScript": "",
 "InventoryItemResource": "",
 "RoomResource": "",

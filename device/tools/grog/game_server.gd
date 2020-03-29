@@ -7,6 +7,9 @@ var options = {
 	default_color = Color.gray
 }
 
+#compiler
+var compiler
+
 # game data
 var data
 
@@ -71,15 +74,16 @@ const empty_action = { }
 
 var _input_enabled = false
 
-func init_game(game_data: Resource, p_game_start_mode = StartMode.Default, p_game_start_param = null) -> bool:
+func init_game(p_compiler, game_data: Resource, p_game_start_mode = StartMode.Default, p_game_start_param = null) -> bool:
 	if _server_state != ServerState.None:
 		push_error("Invalid call to init_game")
 		return false
 	
+	compiler = p_compiler
 	data = game_data
 	
 	if game_data.get_all_scripts().size() > 0:
-		fallback_script = Grog.compile(game_data.get_all_scripts()[0])
+		fallback_script = compiler.compile_text(game_data.get_all_scripts()[0].get_code())
 		if not fallback_script.is_valid:
 			print("Fallback script is invalid")
 			fallback_script.print_errors()
@@ -89,7 +93,7 @@ func init_game(game_data: Resource, p_game_start_mode = StartMode.Default, p_gam
 		fallback_script = CompiledGrogScript.new()
 	
 	if game_data.get_all_scripts().size() > 1:
-		default_script = Grog.compile(game_data.get_all_scripts()[1])
+		default_script = compiler.compile_text(game_data.get_all_scripts()[1].get_code())
 		if not default_script.is_valid:
 			print("Default script is invalid")
 			default_script.print_errors()
@@ -106,7 +110,7 @@ func init_game(game_data: Resource, p_game_start_mode = StartMode.Default, p_gam
 			pass
 			
 		StartMode.FromRawScript:
-			var compiled_script = Grog.compile_text(_game_start_param)
+			var compiled_script = compiler.compile_text(_game_start_param)
 			
 			if compiled_script.is_valid:
 				_game_start_param = compiled_script
@@ -116,7 +120,7 @@ func init_game(game_data: Resource, p_game_start_mode = StartMode.Default, p_gam
 				return false
 		
 		StartMode.FromScriptResource:
-			var compiled_script = Grog.compile(_game_start_param)
+			var compiled_script = compiler.compile_text(_game_start_param.get_code())
 			if compiled_script.is_valid:
 				_game_start_param = compiled_script
 			else:
@@ -203,10 +207,10 @@ func _run_say(item_name: String, speech_token: Dictionary, opts: Dictionary):
 	assert(_server_state == ServerState.RunningSequence)
 	
 	var speech: String
-	if speech_token.type == GrogCompiler.TOKEN_QUOTED:
+	if speech_token.type == Grog.TokenType.Quote:
 		speech = speech_token.content
 	else:
-		speech = tr(speech_token.content)
+		speech = tr(speech_token.data.key)
 	
 	var item = null
 	
@@ -780,6 +784,8 @@ func _load_room(room_name: String) -> Node:
 			# reload item, it was destroyed when destroying a previous room
 			
 			item_symbol.target = item
+		
+		item_symbol.target.init_item(compiler)
 		
 		assert(not item_symbol.loaded)
 		item_symbol.loaded = true
