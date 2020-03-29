@@ -46,7 +46,7 @@ var disabled_items = {}
 
 var current_player: Node = null # TODO needs reference? it's in symbols
 var current_room: Node = null
-var interacting_symbol: Dictionary
+var interacting_symbol = null
 
 # Player to use (currently constant)
 var player_resource
@@ -156,7 +156,7 @@ func update(delta):
 
 #	@COMMANDS
 
-func _run_load_room(room_name: String):
+func _run_load_room(room_name: String) -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	var room = _load_room(room_name)
@@ -166,31 +166,31 @@ func _run_load_room(room_name: String):
 	
 	return empty_action
 
-func _run_enable_input():
+func _run_enable_input() -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	if _input_enabled:
 		log_command_warning(["enable_input", "input is already enabled"])
-		return
+		return empty_action
 	
 	_input_enabled = true
 	_server_event("input_enabled")
 	
 	return empty_action
 
-func _run_disable_input():
+func _run_disable_input() -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	if not _input_enabled:
 		log_command_warning(["disable_input", "input is not enabled"])
-		return
+		return empty_action
 	
 	_input_enabled = false
 	_server_event("input_disabled")
 	
 	return empty_action
 
-func _run_wait(duration: float, opts: Dictionary):
+func _run_wait(duration: float, opts: Dictionary) -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	_is_skippable = opts.get("skippable", true) # TODO harcoded default wait skippable
@@ -203,7 +203,7 @@ func _run_wait(duration: float, opts: Dictionary):
 	
 	return { coroutine = _wait_coroutine(duration) }
 
-func _run_say(item_name: String, speech_token: Dictionary, opts: Dictionary):
+func _run_say(item_name: String, speech_token: Dictionary, opts: Dictionary) -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	var speech: String
@@ -218,6 +218,10 @@ func _run_say(item_name: String, speech_token: Dictionary, opts: Dictionary):
 		var item_symbol
 		
 		if item_name == "self":
+			if not interacting_symbol:
+				print("There's no 'self' item")
+				return empty_action
+				
 			item_symbol = interacting_symbol
 		else:
 			item_symbol = _get_interacting_item(item_name)
@@ -238,7 +242,7 @@ func _run_say(item_name: String, speech_token: Dictionary, opts: Dictionary):
 	
 	return { coroutine = _wait_coroutine(duration) }
 
-func _run_walk(item_name: String, opts: Dictionary):
+func _run_walk(item_name: String, to_node_named: String) -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	var item_symbol = _get_actor_item(item_name)
@@ -248,12 +252,32 @@ func _run_walk(item_name: String, opts: Dictionary):
 	
 	var item = item_symbol.target
 	
-	var to_node: Node = _get_option_as_room_node("to", opts)
-
-	if not to_node:
-		push_error("parameter 'to' needed for walk")
-		return empty_action
+	var to_node_symbol = symbols.get_symbol_of_types(to_node_named, ["scene_item"], false)
 	
+	var to_node
+	
+	if to_node_symbol == null:
+		# absent
+		if not current_room.has_node(to_node_named):
+			print("Node '%s' not found" % to_node_named)
+			return empty_action
+		else:
+			to_node = current_room.get_node(to_node_named)
+	
+	elif not to_node_symbol.type:
+		# type mismatch
+		print("Can't walk to an object of type '%s'" % symbols.get_symbol_type(to_node_named))
+		return empty_action
+	else:
+		if not to_node_symbol.loaded:
+			print("walk: item '%s' is not in current room" % to_node_named)
+			return empty_action
+		elif to_node_symbol.disabled:
+			print("walk: item '%s' is disabled" % to_node_named)
+			return empty_action
+		else:
+			to_node = to_node_symbol.target
+		
 	var target_position = to_node.position
 	
 	var path = build_path(item.position, target_position, false)
@@ -269,13 +293,13 @@ func _run_walk(item_name: String, opts: Dictionary):
 	
 	return _run_new_walk()
 	
-func _run_end():
+func _run_end() -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	_server_state = ServerState.Stopping
 	return { stop = true }
 
-func _run_set(var_name: String, new_value: bool):
+func _run_set(var_name: String, new_value: bool) -> Dictionary:
 	var symbol = symbols.get_symbol_of_types(var_name, ["global_variable"], false)
 	
 	if symbol == null:
@@ -292,15 +316,19 @@ func _run_set(var_name: String, new_value: bool):
 	
 	return empty_action
 
-func _run_enable(item_id: String):
+func _run_enable(item_id: String) -> Dictionary:
 	var item_symbol
 	if item_id == "self":
+		if not interacting_symbol:
+			print("There's no 'self' item")
+			return empty_action
+			
 		item_symbol = interacting_symbol
 		item_id = interacting_symbol.symbol_name
 	else:
 		item_symbol = _get_scene_item(item_id)
 		if not item_symbol.type:
-			return
+			return empty_action
 	
 	if not item_symbol.disabled:
 		print("Item '%s' is already enabled")
@@ -322,15 +350,19 @@ func _run_enable(item_id: String):
 	
 	return empty_action
 	
-func _run_disable(item_id: String):
+func _run_disable(item_id: String) -> Dictionary:
 	var item_symbol
 	if item_id == "self":
+		if not interacting_symbol:
+			print("There's no 'self' item")
+			return empty_action
+		
 		item_symbol = interacting_symbol
 		item_id = interacting_symbol.symbol_name
 	else:
 		item_symbol = _get_scene_item(item_id)
 		if not item_symbol.type:
-			return
+			return empty_action
 	
 	if item_symbol.disabled:
 		print("Item '%s' is already disabled")
@@ -352,7 +384,7 @@ func _run_disable(item_id: String):
 	
 	return empty_action
 
-func _run_add(item_name: String):
+func _run_add(item_name: String) -> Dictionary:
 	var item_symbol = symbols.get_symbol_of_types(item_name, ["inventory_item"], false)
 	
 	if item_symbol == null:
@@ -374,7 +406,7 @@ func _run_add(item_name: String):
 	
 	return empty_action
 
-func _run_remove(item_name: String):
+func _run_remove(item_name: String) -> Dictionary:
 	var item_symbol = symbols.get_symbol_of_types(item_name, ["inventory_item"], false)
 	
 	if item_symbol == null or not item_symbol.type:
@@ -388,7 +420,12 @@ func _run_remove(item_name: String):
 		#_server_event("item_removed", [item_name])
 		
 	return empty_action
+
+# only called manually
+func _run_new_walk() -> Dictionary:
+	return { coroutine = _new_walk_coroutine() }
 	
+
 #func new_command():
 #	return empty_action
 
@@ -442,27 +479,6 @@ func skip_or_cancel_request():
 	else:
 		return false
 		
-func build_path(origin_position: Vector2, target_position: Vector2, is_global):
-	var nav : Navigation2D = current_room.get_navigation()
-	if not nav:
-		return null
-	
-	if is_global:
-		target_position = target_position - nav.global_position
-	
-	target_position = nav.get_closest_point(target_position)
-	
-	var distance = origin_position.distance_to(target_position)
-	
-	var close_enough = distance <= interact_distance_threshold
-	
-	if close_enough:
-		return []
-	
-	var path: PoolVector2Array = nav.get_simple_path(origin_position, target_position)
-	
-	return path
-
 func go_to_request(target_position: Vector2):
 	if not _input_enabled or not current_player:
 		return
@@ -508,57 +524,6 @@ func go_to_request(target_position: Vector2):
 	
 	# else it's already walking
 		
-func _run_new_walk():
-	return { coroutine = _new_walk_coroutine() }
-	
-func _new_walk_coroutine():
-	assert(_path_changed)
-	var path
-	
-	while true:
-		if _path_changed:
-			path = PoolVector2Array(_walking_path)
-			_path_changed = false
-		
-		if path.size() < 2:
-			break
-		
-		var time = 0.0
-
-		var origin: Vector2 = path[0]
-		var destiny: Vector2 = path[1]
-
-		var displacement = destiny - origin
-		var distance2 = displacement.length_squared()
-		var direction = displacement.normalized()
-
-		_walking_subject.emit_signal("start_walking", direction)
-		
-		while true:
-			
-			if _canceled:
-				# walk canceled in response to client
-				_walking_subject.emit_signal("stop_walking")
-				return {} # returning a dict makes Runner cancel all remaining tasks
-			elif _path_changed: # this allows to change path from outside (for rewalk from client)
-				break
-			
-			time += yield()
-			
-			var step_distance = _walking_subject.walk_speed * time
-
-			var target_point = origin + step_distance * direction
-			if pow(step_distance, 2) >= distance2:
-				_walking_subject.teleport(destiny)
-				path.remove(0)
-				break
-			else:
-				_walking_subject.teleport(target_point)
-	
-	_walking_subject.emit_signal("stop_walking")
-	
-	return null
-	
 
 func interact_request(item: Node2D, trigger_name: String):
 	if not _input_enabled or not current_player:
@@ -651,7 +616,72 @@ func interact_request(item: Node2D, trigger_name: String):
 			# cancel current walking but don't clear _goal
 			# it will be executed later
 			_canceled = true
+
+func stop_request():
+	match _server_state:
+		ServerState.Ready:
+			assert(runner == null)
+			_stop()
+		ServerState.Serving, ServerState.RunningSequence:
+			assert(runner != null)
+			_set_state(ServerState.Stopping)
+			runner.stop_asap()
+		_:
+			print("Ignoring stop request")
+
+
+##############################
+
+#	@PRIVATE
+
+func _new_walk_coroutine():
+	assert(_path_changed)
+	var path
+	
+	while true:
+		if _path_changed:
+			path = PoolVector2Array(_walking_path)
+			_path_changed = false
+		
+		if path.size() < 2:
+			break
+		
+		var time = 0.0
+
+		var origin: Vector2 = path[0]
+		var destiny: Vector2 = path[1]
+
+		var displacement = destiny - origin
+		var distance2 = displacement.length_squared()
+		var direction = displacement.normalized()
+
+		_walking_subject.emit_signal("start_walking", direction)
+		
+		while true:
 			
+			if _canceled:
+				# walk canceled in response to client
+				_walking_subject.emit_signal("stop_walking")
+				return {} # returning a dict makes Runner cancel all remaining tasks
+			elif _path_changed: # this allows to change path from outside (for rewalk from client)
+				break
+			
+			time += yield()
+			
+			var step_distance = _walking_subject.walk_speed * time
+
+			var target_point = origin + step_distance * direction
+			if pow(step_distance, 2) >= distance2:
+				_walking_subject.teleport(destiny)
+				path.remove(0)
+				break
+			else:
+				_walking_subject.teleport(target_point)
+	
+	_walking_subject.emit_signal("stop_walking")
+	
+	return null
+
 
 func _do_goal():
 	if _goal.has("angle"):
@@ -665,18 +695,6 @@ func _do_goal():
 		print("Unexpected")
 	
 	_goal = null
-
-func stop_request():
-	match _server_state:
-		ServerState.Ready:
-			assert(runner == null)
-			_stop()
-		ServerState.Serving, ServerState.RunningSequence:
-			assert(runner != null)
-			_set_state(ServerState.Stopping)
-			runner.stop_asap()
-		_:
-			print("Ignoring stop request")
 
 func _stop():
 	_set_state(ServerState.Stopped)
@@ -697,6 +715,9 @@ func _runner_over(status):
 			
 			_set_state(ServerState.Ready)
 			
+			if interacting_symbol:
+				interacting_symbol = null
+			
 		ServerState.Serving:
 			if status == Runner.RunnerStatus.Canceled:
 				assert(_canceled)
@@ -706,14 +727,12 @@ func _runner_over(status):
 			_set_state(ServerState.Ready)
 			
 			if _goal != null:
+				assert(not _canceled)
+				#TODO check it's in goal place?
 				_do_goal()
 		_:
 			print("_runner_over: unexpected state %s" % _server_state)
 	
-##############################
-
-#	@PRIVATE
-
 func _server_event(event_name: String, args: Array = []):
 	emit_signal("game_server_event", event_name, args)
 
@@ -908,6 +927,28 @@ func _get_resource_in(list, elem_name):
 
 #	@MISC
 
+func build_path(origin_position: Vector2, target_position: Vector2, is_global):
+	var nav : Navigation2D = current_room.get_navigation()
+	if not nav:
+		return null
+	
+	if is_global:
+		target_position = target_position - nav.global_position
+	
+	target_position = nav.get_closest_point(target_position)
+	
+	var distance = origin_position.distance_to(target_position)
+	
+	var close_enough = distance <= interact_distance_threshold
+	
+	if close_enough:
+		return []
+	
+	var path: PoolVector2Array = nav.get_simple_path(origin_position, target_position)
+	
+	return path
+
+# TODO is it used?
 func _get_option_as_room_node(option_name: String, opts: Dictionary) -> Node:
 	if not opts.has(option_name):
 		return null

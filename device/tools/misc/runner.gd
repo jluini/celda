@@ -73,6 +73,7 @@ func coroutine(sequence: Array):
 					return null
 				
 				#print("%s %s" % [cmd, params])
+				
 				var command_result = output.callv(method_name, params)
 				
 				if typeof(command_result) != TYPE_DICTIONARY:

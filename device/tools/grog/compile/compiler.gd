@@ -446,7 +446,6 @@ func compile_lines(compiled_script, lines: Array):
 									return
 								
 								param_value = actual_param.data.number_value
-								print("number=%s" % param_value)
 							
 							Grog.ParameterType.EqualsSign:
 								if actual_param.type != Grog.TokenType.Operator or actual_param.content != "=":
