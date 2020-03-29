@@ -5,40 +5,24 @@
 [resource]
 resource_name = "fallbacks"
 script = ExtResource( 1 )
-code_or_filename = "# 'self' is the item
-# 'you' is the interacting player
+code_or_filename = "walk_to: # does nothing
 
-:walk_to
-# does nothing
+look_at:
+	you.say DEMO_GAME_FALLBACK_LOOK
 
-:look_at
-you.say DEMO_GAME_FALLBACK_LOOK
+give: TK # does nothing
 
-:give TK
-# does nothing
+use: TK
+	you.say DEMO_GAME_FALLBACK_CANT
+pull: TK
+	you.say DEMO_GAME_FALLBACK_CANT
+push: TK
+	you.say DEMO_GAME_FALLBACK_CANT
+open: TK
+	you.say DEMO_GAME_FALLBACK_CANT_OPEN
+close: TK
+	you.say DEMO_GAME_FALLBACK_CANT_CLOSE
 
-:use TK
-you.say DEMO_GAME_FALLBACK_CANT
-:pull TK
-you.say DEMO_GAME_FALLBACK_CANT
-:push TK
-you.say DEMO_GAME_FALLBACK_CANT
-:open TK
-you.say DEMO_GAME_FALLBACK_CANT_OPEN
-:close TK
-you.say DEMO_GAME_FALLBACK_CANT_CLOSE
-
-:pick_up TK
-you.say DEMO_GAME_FALLBACK_PICK_UP
-
-#:walk_to
-#:give
-#:pick_up
-#:use
-#:open
-#:look_at
-#:push
-#:close
-#:talk_to
-#:pull
+pick_up: TK
+	you.say DEMO_GAME_FALLBACK_PICK_UP
 "

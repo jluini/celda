@@ -87,30 +87,16 @@ script = ExtResource( 5 )
 global_id = "room1/bust"
 color = Color( 0.76, 0.76, 0.76, 1 )
 interact_angle = 270
-code = "# 'self' is the item
-# 'you' is the interacting player
+code = "
+look_at:
+	if bust_seen:
+		you.say DEMO_GAME_NICE_BUST_AGAIN
+	else:
+		you.say DEMO_GAME_NICE_BUST
+	.set bust_seen = true
 
-#:walk_to
-#:give
-#:pick_up
-#:use
-#:open
-#:look_at
-#:push
-#:close
-#:talk_to
-#:pull
-
-
-:look_at
-if bust_seen:
-	you.say DEMO_GAME_NICE_BUST_AGAIN
-else:
-	you.say DEMO_GAME_NICE_BUST
-.set bust_seen true
-
-:pick_up
-you.say DEMO_GAME_BUST_HEAVY
+pick_up:
+	you.say DEMO_GAME_BUST_HEAVY
 
 "
 
@@ -124,26 +110,12 @@ script = ExtResource( 5 )
 global_id = "room1/mask"
 color = Color( 0.76, 0.76, 0.76, 1 )
 interact_angle = 0
-code = "# 'self' is the item
-# 'you' is the interacting player
+code = "pick_up:
+	self.disable
+	.add inv_mask
 
-#:walk_to
-#:give
-#:pick_up
-#:use
-#:open
-#:look_at
-#:push
-#:close
-#:talk_to
-#:pull
-
-:pick_up
-self.disable
-.add inv_mask
-
-:look_at
-you.say DEMO_GAME_MASK"
+look_at:
+	you.say DEMO_GAME_MASK"
 
 [node name="interact_position" type="Position2D" parent="items/mask"]
 position = Vector2( -66.8115, 166.567 )
@@ -159,35 +131,22 @@ script = ExtResource( 5 )
 global_id = "room1/thing"
 color = Color( 0.678431, 0.815686, 0.929412, 1 )
 interact_angle = 180
-code = "# 'self' is the item
-# 'you' is the interacting player
+code = "
+look_at:
+	you.say DEMO_GAME_NICE_THING
+	self.say DEMO_GAME_THING_THANKS
 
-#:walk_to
-#:give
-#:pick_up
-#:use
-#:open
-#:look_at
-#:push
-#:close
-#:talk_to
-#:pull
+pick_up:
+	you.say DEMO_GAME_THING_NO_TAKE
 
-:look_at
-you.say DEMO_GAME_NICE_THING
-self.say DEMO_GAME_THING_THANKS
-
-:pick_up
-you.say DEMO_GAME_THING_NO_TAKE
-
-:use
-.disable_input
-.load_room room2
-.wait 1
-.load_room room1
-.wait 1
-#.load_actor mark at=pos2
-.enable_input
+use:
+	.disable_input
+	.load_room room2
+	.wait 1
+	.load_room room1
+	.wait 1
+	#.load_actor mark at=pos2
+	.enable_input
 "
 
 [node name="interact_position" type="Position2D" parent="items/thing"]

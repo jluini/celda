@@ -87,30 +87,16 @@ script = ExtResource( 5 )
 global_id = "room2/bust"
 color = Color( 0.76, 0.76, 0.76, 1 )
 interact_angle = 270
-code = "# 'self' is the item
-# 'you' is the interacting player
+code = "
+look_at:
+	if bust_seen:
+		you.say DEMO_GAME_NICE_BUST_AGAIN
+	else:
+		you.say DEMO_GAME_NICE_BUST
+	.set bust_seen=true
 
-#:walk_to
-#:give
-#:pick_up
-#:use
-#:open
-#:look_at
-#:push
-#:close
-#:talk_to
-#:pull
-
-
-:look_at
-if bust_seen:
-	you.say DEMO_GAME_NICE_BUST_AGAIN
-else:
-	you.say DEMO_GAME_NICE_BUST
-.set bust_seen true
-
-:pick_up
-you.say DEMO_GAME_BUST_HEAVY
+pick_up:
+	you.say DEMO_GAME_BUST_HEAVY
 
 "
 

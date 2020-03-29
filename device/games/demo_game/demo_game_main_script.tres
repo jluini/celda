@@ -6,46 +6,43 @@
 resource_name = "main"
 script = ExtResource( 1 )
 code_or_filename = "
-:start
+start:
 
-.load_room room2
+	.load_room room2
 
-.wait 2
+	.wait 2
 
-.say \"A long long time ago...\"
+	.say \"A long long time ago...\"
 
-.wait 1
+	.wait 1
 
-.load_room room1
+	.load_room room1
 
-#.load_actor guybrush at=pos1
-#.load_actor mark at=pos2
+	.wait 2
 
-.wait 2
+	you.say \"Hi\"
+	room1/bust.say \"Hi.\"
 
-you.say \"Hi\"
-room1/bust.say \"Hi.\"
+	.wait 0.7
 
-.wait 0.7
+	you.say \"How are you doing?\"
+	room1/bust.say \"I'm just fine.\"
 
-you.say \"How are you doing?\"
-room1/bust.say \"I'm just fine.\"
+	.wait 1
 
-.wait 1
+	you.say \"Ok.\"
 
-you.say \"Ok.\"
+	.wait 2
 
-.wait 2
+	room1/bust.say \"Come here man.\"
 
-room1/bust.say \"Come here man.\"
+	you.walk to=pos3
 
-you.walk to=pos3
+	you.say \"What?\"
 
-you.say \"What?\"
+	room1/bust.say \"Nothing.\"
 
-room1/bust.say \"Nothing.\"
+	.wait 1
 
-.wait 1
-
-.enable_input
+	.enable_input
 "
