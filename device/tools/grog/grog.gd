@@ -16,13 +16,23 @@ enum ParameterType {
 }
 
 enum TokenType {
-	Standard, Keyword, Command, Identifier,
+	Standard, Command, Identifier, # or Keyword (next line)
+	IfKeyword, ElseKeyword, NotKeyword, AndKeyword, OrKeyword, TrueKeyword, FalseKeyword,
+	
 	Number, Integer, Float,
 	Quote,
 	Operator
 }
 
-const keywords = ["if", "else", "not", "and", "or", "true", "false"]
+const keywords = {
+	"if": TokenType.IfKeyword,
+	"else": TokenType.ElseKeyword,
+	"not": TokenType.NotKeyword,
+	"and": TokenType.AndKeyword,
+	"or": TokenType.OrKeyword,
+	"true": TokenType.TrueKeyword,
+	"false": TokenType.FalseKeyword,
+}
 
 const commands = {
 	load_room = {

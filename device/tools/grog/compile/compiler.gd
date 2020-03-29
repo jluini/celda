@@ -60,7 +60,6 @@ func compile_text(code: String) -> CompiledGrogScript:
 		if not line_data.blank:
 			lines.append(line_data)
 	
-	
 	compile_lines(compiled_script, lines)
 	
 	return compiled_script
@@ -113,10 +112,9 @@ func get_tokens(compiled_script, line: Dictionary) -> Array:
 				elif c in operator_characters: # operator
 					tokens.append({ type = Grog.TokenType.Operator, content = c })
 				elif c in number_characters: # number
-					#state = TokenizerState.ReadingNumber
 					state = TokenizerState.ReadingStandardTokenOrNumber
 					current_token = { type = Grog.TokenType.Number, content = c }
-				elif contains_pattern(c, standard_token_character_regex):
+				elif contains_pattern(c, standard_token_character_regex): # start of standard token
 					state = TokenizerState.ReadingStandardTokenOrNumber
 					current_token = { type = Grog.TokenType.Standard, content = c }
 				else:
@@ -159,24 +157,24 @@ func get_tokens(compiled_script, line: Dictionary) -> Array:
 					current_token = {} # actually unnecessary
 					tokens.append({ type = Grog.TokenType.Operator, content = c })
 					state = TokenizerState.WaitingNextToken
-				elif contains_pattern(c, standard_token_character_regex):
+				elif contains_pattern(c, standard_token_character_regex): # token continued
 					current_token.content += c
 				else:
 					compiled_script.add_error("(%s:%s) invalid char in token '%s'" % [line.line_number, char_number, c])
 					return []
 					
 			TokenizerState.ReadingQuote:
-				if c == "\"":
+				if c == "\"": # quote end
 					tokens.append(current_token)
 					current_token = {} # actually unnecessary
 					state = TokenizerState.WaitingNextToken
-				elif c == "\\":
+				elif c == "\\": # escape sequence start
 					state = TokenizerState.ReadingEscapeSequence
-				else:
+				else: # quote continued
 					current_token.content += c
 			
 			TokenizerState.ReadingEscapeSequence:
-				if not c in ["\\", "\""]:
+				if not c in ["\\", "\""]: # escape sequence end
 					compiled_script.add_error("(%s:%s) invalid escape sequence" % [line.line_number, char_number])
 					return []
 				
@@ -238,11 +236,11 @@ func recognize_token(content: String, parse_as_number: bool) -> Dictionary:
 		
 		# check subject
 		
-		if subject in Grog.keywords:
+		if Grog.keywords.has(subject):
 			if is_command:
 				return { valid = false, msg = "keyword used as subject" }
 			else:
-				return { valid = true, type = Grog.TokenType.Keyword, data = {} }
+				return { valid = true, type = Grog.keywords[subject], data = {} }
 		
 		var indirection_level = 0
 		var key = ""
@@ -279,7 +277,7 @@ func compile_lines(compiled_script, lines: Array):
 	var i = 0
 	var line
 	
-	while true: # i < num_lines:
+	while true:
 		var more_lines = i < num_lines
 		
 		var new_level
@@ -354,8 +352,6 @@ func compile_lines(compiled_script, lines: Array):
 				compiled_script.add_error("Expecting colon after trigger name (line %s)" % line.line_number)
 				return
 			
-			# TODO params like telekinetic
-			
 			var is_telekinetic = false
 			if num_tokens == 3:
 				var third_token = line.tokens[2]
@@ -429,12 +425,9 @@ func compile_lines(compiled_script, lines: Array):
 						
 						match param.type:
 							Grog.ParameterType.BooleanType:
-								if actual_param.type != Grog.TokenType.Keyword:
-									compiled_script.add_error("Parameter '%s' must be true or false (line %s)" % [param.name, line.line_number])
-									return
-								if actual_param.content == "true":
+								if actual_param.type == Grog.TokenType.TrueKeyword:
 									param_value = true
-								elif actual_param.content == "false":
+								elif actual_param.type == Grog.TokenType.FalseKeyword:
 									param_value = false
 								else:
 									compiled_script.add_error("Parameter '%s' must be true or false (line %s)" % [param.name, line.line_number])
@@ -533,12 +526,9 @@ func compile_lines(compiled_script, lines: Array):
 							
 							match np.type:
 								Grog.ParameterType.BooleanType:
-									if value_token.type != Grog.TokenType.Keyword:
-										compiled_script.add_error("Option '%s' must be true or false in command %s (line %s)" % [option_name, command_name, line.line_number])
-										return
-									if value_token.content == "true":
+									if value_token.type == Grog.TokenType.TrueKeyword:
 										option_value = true
-									elif value_token.content == "false":
+									elif value_token.type == Grog.TokenType.FalseKeyword:
 										option_value = false
 									else:
 										compiled_script.add_error("Option '%s' must be true or false in command %s (line %s)" % [option_name, command_name, line.line_number])
@@ -568,72 +558,69 @@ func compile_lines(compiled_script, lines: Array):
 						params = final_params
 					})
 				
-				Grog.TokenType.Keyword:
-					match first_token.content:
-						"if":
-							if num_tokens < 2:
-								compiled_script.add_error("If condition expected (line %s)" % line.line_number)
-								return
+				Grog.TokenType.IfKeyword:
+					if num_tokens < 2:
+						compiled_script.add_error("If condition expected (line %s)" % line.line_number)
+						return
+					
+					var last_token = line.tokens[num_tokens - 1]
+					if last_token.type != Grog.TokenType.Operator or last_token.content != ":":
+						compiled_script.add_error("Colon expected at end of line (line %s)" % line.line_number)
+						return
+					
+					if num_tokens < 3:
+						compiled_script.add_error("Missing if condition (line %s)" % line.line_number)
+						return
+					
+					var condition_tokens = line.tokens.slice(1, num_tokens - 2)
+					
+					var condition = parse_condition(condition_tokens)
+					
+					if not condition.result:
+						compiled_script.add_error("Invalid if condition (%s) (line %s)" % [condition.message, line.line_number])
+						return
+					
+					statements.append({
+						type = "if",
+						condition = condition.result,
+						# waiting for main_branch/else_branch
+					})
+					
+					stack.push_back(statements)
+					statements = []
+					level += 1
 							
-							var last_token = line.tokens[num_tokens - 1]
-							if last_token.type != Grog.TokenType.Operator or last_token.content != ":":
-								compiled_script.add_error("Colon expected at end of line (line %s)" % line.line_number)
-								return
+				Grog.TokenType.ElseKeyword:
+					if statements.size() == 0:
+						compiled_script.add_error("Unexpected 'else' block (line %s)" % line.line_number)
+						return
+					
+					var previous_statement = statements.back()
+					if previous_statement.type != "if" or previous_statement.has("else_branch"):
+						compiled_script.add_error("Unexpected 'else' block (line %s)" % line.line_number)
+						return
+						
+					if num_tokens < 2:
+						compiled_script.add_error("Colon expected (line %s)" % line.line_number)
+						return
+					
+					var second_token = line.tokens[1]
+					if second_token.type != Grog.TokenType.Operator or second_token.content != ":":
+						compiled_script.add_error("Colon expected after 'else' (line %s)" % line.line_number)
+						return
+					
+					if num_tokens > 2:
+						compiled_script.add_error("End of line expected after 'else:' (line %s)" % line.line_number)
+						return
+					
+					stack.push_back(statements)
+					statements = []
+					level += 1
 							
-							if num_tokens < 3:
-								compiled_script.add_error("Missing if condition (line %s)" % line.line_number)
-								return
-							
-							assert([1,2,3].slice(1,1) == [2])
-							
-							var condition_tokens = [line.tokens].slice(1, num_tokens - 2)
-							
-							# TODO parse if condition
-							
-							statements.append({
-								type = "if",
-								condition = parse_condition(condition_tokens),
-								# waiting for main_branch/else_branch
-							})
-							
-							stack.push_back(statements)
-							statements = []
-							level += 1
-							
-						"else":
-							if statements.size() == 0:
-								compiled_script.add_error("Unexpected 'else' block (line %s)" % line.line_number)
-								return
-							
-							var previous_statement = statements.back()
-							if previous_statement.type != "if" or previous_statement.has("else_branch"):
-								compiled_script.add_error("Unexpected 'else' block (line %s)" % line.line_number)
-								return
-								
-							if num_tokens < 2:
-								compiled_script.add_error("Colon expected (line %s)" % line.line_number)
-								return
-							
-							var second_token = line.tokens[1]
-							if second_token.type != Grog.TokenType.Operator or second_token.content != ":":
-								compiled_script.add_error("Colon expected after 'else' (line %s)" % line.line_number)
-								return
-							
-							if num_tokens > 2:
-								compiled_script.add_error("End of line expected after 'else:' (line %s)" % line.line_number)
-								return
-							
-							stack.push_back(statements)
-							statements = []
-							level += 1
-							
-						_:
-							compiled_script.add_error("Unexpected keyword '%s' at start of line (line %s)" % [first_token.content, line.line_number])
-							return
-					# end match first_token.content
 				_:
-					compiled_script.add_error("Command expected at start of line (line %s)" % line.line_number)
+					compiled_script.add_error("Command, if or else expected at start of line (line %s)" % line.line_number)
 					return
+					
 			# end match first_token.type
 			
 		# end if (sequence header versus instruction line)
@@ -657,8 +644,20 @@ func get_named_param(named_params: Array, name: String):
 	
 	return null
 
-func parse_condition(_condition_tokens):
-	pass # TODO
+func parse_condition(tokens: Array) -> Dictionary:
+	if tokens.size() == 1:
+		var token = tokens[0]
+		
+		if token.type == Grog.TokenType.Identifier:
+			return { result = EvaluateCondition.new(token.data.indirection_level, token.data.key) }
+		elif token.type == Grog.TokenType.TrueKeyword:
+			return { result = FixedCondition.new(true) }
+		elif token.type == Grog.TokenType.FalseKeyword:
+			return { result = FixedCondition.new(false) }
+		else:
+			return { message = "token of type %s can't be used as condition" % Grog.TokenType.keys()[token.type] }
+	else:
+		return { message = "condition is too complex" }
 
 # Misc
 

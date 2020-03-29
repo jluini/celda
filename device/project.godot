@@ -19,6 +19,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/grog/compiled_grog_script.gd"
 }, {
+"base": "Reference",
+"class": "EvaluateCondition",
+"language": "GDScript",
+"path": "res://tools/grog/compile/evaluate_condition.gd"
+}, {
+"base": "Reference",
+"class": "FixedCondition",
+"language": "GDScript",
+"path": "res://tools/grog/compile/fixed_condition.gd"
+}, {
 "base": "Resource",
 "class": "GameResource",
 "language": "GDScript",
@@ -72,6 +82,8 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "ActorResource": "",
 "CompiledGrogScript": "",
+"EvaluateCondition": "",
+"FixedCondition": "",
 "GameResource": "",
 "GameServer": "",
 "GlobalVarIsTrueCondition": "",

@@ -129,6 +129,11 @@ func coroutine(sequence: Array):
 				
 				var result = condition.evaluate(output)
 				
+				if typeof(result) != TYPE_BOOL:
+					print("If condition is of type %s instead of bool..." % typeof(result))
+					result = true if result else false
+					print("    evaluated as  %s" % result)
+				
 				var branch: Array = main_branch if result else else_branch
 				
 				if branch.size() > 0:
