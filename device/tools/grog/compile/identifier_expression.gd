@@ -1,4 +1,4 @@
-class_name EvaluateCondition
+class_name IdentifierExpression
 
 var indirection_level: int
 var key: String

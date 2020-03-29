@@ -387,6 +387,7 @@ func compile_lines(compiled_script, lines: Array):
 					assert(Grog.commands.has(command_name))
 					
 					var command_requirements = Grog.commands[command_name]
+					var has_named_params = command_requirements.has("named_params")
 					
 					match command_requirements.subject:
 						Grog.SubjectType.None:
@@ -420,15 +421,15 @@ func compile_lines(compiled_script, lines: Array):
 						
 						var actual_param = line.tokens[j + 1]
 						
-						var ignore_param = false
-						var param_value
+						#var ignore_param = false
+						#var param_value
 						
 						match param.type:
 							Grog.ParameterType.BooleanType:
 								if actual_param.type == Grog.TokenType.TrueKeyword:
-									param_value = true
+									final_params.append(true)
 								elif actual_param.type == Grog.TokenType.FalseKeyword:
-									param_value = false
+									final_params.append(false)
 								else:
 									compiled_script.add_error("Parameter '%s' must be true or false (line %s)" % [param.name, line.line_number])
 									return
@@ -438,22 +439,18 @@ func compile_lines(compiled_script, lines: Array):
 									compiled_script.add_error("Parameter '%s' must be a float or int (line %s)" % [param.name, line.line_number])
 									return
 								
-								param_value = actual_param.data.number_value
+								final_params.append(actual_param.data.number_value)
 							
 							Grog.ParameterType.EqualsSign:
 								if actual_param.type != Grog.TokenType.Operator or actual_param.content != "=":
 									compiled_script.add_error("Expected equals sign in command %s (line %s)" % [command_name, line.line_number])
 									return
 								
-								ignore_param = true
-							
 							Grog.ParameterType.Fixed:
 								if actual_param.type != Grog.TokenType.Identifier or actual_param.data.indirection_level != 0 or actual_param.data.key != param.name:
 									compiled_script.add_error("Expected '%s' in command %s (line %s)" % [param.name, command_name, line.line_number])
 									return
 								
-								ignore_param = true
-							
 							Grog.ParameterType.Identifier:
 								if actual_param.type != Grog.TokenType.Identifier:
 									compiled_script.add_error("Expected identifier in command %s (line %s)" % [command_name, line.line_number])
@@ -463,26 +460,40 @@ func compile_lines(compiled_script, lines: Array):
 									compiled_script.add_error("Indirection levels not implemented in command %s (line %s)" % [command_name, line.line_number])
 									return
 								
-								param_value = actual_param.data.key
+								final_params.append(actual_param.data.key)
 							
 							Grog.ParameterType.QuoteOrIdentifier:
 								if actual_param.type != Grog.TokenType.Identifier and actual_param.type != Grog.TokenType.Quote:
 									compiled_script.add_error("Expected identifier or quote in command %s (line %s)" % [command_name, line.line_number])
 									return
 								
-								param_value = actual_param
+								final_params.append(actual_param)
+							
+							Grog.ParameterType.ExpressionType:
+								if j != num_required - 1:
+									compiled_script.add_error("Grog error; expression must be last parameter (line %s)" % [line.line_number])
+									return
+								elif has_named_params:
+									compiled_script.add_error("Grog error; expression can't have options (line %s)" % [line.line_number])
+									return
+								
+								var expression_tokens = line.tokens.slice(j + 1, line.tokens.size() - 1)
+								var expression = parse_expression(expression_tokens)
+					
+								if not expression.result:
+									compiled_script.add_error("Invalid set expression (%s) (line %s)" % [expression.message, line.line_number])
+									return 
+								
+								final_params.append(expression.result)
 								
 							_:
 								compiled_script.add_error("Grog error: unexpected parameter type %s" % Grog.ParameterType.keys()[param.type])
 								return
 						
-						if not ignore_param:
-							final_params.append(param_value)
-					
 					# end for
 					
-					if not command_requirements.has("named_params"):
-						if total_params > num_required:
+					if not has_named_params:
+						if total_params > num_required and (num_required == 0 or required[num_required - 1].type != Grog.ParameterType.ExpressionType):
 							compiled_script.add_error("Command '%s' requires only %s parameters (line %s)" % [command_name, num_required, line.line_number])
 							return
 					else:
@@ -574,7 +585,7 @@ func compile_lines(compiled_script, lines: Array):
 					
 					var condition_tokens = line.tokens.slice(1, num_tokens - 2)
 					
-					var condition = parse_condition(condition_tokens)
+					var condition = parse_expression(condition_tokens)
 					
 					if not condition.result:
 						compiled_script.add_error("Invalid if condition (%s) (line %s)" % [condition.message, line.line_number])
@@ -644,20 +655,52 @@ func get_named_param(named_params: Array, name: String):
 	
 	return null
 
-func parse_condition(tokens: Array) -> Dictionary:
+func parse_expression(tokens: Array) -> Dictionary:
 	if tokens.size() == 1:
 		var token = tokens[0]
 		
-		if token.type == Grog.TokenType.Identifier:
-			return { result = EvaluateCondition.new(token.data.indirection_level, token.data.key) }
-		elif token.type == Grog.TokenType.TrueKeyword:
-			return { result = FixedCondition.new(true) }
-		elif token.type == Grog.TokenType.FalseKeyword:
-			return { result = FixedCondition.new(false) }
-		else:
-			return { message = "token of type %s can't be used as condition" % Grog.TokenType.keys()[token.type] }
+		match token.type:
+			Grog.TokenType.Identifier:
+				return {
+					result = IdentifierExpression.new(token.data.indirection_level, token.data.key),
+					type = "string" if token.data.indirection_level == 0 else ""
+				}
+			Grog.TokenType.TrueKeyword:
+				return { result = FixedExpression.new(true), type = "bool" }
+			Grog.TokenType.FalseKeyword:
+				return { result = FixedExpression.new(false), type = "bool" }
+			Grog.TokenType.Integer, Grog.TokenType.Float:
+				return { result = FixedExpression.new(token.data.number_value), type = "number" }
+			_:
+				return { result = false, message = "token of type %s can't be used as expression" % Grog.TokenType.keys()[token.type] }
+	
+	elif tokens.size() >= 3:
+		var token_left = tokens[0]
+		var token_oper = tokens[1]
+		var tokens_rest = tokens.slice(2, tokens.size() - 1)
+		
+		var expression_left = parse_expression([token_left])
+		
+		if not expression_left.result:
+			return expression_left
+			
+		if token_oper.type != Grog.TokenType.Operator:
+			return { result = false, message = "expected operator after %s" % token_left.content }
+		
+		var expression_rest = parse_expression(tokens_rest)
+		
+		if not expression_rest.result:
+			return expression_rest
+		
+		match token_oper.content:
+			"+", "-", "<", ">":
+				return { result = OperationExpression.new(expression_left.result, token_oper.content, expression_rest.result) }
+			
+			_:
+				return { result = false, message = "invalid operator %s after %s" % [token_oper.content, token_left.content] }
+		
 	else:
-		return { message = "condition is too complex" }
+		return { result = false, message = "expression is too complex" }
 
 # Misc
 

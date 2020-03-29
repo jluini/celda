@@ -9,7 +9,9 @@ code_or_filename = "
 start:
 
 	.say \"Érase una celda...\"
-
+	
+	.set number=0
+	
 	.load_room celda
 	.enable_input
 "

@@ -299,7 +299,11 @@ func _run_end() -> Dictionary:
 	_server_state = ServerState.Stopping
 	return { stop = true }
 
-func _run_set(var_name: String, new_value: bool) -> Dictionary:
+func _run_set(var_name: String, new_value_expression) -> Dictionary:
+	var new_value = new_value_expression.evaluate(self)
+	
+	print("Setting global '%s' to '%s' (type %s, class %s)" % [var_name, new_value, _typestr(new_value), new_value.get_class() if typeof(new_value) == TYPE_OBJECT else "-"])
+	
 	var symbol = symbols.get_symbol_of_types(var_name, ["global_variable"], false)
 	
 	if symbol == null:
@@ -1068,3 +1072,22 @@ func _set_state(new_state, skippable=false, cancelable=false):
 	_is_cancelable = cancelable
 	_canceled = false
 	
+func _typestr(value):
+	match typeof(value):
+		TYPE_ARRAY:
+			return "array"
+		TYPE_BOOL:
+			return "bool"
+		TYPE_INT:
+			return "int"
+		TYPE_DICTIONARY:
+			return "dict"
+		TYPE_OBJECT:
+			return "object"
+		TYPE_NIL:
+			return "nil"
+		TYPE_STRING:
+			return "string"
+		_:
+			return "another:%s" % typeof(value)
+			

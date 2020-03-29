@@ -106,6 +106,8 @@ look_at:
 pick_up:
 	you.say CELDA_ESCAPE_THING_NO_TAKE
 "
+walk_speed = 300.0
+radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/thing"]
 position = Vector2( -89.2092, 261.127 )
@@ -128,6 +130,8 @@ pick_up:
 	self.disable
 	.add inv_mask
 "
+walk_speed = 300.0
+radius = 50.0
 
 [node name="interact_position" type="Position2D" parent="items/mask"]
 position = Vector2( -57.0124, 193.758 )
@@ -145,14 +149,21 @@ color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
 interact_angle = 270
 code = "
 look_at:
-	if $door_seen:
+	.set var=door_seen
+	if $$var:
 		you.say \"Ya te dije que es alta puerta.\"
 	else:
 		you.say \"Es alta puerta.\"
 		.set door_seen=true
 
 talk_to: TK
-	you.say \"¿Posta?\"
+	.set number=$number+1
+	if $number < 3:
+		you.say \"¿Posta?\"
+	else:
+		you.say \"Bueno dale\"
+	
+	
 
 pick_up: TK
 	you.say \"¿Me decís en serio?\"
@@ -162,6 +173,7 @@ open:
 
 close: TK
 	you.say \"Ya está cerrada\""
+walk_speed = 300.0
 radius = 200.0
 
 [node name="interact_position" type="Position2D" parent="items/door"]
@@ -187,6 +199,7 @@ talk_to: TK
 
 pick_up:
 	.add inv_paper"
+walk_speed = 300.0
 radius = 150.0
 
 [node name="interact_position" type="Position2D" parent="items/desk"]

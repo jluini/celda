@@ -12,7 +12,8 @@ enum ParameterType {
 	BooleanType,
 	FloatType,
 	QuoteOrIdentifier,
-	Fixed
+	Fixed,
+	ExpressionType
 }
 
 enum TokenType {
@@ -90,7 +91,7 @@ const commands = {
 		required_params = [
 			{ name = "variable_name", type = ParameterType.Identifier },
 			{ name = "equals", type = ParameterType.EqualsSign },
-			{ name = "value", type = ParameterType.BooleanType }
+			{ name = "value", type = ParameterType.ExpressionType }
 		]
 	},
 	

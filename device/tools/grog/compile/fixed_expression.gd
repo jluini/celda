@@ -1,4 +1,4 @@
-class_name FixedCondition
+class_name FixedExpression
 
 var value
 
