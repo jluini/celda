@@ -198,7 +198,10 @@ talk_to: TK
 	you.say \"¿Posta?\"
 
 pick_up:
-	.add inv_paper"
+	if $inv_paper < 3:
+		.add inv_paper
+	else:
+		you.say \"Creo que ya tengo demasiadas.\""
 walk_speed = 300.0
 radius = 150.0
 

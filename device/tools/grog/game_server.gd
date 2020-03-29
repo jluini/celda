@@ -302,7 +302,7 @@ func _run_end() -> Dictionary:
 func _run_set(var_name: String, new_value_expression) -> Dictionary:
 	var new_value = new_value_expression.evaluate(self)
 	
-	print("Setting global '%s' to '%s' (type %s, class %s)" % [var_name, new_value, _typestr(new_value), new_value.get_class() if typeof(new_value) == TYPE_OBJECT else "-"])
+	#print("Setting global '%s' to '%s' (type %s, class %s)" % [var_name, new_value, _typestr(new_value), new_value.get_class() if typeof(new_value) == TYPE_OBJECT else "-"])
 	
 	var symbol = symbols.get_symbol_of_types(var_name, ["global_variable"], false)
 	
@@ -1063,6 +1063,21 @@ func get_global(var_name: String):
 		return false
 	else:
 		return symbol.target
+
+func get_value(var_name: String):
+	var symbol = symbols.get_symbol(var_name)
+	
+	if symbol == null:
+		# absent
+		# TODO check this; var defaulting to zero
+		return 0
+	
+	match symbol.type:
+		"global_variable", "inventory_item":
+			return symbol.target
+		_:
+			print("Trying to dereference symbol '%s' of type '%s'" % [var_name, symbol.type])
+			return false
 	
 func _set_state(new_state, skippable=false, cancelable=false):
 	#print("\t\t\t%s -> %s" % [ServerState.keys()[_server_state], ServerState.keys()[new_state]])

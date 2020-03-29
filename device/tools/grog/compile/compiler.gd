@@ -576,7 +576,7 @@ func compile_lines(compiled_script, lines: Array):
 					
 					var last_token = line.tokens[num_tokens - 1]
 					if last_token.type != Grog.TokenType.Operator or last_token.content != ":":
-						compiled_script.add_error("Colon expected at end of line (line %s)" % line.line_number)
+						compiled_script.add_error("Colon expected at end of 'if' line (line %s)" % line.line_number)
 						return
 					
 					if num_tokens < 3:
@@ -612,7 +612,7 @@ func compile_lines(compiled_script, lines: Array):
 						return
 						
 					if num_tokens < 2:
-						compiled_script.add_error("Colon expected (line %s)" % line.line_number)
+						compiled_script.add_error("Colon expected after 'else' (line %s)" % line.line_number)
 						return
 					
 					var second_token = line.tokens[1]

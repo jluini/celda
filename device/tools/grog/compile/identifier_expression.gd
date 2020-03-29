@@ -17,7 +17,7 @@ func evaluate(game):
 			value = false
 			break
 		
-		value = game.get_global(value)
+		value = game.get_value(value)
 		values.append(value)
 	
 	return value
