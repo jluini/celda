@@ -145,7 +145,7 @@ func coroutine(instructions: Array):
 				if typeof(result) != TYPE_BOOL:
 					var original_result = result
 					result = true if result else false
-					print("Evaluating %s as bool (%s)" % [original_result, result])
+					print("Evaluating %s (%s) as bool (%s)" % [original_result, output._typestr(original_result), result])
 				
 				var branch: Array = main_branch if result else else_branch
 				

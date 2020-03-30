@@ -77,7 +77,7 @@ position = Vector2( 961.305, 29.1782 )
 navpoly = SubResource( 1 )
 
 [node name="default_player_position" type="Position2D" parent="."]
-position = Vector2( 726.789, 756.676 )
+position = Vector2( 1322.29, 756.101 )
 
 [node name="pos1" type="Position2D" parent="."]
 position = Vector2( 697.843, 718.947 )
@@ -96,7 +96,7 @@ z_index = 571
 z_as_relative = false
 script = ExtResource( 5 )
 global_id = "celda/thing"
-color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
+color = Color( 1, 1, 1, 1 )
 interact_angle = 22
 code = "
 look_at:
@@ -104,10 +104,18 @@ look_at:
 	self.say CELDA_ESCAPE_THING_THANKS
 
 pick_up:
-	you.say CELDA_ESCAPE_THING_NO_TAKE
+	if $celda/mask:
+		you.say \"No.\"
+		you.say \"No frente a la máscara.\"
+	else:
+		you.say \"Me animo a agarrarlo.\"
+		you.say \"Pero no puedo\"
+		
+		
+	#you.say CELDA_ESCAPE_THING_NO_TAKE
 "
-walk_speed = 300.0
-radius = 50.0
+walk_speed = 0.0
+radius = 70.0
 
 [node name="interact_position" type="Position2D" parent="items/thing"]
 position = Vector2( -89.2092, 261.127 )
@@ -130,8 +138,8 @@ pick_up:
 	self.disable
 	.add inv_mask
 "
-walk_speed = 300.0
-radius = 50.0
+walk_speed = 0.0
+radius = 45.0
 
 [node name="interact_position" type="Position2D" parent="items/mask"]
 position = Vector2( -57.0124, 193.758 )
@@ -173,7 +181,7 @@ open:
 
 close: TK
 	you.say \"Ya está cerrada\""
-walk_speed = 300.0
+walk_speed = 0.0
 radius = 200.0
 
 [node name="interact_position" type="Position2D" parent="items/door"]
@@ -202,7 +210,7 @@ pick_up:
 		.add inv_paper
 	else:
 		you.say \"Creo que ya tengo demasiadas.\""
-walk_speed = 300.0
+walk_speed = 0.0
 radius = 150.0
 
 [node name="interact_position" type="Position2D" parent="items/desk"]

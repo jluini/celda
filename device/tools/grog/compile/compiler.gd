@@ -693,7 +693,7 @@ func parse_expression(tokens: Array) -> Dictionary:
 			return expression_rest
 		
 		match token_oper.content:
-			"+", "-", "<", ">":
+			"+", "-", "<", ">", "=":
 				return { result = OperationExpression.new(expression_left.result, token_oper.content, expression_rest.result) }
 			
 			_:

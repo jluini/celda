@@ -1063,6 +1063,11 @@ func get_value(var_name: String):
 	match symbol.type:
 		"global_variable", "inventory_item":
 			return symbol.target
+		
+		"scene_item":
+			assert(symbol.disabled == disabled_items.has(var_name))
+			return not symbol.disabled
+		
 		_:
 			print("Trying to dereference symbol '%s' of type '%s'" % [var_name, symbol.type])
 			return false
@@ -1078,19 +1083,19 @@ func _set_state(new_state, skippable=false, cancelable=false):
 func _typestr(value):
 	match typeof(value):
 		TYPE_ARRAY:
-			return "array"
+			return "Array"
 		TYPE_BOOL:
 			return "bool"
 		TYPE_INT:
 			return "int"
 		TYPE_DICTIONARY:
-			return "dict"
+			return "Dictionary"
 		TYPE_OBJECT:
-			return "object"
+			return "Object"
 		TYPE_NIL:
-			return "nil"
+			return "null"
 		TYPE_STRING:
-			return "string"
+			return "String"
 		_:
 			return "another:%s" % typeof(value)
 			

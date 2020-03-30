@@ -28,7 +28,16 @@ func evaluate(_game):
 				return left_value < right_value
 			else:
 				return left_value > right_value
-		
+		"=":
+			if typeof(left_value) != typeof(right_value):
+				print("Uncompatible types for equality operator (%s and %s)" % [_game._typestr(left_value), _game._typestr(right_value)])
+				return 0
+			
+			if typeof(left_value) != TYPE_INT and typeof(left_value) != TYPE_BOOL and typeof(left_value) != TYPE_STRING:
+				print("Unexpected type for equality operator: %s. Continuing." % _game._typestr(left_value))
+			
+			return left_value == right_value
+			
 		_:
 			push_error("Operator %s not implemented" % operator)
 			return false

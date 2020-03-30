@@ -99,6 +99,8 @@ pick_up:
 	you.say DEMO_GAME_BUST_HEAVY
 
 "
+walk_speed = 0.0
+radius = 75.0
 
 [node name="interact_position" type="Position2D" parent="items/bust"]
 position = Vector2( -7.42757, 203.186 )
@@ -116,6 +118,8 @@ code = "pick_up:
 
 look_at:
 	you.say DEMO_GAME_MASK"
+walk_speed = 0.0
+radius = 45.0
 
 [node name="interact_position" type="Position2D" parent="items/mask"]
 position = Vector2( -66.8115, 166.567 )
@@ -124,7 +128,7 @@ position = Vector2( -66.8115, 166.567 )
 texture = ExtResource( 6 )
 
 [node name="thing" type="Node2D" parent="items"]
-position = Vector2( 1151.32, 480.174 )
+position = Vector2( 1143.57, 486.636 )
 z_index = 571
 z_as_relative = false
 script = ExtResource( 5 )
@@ -148,9 +152,11 @@ use:
 	#.load_actor mark at=pos2
 	.enable_input
 "
+walk_speed = 0.0
+radius = 40.0
 
 [node name="interact_position" type="Position2D" parent="items/thing"]
-position = Vector2( 65.8548, 153.314 )
+position = Vector2( 77.486, 145.56 )
 
 [node name="speech_position" type="Position2D" parent="items/thing"]
 position = Vector2( -35.835, -66.408 )
