@@ -116,3 +116,6 @@ walk_to:
 	"
 walk_speed = 0.0
 radius = 200.0
+
+[node name="interact_position" type="Position2D" parent="items/gate"]
+position = Vector2( -92.8143, 233.115 )

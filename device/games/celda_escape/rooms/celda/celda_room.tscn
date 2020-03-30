@@ -154,13 +154,17 @@ color = Color( 1, 1, 1, 1 )
 interact_angle = 22
 code = "
 look_at:
-	you.say CELDA_ESCAPE_NICE_THING
-	self.say CELDA_ESCAPE_THING_THANKS
+	if $inv_thing = 0:
+		you.say CELDA_ESCAPE_NICE_THING
+		self.say CELDA_ESCAPE_THING_THANKS
+	else:
+	you.say \"Está mal borrada.\"
 
 pick_up:
 	if $celda/mask:
 		you.say \"No.\"
 		you.say \"No frente a la máscara.\"
+		.set reason_to_take_mask=true
 	else:
 		if $inv_thing = 0:
 			self.play erased
@@ -242,8 +246,12 @@ code = "look_at:
 	you.say DEMO_GAME_MASK
 
 pick_up:
-	self.disable
-	.add inv_mask
+	if $reason_to_take_mask:
+		you.say \"Bueno, la saco.\"
+		self.disable
+		.add inv_mask
+	else:
+		you.say \"¿Para qué querría agarrarla?\"
 "
 walk_speed = 0.0
 radius = 45.0

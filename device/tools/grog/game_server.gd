@@ -42,7 +42,6 @@ var _path_changed = false
 # Live state
 var symbols = SymbolTable.new(["player", "scene_item", "inventory_item", "global_variable"])
 var loaded_scene_items = {}
-var disabled_items = {}
 
 var current_player: Node = null # TODO needs reference? it's in symbols
 var current_room: Node = null
@@ -324,92 +323,61 @@ func _run_set(var_name: String, new_value_expression) -> Dictionary:
 	return empty_action
 
 func _run_enable(item_id: String) -> Dictionary:
-	var item_symbol
-	if item_id == "self":
-		if not interacting_symbol:
-			print("There's no 'self' item")
-			return empty_action
-			
-		item_symbol = interacting_symbol
-		item_id = interacting_symbol.symbol_name
-	else:
-		item_symbol = symbols.get_symbol_of_types(item_id, ["scene_item"], false)
-		
-		if item_symbol == null:
-			# absent
-			print("%s: it's not necessary to enable items initially, they're enabled by default" % item_id)
-			item_symbol = symbols.add_symbol(item_id, "scene_item", null)
-			item_symbol.loaded = false
-			item_symbol.disabled = false
-		
-		elif not item_symbol.type:
-			# type mismatch
-			print("Can't enable '%s'; is %s instead of scene_item" % [item_id, symbols.get_symbol_type(item_id)])
-			return empty_action
-		else:
-			# already present
-			if not item_symbol.disabled:
-				print("Item '%s' is already enabled")
-				return empty_action
-			
-			disabled_items.erase(item_id)
-			item_symbol.disabled = false
+	var item_symbol = _get_or_build_scene_item(item_id, "enable")
 	
+	if not item_symbol:
+		return empty_action
+	
+	if item_id == "self":
+		item_id = item_symbol.symbol_name
+	
+	if not item_symbol.disabled:
+		print("Item '%s' is already enabled" % item_id)
+		return empty_action
+	
+	item_symbol.disabled = false
+
 	if item_symbol.loaded:
 		var item1 = loaded_scene_items[item_id]
 		var item2 = item_symbol.target
-		
+
 		if item1 != item2:
 			print("Inconsistent %s != %s" % [item1, item2])
 			return empty_action
-	
+
 		item1.enable()
 		_server_event("item_enabled", [item1])
-	
+
 	return empty_action
 	
 func _run_disable(item_id: String) -> Dictionary:
-	var item_symbol
-	if item_id == "self":
-		if not interacting_symbol:
-			print("There's no 'self' item")
-			return empty_action
-		
-		item_symbol = interacting_symbol
-		item_id = interacting_symbol.symbol_name
-	else:
-		item_symbol = symbols.get_symbol_of_types(item_id, ["scene_item"], false)
-		
-		if item_symbol == null:
-			# absent
-			item_symbol = symbols.add_symbol(item_id, "scene_item", null)
-			item_symbol.loaded = false
-		elif not item_symbol.type:
-			# type mismatch
-			print("Can't disable '%s'; is %s instead of scene_item" % [item_id, symbols.get_symbol_type(item_id)])
-			return empty_action
-		else:
-			# already present
-			if item_symbol.disabled:
-				print("Item '%s' is already disabled")
-				return empty_action
-			
-	item_symbol.disabled = true
-	disabled_items[item_id] = true
+	var item_symbol = _get_or_build_scene_item(item_id, "disable")
 	
+	if not item_symbol:
+		return empty_action
+	
+	if item_id == "self":
+		item_id = item_symbol.symbol_name
+	
+	if item_symbol.disabled:
+		print("Item '%s' is already disabled" % item_id)
+		return empty_action
+	
+	item_symbol.disabled = true
+
 	if item_symbol.loaded:
 		var item1 = loaded_scene_items[item_id]
 		var item2 = item_symbol.target
-		
+
 		if item1 != item2:
 			print("Inconsistent %s != %s" % [item1, item2])
 			return empty_action
-	
+
 		item1.disable()
 		_server_event("item_disabled", [item1])
-	
-	return empty_action
 
+	return empty_action
+	
 func _run_add(item_name: String) -> Dictionary:
 	var item_symbol = symbols.get_symbol_of_types(item_name, ["inventory_item"], false)
 	
@@ -447,34 +415,41 @@ func _run_remove(item_name: String) -> Dictionary:
 		
 	return empty_action
 
-func _run_play(item_name: String, animation_name_token: Dictionary) -> Dictionary:
+func _run_play(item_id: String, animation_name_token: Dictionary) -> Dictionary:
 	var animation_name = animation_name_token.content
 	
-	var item_symbol
-		
-	if item_name == "self":
-		if not interacting_symbol:
-			print("There's no 'self' item")
-			return empty_action
-			
-		item_symbol = interacting_symbol
-	else:
-		item_symbol = _get_interacting_item(item_name)
-		if not item_symbol.type:
-			return empty_action
+	var item_symbol = _get_or_build_scene_item(item_id, "play '%s' in" % animation_name)
 	
-	var item = item_symbol.target
-	if item.has_node("animation"):
-		item.get_node("animation").play(animation_name)
-	else:
-		print("%s: animation child not found" % item_name)
+	if not item_symbol:
+		return empty_action
 	
+	if item_id == "self":
+		item_id = item_symbol.symbol_name
+	
+	if item_symbol.animation == animation_name:
+		print("Item '%s' is already doing '%s'" % [item_id, animation_name])
+		return empty_action
+	
+	item_symbol.animation = animation_name
+	
+	if item_symbol.loaded and not item_symbol.disabled:
+		var item1 = loaded_scene_items[item_id]
+		var item2 = item_symbol.target
+
+		if item1 != item2:
+			print("Inconsistent %s != %s" % [item1, item2])
+			return empty_action
+
+		if item1.has_node("animation"):
+			item1.get_node("animation").play(animation_name)
+		else:
+			print("%s: animation player not found" % item_id)
+
 	return empty_action
 	
 # only called manually
 func _run_new_walk() -> Dictionary:
 	return { coroutine = _new_walk_coroutine() }
-	
 
 #func new_command():
 #	return empty_action
@@ -593,8 +568,7 @@ func interact_request(item, trigger_name: String):
 		assert(symbol.target == item)
 		assert(current_room.is_a_parent_of(item))
 		assert(symbol.loaded)
-		assert(symbol.disabled == disabled_items.has(item.global_id))
-	
+		
 		if symbol.disabled:
 			print("Item '%s' is disabled" % item.global_id)
 			return
@@ -700,6 +674,35 @@ func stop_request():
 
 #	@PRIVATE
 
+
+# Note that if item_id=self, you should correct it to match symbol.symbol_name.
+func _get_or_build_scene_item(item_id: String, debug_action_name: String):
+	if item_id == "self":
+		if not interacting_symbol:
+			print("There's no 'self' item")
+			return null
+		
+		return interacting_symbol
+	
+	var symbol = symbols.get_symbol_of_types(item_id, ["scene_item"], false)
+	if symbol == null:
+		# absent
+		symbol = symbols.add_symbol(item_id, "scene_item", null)
+		symbol.loaded = false
+		symbol.disabled = false
+		symbol.animation = "default"
+		
+		return symbol
+		
+	elif not symbol.type:
+		# type mismatch
+		print("Can't %s '%s'; is %s instead of scene_item" % [debug_action_name, item_id, symbols.get_symbol_type(item_id)])
+		return null
+		
+	else:
+		# already present
+		return symbol
+	
 func _new_walk_coroutine():
 	assert(_path_changed)
 	var path
@@ -853,35 +856,30 @@ func _load_room(room_name: String) -> Node:
 	
 	for item in room.get_items():
 		var item_id = item.global_id
-		var item_symbol = symbols.get_symbol_of_types(item_id, ["scene_item"], false)
-		
-		if item_symbol == null:
-			# absent
-			item_symbol = symbols.add_symbol(item_id, "scene_item", item)
-			item_symbol.disabled = false
-			item_symbol.loaded = false
-		elif not item_symbol.type:
-			# type mismatch
-			print("Symbol '%s' was registered as %s" % [item_id, symbols.get_symbol_type(item_id)])
+		if item_id == "self":
+			print("An item can't have 'self' as id")
 			continue
-		else:
-			# already present
-			# reload item, it was destroyed when destroying a previous room
-			
-			item_symbol.target = item
+		elif loaded_scene_items.has(item_id):
+			print("Duplicated global id '%s'" % item_id)
+			continue
 		
+		var item_symbol = _get_or_build_scene_item(item_id, "load")
+		
+		if not item_symbol:
+			# type mismatch
+			continue
+		
+		item_symbol.target = item
 		item_symbol.target.init_item(compiler)
-		
-		# TODO better error if duplicated global ids!!
-		
 		assert(not item_symbol.loaded)
 		item_symbol.loaded = true
-		assert(not loaded_scene_items.has(item_id))
 		loaded_scene_items[item_id] = item
 		
 		if item_symbol.disabled:
 			item.disable()
 		else:
+			if item.has_node("animation"):
+				item.get_node("animation").play(item_symbol.animation)
 			_server_event("item_enabled", [item])
 	
 	root_node.add_child(room) # _ready is called here for room and its items
@@ -1115,7 +1113,6 @@ func get_value(var_name: String):
 			return symbol.target
 		
 		"scene_item":
-			assert(symbol.disabled == disabled_items.has(var_name))
 			return not symbol.disabled
 		
 		_:
