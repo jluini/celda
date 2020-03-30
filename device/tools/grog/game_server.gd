@@ -1056,9 +1056,7 @@ func get_value(var_name: String):
 	
 	if symbol == null:
 		# absent
-		# TODO check this; var defaulting to zero
-		print("Absent symbol '%s' defaulting to zero" % var_name)
-		return 0
+		return 0 # absent symbol defaults to zero
 	
 	match symbol.type:
 		"global_variable", "inventory_item":

@@ -1,5 +1,7 @@
 extends Node
 
+export (bool) var start_game_automatically
+
 export (Resource) var game_to_load
 
 export (NodePath) var ui_path
@@ -45,6 +47,9 @@ func _ready():
 	_script_list.connect("on_element_deselected", self, "_on_script_deselected")
 	
 	_display.connect("game_ended", self, "_on_game_ended")
+	
+	if start_game_automatically:
+		play_game(null)
 	
 func list_elements(name: String, elements: Array, list: Node, select_first = true):
 	if not elements:
