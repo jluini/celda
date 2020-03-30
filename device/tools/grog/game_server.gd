@@ -330,16 +330,27 @@ func _run_enable(item_id: String) -> Dictionary:
 		item_symbol = interacting_symbol
 		item_id = interacting_symbol.symbol_name
 	else:
-		item_symbol = _get_scene_item(item_id)
-		if not item_symbol.type:
+		item_symbol = symbols.get_symbol_of_types(item_id, ["scene_item"], false)
+		
+		if item_symbol == null:
+			# absent
+			print("%s: it's not necessary to enable items initially, they're enabled by default" % item_id)
+			item_symbol = symbols.add_symbol(item_id, "scene_item", null)
+			item_symbol.loaded = false
+			item_symbol.disabled = false
+		
+		elif not item_symbol.type:
+			# type mismatch
+			print("Can't enable '%s'; is %s instead of scene_item" % [item_id, symbols.get_symbol_type(item_id)])
 			return empty_action
-	
-	if not item_symbol.disabled:
-		print("Item '%s' is already enabled")
-		return empty_action
-	
-	disabled_items.erase(item_id)
-	item_symbol.disabled = false
+		else:
+			# already present
+			if not item_symbol.disabled:
+				print("Item '%s' is already enabled")
+				return empty_action
+			
+			disabled_items.erase(item_id)
+			item_symbol.disabled = false
 	
 	if item_symbol.loaded:
 		var item1 = loaded_scene_items[item_id]
@@ -364,16 +375,24 @@ func _run_disable(item_id: String) -> Dictionary:
 		item_symbol = interacting_symbol
 		item_id = interacting_symbol.symbol_name
 	else:
-		item_symbol = _get_scene_item(item_id)
-		if not item_symbol.type:
+		item_symbol = symbols.get_symbol_of_types(item_id, ["scene_item"], false)
+		
+		if item_symbol == null:
+			# absent
+			item_symbol = symbols.add_symbol(item_id, "scene_item", null)
+			item_symbol.loaded = false
+		elif not item_symbol.type:
+			# type mismatch
+			print("Can't disable '%s'; is %s instead of scene_item" % [item_id, symbols.get_symbol_type(item_id)])
 			return empty_action
-	
-	if item_symbol.disabled:
-		print("Item '%s' is already disabled")
-		return empty_action
-	
-	disabled_items[item_id] = true
+		else:
+			# already present
+			if item_symbol.disabled:
+				print("Item '%s' is already disabled")
+				return empty_action
+			
 	item_symbol.disabled = true
+	disabled_items[item_id] = true
 	
 	if item_symbol.loaded:
 		var item1 = loaded_scene_items[item_id]
@@ -537,9 +556,12 @@ func interact_request(item: Node, trigger_name: String):
 		# interact request rejected
 		return
 	
-	var symbol = _get_scene_item(item.global_id)
-
-	assert(symbol.type == "scene_item")
+	var symbol = symbols.get_symbol_of_types(item.global_id, ["scene_item"], true)
+	
+	if not symbol.type:
+		print("Invalid scene item '%s'" % item.global_id)
+		return
+	
 	assert(symbol.symbol_name == item.global_id)
 	assert(symbol.target == item)
 	
@@ -1002,29 +1024,6 @@ func _get_interacting_item(item_id: String) -> Dictionary:
 	
 	return symbol
 	
-# is required
-func _get_scene_item(item_id: String) -> Dictionary:
-	var symbol = symbols.get_symbol_of_types(item_id, ["scene_item"], true)
-	if not symbol.type:
-		print("No scene item '%s'" % item_id)
-		return symbol
-	
-	var in_scene1 = loaded_scene_items.has(item_id)
-	var in_scene2 = symbol.loaded
-	
-	if in_scene1 != in_scene2:
-		print("Inconsistent %s != %s" % [in_scene1, in_scene2])
-		return SymbolTable.empty_symbol
-	
-	var disabled1 = disabled_items.has(item_id)
-	var disabled2 = symbol.disabled
-	
-	if disabled1 != disabled2:
-		print("Inconsistent %s != %s" % [disabled1, disabled2])
-		return SymbolTable.empty_symbol
-	
-	return symbol
-
 # is required
 func _get_actor_item(item_id: String) -> Dictionary:
 	var symbol = symbols.get_symbol_of_types(item_id, ["player"], true)
