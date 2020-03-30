@@ -666,7 +666,7 @@ func interact_request(item, trigger_name: String):
 			# get fallback
 			_sequence = fallback_script.get_sequence(trigger_name)
 	
-		interacting_symbol = {} # TODO
+		interacting_symbol = null # no 'self' in inventory_item's code
 		
 		_goal = { instructions = _sequence.statements, subject = current_player }
 		
