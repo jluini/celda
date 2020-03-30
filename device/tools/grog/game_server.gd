@@ -527,7 +527,7 @@ func go_to_request(target_position: Vector2):
 	# else it's already walking
 		
 
-func interact_request(item: Node2D, trigger_name: String):
+func interact_request(item: Node, trigger_name: String):
 	if not _input_enabled or not current_player:
 		return
 	
