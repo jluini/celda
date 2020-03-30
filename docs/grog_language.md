@@ -1,4 +1,4 @@
-
+[<- back to index](index.md)
 
 # Instruction reference
 
@@ -16,3 +16,5 @@
 | **add**           | Increments an inventory item's count.         | `            .add          <inv_name>                                               ` |
 | **remove**        | Decrements an inventory item's count.         | `            .remove       <inv_name>                                               ` |
 | **end**           | Ends the game.                                | `            .end                                                                   ` |
+
+[<- back to index](index.md)

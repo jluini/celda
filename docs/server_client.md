@@ -1,3 +1,4 @@
+[<- back to index](index.md)
 
 # Requests sent from client to server
 
@@ -32,3 +33,5 @@
 |  `item_disabled(item: Node)                                          `  |  Scene item is client-disabled (either unloaded or disabled in practice). Client must clear it. |
 |  `item_added(item: InventoryItemResource)                            `  |  Inventory item's count is incremented.                     |
 |  `item_removed(item: InventoryItemResource)                          `  |  Inventory item's count is decremented.                     |
+
+[<- back to index](index.md)
