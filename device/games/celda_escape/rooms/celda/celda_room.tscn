@@ -199,14 +199,25 @@ color = Color( 1, 1, 1, 1 )
 interact_angle = 270
 code = "
 look_at:
-	you.say \"Es por donde me tengo que escapar\"
-	you.say \"Pero está cerrado\"
+	you.say \"Es por donde me tengo que escapar.\"
+	you.say \"Pero está cerrado.\"
 
 open:
 	.disable_input
-	.wait 2
-	.enable_input
-	.say \"Está trabada\""
+	
+	if $inv_thing:
+		.wait 1 skippable=false
+		you.say \"Tal vez con esta cosa puedo abrirlo.\"
+		.wait 3 skippable=false
+		you.say \"Me escapé!\" duration=3 skippable=false
+		.say \"Game over.\"  duration=2 skippable=false
+		.end
+	else:
+		.wait 2
+		
+		.say \"Está trabada.\"
+	
+	.enable_input"
 walk_speed = 0.0
 radius = 70.0
 

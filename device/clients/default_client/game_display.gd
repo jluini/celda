@@ -93,8 +93,6 @@ func _input(event):
 	
 	if event is InputEventMouseButton:
 		var mouse_position: Vector2 = event.position
-		if not rect_includes_point(_room_area.get_global_rect(), mouse_position):
-			return
 			
 		if event.button_index == BUTTON_LEFT:
 			if event.pressed:
@@ -216,7 +214,7 @@ func _left_click(position: Vector2):
 		server.interact_request(clicked_item, current_action.target)
 		# TODO
 		# _actions.deselect()
-	else:
+	elif _room_area.get_global_rect().has_point(position):
 		server.go_to_request(position)
 
 func _get_item_at(position: Vector2):
@@ -300,14 +298,6 @@ func make_empty(node: Node):
 		var child = node.get_child(0)
 		node.remove_child(child)
 		child.queue_free()
-
-func rect_includes_point(rect: Rect2, point: Vector2) -> bool:
-	var eq_x = point.x >= rect.position.x and point.x <= rect.end.x
-	var eq_y = point.y >= rect.position.y and point.y <= rect.end.y
-	
-	var eq = eq_x and eq_y
-	
-	return eq
 
 func _process(delta):
 	if server:

@@ -104,7 +104,7 @@ func init_game(p_compiler, game_data: Resource, p_game_start_mode = StartMode.De
 	
 	_game_start_mode = p_game_start_mode
 	_game_start_param = p_game_start_param
-	
+		
 	match p_game_start_mode:
 		StartMode.Default:
 			pass
@@ -138,6 +138,9 @@ func init_game(p_compiler, game_data: Resource, p_game_start_mode = StartMode.De
 		print("No actors")
 	else:
 		player_resource = game_data.get_all_actors()[0]
+	
+	for ii in game_data.inventory_items:
+		ii.compile(compiler)
 	
 	return true
 
@@ -570,84 +573,104 @@ func go_to_request(target_position: Vector2):
 	# else it's already walking
 		
 
-func interact_request(item: Node, trigger_name: String):
+func interact_request(item, trigger_name: String):
 	if not _input_enabled or not current_player:
 		return
 	
-	if _server_state == ServerState.Ready or (_server_state == ServerState.Serving and _is_cancelable and not _canceled):
-		pass
-	else:
+	if _server_state != ServerState.Ready and (_server_state != ServerState.Serving or not _is_cancelable or _canceled):
 		# interact request rejected
 		return
-	
-	var symbol = symbols.get_symbol_of_types(item.global_id, ["scene_item"], true)
-	
-	if not symbol.type:
-		print("Invalid scene item '%s'" % item.global_id)
-		return
-	
-	assert(symbol.symbol_name == item.global_id)
-	assert(symbol.target == item)
-	
-	assert(current_room.is_a_parent_of(item))
-	assert(symbol.loaded)
 
-	assert(symbol.disabled == disabled_items.has(item.global_id))
-
-	if symbol.disabled:
-		print("Item '%s' is disabled" % item.global_id)
-		return
-
-	var _sequence: Dictionary = item.get_sequence(trigger_name)
-
-	if not _sequence.has("statements"):
-		# get fallback
-		_sequence = fallback_script.get_sequence(trigger_name)
-
-	interacting_symbol = symbol
-	
-	_goal = { instructions = _sequence.statements, subject = current_player }
-	
-	var origin_position: Vector2 = current_player.position
-	var target_position: Vector2 = item.get_interact_position()
-	
-	var distance = origin_position.distance_to(target_position)
-	
-	# TODO duplicated check, use that from build_path
-	var close_enough = distance <= interact_distance_threshold
-	
-	if not _sequence.telekinetic:
-		_goal.angle = item.interact_angle
-	
-	if not _sequence.telekinetic and not close_enough:
-		# Non-telekinetic sequence (walk towards the item first)
+	if item is Node:
+		# scene item
+		var symbol = symbols.get_symbol_of_types(item.global_id, ["scene_item"], true)
 		
-		var path = build_path(origin_position, target_position, false)
-		
-		if not path:
+		if not symbol.type:
+			print("Invalid scene item '%s'" % item.global_id)
 			return
 		
-		_path_changed = true
-		_walking_path = path
-		_walking_subject = current_player
+		assert(symbol.symbol_name == item.global_id)
+		assert(symbol.target == item)
+		assert(current_room.is_a_parent_of(item))
+		assert(symbol.loaded)
+		assert(symbol.disabled == disabled_items.has(item.global_id))
+	
+		if symbol.disabled:
+			print("Item '%s' is disabled" % item.global_id)
+			return
+	
+		var _sequence: Dictionary = item.get_sequence(trigger_name)
+	
+		if not _sequence.has("statements"):
+			# get fallback
+			_sequence = fallback_script.get_sequence(trigger_name)
+	
+		interacting_symbol = symbol
 		
-		if _server_state == ServerState.Ready:
-			var ok = _run_sequence([
-				{
-					type = "command",
-					command = "new_walk",
-					params = [],
-				}
-			])
+		_goal = { instructions = _sequence.statements, subject = current_player }
+		
+		var origin_position: Vector2 = current_player.position
+		var target_position: Vector2 = item.get_interact_position()
+		
+		var distance = origin_position.distance_to(target_position)
+		
+		# TODO duplicated check, use that from build_path
+		var close_enough = distance <= interact_distance_threshold
+		
+		if not _sequence.telekinetic:
+			_goal.angle = item.interact_angle
+		
+		if not _sequence.telekinetic and not close_enough:
+			# Non-telekinetic sequence (walk towards the item first)
 			
-			if ok:
-				# TODO cancelable is hardcoded to true
-				_set_state(ServerState.Serving, false, true)
+			var path = build_path(origin_position, target_position, false)
+			
+			if not path:
+				return
+			
+			_path_changed = true
+			_walking_path = path
+			_walking_subject = current_player
+			
+			if _server_state == ServerState.Ready:
+				var ok = _run_sequence([
+					{
+						type = "command",
+						command = "new_walk",
+						params = [],
+					}
+				])
+				
+				if ok:
+					# TODO cancelable is hardcoded to true
+					_set_state(ServerState.Serving, false, true)
+				else:
+					print("Unexpected")
+		else:
+			# Telekinetic sequence
+			if _server_state == ServerState.Ready:
+				# do it immediately
+				_do_goal()
 			else:
-				print("Unexpected")
-	else:
-		# Telekinetic sequence
+				# cancel current walking but don't clear _goal
+				# it will be executed later
+				_canceled = true
+			
+		# end if telekinetic or not
+	
+	elif item is Resource:
+		# inventory item
+		var _sequence: Dictionary = item.get_sequence(trigger_name)
+	
+		if not _sequence.has("statements"):
+			# get fallback
+			_sequence = fallback_script.get_sequence(trigger_name)
+	
+		interacting_symbol = {} # TODO
 		
+		_goal = { instructions = _sequence.statements, subject = current_player }
+		
+		# Telekinetic sequence
 		if _server_state == ServerState.Ready:
 			# do it immediately
 			_do_goal()
@@ -655,7 +678,11 @@ func interact_request(item: Node, trigger_name: String):
 			# cancel current walking but don't clear _goal
 			# it will be executed later
 			_canceled = true
-
+		
+	else:
+		print("Invalid item object")
+	# end if item is Node
+	
 func stop_request():
 	match _server_state:
 		ServerState.Ready:

@@ -15,16 +15,20 @@
 resource_name = "inv_mask"
 script = ExtResource( 7 )
 texture = ExtResource( 8 )
+code = ""
 
 [sub_resource type="Resource" id=2]
 resource_name = "inv_paper"
 script = ExtResource( 7 )
 texture = ExtResource( 9 )
+code = ""
 
 [sub_resource type="Resource" id=3]
 resource_name = "inv_thing"
 script = ExtResource( 7 )
 texture = ExtResource( 10 )
+code = "look_at:
+	you.say \"Me sirve para abrir la salida\""
 
 [resource]
 resource_name = "Celda escape"
