@@ -1127,22 +1127,3 @@ func _set_state(new_state, skippable=false, cancelable=false):
 	_is_cancelable = cancelable
 	_canceled = false
 	
-func _typestr(value):
-	match typeof(value):
-		TYPE_ARRAY:
-			return "Array"
-		TYPE_BOOL:
-			return "bool"
-		TYPE_INT:
-			return "int"
-		TYPE_DICTIONARY:
-			return "Dictionary"
-		TYPE_OBJECT:
-			return "Object"
-		TYPE_NIL:
-			return "null"
-		TYPE_STRING:
-			return "String"
-		_:
-			return "another:%s" % typeof(value)
-			

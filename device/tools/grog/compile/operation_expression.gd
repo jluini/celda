@@ -17,7 +17,7 @@ func evaluate(_game):
 	match operator:
 		"+", "-", "<", ">":
 			if typeof(left_value) != TYPE_INT or typeof(right_value) != TYPE_INT:
-				print("Invalid types %s and %s for operator %s" % [_game._typestr(left_value), _game._typestr(right_value), operator])
+				print("Invalid types %s and %s for operator %s" % [Grog._typestr(left_value), Grog._typestr(right_value), operator])
 				return 0
 			
 			if operator == "+":
@@ -30,11 +30,11 @@ func evaluate(_game):
 				return left_value > right_value
 		"=":
 			if typeof(left_value) != typeof(right_value):
-				print("Uncompatible types for equality operator (%s and %s)" % [_game._typestr(left_value), _game._typestr(right_value)])
+				print("Uncompatible types for equality operator (%s and %s)" % [Grog._typestr(left_value), Grog._typestr(right_value)])
 				return 0
 			
 			if typeof(left_value) != TYPE_INT and typeof(left_value) != TYPE_BOOL and typeof(left_value) != TYPE_STRING:
-				print("Unexpected type for equality operator: %s. Continuing." % _game._typestr(left_value))
+				print("Unexpected type for equality operator: %s. Continuing." % Grog._typestr(left_value))
 			
 			return left_value == right_value
 			

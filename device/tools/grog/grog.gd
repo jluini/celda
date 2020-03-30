@@ -128,3 +128,23 @@ const commands = {
 		]
 	},
 }
+
+static func _typestr(value):
+	match typeof(value):
+		TYPE_ARRAY:
+			return "Array"
+		TYPE_BOOL:
+			return "bool"
+		TYPE_INT:
+			return "int"
+		TYPE_DICTIONARY:
+			return "Dictionary"
+		TYPE_OBJECT:
+			return "Object"
+		TYPE_NIL:
+			return "null"
+		TYPE_STRING:
+			return "String"
+		_:
+			return "another:%s" % typeof(value)
+			

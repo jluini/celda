@@ -143,7 +143,7 @@ func coroutine(instructions: Array):
 				var result = condition.evaluate(output)
 				
 				if typeof(result) != TYPE_BOOL:
-					var original_result = result
+					#var original_result = result
 					result = true if result else false
 					#print("Evaluating %s (%s) as bool (%s)" % [original_result, output._typestr(original_result), result])
 				
