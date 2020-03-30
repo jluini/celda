@@ -444,6 +444,30 @@ func _run_remove(item_name: String) -> Dictionary:
 		
 	return empty_action
 
+func _run_play(item_name: String, animation_name_token: Dictionary) -> Dictionary:
+	var animation_name = animation_name_token.content
+	
+	var item_symbol
+		
+	if item_name == "self":
+		if not interacting_symbol:
+			print("There's no 'self' item")
+			return empty_action
+			
+		item_symbol = interacting_symbol
+	else:
+		item_symbol = _get_interacting_item(item_name)
+		if not item_symbol.type:
+			return empty_action
+	
+	var item = item_symbol.target
+	if item.has_node("animation"):
+		item.get_node("animation").play(animation_name)
+	else:
+		print("%s: animation child not found" % item_name)
+	
+	return empty_action
+	
 # only called manually
 func _run_new_walk() -> Dictionary:
 	return { coroutine = _new_walk_coroutine() }
@@ -820,6 +844,8 @@ func _load_room(room_name: String) -> Node:
 			item_symbol.target = item
 		
 		item_symbol.target.init_item(compiler)
+		
+		# TODO better error if duplicated global ids!!
 		
 		assert(not item_symbol.loaded)
 		item_symbol.loaded = true

@@ -18,6 +18,10 @@ CELDA_ESCAPE_NICE_THING	Nice thing.	Alta cosa.
 CELDA_ESCAPE_THING_THANKS	Thank you.	Gracias.
 CELDA_ESCAPE_THING_NO_TAKE	Never!	No sería capaz de recoger semejante cosa.
 ITEM_CELDA/THING	thing	cosa
+ITEM_CELDA/THING2	exit	salida
 ITEM_CELDA/DOOR1	door	puerta
 ITEM_CELDA/DESK	desk	escritorio
 ITEM_CELDA/MASK	mask	máscara
+ITEM_INV_PAPER	paper	papel
+ITEM_INV_MASK	mask	máscara
+ITEM_INV_THING	thing	cosa

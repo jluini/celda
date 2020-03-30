@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=12 format=2]
+[gd_resource type="Resource" load_steps=14 format=2]
 
 [ext_resource path="res://tools/grog/game_resource.gd" type="Script" id=1]
 [ext_resource path="res://games/demo_game/actors/mark/mark.tres" type="Resource" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://tools/grog/inventory_item_resource.gd" type="Script" id=7]
 [ext_resource path="res://icon.png" type="Texture" id=8]
 [ext_resource path="res://games/celda_escape/items/paper.png" type="Texture" id=9]
+[ext_resource path="res://clients/default_client/sample_images/tile079.png" type="Texture" id=10]
 
 [sub_resource type="Resource" id=1]
 resource_name = "inv_mask"
@@ -20,6 +21,11 @@ resource_name = "inv_paper"
 script = ExtResource( 7 )
 texture = ExtResource( 9 )
 
+[sub_resource type="Resource" id=3]
+resource_name = "inv_thing"
+script = ExtResource( 7 )
+texture = ExtResource( 10 )
+
 [resource]
 resource_name = "Celda escape"
 script = ExtResource( 1 )
@@ -28,4 +34,4 @@ actions = [ "look_at", "pick_up", "talk_to", "open", "close", "use" ]
 scripts = [ ExtResource( 3 ), ExtResource( 4 ) ]
 rooms = [ ExtResource( 5 ) ]
 actors = [ ExtResource( 2 ), ExtResource( 6 ) ]
-inventory_items = [ SubResource( 1 ), SubResource( 2 ) ]
+inventory_items = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ]

@@ -120,4 +120,11 @@ const commands = {
 		]
 	},
 	
+	# play animation
+	play = {
+		subject = SubjectType.Required,
+		required_params = [
+			{ name = "animation_name", type = ParameterType.QuoteOrIdentifier }
+		]
+	},
 }

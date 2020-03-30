@@ -37,7 +37,7 @@ var input_position: Vector2
 
 var current_action = null
 var default_action: Node
-var current_item: Node
+var current_item = null # Node for scene_item or Resource for inventory_item
 
 # Node hooks
 onready var _room_area: Control = get_node(room_area_path)
@@ -220,6 +220,7 @@ func _left_click(position: Vector2):
 		server.go_to_request(position)
 
 func _get_item_at(position: Vector2):
+	# check loaded scene items
 	for item in _loaded_items:
 		var disp: Vector2 = item.global_position - position
 		var distance = disp.length()
@@ -227,7 +228,7 @@ func _get_item_at(position: Vector2):
 		if distance <= item.radius:
 			return item
 	
-	return null
+	return _inventory.get_item_at(position)
 
 func _say_text(speech, color, text_position):
 	_text_label_anchor.rect_position = text_position
@@ -278,13 +279,21 @@ func _set_current_item(new_item):
 
 func _update_action_display():
 	if current_item:
-		var translation_key = "ITEM_" + current_item.global_id.to_upper()
+		var translation_key = "ITEM_" + _current_item_id().to_upper()
 		var localized_item = tr(translation_key)
 		_action_display.text = current_action.localized_name + " " + localized_item
 	else:
 		_action_display.text = current_action.localized_name
 
 # Misc
+
+func _current_item_id():
+	if not current_item:
+		return null
+	elif current_item is Resource:
+		return current_item.get_name()
+	else:
+		return current_item.global_id
 
 func make_empty(node: Node):
 	while node.get_child_count() > 0:

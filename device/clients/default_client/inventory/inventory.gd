@@ -1,24 +1,23 @@
-
-extends Node
+extends Control
 
 export (int) var num_rows = 2
 export (int) var num_cols = 4
 
-var _total
+var _num_holders
 
 var _holders = []
 var _items = []
 var _offset = 0
 
 func _ready():
-	_total = num_rows * num_cols
+	_num_holders = num_rows * num_cols
 	
 	for c in get_children():
 		if c.get_name().begins_with("elem"):
 			_holders.append(c)
 	
-	if _holders.size() != _total:
-		print("Expected %s cells, %s found" % [_total, _holders.size()])
+	if _holders.size() != _num_holders:
+		print("Expected %s cells, %s found" % [_num_holders, _holders.size()])
 	
 func clear():
 	_items = []
@@ -32,7 +31,7 @@ func add_item(item_resource):
 	var holder = current_holder_for_index(index)
 	
 	if holder:
-		_draw(holder, item_resource)
+		_draw_item(holder, item_resource)
 	else:
 		# scroll to bottom to show it
 		while _can_go_down():
@@ -44,7 +43,7 @@ func add_item(item_resource):
 func remove_item(_item_resource):
 	print("Implement remove_item")
 	
-func _draw(holder, item_resource):
+func _draw_item(holder, item_resource):
 	var texture = null
 	if item_resource:
 		texture = item_resource.texture
@@ -79,13 +78,13 @@ func _on_down_pressed():
 	
 
 func _redraw_all():
-	for holder_index in range(_total):
+	for holder_index in range(_num_holders):
 		var item_index = _offset * num_cols + holder_index
 		if item_index < _items.size():
 			var _item_resource = _items[item_index]
-			_draw(_holders[holder_index], _item_resource)
+			_draw_item(_holders[holder_index], _item_resource)
 		else:
-			_draw(_holders[holder_index], null)
+			_draw_item(_holders[holder_index], null)
 
 func _update_arrows():
 	_set_arrow($arrow_up, _can_go_up())
@@ -97,3 +96,18 @@ func _set_arrow(arrow, value):
 	
 	arrow.modulate = enabled_color if value else disabled_color
 	arrow.get_node("TextureButton").disabled = not value
+
+func get_item_at(global_position: Vector2):
+	var rect: Rect2 = self.get_global_rect()
+	if not rect.has_point(global_position):
+		return
+	
+	for holder_index in range(_num_holders):
+		var holder = _holders[holder_index]
+		if holder.get_global_rect().has_point(global_position):
+			var item_index = _offset * num_cols + holder_index
+			if item_index < _items.size():
+				var _item_resource = _items[item_index]
+				return _item_resource
+	
+	return null
