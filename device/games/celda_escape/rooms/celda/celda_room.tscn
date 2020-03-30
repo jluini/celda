@@ -204,10 +204,10 @@ open:
 	
 	if $inv_thing:
 		.wait 1 skippable=false
-		you.say \"Tal vez con esta cosa puedo abrirlo.\"
+		you.say \"Tal vez con esta cosa puedo abrirlo.\" skippable=false
 		.wait 3 skippable=false
 		self.play open
-		.set was_open=true
+		.set exit_is_open=true
 		
 		
 	else:
@@ -218,8 +218,8 @@ open:
 	.enable_input
 
 walk_to:
-	if $was_open:
-		you.say \"Me escapé!\" duration=3 skippable=false
+	if $exit_is_open:
+		you.say \"¡Me escapé!\" duration=3 skippable=false
 		.say \"Game over.\"  duration=2 skippable=false
 		.end"
 walk_speed = 0.0

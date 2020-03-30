@@ -34,7 +34,7 @@ var _skipped = false
 var _is_cancelable = false
 var _canceled = false
 
-var _goal = null # TODO
+var _goal = null
 var _walking_subject: Node
 var _walking_path: PoolVector2Array
 var _path_changed = false
@@ -158,7 +158,7 @@ func update(delta):
 
 #	@COMMANDS
 
-func _run_load_room(room_name: String) -> Dictionary:
+func _command_load_room(room_name: String) -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	var room = _load_room(room_name)
@@ -168,11 +168,11 @@ func _run_load_room(room_name: String) -> Dictionary:
 	
 	return empty_action
 
-func _run_enable_input() -> Dictionary:
+func _command_enable_input() -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	if _input_enabled:
-		log_command_warning(["enable_input", "input is already enabled"])
+		print("input is already enabled")
 		return empty_action
 	
 	_input_enabled = true
@@ -180,11 +180,11 @@ func _run_enable_input() -> Dictionary:
 	
 	return empty_action
 
-func _run_disable_input() -> Dictionary:
+func _command_disable_input() -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	if not _input_enabled:
-		log_command_warning(["disable_input", "input is not enabled"])
+		print("input is already disabled")
 		return empty_action
 	
 	_input_enabled = false
@@ -192,7 +192,7 @@ func _run_disable_input() -> Dictionary:
 	
 	return empty_action
 
-func _run_wait(duration: float, opts: Dictionary) -> Dictionary:
+func _command_wait(duration: float, opts: Dictionary) -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	_is_skippable = opts.get("skippable", true) # TODO harcoded default wait skippable
@@ -205,7 +205,7 @@ func _run_wait(duration: float, opts: Dictionary) -> Dictionary:
 	
 	return { coroutine = _wait_coroutine(duration) }
 
-func _run_say(item_name: String, speech_token: Dictionary, opts: Dictionary) -> Dictionary:
+func _command_say(item_name: String, speech_token: Dictionary, opts: Dictionary) -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	var speech: String
@@ -244,7 +244,7 @@ func _run_say(item_name: String, speech_token: Dictionary, opts: Dictionary) -> 
 	
 	return { coroutine = _wait_coroutine(duration) }
 
-func _run_walk(item_name: String, to_node_named: String) -> Dictionary:
+func _command_walk(item_name: String, to_node_named: String) -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	var item_symbol = _get_actor_item(item_name)
@@ -293,15 +293,15 @@ func _run_walk(item_name: String, to_node_named: String) -> Dictionary:
 	_walking_subject = item
 	_goal = null
 	
-	return _run_new_walk()
+	return _command_intern_walk()
 	
-func _run_end() -> Dictionary:
+func _command_end() -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	_server_state = ServerState.Stopping
 	return { stop = true }
 
-func _run_set(var_name: String, new_value_expression) -> Dictionary:
+func _command_set(var_name: String, new_value_expression) -> Dictionary:
 	var new_value = new_value_expression.evaluate(self)
 	
 	#print("Setting global '%s' to '%s' (type %s, class %s)" % [var_name, new_value, _typestr(new_value), new_value.get_class() if typeof(new_value) == TYPE_OBJECT else "-"])
@@ -322,7 +322,7 @@ func _run_set(var_name: String, new_value_expression) -> Dictionary:
 	
 	return empty_action
 
-func _run_enable(item_id: String) -> Dictionary:
+func _command_enable(item_id: String) -> Dictionary:
 	var item_symbol = _get_or_build_scene_item(item_id, "enable")
 	
 	if not item_symbol:
@@ -350,7 +350,7 @@ func _run_enable(item_id: String) -> Dictionary:
 
 	return empty_action
 	
-func _run_disable(item_id: String) -> Dictionary:
+func _command_disable(item_id: String) -> Dictionary:
 	var item_symbol = _get_or_build_scene_item(item_id, "disable")
 	
 	if not item_symbol:
@@ -378,7 +378,7 @@ func _run_disable(item_id: String) -> Dictionary:
 
 	return empty_action
 	
-func _run_add(item_name: String) -> Dictionary:
+func _command_add(item_name: String) -> Dictionary:
 	var item_symbol = symbols.get_symbol_of_types(item_name, ["inventory_item"], false)
 	
 	if item_symbol == null:
@@ -400,7 +400,7 @@ func _run_add(item_name: String) -> Dictionary:
 	
 	return empty_action
 
-func _run_remove(item_name: String) -> Dictionary:
+func _command_remove(item_name: String) -> Dictionary:
 	var item_symbol = symbols.get_symbol_of_types(item_name, ["inventory_item"], false)
 	
 	if item_symbol == null or not item_symbol.type:
@@ -408,14 +408,14 @@ func _run_remove(item_name: String) -> Dictionary:
 		print("No inventory_item '%s'" % item_name)
 	else:
 		# already present
-		print("Implement _run_remove!")
+		print("Implement _command_remove!")
 
 		#symbols.remove_symbol(item_name)
 		#_server_event("item_removed", [item_name])
 		
 	return empty_action
 
-func _run_play(item_id: String, animation_name_token: Dictionary) -> Dictionary:
+func _command_play(item_id: String, animation_name_token: Dictionary) -> Dictionary:
 	var animation_name = animation_name_token.content
 	
 	var item_symbol = _get_or_build_scene_item(item_id, "play '%s' in" % animation_name)
@@ -448,8 +448,8 @@ func _run_play(item_id: String, animation_name_token: Dictionary) -> Dictionary:
 	return empty_action
 	
 # only called manually
-func _run_new_walk() -> Dictionary:
-	return { coroutine = _new_walk_coroutine() }
+func _command_intern_walk() -> Dictionary:
+	return { coroutine = _intern_walk_coroutine() }
 
 #func new_command():
 #	return empty_action
@@ -534,7 +534,7 @@ func go_to_request(target_position: Vector2):
 		var ok = _run_sequence([
 			{
 				type = "command",
-				command = "new_walk",
+				command = "intern_walk",
 				params = [],
 			}
 		])
@@ -610,7 +610,7 @@ func interact_request(item, trigger_name: String):
 				var ok = _run_sequence([
 					{
 						type = "command",
-						command = "new_walk",
+						command = "intern_walk",
 						params = [],
 					}
 				])
@@ -703,7 +703,7 @@ func _get_or_build_scene_item(item_id: String, debug_action_name: String):
 		# already present
 		return symbol
 	
-func _new_walk_coroutine():
+func _intern_walk_coroutine():
 	assert(_path_changed)
 	var path
 	
@@ -935,25 +935,6 @@ func _run_sequence(instructions: Array) -> bool:
 	else:
 		return true
 	
-#func _run_script_named(script_name: String, sequence_name: String):
-#	var script_resource = _get_script_resource(script_name)
-#
-#	if not script_resource:
-#		print("No script '%s'" % script_name)
-#		return
-#
-#	_run_script(script_resource, sequence_name)
-#
-#func _run_script(script_resource: Resource, sequence_name: String):
-#	var compiled_script = Grog.compile(script_resource)
-#	if not compiled_script.is_valid:
-#		print("Script is invalid")
-#
-#		compiled_script.print_errors()
-#		return
-#
-#	_run_compiled(compiled_script, sequence_name)
-
 func _run_compiled(compiled_script: CompiledGrogScript, sequence_name: String) -> bool:
 	if compiled_script.has_sequence(sequence_name):
 		var sequence = compiled_script.get_sequence(sequence_name)
@@ -1027,28 +1008,6 @@ func _get_option_as_room_node(option_name: String, opts: Dictionary) -> Node:
 
 ##############################
 
-#	@LOGGING
-
-enum LogLevel {
-	Ok,
-	Warning,
-	Error
-}
-
-func log_command_ok(args: Array):
-	log_command(LogLevel.Ok, args)
-	
-func log_command_warning(args: Array):
-	log_command(LogLevel.Warning, args)
-
-func log_command_error(args: Array):
-	log_command(LogLevel.Error, args)
-	
-func log_command(level, args: Array):
-	print("%s:\t%s" % [LogLevel.keys()[level], args])
-
-##############################
-
 #	@GLOBAL STATE ACCESS
 
 func get_state():
@@ -1088,19 +1047,6 @@ func _get_actor_item(item_id: String) -> Dictionary:
 	
 	return symbol
 	
-func get_global(var_name: String):
-	var symbol = symbols.get_symbol_of_types(var_name, ["global_variable"], false)
-	
-	if symbol == null:
-		# absent
-		return false
-	elif not symbol.type:
-		# type mismatch
-		print("No global_variable '%s'" % [var_name])
-		return false
-	else:
-		return symbol.target
-
 func get_value(var_name: String):
 	var symbol = symbols.get_symbol(var_name)
 	

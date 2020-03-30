@@ -78,7 +78,7 @@ func coroutine(instructions: Array):
 				var cmd = instruction.command
 				var params = instruction.params
 				
-				var method_name = "_run_" + cmd
+				var method_name = "_command_" + cmd
 				
 				if not output.has_method(method_name):
 					var msg = "Execution target has no method '%s'" % method_name
