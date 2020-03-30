@@ -17,11 +17,14 @@ CELDA_ESCAPE_FALLBACK_PICK_UP	I better leave it there.	Mejor lo dejo ahí.
 CELDA_ESCAPE_NICE_THING	Nice thing.	Alta cosa.
 CELDA_ESCAPE_THING_THANKS	Thank you.	Gracias.
 CELDA_ESCAPE_THING_NO_TAKE	Never!	No sería capaz de recoger semejante cosa.
+ITEM_CELDA/GATE	gate	portón
 ITEM_CELDA/THING	thing	cosa
 ITEM_CELDA/EXIT	exit	salida
 ITEM_CELDA/DOOR1	door	puerta
 ITEM_CELDA/DESK	desk	escritorio
 ITEM_CELDA/MASK	mask	máscara
+ITEM_EXIT/DOOR1	door	puerta
+ITEM_EXIT/GATE	gate	portón
 ITEM_INV_PAPER	paper	papel
 ITEM_INV_MASK	mask	máscara
 ITEM_INV_THING	thing	cosa

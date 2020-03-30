@@ -1,0 +1,118 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://games/celda_escape/rooms/celda/images/gate.png" type="Texture" id=3]
+[ext_resource path="res://tools/grog/room.gd" type="Script" id=4]
+[ext_resource path="res://tools/2d/item2d.gd" type="Script" id=5]
+[ext_resource path="res://games/celda_escape/rooms/celda/images/celdafondo.jpg" type="Texture" id=6]
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( 670.913, 578.145, 914.348, 787.213, -829.795, 791.509, 234.161, 618.24, -822.635, 674.087, -940.057, 570.985, -939.75, 503.444, -832.659, 499.386, -693.757, 575.281, 244.19, 576.673, -113.808, 626.832, -129.556, 575.385 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7, 8 ), PoolIntArray( 3, 9, 0 ), PoolIntArray( 10, 3, 2, 4 ), PoolIntArray( 10, 4, 8, 11 ) ]
+outlines = [ PoolVector2Array( -693.757, 575.281, -832.659, 499.386, -939.75, 503.444, -940.057, 570.985, -822.635, 674.087, -829.795, 791.509, 914.348, 787.213, 670.913, 578.145, 244.19, 576.673, 234.161, 618.24, -113.808, 626.832, -129.556, 575.385 ) ]
+
+[node name="exit" type="Control"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -960.0
+margin_right = 960.0
+margin_bottom = 850.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+default_player_position_path = NodePath("default_player_position")
+navigation_path = NodePath("Navigation2D")
+
+[node name="background" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="background"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.215686, 0.133333, 0.054902, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="background" type="TextureRect" parent="background"]
+modulate = Color( 0.388235, 0.388235, 0.388235, 1 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 6 )
+stretch_mode = 3
+flip_h = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="gate" type="Sprite" parent="background"]
+modulate = Color( 0.388235, 0.388235, 0.388235, 1 )
+position = Vector2( 1721, -36.916 )
+z_index = 1000
+texture = ExtResource( 3 )
+centered = false
+flip_h = true
+
+[node name="Navigation2D" type="Navigation2D" parent="."]
+
+[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
+position = Vector2( 961.305, 29.1782 )
+scale = Vector2( -1, 1 )
+navpoly = SubResource( 1 )
+
+[node name="default_player_position" type="Position2D" parent="."]
+position = Vector2( 1672.26, 704.528 )
+
+[node name="items" type="Node2D" parent="."]
+
+[node name="door" type="Node2D" parent="items"]
+position = Vector2( 1360, 383.942 )
+z_index = 571
+z_as_relative = false
+script = ExtResource( 5 )
+global_id = "exit/door1"
+color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
+interact_angle = 270
+code = "
+look_at:
+	you.say \"Es alta puerta.\"
+
+talk_to: TK
+	.set number2=$number2+1
+	if $number2 < 3:
+		you.say \"¿Posta?\"
+	else:
+		you.say \"Bueno dale\"
+	
+	
+
+pick_up: TK
+	you.say \"¿Me decís en serio?\"
+
+open:
+	you.say \"Está cerrada con llave\"
+
+close: TK
+	you.say \"Ya está cerrada\""
+walk_speed = 0.0
+radius = 200.0
+
+[node name="interact_position" type="Position2D" parent="items/door"]
+position = Vector2( 10.0393, 239.253 )
+
+[node name="gate" type="Node2D" parent="items"]
+position = Vector2( 1810.83, 458.861 )
+script = ExtResource( 5 )
+global_id = "exit/gate"
+interact_angle = 0
+code = "
+walk_to:
+	.load_room celda
+	"
+walk_speed = 0.0
+radius = 200.0

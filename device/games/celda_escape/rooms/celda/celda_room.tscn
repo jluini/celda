@@ -1,7 +1,6 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://games/demo_game/rooms/room1/images/desk.png" type="Texture" id=1]
-[ext_resource path="res://games/demo_game/rooms/room1/images/table.png" type="Texture" id=2]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/gate.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/room.gd" type="Script" id=4]
 [ext_resource path="res://tools/2d/item2d.gd" type="Script" id=5]
@@ -119,13 +118,6 @@ z_index = 597
 texture = ExtResource( 1 )
 centered = false
 
-[node name="table" type="Sprite" parent="background"]
-visible = false
-position = Vector2( 1367, 472 )
-z_index = 610
-texture = ExtResource( 2 )
-centered = false
-
 [node name="gate" type="Sprite" parent="background"]
 position = Vector2( -1, -36.916 )
 z_index = 1000
@@ -139,7 +131,7 @@ position = Vector2( 961.305, 29.1782 )
 navpoly = SubResource( 1 )
 
 [node name="default_player_position" type="Position2D" parent="."]
-position = Vector2( 1322.29, 756.101 )
+position = Vector2( 246.692, 699.315 )
 
 [node name="pos1" type="Position2D" parent="."]
 position = Vector2( 697.843, 718.947 )
@@ -330,3 +322,17 @@ radius = 150.0
 
 [node name="interact_position" type="Position2D" parent="items/desk"]
 position = Vector2( -8.57617, 146.175 )
+
+[node name="gate" type="Node2D" parent="items"]
+position = Vector2( 98.5408, 452.62 )
+script = ExtResource( 5 )
+global_id = "celda/gate"
+interact_angle = 180
+code = "
+walk_to:
+	.load_room exit"
+walk_speed = 0.0
+radius = 200.0
+
+[node name="interact_position" type="Position2D" parent="items/gate"]
+position = Vector2( 138.625, 215.454 )
