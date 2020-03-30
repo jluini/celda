@@ -684,21 +684,26 @@ func parse_expression(tokens: Array) -> Dictionary:
 		if not expression_left.result:
 			return expression_left
 			
-		if token_oper.type != Grog.TokenType.Operator:
-			return { result = false, message = "expected operator after %s" % token_left.content }
-		
 		var expression_rest = parse_expression(tokens_rest)
 		
 		if not expression_rest.result:
 			return expression_rest
 		
-		match token_oper.content:
-			"+", "-", "<", ">", "=":
+		match token_oper.type:
+			Grog.TokenType.Operator:
+				match token_oper.content:
+					"+", "-", "<", ">", "=":
+						return { result = OperationExpression.new(expression_left.result, token_oper.content, expression_rest.result) }
+					
+					_:
+						return { result = false, message = "invalid operator %s after %s" % [token_oper.content, token_left.content] }
+			
+			Grog.TokenType.AndKeyword, Grog.TokenType.OrKeyword:
 				return { result = OperationExpression.new(expression_left.result, token_oper.content, expression_rest.result) }
 			
+
 			_:
-				return { result = false, message = "invalid operator %s after %s" % [token_oper.content, token_left.content] }
-		
+				return { result = false, message = "expected operator after %s" % token_left.content }
 	else:
 		return { result = false, message = "expression is too complex" }
 

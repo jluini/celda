@@ -321,10 +321,19 @@ talk_to: TK
 	you.say \"¿Posta?\"
 
 pick_up:
-	if $inv_paper < 3:
-		.add inv_paper
+	if $exit_is_open and $door_seen:
+		you.say \"¿Para qué quiero más papeles si ya me puedo ir?\"
 	else:
-		you.say \"Creo que ya tengo demasiadas.\""
+		if $inv_paper = 3:
+			if $take_desc_attempts > 4:
+				you.say \"Ya que insistís...\"
+				.add inv_paper
+			else:
+				.set take_desc_attempts=$take_desc_attempts + 1
+				you.say \"Creo que ya tengo demasiadas.\"
+		else:
+			.add inv_paper
+			"
 walk_speed = 0.0
 radius = 150.0
 
@@ -335,6 +344,7 @@ position = Vector2( -8.57617, 146.175 )
 position = Vector2( 98.5408, 452.62 )
 script = ExtResource( 5 )
 global_id = "celda/gate"
+color = Color( 0, 0, 0, 1 )
 interact_angle = 180
 code = "
 walk_to:

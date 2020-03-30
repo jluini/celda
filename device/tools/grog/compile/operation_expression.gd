@@ -37,6 +37,17 @@ func evaluate(_game):
 				print("Unexpected type for equality operator: %s. Continuing." % Grog._typestr(left_value))
 			
 			return left_value == right_value
+		
+		"and", "or":
+			if typeof(left_value) != TYPE_INT and typeof(left_value) != TYPE_BOOL:
+				print("Unexpected type for %s operator: %s. Continuing." % [operator, Grog._typestr(left_value)])
+			if typeof(right_value) != TYPE_INT and typeof(right_value) != TYPE_BOOL:
+				print("Unexpected type for %s operator: %s. Continuing." % [operator, Grog._typestr(right_value)])
+				
+			if operator == "and":
+				return left_value and right_value
+			else:
+				return left_value or right_value
 			
 		_:
 			push_error("Operator %s not implemented" % operator)
