@@ -124,6 +124,14 @@ func _input(event):
 		
 		if item != current_item:
 			_set_current_item(item)
+	
+	elif event is InputEventKey:
+		if not event.pressed:
+			return
+		
+		if event.is_action_pressed("grog_toggle_fullscreen"):
+			OS.window_fullscreen = !OS.window_fullscreen
+			
 		
 func on_server_event(event_name, args):
 	var handler_name = "_on_server_" + event_name
