@@ -23,9 +23,10 @@ ITEM_CELDA/GATE	gate	portón
 ITEM_CELDA/THING	thing	cosa
 ITEM_CELDA/EXIT	exit	salida
 ITEM_CELDA/DOOR1	door	puerta
-ITEM_CELDA/DESK	desk	escritorio
-ITEM_CELDA/MASK	mask	máscara
-ITEM_CELDA/CLAW	claw	gancho
+ITEM_CELDA/BED	bed	cama
+ITEM_CELDA/TOILET	toilet	inodoro
+ITEM_EXIT/MASK	mask	máscara
+ITEM_EXIT/CLAW	claw	gancho
 ITEM_EXIT/DOOR1	door	puerta
 ITEM_EXIT/GATE	gate	portón
 ITEM_INV_PAPER	paper	papel

@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://games/celda_escape/rooms/celda/images/background.jpg" type="Texture" id=1]
+[ext_resource path="res://games/celda_escape/items/mask.png" type="Texture" id=2]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/gate.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/room.gd" type="Script" id=4]
 [ext_resource path="res://tools/2d/item2d.gd" type="Script" id=5]
+[ext_resource path="res://games/celda_escape/items/thing.png" type="Texture" id=6]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( -693.757, 575.281, -129.556, 575.385, 244.19, 576.673, 670.913, 578.145, 914.348, 787.213, -829.795, 791.509, -822.635, 674.087, -832.659, 499.386, -940.057, 570.985, -939.75, 503.444 )
@@ -110,7 +112,6 @@ position = Vector2( 10.0393, 239.253 )
 position = Vector2( 1841.05, 484.763 )
 script = ExtResource( 5 )
 global_id = "exit/gate"
-color = Color( 0, 0, 0, 1 )
 interact_angle = 0
 code = "
 walk_to:
@@ -121,3 +122,50 @@ radius = 250.0
 
 [node name="interact_position" type="Position2D" parent="items/gate"]
 position = Vector2( 6.47537, 125.192 )
+
+[node name="mask" type="Node2D" parent="items"]
+position = Vector2( 603.91, 334.516 )
+script = ExtResource( 5 )
+global_id = "exit/mask"
+color = Color( 1, 1, 1, 1 )
+interact_angle = 270
+code = "look_at:
+	you.say DEMO_GAME_MASK
+
+pick_up:
+	self.disable
+	exit/claw.enable
+	inv_mask.add
+"
+walk_speed = 0.0
+radius = 40.0
+
+[node name="Sprite" type="Sprite" parent="items/mask"]
+texture = ExtResource( 2 )
+
+[node name="claw" type="Node2D" parent="items"]
+position = Vector2( 594.505, 328.497 )
+script = ExtResource( 5 )
+global_id = "exit/claw"
+color = Color( 1, 1, 1, 1 )
+interact_angle = 270
+code = "# claw
+
+use_with(inv_mask):
+	#tool.remove
+	self.disable
+	celda/mask.enable
+
+#use_with:
+
+look_at:
+	you.say \"Me parece peligroso.\"
+	
+talk_to: TK
+	you.say \"¿Hablar con un gancho?\""
+walk_speed = 0.0
+radius = 35.0
+
+[node name="Sprite" type="Sprite" parent="items/claw"]
+rotation = 0.621337
+texture = ExtResource( 6 )

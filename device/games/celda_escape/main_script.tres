@@ -9,7 +9,7 @@ code_or_filename = "
 init:
 	.set number=0
 	.set door_seen=false
-	celda/claw.disable
+	exit/claw.disable
 
 start:
 

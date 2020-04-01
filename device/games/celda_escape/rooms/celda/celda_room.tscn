@@ -1,23 +1,20 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://games/demo_game/rooms/room1/images/desk.png" type="Texture" id=1]
-[ext_resource path="res://clients/default_client/sample_images/tile079.png" type="Texture" id=2]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/gate.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/room.gd" type="Script" id=4]
 [ext_resource path="res://tools/2d/item2d.gd" type="Script" id=5]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/background.jpg" type="Texture" id=6]
-[ext_resource path="res://icon.png" type="Texture" id=7]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/thing_erased.png" type="Texture" id=8]
-[ext_resource path="res://games/celda_escape/rooms/celda/images/exit_open.png" type="Texture" id=9]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/Cama.png" type="Texture" id=10]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/CeldaCelda.png" type="Texture" id=11]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/Inodoro.png" type="Texture" id=12]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/Cartel.png" type="Texture" id=13]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 670.913, 578.145, 914.348, 787.213, -829.795, 791.509, 234.161, 618.24, -822.635, 674.087, -940.057, 570.985, -939.75, 503.444, -832.659, 499.386, -693.757, 575.281, 244.19, 576.673, -113.808, 626.832, -129.556, 575.385 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7, 8 ), PoolIntArray( 3, 9, 0 ), PoolIntArray( 10, 3, 2, 4 ), PoolIntArray( 10, 4, 8, 11 ) ]
-outlines = [ PoolVector2Array( -693.757, 575.281, -832.659, 499.386, -939.75, 503.444, -940.057, 570.985, -822.635, 674.087, -829.795, 791.509, 914.348, 787.213, 670.913, 578.145, 244.19, 576.673, 234.161, 618.24, -113.808, 626.832, -129.556, 575.385 ) ]
+vertices = PoolVector2Array( 897.983, 762.257, 967.964, 804, 367.645, 803.591, 750.654, 758.574, 737.149, 635.8, 794.707, 677.744, 706.456, 676.315, 389.7, 634.572, 705.228, 714.375, 258.812, 829.946, 117.333, 568.755, 329.54, 574.413, 283.299, 873.478, 91.4861, 803.403, -833.127, 802.772, -822.635, 674.087, -669.838, 601.423, -940.057, 570.985, -939.75, 503.444, -832.659, 499.386, -588.807, 562.136, 8.50293, 764.648, 166.306, 868.037, 204.397, 843.55, 179.91, 795.937, -18.6998, 569.758 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7 ), PoolIntArray( 8, 3, 2, 7 ), PoolIntArray( 9, 10, 11, 7, 2, 12 ), PoolIntArray( 13, 14, 15, 16 ), PoolIntArray( 15, 17, 18, 19, 16 ), PoolIntArray( 13, 16, 20, 21 ), PoolIntArray( 7, 6, 8 ), PoolIntArray( 9, 12, 22, 23 ), PoolIntArray( 24, 23, 22, 13 ), PoolIntArray( 21, 24, 13 ), PoolIntArray( 21, 20, 25 ) ]
+outlines = [ PoolVector2Array( -669.838, 601.423, -832.659, 499.386, -939.75, 503.444, -940.057, 570.985, -822.635, 674.087, -833.127, 802.772, 91.4861, 803.403, 166.306, 868.037, 283.299, 873.478, 367.645, 803.591, 967.964, 804, 897.983, 762.257, 750.654, 758.574, 705.228, 714.375, 706.456, 676.315, 794.707, 677.744, 737.149, 635.8, 389.7, 634.572, 329.54, 574.413, 117.333, 568.755, 258.812, 829.946, 204.397, 843.55, 179.91, 795.937, 8.50293, 764.648, -18.6998, 569.758, -588.807, 562.136 ) ]
 
 [sub_resource type="Animation" id=2]
 resource_name = "default"
@@ -51,33 +48,9 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=4]
 resource_name = "default"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ null ]
-}
 
 [sub_resource type="Animation" id=5]
 resource_name = "open"
-tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ ExtResource( 9 ) ]
-}
 
 [node name="celda" type="Control"]
 anchor_left = 0.5
@@ -131,31 +104,22 @@ z_index = 1000
 texture = ExtResource( 3 )
 centered = false
 
-[node name="bed" type="Sprite" parent="background"]
-position = Vector2( 1507.78, 580.269 )
-texture = ExtResource( 10 )
-
-[node name="toilet" type="Sprite" parent="background"]
-position = Vector2( 1774.91, 677.604 )
-texture = ExtResource( 12 )
-
 [node name="grid" type="Sprite" parent="background"]
 position = Vector2( 1100.97, 444.995 )
+z_index = 850
 texture = ExtResource( 11 )
 
-[node name="cartel1" type="Sprite" parent="background"]
-position = Vector2( 1732.03, 287.845 )
-texture = ExtResource( 13 )
-
 [node name="Navigation2D" type="Navigation2D" parent="."]
-visible = false
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
 position = Vector2( 961.305, 29.1782 )
 navpoly = SubResource( 1 )
 
 [node name="default_player_position" type="Position2D" parent="."]
-position = Vector2( 246.692, 699.315 )
+position = Vector2( 1143.49, 635.665 )
+
+[node name="test_position" type="Position2D" parent="."]
+position = Vector2( 1333.74, 813.979 )
 
 [node name="pos1" type="Position2D" parent="."]
 position = Vector2( 697.843, 718.947 )
@@ -169,9 +133,8 @@ position = Vector2( 1206.05, 586.552 )
 [node name="items" type="Node2D" parent="."]
 
 [node name="thing" type="Node2D" parent="items"]
-position = Vector2( 1734.19, 284.807 )
+position = Vector2( 1162.07, 233.242 )
 z_index = 571
-z_as_relative = false
 script = ExtResource( 5 )
 global_id = "celda/thing"
 color = Color( 1, 1, 1, 1 )
@@ -199,7 +162,7 @@ walk_speed = 0.0
 radius = 70.0
 
 [node name="interact_position" type="Position2D" parent="items/thing"]
-position = Vector2( -84.687, 381.714 )
+position = Vector2( 24.5816, 389.081 )
 
 [node name="speech_position" type="Position2D" parent="items/thing"]
 position = Vector2( -0.0356827, -135.143 )
@@ -211,13 +174,11 @@ anims/default = SubResource( 2 )
 anims/erased = SubResource( 3 )
 
 [node name="exit" type="Node2D" parent="items"]
-position = Vector2( 1521.06, 219.063 )
-z_index = 571
-z_as_relative = false
+position = Vector2( 1726.48, 251.712 )
 script = ExtResource( 5 )
 global_id = "celda/exit"
 color = Color( 1, 1, 1, 1 )
-interact_angle = 270
+interact_angle = 0
 code = "
 look_at:
 	you.say \"Es por donde me tengo que escapar.\"
@@ -252,43 +213,17 @@ walk_speed = 0.0
 radius = 70.0
 
 [node name="interact_position" type="Position2D" parent="items/exit"]
-position = Vector2( -6.39816, 403.422 )
-
-[node name="Sprite" type="Sprite" parent="items/exit"]
+position = Vector2( -60.813, 434.711 )
 
 [node name="animation" type="AnimationPlayer" parent="items/exit"]
 anims/default = SubResource( 4 )
 anims/open = SubResource( 5 )
 
-[node name="mask" type="Node2D" parent="items"]
-position = Vector2( 1420.59, 421.911 )
-z_index = 571
-z_as_relative = false
-script = ExtResource( 5 )
-global_id = "celda/mask"
-color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
-interact_angle = 315
-code = "look_at:
-	you.say DEMO_GAME_MASK
-
-pick_up:
-	self.disable
-	celda/claw.enable
-	inv_mask.add
-"
-walk_speed = 0.0
-radius = 45.0
-
-[node name="interact_position" type="Position2D" parent="items/mask"]
-position = Vector2( -57.0124, 193.758 )
-
-[node name="Sprite" type="Sprite" parent="items/mask"]
-texture = ExtResource( 7 )
+[node name="cartel1" type="Sprite" parent="items/exit"]
+texture = ExtResource( 13 )
 
 [node name="door" type="Node2D" parent="items"]
 position = Vector2( 555.421, 383.942 )
-z_index = 571
-z_as_relative = false
 script = ExtResource( 5 )
 global_id = "celda/door1"
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
@@ -325,13 +260,11 @@ radius = 200.0
 [node name="interact_position" type="Position2D" parent="items/door"]
 position = Vector2( 10.0393, 239.253 )
 
-[node name="desk" type="Node2D" parent="items"]
-position = Vector2( 1020.81, 522.843 )
-z_index = 571
-z_as_relative = false
+[node name="bed" type="Node2D" parent="items"]
+position = Vector2( 1508, 530 )
 script = ExtResource( 5 )
-global_id = "celda/desk"
-color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
+global_id = "celda/bed"
+color = Color( 1, 1, 1, 1 )
 interact_angle = 270
 code = "
 look_at:
@@ -363,14 +296,38 @@ use:
 walk_speed = 0.0
 radius = 150.0
 
-[node name="interact_position" type="Position2D" parent="items/desk"]
-position = Vector2( -8.57617, 146.175 )
+[node name="interact_position" type="Position2D" parent="items/bed"]
+position = Vector2( 15.6344, 153.356 )
+
+[node name="Sprite" type="Sprite" parent="items/bed"]
+position = Vector2( 0, 50 )
+texture = ExtResource( 10 )
+
+[node name="toilet" type="Node2D" parent="items"]
+position = Vector2( 1775, 718 )
+script = ExtResource( 5 )
+global_id = "celda/toilet"
+color = Color( 1, 1, 1, 1 )
+interact_angle = 0
+code = "look_at:
+	you.say \"Alto inodoro.\"
+	you.say \"Tal vez me pueda ecapar por el desagüe del mismo.\"
+	you.say \"Mentira.\""
+walk_speed = 0.0
+radius = 60.0
+
+[node name="interact_position" type="Position2D" parent="items/toilet"]
+position = Vector2( -120.155, 82.8297 )
+
+[node name="Sprite" type="Sprite" parent="items/toilet"]
+position = Vector2( 0, -40 )
+z_index = 773
+texture = ExtResource( 12 )
 
 [node name="gate" type="Node2D" parent="items"]
 position = Vector2( 76.3334, 474.827 )
 script = ExtResource( 5 )
 global_id = "celda/gate"
-color = Color( 0, 0, 0, 1 )
 interact_angle = 180
 code = "
 walk_to:
@@ -380,33 +337,3 @@ radius = 250.0
 
 [node name="interact_position" type="Position2D" parent="items/gate"]
 position = Vector2( 5.38055, 128.475 )
-
-[node name="claw" type="Node2D" parent="items"]
-position = Vector2( 1420.38, 409.33 )
-script = ExtResource( 5 )
-global_id = "celda/claw"
-color = Color( 1, 1, 1, 1 )
-interact_angle = 315
-code = "# claw
-
-use_with(inv_mask):
-	#tool.remove
-	self.disable
-	celda/mask.enable
-
-#use_with:
-
-look_at:
-	you.say \"Me parece peligroso.\"
-	
-talk_to: TK
-	you.say \"¿Hablar con un gancho?\""
-walk_speed = 0.0
-radius = 30.0
-
-[node name="interact_position" type="Position2D" parent="items/claw"]
-position = Vector2( -56.8092, 206.339 )
-
-[node name="Sprite" type="Sprite" parent="items/claw"]
-rotation = 0.785398
-texture = ExtResource( 2 )

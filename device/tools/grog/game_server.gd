@@ -615,26 +615,22 @@ func interact_request(item, trigger_name: String, tool_item = null):
 	# TODO fix code
 	#var telekinetic = true
 	
-	var potentially_telekinetic = is_scene_item and not _sequence.telekinetic
-	
-	var actually_telekinetic
+	var has_to_walk = is_scene_item and not _sequence.telekinetic
 	var path
 	
-	if potentially_telekinetic:
+	if has_to_walk:
 		var origin_position = current_player.position
 		var target_position = item.get_interact_position()
 		path = build_path(origin_position, target_position, false)
 		
-		if path:
-			actually_telekinetic = true
-		else:
-			actually_telekinetic = false
+		if not path:
+			has_to_walk = false
 		# else execute as telekinetic
 		# TODO should change angle though?
-	else:
-		actually_telekinetic = false
 	
-	if actually_telekinetic:
+	if has_to_walk:
+		_goal.angle = item.interact_angle
+		
 		_path_changed = true
 		_walking_path = path
 		_walking_subject = current_player
