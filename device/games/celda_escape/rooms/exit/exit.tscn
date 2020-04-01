@@ -1,14 +1,14 @@
 [gd_scene load_steps=6 format=2]
 
+[ext_resource path="res://games/celda_escape/rooms/celda/images/background.jpg" type="Texture" id=1]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/gate.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/room.gd" type="Script" id=4]
 [ext_resource path="res://tools/2d/item2d.gd" type="Script" id=5]
-[ext_resource path="res://games/celda_escape/rooms/celda/images/celdafondo.jpg" type="Texture" id=6]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 670.913, 578.145, 914.348, 787.213, -829.795, 791.509, 234.161, 618.24, -822.635, 674.087, -940.057, 570.985, -939.75, 503.444, -832.659, 499.386, -693.757, 575.281, 244.19, 576.673, -113.808, 626.832, -129.556, 575.385 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7, 8 ), PoolIntArray( 3, 9, 0 ), PoolIntArray( 10, 3, 2, 4 ), PoolIntArray( 10, 4, 8, 11 ) ]
-outlines = [ PoolVector2Array( -693.757, 575.281, -832.659, 499.386, -939.75, 503.444, -940.057, 570.985, -822.635, 674.087, -829.795, 791.509, 914.348, 787.213, 670.913, 578.145, 244.19, 576.673, 234.161, 618.24, -113.808, 626.832, -129.556, 575.385 ) ]
+vertices = PoolVector2Array( -693.757, 575.281, -129.556, 575.385, 244.19, 576.673, 670.913, 578.145, 914.348, 787.213, -829.795, 791.509, -822.635, 674.087, -832.659, 499.386, -940.057, 570.985, -939.75, 503.444 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5, 6 ), PoolIntArray( 7, 0, 6, 8, 9 ) ]
+outlines = [ PoolVector2Array( -693.757, 575.281, -832.659, 499.386, -939.75, 503.444, -940.057, 570.985, -822.635, 674.087, -829.795, 791.509, 914.348, 787.213, 670.913, 578.145, 244.19, 576.673, -129.556, 575.385 ) ]
 
 [node name="exit" type="Control"]
 anchor_left = 0.5
@@ -43,7 +43,7 @@ __meta__ = {
 modulate = Color( 0.388235, 0.388235, 0.388235, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-texture = ExtResource( 6 )
+texture = ExtResource( 1 )
 stretch_mode = 3
 flip_h = true
 __meta__ = {
@@ -51,6 +51,7 @@ __meta__ = {
 }
 
 [node name="gate" type="Sprite" parent="background"]
+visible = false
 modulate = Color( 0.388235, 0.388235, 0.388235, 1 )
 position = Vector2( 1721, -36.916 )
 z_index = 1000
@@ -106,16 +107,17 @@ radius = 200.0
 position = Vector2( 10.0393, 239.253 )
 
 [node name="gate" type="Node2D" parent="items"]
-position = Vector2( 1810.83, 458.861 )
+position = Vector2( 1841.05, 484.763 )
 script = ExtResource( 5 )
 global_id = "exit/gate"
+color = Color( 0, 0, 0, 1 )
 interact_angle = 0
 code = "
 walk_to:
 	.load_room celda
 	"
 walk_speed = 0.0
-radius = 200.0
+radius = 250.0
 
 [node name="interact_position" type="Position2D" parent="items/gate"]
-position = Vector2( -92.8143, 233.115 )
+position = Vector2( 6.47537, 125.192 )

@@ -6,6 +6,11 @@
 resource_name = "main"
 script = ExtResource( 1 )
 code_or_filename = "
+init:
+	.set number=0
+	.set door_seen=false
+	celda/claw.disable
+
 start:
 
 	.say \"Érase una celda...\"
@@ -15,4 +20,25 @@ start:
 	
 	.load_room celda
 	.enable_input
-"
+
+
+fallback/walk_to: # goes but nothing more
+
+fallback/talk_to: TK # does nothing
+
+fallback/use: TK # does nothing
+
+fallback/look_at:
+	you.say CELDA_ESCAPE_FALLBACK_LOOK
+
+fallback/open: TK
+	you.say CELDA_ESCAPE_FALLBACK_CANT_OPEN
+fallback/close: TK
+	you.say CELDA_ESCAPE_FALLBACK_CANT_CLOSE
+
+fallback/pick_up: TK
+	you.say CELDA_ESCAPE_FALLBACK_PICK_UP
+
+fallback/use_with(*): TK
+	you.say \"Eso no parece funcionar\"
+	"

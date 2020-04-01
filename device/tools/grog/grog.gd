@@ -17,7 +17,7 @@ enum ParameterType {
 }
 
 enum TokenType {
-	Standard, Command, Identifier, # or Keyword (next line)
+	Standard, Command, Identifier, Pattern, # or Keyword (next line)
 	IfKeyword, ElseKeyword, NotKeyword, AndKeyword, OrKeyword, TrueKeyword, FalseKeyword,
 	
 	Number, Integer, Float,
@@ -108,16 +108,12 @@ const commands = {
 	
 	# add/remove inventory item
 	add = {
-		subject = SubjectType.None,
-		required_params = [
-			{ name = "item_id", type = ParameterType.Identifier }
-		]
+		subject = SubjectType.Required,
+		required_params = []
 	},
 	remove = {
-		subject = SubjectType.None,
-		required_params = [
-			{ name = "item_id", type = ParameterType.Identifier }
-		]
+		subject = SubjectType.Required,
+		required_params = []
 	},
 	
 	# play animation
@@ -125,6 +121,14 @@ const commands = {
 		subject = SubjectType.Required,
 		required_params = [
 			{ name = "animation_name", type = ParameterType.QuoteOrIdentifier }
+		]
+	},
+	
+	# set item as 'tool'
+	set_tool = {
+		subject = SubjectType.Required,
+		required_params = [
+			{ name = "tool_verb", type = ParameterType.Identifier }
 		]
 	},
 }

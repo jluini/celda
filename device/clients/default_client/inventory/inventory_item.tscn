@@ -6,8 +6,7 @@
 margin_left = 84.0
 margin_right = 296.0
 margin_bottom = 86.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
+rect_min_size = Vector2( 212, 86 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

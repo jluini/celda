@@ -9,10 +9,13 @@ var command_regex: RegEx
 const identifier_regex_pattern = "^(\\$*)([a-zA-Z0-9\\_]+(\\/[a-zA-Z0-9\\_]+)*)$"
 var identifier_regex: RegEx
 
+const pattern_regex_pattern = "^[a-zA-Z0-9\\_\\/\\*]+$"
+var pattern_regex: RegEx
+
 const number_characters = "0123456789"
 const operator_characters = "<>=:()+-"
 
-const standard_token_character_pattern = "[a-zA-Z0-9\\_\\/\\$\\.]"
+const standard_token_character_pattern = "[a-zA-Z0-9\\_\\/\\$\\.\\*]"
 var standard_token_character_regex: RegEx
 
 enum TokenizerState {
@@ -35,6 +38,7 @@ func _ready():
 	command_regex = build_regex(command_regex_pattern)
 	identifier_regex = build_regex(identifier_regex_pattern)
 	standard_token_character_regex = build_regex(standard_token_character_pattern)
+	pattern_regex = build_regex(pattern_regex_pattern)
 
 func compile_text(code: String) -> CompiledGrogScript:
 	var compiled_script = CompiledGrogScript.new()
@@ -70,9 +74,9 @@ func tokenize_line(compiled_script, line: Dictionary) -> void:
 	
 	if line.raw_content.length() == 0:
 		line.blank = true
-	elif line.raw_content.find("\t") != -1:
-		compiled_script.add_error("(%s:%s) tabs can only be at the start of the line" % [line.line_number, line.indent_level + line.raw_content.find("\t") + 1])
-		return
+	#elif line.raw_content.find("\t") != -1:
+	#	compiled_script.add_error("(%s:%s) tabs can only be at the start of the line" % [line.line_number, line.indent_level + line.raw_content.find("\t") + 1])
+	#	return
 	elif line.raw_content.begins_with(" "):
 		compiled_script.add_error("(%s:%s) line can't start with spaces" % [line.line_number, line.indent_level + 1])
 		return
@@ -118,7 +122,11 @@ func get_tokens(compiled_script, line: Dictionary) -> Array:
 					state = TokenizerState.ReadingStandardTokenOrNumber
 					current_token = { type = Grog.TokenType.Standard, content = c }
 				else:
-					compiled_script.add_error("(%s:%s) invalid char '%s'" % [line.line_number, char_number, c])
+					if c == "\t":
+						compiled_script.add_error("(%s:%s) invalid tab" % [line.line_number, char_number])
+						compiled_script.add_error("you may have erroneous spaces or characters mixed with tabs")
+					else:
+						compiled_script.add_error("(%s:%s) invalid char '%s'" % [line.line_number, char_number, c])
 					return []
 			
 			TokenizerState.ReadingStandardTokenOrNumber:
@@ -160,7 +168,10 @@ func get_tokens(compiled_script, line: Dictionary) -> Array:
 				elif contains_pattern(c, standard_token_character_regex): # token continued
 					current_token.content += c
 				else:
-					compiled_script.add_error("(%s:%s) invalid char in token '%s'" % [line.line_number, char_number, c])
+					if c == "\t":
+						compiled_script.add_error("(%s:%s) invalid tab" % [line.line_number, char_number])
+					else:
+						compiled_script.add_error("(%s:%s) invalid char in token '%s'" % [line.line_number, char_number, c])
 					return []
 					
 			TokenizerState.ReadingQuote:
@@ -170,6 +181,9 @@ func get_tokens(compiled_script, line: Dictionary) -> Array:
 					state = TokenizerState.WaitingNextToken
 				elif c == "\\": # escape sequence start
 					state = TokenizerState.ReadingEscapeSequence
+				elif c == "\t": # erroneous tab inside quote
+					compiled_script.add_error("(%s:%s) invalid tab inside quote" % [line.line_number, char_number])
+					return []
 				else: # quote continued
 					current_token.content += c
 			
@@ -220,49 +234,55 @@ func recognize_token(content: String, parse_as_number: bool) -> Dictionary:
 		var dot_location = content.find(".")
 		var is_command = dot_location != -1
 		
-		var subject
-		var command_name
+		var ret = { valid = true, content = content, data = { } }
 		
 		if is_command:
-			subject = content.substr(0, dot_location)
-			command_name = content.substr(dot_location + 1)
+			var subject = content.substr(0, dot_location)
+			var command_name = content.substr(dot_location + 1)
+			
+			if Grog.keywords.has(subject):
+				return { valid = false, msg = "keyword used as subject" }
 			
 			if not contains_pattern(command_name, command_regex):
 				return { valid = false, msg = "invalid command" }
 			elif not Grog.commands.has(command_name):
 				return { valid = false, msg = "command not found" }
-		else:
-			subject = content
-		
-		# check subject
-		
-		if Grog.keywords.has(subject):
-			if is_command:
-				return { valid = false, msg = "keyword used as subject" }
-			else:
-				return { valid = true, type = Grog.keywords[subject], data = {} }
-		
-		var indirection_level = 0
-		var key = ""
-		
-		if subject != "":
-			var result = identifier_regex.search(subject)
 			
-			if result == null:
-				return { valid = false, msg = "invalid subject" }
-			
-			indirection_level = result.strings[1].length()
-			key = result.strings[2]
-		else:
-			assert(is_command)
-		
-		var ret = { valid = true, data = { indirection_level = indirection_level, key = key } }
-		
-		if is_command:
 			ret.type = Grog.TokenType.Command
 			ret.data.command_name = command_name
+			
+			var indirection_level = 0
+			var key = ""
+			
+			if subject != "":
+				var result = identifier_regex.search(subject)
+				if not result:
+					return { valid = false, msg = "invalid subject" }
+				
+				indirection_level = result.strings[1].length()
+				if indirection_level > 0:
+					return { valid = false, msg = "can't have $indirection in command" }
+				
+				key = result.strings[2]
+				
+			ret.data.subject = subject
+			ret.data.indirection_level = indirection_level
+			ret.data.key = key
+		
+		elif Grog.keywords.has(content):
+			ret.type = Grog.keywords[content]
 		else:
-			ret.type = Grog.TokenType.Identifier
+			var result = identifier_regex.search(content)
+			
+			if result:
+				ret.type = Grog.TokenType.Identifier
+				ret.data.indirection_level = result.strings[1].length()
+				ret.data.key = result.strings[2]
+				
+			elif pattern_regex.search(content):
+				ret.type = Grog.TokenType.Pattern
+			else:
+				return { valid = false, msg = "invalid identifier or pattern" }
 		
 		return ret
 	
@@ -332,41 +352,86 @@ func compile_lines(compiled_script, lines: Array):
 			break
 		
 		var first_token = line.tokens[0]
+		var k = 1
 		var num_tokens = line.tokens.size()
 		
 		if level == 0: # sequence header
 			assert(stack.size() == 0)
 			assert(level == 0)
 			
-			if first_token.type != Grog.TokenType.Identifier or first_token.data.indirection_level != 0:
+			if not _token_is_straight_identifier(first_token):
 				compiled_script.add_error("Invalid trigger name (line %s)" % line.line_number)
 				return
 			
-			if num_tokens < 2:
+			if num_tokens <= k:
 				compiled_script.add_error("Missing colon after trigger name (line %s)" % line.line_number)
 				return
 			
-			var colon_token = line.tokens[1]
+			var colon_token = line.tokens[k]
+			k += 1
 			
-			if colon_token.type != Grog.TokenType.Operator or colon_token.content != ":":
-				compiled_script.add_error("Expecting colon after trigger name (line %s)" % line.line_number)
+			if not _token_is_operator(colon_token, ":") and not _token_is_operator(colon_token, "("):
+				compiled_script.add_error("Expecting : or ( after trigger name (line %s)" % line.line_number)
 				return
+			
+			var pattern = null
+			
+			if colon_token.content == "(":
+				# header with parameter
+				
+				if num_tokens <= k:
+					compiled_script.add_error("Missing pattern after opening parentheses (line %s)" % line.line_number)
+					return
+				var pattern_token = line.tokens[k]
+				k += 1
+				
+				if pattern_token.type == Grog.TokenType.Pattern:
+					pattern = pattern_token.content
+				elif pattern_token.type == Grog.TokenType.Identifier:
+					if pattern_token.data.indirection_level > 0:
+						compiled_script.add_error("Pattern can't have $indirection (line %s)" % line.line_number)
+						return
+					
+					pattern = pattern_token.content
+				
+				if num_tokens <= k:
+					compiled_script.add_error("Missing ) after header pattern (line %s)" % line.line_number)
+					return
+				
+				var closing_parentheses = line.tokens[k]
+				k += 1
+				
+				if not _token_is_operator(closing_parentheses, ")"):
+					compiled_script.add_error("Expecting ) after pattern (line %s)" % line.line_number)
+					return
+				
+				if num_tokens <= k:
+					compiled_script.add_error("Missing colon after closing pharentheses (line %s)" % line.line_number)
+					return
+				
+				colon_token = line.tokens[k]
+				k += 1
+				
+				if not _token_is_operator(colon_token, ":"):
+					compiled_script.add_error("Expecting : or after closing pharentheses (line %s)" % line.line_number)
+					return
 			
 			var is_telekinetic = false
-			if num_tokens == 3:
-				var third_token = line.tokens[2]
-				if third_token.type != Grog.TokenType.Identifier or third_token.data.indirection_level != 0 or third_token.data.key.to_lower() != "tk":
+			while num_tokens > k:
+				var option_token = line.tokens[k]
+				k += 1
+				
+				if _token_is_straight_identifier(option_token) or option_token.to_lower() == "tk":
+					is_telekinetic = true
+				else:
 					compiled_script.add_error("Invalid sequence parameter (only TK allowed) (line %s)" % line.line_number)
 					return
-				is_telekinetic = true
-			elif num_tokens > 3:
-				compiled_script.add_error("Too many sequence parameters (only TK allowed) (line %s)" % line.line_number)
-				return
 			
 			statements.append({
 				type = "sequence",
 				trigger_name = first_token.data.key,
 				telekinetic = is_telekinetic,
+				pattern = pattern
 				# waiting for instructions
 			})
 			
@@ -392,7 +457,7 @@ func compile_lines(compiled_script, lines: Array):
 					match command_requirements.subject:
 						Grog.SubjectType.None:
 							if subject:
-								compiled_script.add_error("Command '%s' can't has subject (line %s)" % [command_name, line.line_number])
+								compiled_script.add_error("Command '%s' can't have subject (line %s)" % [command_name, line.line_number])
 								return
 						Grog.SubjectType.Required:
 							if not subject:
@@ -642,10 +707,14 @@ func compile_lines(compiled_script, lines: Array):
 	assert(level == 0)
 	
 	for seq in statements:
-		compiled_script.add_sequence(seq.trigger_name, {
+		var sequence = {
 			statements = seq.instructions,
 			telekinetic = seq.telekinetic
-		})
+		}
+		if seq.pattern:
+			sequence.pattern = seq.pattern
+		
+		compiled_script.add_sequence(seq.trigger_name, sequence)
 		
 
 func get_named_param(named_params: Array, name: String):
@@ -733,3 +802,11 @@ func contains_pattern(a_string: String, pattern: RegEx) -> bool:
 
 func is_valid_number_str(a_string: String) -> bool:
 	return contains_pattern(a_string, float_regex)
+
+###
+
+func _token_is_straight_identifier(token):
+	return token.type == Grog.TokenType.Identifier and token.data.indirection_level == 0
+
+func _token_is_operator(token, operator: String):
+	return token.type == Grog.TokenType.Operator or token.content == operator

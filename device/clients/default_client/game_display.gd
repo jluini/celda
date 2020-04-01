@@ -37,7 +37,10 @@ var input_position: Vector2
 
 var current_action = null
 var default_action: Node
+
 var current_item = null # Node for scene_item or Resource for inventory_item
+var current_tool = null # Node for scene_item or Resource for inventory_item
+var current_tool_verb = ""
 
 # Node hooks
 onready var _room_area: Control = get_node(room_area_path)
@@ -82,19 +85,21 @@ func init(p_game_server):
 	#warning-ignore:return_value_discarded
 	server.connect("game_server_event", self, "on_server_event")
 	
+	_clear_all()
+	
 	if not server.start_game_request(_room_place):
 		_end_game()
 	
 	# else signal game_started was just received (or it will now)
 
 func _input(event):
-	if not server:
+	if not server or not server.is_playing():
 		return
 	
 	if event is InputEventMouseButton:
 		var mouse_position: Vector2 = event.position
 			
-		if event.button_index == BUTTON_LEFT:
+		if event.button_index == BUTTON_LEFT and server.current_room:
 			if event.pressed:
 				if input_state == InputState.Nothing:
 					input_state = InputState.DoingLeftClick
@@ -109,9 +114,10 @@ func _input(event):
 		elif event.button_index == BUTTON_RIGHT:
 			if event.pressed:
 				if not server.skip_or_cancel_request():
-					_actions.deselect()
+					_clear_all()
+					
 				
-	elif event is InputEventMouseMotion:
+	elif event is InputEventMouseMotion and server.current_room:
 		var mouse_position: Vector2 = event.position
 		
 		var item = _get_item_at(mouse_position)
@@ -119,8 +125,6 @@ func _input(event):
 		if item != current_item:
 			_set_current_item(item)
 		
-		
-	
 func on_server_event(event_name, args):
 	var handler_name = "_on_server_" + event_name
 	
@@ -181,18 +185,24 @@ func _on_server_say(subject: Node, speech: String, _duration: float, skippable: 
 	
 	_set_skippable(skippable)
 
-func _on_server_item_added(_item_resource: Resource):
-	_inventory.add_item(_item_resource)
+# inventory item added (or incremented)
+func _on_server_item_added(item_model):
+	_inventory.add_item(item_model)
 
 func _on_server_item_removed(_item_resource: Resource):
 	_inventory.remove_item(_item_resource)
 
+func _on_server_tool_set(new_tool, verb_name: String):
+	current_tool = new_tool
+	current_tool_verb = verb_name
+	current_item = null
+	_update_action_display()
 #	@PRIVATE
 
 func _end_game():
 	server = null
+	_clear_all()
 	_hide_all()
-	_actions.deselect()
 	default_action.queue_free()
 	emit_signal("game_ended")
 
@@ -204,28 +214,33 @@ func _hide_all():
 	#_action_display.text = ""
 
 func _left_click(position: Vector2):
-	if not server.current_room:
-		print("No room")
-		return
-	
 	var clicked_item = _get_item_at(position)
 	
 	if clicked_item:
-		server.interact_request(clicked_item, current_action.target)
-		# TODO
-		# _actions.deselect()
-	elif _room_area.get_global_rect().has_point(position):
+		if current_tool:
+			#server.use_tool_request(clicked_item)
+			server.interact_request(clicked_item, current_tool_verb, current_tool)
+		else:
+			server.interact_request(clicked_item, current_action.target)
+		
+		# _clear_all() TODO
+	elif _room_area.get_global_rect().has_point(position) and not current_tool:
 		server.go_to_request(position)
 
 func _get_item_at(position: Vector2):
 	# check loaded scene items
 	for item in _loaded_items:
+		# ignore current tool for now
+		if item == current_tool:
+			continue
+		
 		var disp: Vector2 = item.global_position - position
 		var distance = disp.length()
 		
 		if distance <= item.radius:
 			return item
 	
+	# then check inventory items
 	return _inventory.get_item_at(position)
 
 func _say_text(speech, color, text_position):
@@ -249,6 +264,15 @@ func _hide_controls():
 func _on_quit_button_pressed():
 	if server:
 		server.stop_request()
+
+func _on_save_button_pressed():
+	if server:
+		server.save_request()
+
+func _on_load_button_pressed():
+	if server:
+		pass
+
 
 #	@DEBUG FLAGS
 
@@ -276,22 +300,39 @@ func _set_current_item(new_item):
 	_update_action_display()
 
 func _update_action_display():
-	if current_item:
-		var translation_key = "ITEM_" + _current_item_id().to_upper()
-		var localized_item = tr(translation_key)
-		_action_display.text = current_action.localized_name + " " + localized_item
+	if current_tool:
+		var prev_tool_translation_key = "TOOL_PREV_" + current_tool_verb.to_upper()
+		var post_tool_translation_key = "TOOL_POST_" + current_tool_verb.to_upper()
+		var localized_prev = capitalize_first(tr(prev_tool_translation_key))
+		var localized_post = tr(post_tool_translation_key)
+		var localized_tool = _item_name(current_tool)
+		
+		var item_tail = ""
+		if current_item:
+			var localized_item = _item_name(current_item)
+			item_tail = " " + localized_item
+		
+		_action_display.text = localized_prev + " " + localized_tool + " " + localized_post + item_tail
 	else:
-		_action_display.text = current_action.localized_name
+		if current_item:
+			var localized_item = _item_name(current_item)
+			_action_display.text = current_action.localized_name + " " + localized_item
+		else:
+			_action_display.text = current_action.localized_name
 
 # Misc
 
-func _current_item_id():
-	if not current_item:
-		return null
-	elif current_item is Resource:
-		return current_item.get_name()
-	else:
-		return current_item.global_id
+func _item_name(item):
+	var translation_key = "ITEM_" + item.get_id().to_upper()
+	return tr(translation_key)
+
+#func _current_item_id():
+#	if not current_item:
+#		return null
+#	elif current_item is Resource:
+#		return current_item.get_name()
+#	else:
+#		return current_item.global_id
 
 func make_empty(node: Node):
 	while node.get_child_count() > 0:
@@ -299,6 +340,19 @@ func make_empty(node: Node):
 		node.remove_child(child)
 		child.queue_free()
 
+func capitalize_first(text: String) -> String:
+	text[0] = text[0].to_upper()
+	return text
+
 func _process(delta):
 	if server:
 		server.update(delta)
+
+func _clear_all():
+	current_item = null
+	current_tool = null
+	current_tool_verb = ""
+	_actions.deselect()
+	current_action = default_action
+	_update_action_display()
+	

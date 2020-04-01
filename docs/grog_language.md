@@ -16,6 +16,14 @@
 | **add**           | Increments an inventory item's count.         | `            .add          <inv_name>                                               ` |
 | **remove**        | Decrements an inventory item's count.         | `            .remove       <inv_name>                                               ` |
 | **play**          | Sets a state to a scene item (loaded or not). | `   <subject>.play         <animation_name>                                         ` |
+| **set_tool**      | Sets a scene/inventory item as "tool".        | `   <subject>.set_tool     <verb_name>                                              ` |
 | **end**           | Ends the game.                                | `            .end                                                                   ` |
+
+
+## set_tool
+
+ - `<verb_name>`: it's the name of the verb
+
+It can be used with inventory items (even if they are not in the inventory) and with **loaded** and **enabled** scene items.
 
 [<- back to index](index.md)

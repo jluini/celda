@@ -24,7 +24,7 @@ var enabled = true
 ##############################
 
 func init_item(compiler):
-	add_to_group("item")
+	#add_to_group("item")
 	
 	if code:
 		_compiled_script = compiler.compile_text(code)
@@ -34,11 +34,10 @@ func init_item(compiler):
 			_compiled_script.print_errors()
 
 func get_sequence(trigger_name: String) -> Dictionary:
-	if _compiled_script and _compiled_script.is_valid and _compiled_script.has_sequence(trigger_name):
-		return _compiled_script.get_sequence(trigger_name)
-	else:
-		# returns empty dict so it defaults to fallback
-		return {}
+	return _compiled_script.get_sequence(trigger_name) if _compiled_script else null
+
+func get_sequence_with_parameter(trigger_name: String, param):
+	return _compiled_script.get_sequence_with_parameter(trigger_name, param) if _compiled_script else null
 
 func is_enabled():
 	return enabled
@@ -46,7 +45,7 @@ func is_enabled():
 ##############################
 
 func teleport(target_pos):
-	position = target_pos
+	position = target_pos#set_position(target_pos)
 	on_teleport(target_pos)
 
 # abstract method
@@ -70,3 +69,6 @@ func enable():
 func disable():
 	enabled = false
 	visible = false
+
+func get_id():
+	return global_id

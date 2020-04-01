@@ -24,3 +24,7 @@ func get_sequence(trigger_name: String) -> Dictionary:
 	else:
 		# returns empty dict so it defaults to fallback
 		return {}
+
+func get_id():
+	return get_name()
+	

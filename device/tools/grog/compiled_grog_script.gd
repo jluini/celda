@@ -22,7 +22,6 @@ func add_sequence(sequence_name: String, sequence: Dictionary):
 		print("Error grave: %s" % str(sequence))
 		return
 	
-	
 	_sequences[sequence_name] = sequence
 
 #	@USE
@@ -31,17 +30,37 @@ func has_sequence(sequence_name: String):
 	if not is_valid:
 		return false
 	
-	return _sequences.has(sequence_name)
+	return _sequences.has(sequence_name) and not _sequences[sequence_name].has("pattern")
 
-func get_sequence(sequence_name: String) -> Dictionary:
+func get_sequence(sequence_name: String):
 	if not is_valid:
-		return empty_sequence
+		return null
 	elif not has_sequence(sequence_name):
 		print("Sequence '%s' not present" % sequence_name)
-		return empty_sequence
+		return null
 	
 	return _sequences[sequence_name]
 
+func get_sequence_with_parameter(sequence_name: String, param: String):
+	if not _sequences.has(sequence_name):
+		#print("Parameterized sequence '%s' not present" % sequence_name)
+		return null
+	
+	var ret = _sequences[sequence_name]
+	if not ret.has("pattern"):
+		return null
+	
+	var escaped_pattern = ret.pattern.replace("/", "\\/")
+	escaped_pattern = escaped_pattern.replace("*", ".*")
+	
+	var regex = RegEx.new()
+	regex.compile("^" + escaped_pattern + "$")
+	
+	if not regex.search(param):
+		return null
+	
+	return ret
+	
 func add_error(new_error):
 	errors.append(new_error)
 	is_valid = false

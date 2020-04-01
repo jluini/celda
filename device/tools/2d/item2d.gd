@@ -5,6 +5,7 @@ extends "res://tools/grog/item.gd"
 export (float) var radius = 50 setget set_radius
 
 func on_teleport(target_pos):
+	# position = target_pos
 	z_index = int(target_pos.y)
 
 func _draw():

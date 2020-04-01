@@ -24,14 +24,14 @@ func clear():
 	_update_arrows()
 	_redraw_all()
 	
-func add_item(item_resource):
+func add_item(item_model):
 	var index = _items.size()
-	_items.append(item_resource)
+	_items.append(item_model)
 	
 	var holder = current_holder_for_index(index)
 	
 	if holder:
-		_draw_item(holder, item_resource)
+		_draw_item(holder, item_model)
 	else:
 		# scroll to bottom to show it
 		while _can_go_down():
@@ -40,13 +40,13 @@ func add_item(item_resource):
 	
 	_update_arrows()
 
-func remove_item(_item_resource):
+func remove_item(_item_model):
 	print("Implement remove_item")
 	
-func _draw_item(holder, item_resource):
+func _draw_item(holder, item_model):
 	var texture = null
-	if item_resource:
-		texture = item_resource.texture
+	if item_model:
+		texture = item_model.texture
 	holder.get_node("image").texture = texture
 
 func current_holder_for_index(index: int) -> Node:
@@ -81,8 +81,8 @@ func _redraw_all():
 	for holder_index in range(_num_holders):
 		var item_index = _offset * num_cols + holder_index
 		if item_index < _items.size():
-			var _item_resource = _items[item_index]
-			_draw_item(_holders[holder_index], _item_resource)
+			var item_model = _items[item_index]
+			_draw_item(_holders[holder_index], item_model)
 		else:
 			_draw_item(_holders[holder_index], null)
 
@@ -107,7 +107,7 @@ func get_item_at(global_position: Vector2):
 		if holder.get_global_rect().has_point(global_position):
 			var item_index = _offset * num_cols + holder_index
 			if item_index < _items.size():
-				var _item_resource = _items[item_index]
-				return _item_resource
+				var item_model = _items[item_index]
+				return item_model
 	
 	return null

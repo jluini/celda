@@ -21,6 +21,7 @@ var root_node : Node
 enum ServerState {
 	None,
 	Prepared,
+	Initializing,
 	RunningSequence, # _is_skippable is changed according to instructions
 	Serving,         # it may have a _goal and be _is_cancelable
 	Ready,
@@ -43,16 +44,21 @@ var _path_changed = false
 var symbols = SymbolTable.new(["player", "scene_item", "inventory_item", "global_variable"])
 var loaded_scene_items = {}
 
+var inventory_items_scene: Node
+
 var current_player: Node = null # TODO needs reference? it's in symbols
 var current_room: Node = null
 var interacting_symbol = null
+var interacting_tool_symbol = null
+#var current_tool_symbol = null
+#var current_tool_verb = ""
 
 # Player to use (currently constant)
 var player_resource
 
 # Cache scripts
-var fallback_script: CompiledGrogScript
-var default_script: CompiledGrogScript
+#var fallback_script: CompiledGrogScript
+var default_script
 
 # Intern
 var runner: Runner = null # TODO reuse instead of dereference and recreate?
@@ -63,7 +69,8 @@ enum StartMode {
 	Default,
 	FromRawScript,
 	FromScriptResource,
-	FromCompiledScript
+	FromCompiledScript,
+	FromRoom
 }
 
 var _game_start_mode
@@ -81,18 +88,18 @@ func init_game(p_compiler, game_data: Resource, p_game_start_mode = StartMode.De
 	compiler = p_compiler
 	data = game_data
 	
-	if game_data.get_all_scripts().size() > 0:
-		fallback_script = compiler.compile_text(game_data.get_all_scripts()[0].get_code())
-		if not fallback_script.is_valid:
-			print("Fallback script is invalid")
-			fallback_script.print_errors()
-			fallback_script = CompiledGrogScript.new()
-	else:
-		print("No fallback script")
-		fallback_script = CompiledGrogScript.new()
+#	if game_data.get_all_scripts().size() > 0:
+#		fallback_script = compiler.compile_text(game_data.get_all_scripts()[0].get_code())
+#		if not fallback_script.is_valid:
+#			print("Fallback script is invalid")
+#			fallback_script.print_errors()
+#			fallback_script = CompiledGrogScript.new()
+#	else:
+#		print("No fallback script")
+#		fallback_script = CompiledGrogScript.new()
 	
-	if game_data.get_all_scripts().size() > 1:
-		default_script = compiler.compile_text(game_data.get_all_scripts()[1].get_code())
+	if game_data.get_all_scripts().size() > 0:
+		default_script = compiler.compile_text(game_data.get_all_scripts()[0].get_code())
 		if not default_script.is_valid:
 			print("Default script is invalid")
 			default_script.print_errors()
@@ -104,32 +111,38 @@ func init_game(p_compiler, game_data: Resource, p_game_start_mode = StartMode.De
 	_game_start_mode = p_game_start_mode
 	_game_start_param = p_game_start_param
 		
-	match p_game_start_mode:
+	match _game_start_mode:
 		StartMode.Default:
 			pass
 			
-		StartMode.FromRawScript:
-			var compiled_script = compiler.compile_text(_game_start_param)
+#		StartMode.FromRawScript:
+#			var compiled_script = compiler.compile_text(_game_start_param)
+#
+#			if compiled_script.is_valid:
+#				_game_start_param = compiled_script
+#			else:
+#				print("Script is invalid")
+#				compiled_script.print_errors()
+#				return false
+#
+#		StartMode.FromScriptResource:
+#			var compiled_script = compiler.compile_text(_game_start_param.get_code())
+#			if compiled_script.is_valid:
+#				_game_start_param = compiled_script
+#			else:
+#				print("Script is invalid")
+#				compiled_script.print_errors()
+#				return false
+#
+#		StartMode.FromCompiledScript:
+#			if not _game_start_param.is_valid:
+#				return false
+		
+		#StartMode.FromRoom: TODO
 			
-			if compiled_script.is_valid:
-				_game_start_param = compiled_script
-			else:
-				print("Script is invalid")
-				compiled_script.print_errors()
-				return false
-		
-		StartMode.FromScriptResource:
-			var compiled_script = compiler.compile_text(_game_start_param.get_code())
-			if compiled_script.is_valid:
-				_game_start_param = compiled_script
-			else:
-				print("Script is invalid")
-				compiled_script.print_errors()
-				return false
-		
-		StartMode.FromCompiledScript:
-			if not _game_start_param.is_valid:
-				return false
+		_:
+			print("Grog error: start mode %s not implemented" % StartMode.keys()[_game_start_mode])
+			return false
 	
 	_server_state = ServerState.Prepared
 	
@@ -138,9 +151,32 @@ func init_game(p_compiler, game_data: Resource, p_game_start_mode = StartMode.De
 	else:
 		player_resource = game_data.get_all_actors()[0]
 	
-	for ii in game_data.inventory_items:
-		ii.compile(compiler)
+#	for ii in game_data.get_inventory_items():
+#		ii.compile(compiler)
 	
+	if not game_data.inventory_items_scene:
+		print("No inventory_items_scene in game data")
+		return false
+	
+	inventory_items_scene = game_data.inventory_items_scene.instance()
+	
+	for ii in inventory_items_scene.get_children():
+		if not ii.has_node("item"):
+			print("Inventory item %s has no child named 'item'" % ii.get_name())
+			continue
+		
+		var item = ii.get_node("item")
+		
+		var id = item.get_id()
+		item.init_item(compiler)
+		
+		if symbols.has_symbol(id):
+			print("Duplicated inventory item id '%s'" % id)
+			continue
+		
+		var new_symbol = symbols.add_symbol(id, "inventory_item", item)
+		new_symbol.amount = 0
+		
 	return true
 
 ##############################
@@ -159,8 +195,12 @@ func update(delta):
 #	@COMMANDS
 
 func _command_load_room(room_name: String) -> Dictionary:
-	assert(_server_state == ServerState.RunningSequence)
-	
+	if _server_state != ServerState.RunningSequence:
+		if _server_state == ServerState.Initializing:
+			print("Can't load rooms in initialization phase")
+		
+		return empty_action
+		
 	var room = _load_room(room_name)
 	
 	if not room:
@@ -226,9 +266,20 @@ func _command_say(item_name: String, speech_token: Dictionary, opts: Dictionary)
 				
 			item_symbol = interacting_symbol
 		else:
-			item_symbol = _get_interacting_item(item_name)
+			#item_symbol = _get_interacting_item(item_name)
+			item_symbol = symbols.get_symbol_of_types(item_name, ["player", "scene_item"], true) 
+			
 			if not item_symbol.type:
+				# absent
 				return empty_action
+			elif item_symbol.type == "scene_item":
+				if not item_symbol.loaded:
+					print("Item '%s' can't speak: isn't loaded" % item_name)
+					return empty_action
+				elif item_symbol.disabled:
+					print("Item '%s' can't speak: is disabled" % item_name)
+					return empty_action
+		
 		item = item_symbol.target
 		
 	# else item will be null (it's a 'global' say)
@@ -379,39 +430,28 @@ func _command_disable(item_id: String) -> Dictionary:
 	return empty_action
 	
 func _command_add(item_name: String) -> Dictionary:
-	var item_symbol = symbols.get_symbol_of_types(item_name, ["inventory_item"], false)
+	var item_symbol = symbols.get_symbol_of_types(item_name, ["inventory_item"], true)
 	
-	if item_symbol == null:
-		#absent
-		var item_resource = _get_inventory_resource(item_name)
-		if not item_resource:
-			print("Inventory item '%s' not found" % item_name)
-			return empty_action
-		var new_symbol = symbols.add_symbol(item_name, "inventory_item", 1)
-		new_symbol.item_resource = item_resource
-		_server_event("item_added", [item_resource])
-	elif not item_symbol.type:
-		# type mismatch
+	if not item_symbol.type:
 		print("No inventory_item '%s'" % item_name)
-	else:
-		# already present
-		item_symbol.target += 1
-		_server_event("item_added", [item_symbol.item_resource])
+		return empty_action
+	
+	item_symbol.amount += 1
+	
+	_server_event("item_added", [item_symbol.target])
 	
 	return empty_action
 
 func _command_remove(item_name: String) -> Dictionary:
-	var item_symbol = symbols.get_symbol_of_types(item_name, ["inventory_item"], false)
+	var item_symbol = symbols.get_symbol_of_types(item_name, ["inventory_item"], true)
 	
-	if item_symbol == null or not item_symbol.type:
-		# absent or type mismatch
+	if not item_symbol.type:
 		print("No inventory_item '%s'" % item_name)
-	else:
-		# already present
-		print("Implement _command_remove!")
-
-		#symbols.remove_symbol(item_name)
-		#_server_event("item_removed", [item_name])
+		return empty_action
+	
+	item_symbol.amount -= 1
+	
+	_server_event("item_removed", [item_symbol.target])
 		
 	return empty_action
 
@@ -444,7 +484,47 @@ func _command_play(item_id: String, animation_name_token: Dictionary) -> Diction
 			item1.get_node("animation").play(animation_name)
 		else:
 			print("%s: animation player not found" % item_id)
+	
+	return empty_action
 
+func _command_set_tool(item_id: String, verb_name: String):
+	var item_symbol
+	if item_id == "self":
+		if not interacting_symbol:
+			print("There's no 'self' item")
+			return empty_action
+			
+		item_symbol = interacting_symbol
+		item_id = interacting_symbol.target.get_id()
+	else:
+		item_symbol = symbols.get_symbol_of_types(item_id, ["scene_item", "inventory_item"], true)
+		
+		if not item_symbol.type:
+			return empty_action
+		
+		if item_symbol == "scene_item":
+			if not item_symbol.loaded:
+				print("Item '%s' can't be used as tool: isn't loaded" % item_id)
+				return empty_action
+			elif item_symbol.disabled:
+				print("Item '%s' can't be used as tool: is disabled" % item_id)
+				return empty_action
+			
+			print("Setting scene_item '%s' as tool" % item_id)
+		else:
+			print("Setting inventory_item '%s' as tool" % item_id)
+	
+	#if current_tool_symbol:
+	#	print("Clearing a previous tool %s" % current_tool_symbol.target.get_id())
+		
+	#_set_tool(item_symbol, verb_name)
+	#current_tool_symbol = item_symbol
+	#current_tool_verb = verb_name
+	
+	_server_event("tool_set", [item_symbol.target, verb_name])
+	
+	# TODO
+	
 	return empty_action
 	
 # only called manually
@@ -478,18 +558,15 @@ func start_game_request(p_root_node: Node) -> bool:
 		else:
 			print("No actor scene in actor resource")
 	
-	_server_event("game_started", [current_player])
+	# initialize grog game
 	
-	_set_state(ServerState.Ready)
+	_set_state(ServerState.Initializing)
 	
-	var script = default_script if _game_start_mode == StartMode.Default else _game_start_param
-	
-	if _run_compiled(script, "start"):
-		_set_state(ServerState.RunningSequence)
+	if _run_compiled(default_script, "init"):
+		return true
 	else:
-		print("Couldn't run starting script")
-		
-	return true
+		print("Couldn't run init script")
+		return false
 	
 func skip_or_cancel_request():
 	if _server_state == ServerState.RunningSequence and _is_skippable and not _skipped:
@@ -548,101 +625,107 @@ func go_to_request(target_position: Vector2):
 	# else it's already walking
 		
 
-func interact_request(item, trigger_name: String):
+#func use_tool_request(tool_item, verb_name, target_item):
+#	interact_request(item, current_tool_verb, current_tool_symbol.target)
+	
+	
+func interact_request(item, trigger_name: String, tool_item = null):
 	if not _input_enabled or not current_player:
 		return
 	
 	if _server_state != ServerState.Ready and (_server_state != ServerState.Serving or not _is_cancelable or _canceled):
 		# interact request rejected
 		return
-
-	if item is Node:
-		# scene item
-		var symbol = symbols.get_symbol_of_types(item.global_id, ["scene_item"], true)
-		
-		if not symbol.type:
-			print("Invalid scene item '%s'" % item.global_id)
-			return
-		
-		assert(symbol.symbol_name == item.global_id)
-		assert(symbol.target == item)
-		assert(current_room.is_a_parent_of(item))
-		assert(symbol.loaded)
-		
-		if symbol.disabled:
-			print("Item '%s' is disabled" % item.global_id)
-			return
 	
-		var _sequence: Dictionary = item.get_sequence(trigger_name)
+	var id = item.get_id()
+	var item_symbol = symbols.get_symbol_of_types(id, ["scene_item", "inventory_item"], true)
 	
-		if not _sequence.has("statements"):
+	if not item_symbol.type:
+		print("No item %s" % id)
+	
+	var is_scene_item
+	if item_symbol.type == "scene_item":
+		is_scene_item = true
+		if not item_symbol.loaded:
+			print("Can't interact with scene item '%s': it's not in this room" % id)
+			return
+		elif item_symbol.disabled:
+			print("Can't interact with scene item '%s': it's disabled" % id)
+			return
+	else:
+		is_scene_item = false
+	
+	var _sequence # : Dictionary or null
+	if tool_item:
+		_sequence = item.get_sequence_with_parameter(trigger_name, tool_item.get_id())
+		if not _sequence:
 			# get fallback
-			_sequence = fallback_script.get_sequence(trigger_name)
+			_sequence = default_script.get_sequence_with_parameter("fallback/" + trigger_name, tool_item.get_id())
+	else:
+		_sequence = item.get_sequence(trigger_name)
 	
-		interacting_symbol = symbol
-		
-		_goal = { instructions = _sequence.statements, subject = current_player }
-		
-		var origin_position: Vector2 = current_player.position
-		var target_position: Vector2 = item.get_interact_position()
+		if not _sequence:
+			# get fallback
+			_sequence = default_script.get_sequence("fallback/" + trigger_name)
+	
+	if not _sequence:
+		_sequence = { statements = [], telekinetic = true }
+	
+	interacting_symbol = item_symbol
+	interacting_tool_symbol = tool_item
+	
+	_goal = { instructions = _sequence.statements, subject = current_player }
+	
+	# TODO fix code
+	var telekinetic = true
+	
+	var origin_position: Vector2
+	var target_position: Vector2
+	
+	if is_scene_item:
+		origin_position = current_player.position
+		target_position = item.get_interact_position()
 		
 		var distance = origin_position.distance_to(target_position)
 		
 		# TODO duplicated check, use that from build_path
 		var close_enough = distance <= interact_distance_threshold
 		
-		if not _sequence.telekinetic:
-			_goal.angle = item.interact_angle
-		
 		if not _sequence.telekinetic and not close_enough:
-			# Non-telekinetic sequence (walk towards the item first)
-			
-			var path = build_path(origin_position, target_position, false)
-			
-			if not path:
-				return
-			
-			_path_changed = true
-			_walking_path = path
-			_walking_subject = current_player
-			
-			if _server_state == ServerState.Ready:
-				var ok = _run_sequence([
-					{
-						type = "command",
-						command = "intern_walk",
-						params = [],
-					}
-				])
-				
-				if ok:
-					# TODO cancelable is hardcoded to true
-					_set_state(ServerState.Serving, false, true)
-				else:
-					print("Unexpected")
-		else:
-			# Telekinetic sequence
-			if _server_state == ServerState.Ready:
-				# do it immediately
-				_do_goal()
-			else:
-				# cancel current walking but don't clear _goal
-				# it will be executed later
-				_canceled = true
-			
-		# end if telekinetic or not
+			_goal.angle = item.interact_angle
+			telekinetic = false
 	
-	elif item is Resource:
-		# inventory item
-		var _sequence: Dictionary = item.get_sequence(trigger_name)
-	
-		if not _sequence.has("statements"):
-			# get fallback
-			_sequence = fallback_script.get_sequence(trigger_name)
-	
-		interacting_symbol = null # no 'self' in inventory_item's code
+	if not telekinetic:
+		# Non-telekinetic sequence (walk towards the item first)
 		
-		_goal = { instructions = _sequence.statements, subject = current_player }
+		var path = build_path(origin_position, target_position, false)
+		
+		if not path:
+			return
+		
+		_path_changed = true
+		_walking_path = path
+		_walking_subject = current_player
+		
+		if _server_state == ServerState.Ready:
+			var ok = _run_sequence([
+				{
+					type = "command",
+					command = "intern_walk",
+					params = [],
+				}
+			])
+			
+			if ok:
+				# TODO cancelable is hardcoded to true
+				_set_state(ServerState.Serving, false, true)
+			else:
+				print("Unexpected")
+		# TODO document else case
+	else:
+		if not is_scene_item and not _sequence.telekinetic:
+			print("%s: sequences over inventory items can't be non-telekinetic." % trigger_name)
+			print("Running as telekinetic anyways.")
 		
 		# Telekinetic sequence
 		if _server_state == ServerState.Ready:
@@ -652,10 +735,33 @@ func interact_request(item, trigger_name: String):
 			# cancel current walking but don't clear _goal
 			# it will be executed later
 			_canceled = true
-		
-	else:
-		print("Invalid item object")
-	# end if item is Node
+			
+		# end if telekinetic or not
+	
+#	elif item is Resource:
+#		# inventory item
+#		var _sequence: Dictionary = item.get_sequence(trigger_name)
+#
+#		if not _sequence.has("statements"):
+#			# get fallback
+#			_sequence = default_script.get_sequence("fallback/" + trigger_name)
+#
+#		interacting_symbol = null # no 'self' in inventory_item's code
+#
+#		_goal = { instructions = _sequence.statements, subject = current_player }
+#
+#		# Telekinetic sequence
+#		if _server_state == ServerState.Ready:
+#			# do it immediately
+#			_do_goal()
+#		else:
+#			# cancel current walking but don't clear _goal
+#			# it will be executed later
+#			_canceled = true
+#
+#	else:
+#		print("Invalid item object")
+#	# end if item is Node
 	
 func stop_request():
 	match _server_state:
@@ -778,6 +884,15 @@ func _runner_over(status):
 				print("Unexpected status %s; stopping anyways" % status)
 			_stop()
 			
+		ServerState.Initializing:
+			#var start_script = default_script if _game_start_mode == StartMode.Default else _game_start_param
+		
+			if _run_compiled(default_script, "start"):
+				_set_state(ServerState.RunningSequence)
+				_server_event("game_started", [current_player])
+			else:
+				print("Couldn't run starting script")
+		
 		ServerState.RunningSequence:
 			if status != Runner.RunnerStatus.Ok:
 				print("Unexpected status %s; getting ready" % status)
@@ -786,6 +901,7 @@ func _runner_over(status):
 			
 			if interacting_symbol:
 				interacting_symbol = null
+				interacting_tool_symbol = null
 			
 		ServerState.Serving:
 			if status == Runner.RunnerStatus.Canceled:
@@ -922,7 +1038,7 @@ func _free_all():
 
 func _run_sequence(instructions: Array) -> bool:
 	assert(runner == null)
-	assert(_server_state == ServerState.Ready)
+	assert(_server_state == ServerState.Ready or _server_state == ServerState.Initializing)
 	
 	runner = Runner.new()
 	
@@ -935,7 +1051,7 @@ func _run_sequence(instructions: Array) -> bool:
 	else:
 		return true
 	
-func _run_compiled(compiled_script: CompiledGrogScript, sequence_name: String) -> bool:
+func _run_compiled(compiled_script, sequence_name: String) -> bool:
 	if compiled_script.has_sequence(sequence_name):
 		var sequence = compiled_script.get_sequence(sequence_name)
 		
@@ -957,8 +1073,8 @@ func _get_actor_resource(actor_name):
 func _get_script_resource(script_name):
 	return _get_resource_in(data.get_all_scripts(), script_name)
 
-func _get_inventory_resource(item_name):
-	return _get_resource_in(data.inventory_items, item_name)
+#func _get_inventory_resource(item_name):
+#	return _get_resource_in(data.inventory_items, item_name)
 
 func _get_resource_in(list, elem_name):
 	for i in range(list.size()):
@@ -1013,26 +1129,29 @@ func _get_option_as_room_node(option_name: String, opts: Dictionary) -> Node:
 func get_state():
 	return _server_state
 
+func is_playing():
+	return get_state() in [ServerState.Ready, ServerState.RunningSequence, ServerState.Serving]
+
 # finds an actor, inventory item or a scene item that is loaded and enabled
-func _get_interacting_item(item_id: String) -> Dictionary:
-	var symbol = symbols.get_symbol_of_types(item_id, ["player", "scene_item"], true)
-	
-	if not symbol.type:
-		print("No item '%s'" % item_id)
-		return symbol
-	
-	if symbol.type == "scene_item":
-		if not symbol.loaded:
-			print("Item '%s' is not in this room (can't interact)" % item_id)
-			return SymbolTable.empty_symbol
-		
-		if symbol.disabled:
-			print("Item '%s' is disabled (can't interact)" % item_id)
-			return SymbolTable.empty_symbol
-	
-	assert(symbol.target)
-	
-	return symbol
+#func _get_interacting_item(item_id: String) -> Dictionary:
+#	var symbol = symbols.get_symbol_of_types(item_id, ["player", "scene_item"], true)
+#
+#	if not symbol.type:
+#		print("No item '%s'" % item_id)
+#		return symbol
+#
+#	if symbol.type == "scene_item":
+#		if not symbol.loaded:
+#			print("Item '%s' is not in this room (can't interact)" % item_id)
+#			return SymbolTable.empty_symbol
+#
+#		if symbol.disabled:
+#			print("Item '%s' is disabled (can't interact)" % item_id)
+#			return SymbolTable.empty_symbol
+#
+#	assert(symbol.target)
+#
+#	return symbol
 	
 # is required
 func _get_actor_item(item_id: String) -> Dictionary:
@@ -1055,9 +1174,12 @@ func get_value(var_name: String):
 		return 0 # absent symbol defaults to zero
 	
 	match symbol.type:
-		"global_variable", "inventory_item":
+		"global_variable":
 			return symbol.target
 		
+		"inventory_item":
+			return symbol.amount
+			
 		"scene_item":
 			return not symbol.disabled
 		
@@ -1072,4 +1194,9 @@ func _set_state(new_state, skippable=false, cancelable=false):
 	_skipped = false
 	_is_cancelable = cancelable
 	_canceled = false
-	
+
+#func _set_tool(item_symbol, verb_name: String):
+#	current_tool_symbol = item_symbol
+#	current_tool_verb = verb_name
+#
+#	_server_event("tool_set", [item_symbol.target, verb_name])

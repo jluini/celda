@@ -110,7 +110,6 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="text_layer/command_area"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -0.513306
@@ -289,16 +288,46 @@ margin_top = 90.0
 margin_right = 944.0
 margin_bottom = 176.0
 
+[node name="save_button" type="Button" parent="text_layer"]
+modulate = Color( 1, 1, 1, 0.686275 )
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 870.0
+margin_top = -200.274
+margin_right = 946.0
+margin_bottom = -150.274
+text = "Save"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="load_button" type="Button" parent="text_layer"]
+modulate = Color( 1, 1, 1, 0.686275 )
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = 870.0
+margin_top = -134.293
+margin_right = 946.0
+margin_bottom = -84.2928
+text = "Load"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="quit_button" type="Button" parent="text_layer"]
 modulate = Color( 1, 1, 1, 0.686275 )
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = 864.0
-margin_top = -170.0
-margin_right = 942.0
-margin_bottom = -24.0
+margin_left = 870.0
+margin_top = -70.5872
+margin_right = 946.0
+margin_bottom = -20.5872
 text = "Quit"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -391,4 +420,6 @@ __meta__ = {
 }
 [connection signal="pressed" from="text_layer/command_area/controls/inventory/arrow_up/TextureButton" to="text_layer/command_area/controls/inventory" method="_on_up_pressed"]
 [connection signal="pressed" from="text_layer/command_area/controls/inventory/arrow_down/TextureButton" to="text_layer/command_area/controls/inventory" method="_on_down_pressed"]
+[connection signal="pressed" from="text_layer/save_button" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="text_layer/load_button" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="text_layer/quit_button" to="." method="_on_quit_button_pressed"]

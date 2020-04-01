@@ -9,6 +9,8 @@ ACTION_PUSH	push	empujar
 ACTION_CLOSE	close	cerrar
 ACTION_TALK_TO	talk to	hablar
 ACTION_PULL	pull	tirar
+TOOL_PREV_USE_WITH	use	usar
+TOOL_POST_USE_WITH	with	con
 CELDA_ESCAPE_FALLBACK_LOOK	I see.	Veo.
 CELDA_ESCAPE_FALLBACK_CANT	I can't.	No puedo.
 CELDA_ESCAPE_FALLBACK_CANT_OPEN	I can't open that.	No puedo abrirlo.
@@ -23,6 +25,7 @@ ITEM_CELDA/EXIT	exit	salida
 ITEM_CELDA/DOOR1	door	puerta
 ITEM_CELDA/DESK	desk	escritorio
 ITEM_CELDA/MASK	mask	máscara
+ITEM_CELDA/CLAW	claw	gancho
 ITEM_EXIT/DOOR1	door	puerta
 ITEM_EXIT/GATE	gate	portón
 ITEM_INV_PAPER	paper	papel
