@@ -407,8 +407,9 @@ func _command_remove(item_name: String) -> Dictionary:
 	
 	item_symbol.amount -= 1
 	
-	_server_event("item_removed", [item_symbol.target])
-		
+	# TODO do this
+	_server_event("item_removed", [item_symbol.target, item_symbol.amount + 1])
+	
 	return empty_action
 
 func _command_play(item_id: String, animation_name_token: Dictionary) -> Dictionary:

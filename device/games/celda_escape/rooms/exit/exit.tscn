@@ -154,7 +154,7 @@ code = "# claw
 use_with(inv_mask):
 	#tool.remove
 	self.disable
-	celda/mask.enable
+	exit/mask.enable
 
 #use_with:
 

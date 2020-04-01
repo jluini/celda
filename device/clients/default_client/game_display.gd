@@ -186,11 +186,12 @@ func _on_server_say(subject: Node, speech: String, _duration: float, skippable: 
 	_set_skippable(skippable)
 
 # inventory item added (or incremented)
-func _on_server_item_added(item_model):
+func _on_server_item_added(item_model, instance_number: int):
 	_inventory.add_item(item_model)
 
-func _on_server_item_removed(_item_resource: Resource):
-	_inventory.remove_item(_item_resource)
+func _on_server_item_removed(_item_model: Node, instance_number: int):
+	print("Implement _on_server_item_removed")
+	#_inventory.remove_item(_item_resource)
 
 func _on_server_tool_set(new_tool, verb_name: String):
 	current_tool = new_tool
