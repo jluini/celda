@@ -12,9 +12,6 @@ export (Array, Resource) var rooms setget , get_all_rooms
 
 export (Array, Resource) var actors setget , get_all_actors
 
-# TODO remove
-export (Array, Resource) var inventory_items
-
 export (Resource) var inventory_items_scene
 
 func get_all_rooms():

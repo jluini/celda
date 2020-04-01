@@ -11,12 +11,12 @@
 | **say**           | The environment or an item says something.    | ` [<subject>].say          <speech> [skippable=true\|false]  [duration=<delay>]     ` |
 | **walk**          | Player or item walks to position.             | `   <subject>.walk         to=<target_name>                                         ` |
 | **set**           | Sets the value of a global variable.          | `            .set          <var_name>=<expression...>                               ` |
-| **enable**        | Enable a scene item (loaded or not).          | `   <subject>.enable                                                                ` |
-| **disable**       | Disable a scene item (loaded or not).         | `   <subject>.disable                                                               ` |
-| **add**           | Increments an inventory item's count.         | `            .add          <inv_name>                                               ` |
-| **remove**        | Decrements an inventory item's count.         | `            .remove       <inv_name>                                               ` |
-| **play**          | Sets a state to a scene item (loaded or not). | `   <subject>.play         <animation_name>                                         ` |
-| **set_tool**      | Sets a scene/inventory item as "tool".        | `   <subject>.set_tool     <verb_name>                                              ` |
+| **enable**        | Enable a scene item (loaded or not).          | `   <sc_item>.enable                                                                ` |
+| **disable**       | Disable a scene item (loaded or not).         | `   <sc_item>.disable                                                               ` |
+| **add**           | Increments an inventory item's count.         | `  <inv_item>.add                                                                   ` |
+| **remove**        | Decrements an inventory item's count.         | `  <inv_item>.remove                                                                ` |
+| **play**          | Sets a state to a scene item (loaded or not). | `   <sc_item>.play         <animation_name>                                         ` |
+| **set_tool**      | Sets a scene/inventory item as "tool".        | `      <item>.set_tool     <verb_name>                                              ` |
 | **end**           | Ends the game.                                | `            .end                                                                   ` |
 
 

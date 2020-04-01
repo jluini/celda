@@ -32,7 +32,7 @@
 |  `tool_set(new_tool: Node, verb_name: String)                        `  |  A scene/inventory item is set as tool.                     |
 |  `item_enabled(item: Node)                                           `  |  Scene item is client-enabled, i.e. it's loaded and non-globally disabled (client can interact with it). |
 |  `item_disabled(item: Node)                                          `  |  Scene item is client-disabled (either unloaded or disabled in practice). Client must clear it. |
-|  `item_added(item: InventoryItemResource)                            `  |  Inventory item's count is incremented.                     |
-|  `item_removed(item: InventoryItemResource)                          `  |  Inventory item's count is decremented.                     |
+|  `item_added(item_model: Node, instance_number: int)                 `  |  Inventory item's instance added.                      |
+|  `item_removed(item_model: Node, instance_number: int)               `  |  Inventory item's instance is removed.                     |
 
 [<- back to index](index.md)

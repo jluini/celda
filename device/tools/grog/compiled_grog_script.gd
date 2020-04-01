@@ -36,7 +36,6 @@ func get_sequence(sequence_name: String):
 	if not is_valid:
 		return null
 	elif not has_sequence(sequence_name):
-		print("Sequence '%s' not present" % sequence_name)
 		return null
 	
 	return _sequences[sequence_name]

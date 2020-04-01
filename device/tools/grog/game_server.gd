@@ -57,7 +57,6 @@ var interacting_tool_symbol = null
 var player_resource
 
 # Cache scripts
-#var fallback_script: CompiledGrogScript
 var default_script
 
 # Intern
@@ -88,16 +87,6 @@ func init_game(p_compiler, game_data: Resource, p_game_start_mode = StartMode.De
 	compiler = p_compiler
 	data = game_data
 	
-#	if game_data.get_all_scripts().size() > 0:
-#		fallback_script = compiler.compile_text(game_data.get_all_scripts()[0].get_code())
-#		if not fallback_script.is_valid:
-#			print("Fallback script is invalid")
-#			fallback_script.print_errors()
-#			fallback_script = CompiledGrogScript.new()
-#	else:
-#		print("No fallback script")
-#		fallback_script = CompiledGrogScript.new()
-	
 	if game_data.get_all_scripts().size() > 0:
 		default_script = compiler.compile_text(game_data.get_all_scripts()[0].get_code())
 		if not default_script.is_valid:
@@ -114,32 +103,10 @@ func init_game(p_compiler, game_data: Resource, p_game_start_mode = StartMode.De
 	match _game_start_mode:
 		StartMode.Default:
 			pass
-			
-#		StartMode.FromRawScript:
-#			var compiled_script = compiler.compile_text(_game_start_param)
-#
-#			if compiled_script.is_valid:
-#				_game_start_param = compiled_script
-#			else:
-#				print("Script is invalid")
-#				compiled_script.print_errors()
-#				return false
-#
-#		StartMode.FromScriptResource:
-#			var compiled_script = compiler.compile_text(_game_start_param.get_code())
-#			if compiled_script.is_valid:
-#				_game_start_param = compiled_script
-#			else:
-#				print("Script is invalid")
-#				compiled_script.print_errors()
-#				return false
-#
-#		StartMode.FromCompiledScript:
-#			if not _game_start_param.is_valid:
-#				return false
 		
-		#StartMode.FromRoom: TODO
-			
+		#StartMode.FromRoom:
+		#	pass # TODO
+		
 		_:
 			print("Grog error: start mode %s not implemented" % StartMode.keys()[_game_start_mode])
 			return false
@@ -150,9 +117,6 @@ func init_game(p_compiler, game_data: Resource, p_game_start_mode = StartMode.De
 		print("No actors")
 	else:
 		player_resource = game_data.get_all_actors()[0]
-	
-#	for ii in game_data.get_inventory_items():
-#		ii.compile(compiler)
 	
 	if not game_data.inventory_items_scene:
 		print("No inventory_items_scene in game data")
@@ -266,7 +230,6 @@ func _command_say(item_name: String, speech_token: Dictionary, opts: Dictionary)
 				
 			item_symbol = interacting_symbol
 		else:
-			#item_symbol = _get_interacting_item(item_name)
 			item_symbol = symbols.get_symbol_of_types(item_name, ["player", "scene_item"], true) 
 			
 			if not item_symbol.type:
@@ -298,9 +261,10 @@ func _command_say(item_name: String, speech_token: Dictionary, opts: Dictionary)
 func _command_walk(item_name: String, to_node_named: String) -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
-	var item_symbol = _get_actor_item(item_name)
+	var item_symbol = symbols.get_symbol_of_types(item_name, ["player"], true)
 	
 	if not item_symbol.type:
+		print("No actor '%s'" % item_name)
 		return empty_action
 	
 	var item = item_symbol.target
@@ -389,15 +353,11 @@ func _command_enable(item_id: String) -> Dictionary:
 	item_symbol.disabled = false
 
 	if item_symbol.loaded:
-		var item1 = loaded_scene_items[item_id]
-		var item2 = item_symbol.target
+		var item = item_symbol.target
+		assert(item == loaded_scene_items[item_id])
 
-		if item1 != item2:
-			print("Inconsistent %s != %s" % [item1, item2])
-			return empty_action
-
-		item1.enable()
-		_server_event("item_enabled", [item1])
+		item.enable()
+		_server_event("item_enabled", [item])
 
 	return empty_action
 	
@@ -417,15 +377,11 @@ func _command_disable(item_id: String) -> Dictionary:
 	item_symbol.disabled = true
 
 	if item_symbol.loaded:
-		var item1 = loaded_scene_items[item_id]
-		var item2 = item_symbol.target
+		var item = item_symbol.target
+		assert(item == loaded_scene_items[item_id])
 
-		if item1 != item2:
-			print("Inconsistent %s != %s" % [item1, item2])
-			return empty_action
-
-		item1.disable()
-		_server_event("item_disabled", [item1])
+		item.disable()
+		_server_event("item_disabled", [item])
 
 	return empty_action
 	
@@ -438,7 +394,7 @@ func _command_add(item_name: String) -> Dictionary:
 	
 	item_symbol.amount += 1
 	
-	_server_event("item_added", [item_symbol.target])
+	_server_event("item_added", [item_symbol.target, item_symbol.amount])
 	
 	return empty_action
 
@@ -473,15 +429,11 @@ func _command_play(item_id: String, animation_name_token: Dictionary) -> Diction
 	item_symbol.animation = animation_name
 	
 	if item_symbol.loaded and not item_symbol.disabled:
-		var item1 = loaded_scene_items[item_id]
-		var item2 = item_symbol.target
+		var item = item_symbol.target
+		assert(item == loaded_scene_items[item_id])
 
-		if item1 != item2:
-			print("Inconsistent %s != %s" % [item1, item2])
-			return empty_action
-
-		if item1.has_node("animation"):
-			item1.get_node("animation").play(animation_name)
+		if item.has_node("animation"):
+			item.get_node("animation").play(animation_name)
 		else:
 			print("%s: animation player not found" % item_id)
 	
@@ -523,22 +475,11 @@ func _command_set_tool(item_id: String, verb_name: String):
 	
 	_server_event("tool_set", [item_symbol.target, verb_name])
 	
-	# TODO
-	
 	return empty_action
 	
 # only called manually
 func _command_intern_walk() -> Dictionary:
 	return { coroutine = _intern_walk_coroutine() }
-
-#func new_command():
-#	return empty_action
-
-#func new_command(subject: String):
-#	return empty_action
-
-#func new_command(subject: String, opts: Dictionary):
-#	return empty_action
 
 ##############################
 
@@ -624,11 +565,6 @@ func go_to_request(target_position: Vector2):
 	
 	# else it's already walking
 		
-
-#func use_tool_request(tool_item, verb_name, target_item):
-#	interact_request(item, current_tool_verb, current_tool_symbol.target)
-	
-	
 func interact_request(item, trigger_name: String, tool_item = null):
 	if not _input_enabled or not current_player:
 		return
@@ -677,32 +613,28 @@ func interact_request(item, trigger_name: String, tool_item = null):
 	_goal = { instructions = _sequence.statements, subject = current_player }
 	
 	# TODO fix code
-	var telekinetic = true
+	#var telekinetic = true
 	
-	var origin_position: Vector2
-	var target_position: Vector2
+	var potentially_telekinetic = is_scene_item and not _sequence.telekinetic
 	
-	if is_scene_item:
-		origin_position = current_player.position
-		target_position = item.get_interact_position()
-		
-		var distance = origin_position.distance_to(target_position)
-		
-		# TODO duplicated check, use that from build_path
-		var close_enough = distance <= interact_distance_threshold
-		
-		if not _sequence.telekinetic and not close_enough:
-			_goal.angle = item.interact_angle
-			telekinetic = false
+	var actually_telekinetic
+	var path
 	
-	if not telekinetic:
-		# Non-telekinetic sequence (walk towards the item first)
+	if potentially_telekinetic:
+		var origin_position = current_player.position
+		var target_position = item.get_interact_position()
+		path = build_path(origin_position, target_position, false)
 		
-		var path = build_path(origin_position, target_position, false)
-		
-		if not path:
-			return
-		
+		if path:
+			actually_telekinetic = true
+		else:
+			actually_telekinetic = false
+		# else execute as telekinetic
+		# TODO should change angle though?
+	else:
+		actually_telekinetic = false
+	
+	if actually_telekinetic:
 		_path_changed = true
 		_walking_path = path
 		_walking_subject = current_player
@@ -721,7 +653,11 @@ func interact_request(item, trigger_name: String, tool_item = null):
 				_set_state(ServerState.Serving, false, true)
 			else:
 				print("Unexpected")
-		# TODO document else case
+		
+		# else the state is Serving so the walking coroutine is active;
+		# we just reconfigured walking parameters and set _path_changed,
+		# so the walking coroutine should detect it and refresh the path
+		
 	else:
 		if not is_scene_item and not _sequence.telekinetic:
 			print("%s: sequences over inventory items can't be non-telekinetic." % trigger_name)
@@ -736,32 +672,6 @@ func interact_request(item, trigger_name: String, tool_item = null):
 			# it will be executed later
 			_canceled = true
 			
-		# end if telekinetic or not
-	
-#	elif item is Resource:
-#		# inventory item
-#		var _sequence: Dictionary = item.get_sequence(trigger_name)
-#
-#		if not _sequence.has("statements"):
-#			# get fallback
-#			_sequence = default_script.get_sequence("fallback/" + trigger_name)
-#
-#		interacting_symbol = null # no 'self' in inventory_item's code
-#
-#		_goal = { instructions = _sequence.statements, subject = current_player }
-#
-#		# Telekinetic sequence
-#		if _server_state == ServerState.Ready:
-#			# do it immediately
-#			_do_goal()
-#		else:
-#			# cancel current walking but don't clear _goal
-#			# it will be executed later
-#			_canceled = true
-#
-#	else:
-#		print("Invalid item object")
-#	# end if item is Node
 	
 func stop_request():
 	match _server_state:
@@ -885,8 +795,6 @@ func _runner_over(status):
 			_stop()
 			
 		ServerState.Initializing:
-			#var start_script = default_script if _game_start_mode == StartMode.Default else _game_start_param
-		
 			if _run_compiled(default_script, "start"):
 				_set_state(ServerState.RunningSequence)
 				_server_event("game_started", [current_player])
@@ -1034,8 +942,6 @@ func _free_all():
 
 #	@RUNNING
 
-# TODO change name of this functions starting with '_run' like commands
-
 func _run_sequence(instructions: Array) -> bool:
 	assert(runner == null)
 	assert(_server_state == ServerState.Ready or _server_state == ServerState.Initializing)
@@ -1073,9 +979,6 @@ func _get_actor_resource(actor_name):
 func _get_script_resource(script_name):
 	return _get_resource_in(data.get_all_scripts(), script_name)
 
-#func _get_inventory_resource(item_name):
-#	return _get_resource_in(data.inventory_items, item_name)
-
 func _get_resource_in(list, elem_name):
 	for i in range(list.size()):
 		var elem = list[i]
@@ -1109,19 +1012,6 @@ func build_path(origin_position: Vector2, target_position: Vector2, is_global):
 	
 	return path
 
-# TODO is it used?
-func _get_option_as_room_node(option_name: String, opts: Dictionary) -> Node:
-	if not opts.has(option_name):
-		return null
-	
-	var node_name: String = opts[option_name]
-	
-	if not current_room.has_node(node_name):
-		print("Node '%s' not found" % node_name)
-		return null
-		
-	return current_room.get_node(node_name)
-
 ##############################
 
 #	@GLOBAL STATE ACCESS
@@ -1132,40 +1022,6 @@ func get_state():
 func is_playing():
 	return get_state() in [ServerState.Ready, ServerState.RunningSequence, ServerState.Serving]
 
-# finds an actor, inventory item or a scene item that is loaded and enabled
-#func _get_interacting_item(item_id: String) -> Dictionary:
-#	var symbol = symbols.get_symbol_of_types(item_id, ["player", "scene_item"], true)
-#
-#	if not symbol.type:
-#		print("No item '%s'" % item_id)
-#		return symbol
-#
-#	if symbol.type == "scene_item":
-#		if not symbol.loaded:
-#			print("Item '%s' is not in this room (can't interact)" % item_id)
-#			return SymbolTable.empty_symbol
-#
-#		if symbol.disabled:
-#			print("Item '%s' is disabled (can't interact)" % item_id)
-#			return SymbolTable.empty_symbol
-#
-#	assert(symbol.target)
-#
-#	return symbol
-	
-# is required
-func _get_actor_item(item_id: String) -> Dictionary:
-	var symbol = symbols.get_symbol_of_types(item_id, ["player"], true)
-	
-	if not symbol.type:
-		print("No actor '%s'" % item_id)
-		return symbol
-	
-	assert(current_player != null)
-	assert(current_player == symbol.target)
-	
-	return symbol
-	
 func get_value(var_name: String):
 	var symbol = symbols.get_symbol(var_name)
 	
