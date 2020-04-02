@@ -9,16 +9,27 @@ code_or_filename = "
 init:
 	.set number=0
 	.set door_seen=false
-	exit/claw.disable
+	
+	exit/claw1.disable
+	exit/claw2.disable
+	exit/claw3.disable
+	
+	exit/mask2.play red
+	exit/mask3.play green
+	
+	.set claw1_content=default
+	.set claw2_content=red
+	.set claw3_content=green
 
 start:
-
 	.say \"Érase una celda...\"
 	
 	.set number=0
 	.set door_seen=false
 	
 	.load_room celda
+	#.load_room exit
+	
 	.enable_input
 
 

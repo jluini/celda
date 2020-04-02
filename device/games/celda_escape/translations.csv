@@ -25,10 +25,16 @@ ITEM_CELDA/EXIT	exit	salida
 ITEM_CELDA/DOOR1	door	puerta
 ITEM_CELDA/BED	bed	cama
 ITEM_CELDA/TOILET	toilet	inodoro
-ITEM_EXIT/MASK	mask	máscara
-ITEM_EXIT/CLAW	claw	gancho
-ITEM_EXIT/DOOR1	door	puerta
+ITEM_EXIT/DOOR	door	puerta
 ITEM_EXIT/GATE	gate	portón
+ITEM_EXIT/CLAW1	claw	gancho
+ITEM_EXIT/CLAW2	claw	gancho
+ITEM_EXIT/CLAW3	claw	gancho
+ITEM_EXIT/MASK1	mask	máscara
+ITEM_EXIT/MASK2	mask	máscara
+ITEM_EXIT/MASK3	mask	máscara
+ITEM_INV_MASK_DEFAULT	blue mask	máscara azul
+ITEM_INV_MASK_RED	red mask	máscara roja
+ITEM_INV_MASK_GREEN	green mask	máscara verde
 ITEM_INV_PAPER	paper	papel
-ITEM_INV_MASK	mask	máscara
 ITEM_INV_THING	thing	cosa

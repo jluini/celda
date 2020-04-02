@@ -24,30 +24,36 @@ func clear():
 	_update_arrows()
 	_redraw_all()
 	
-func add_item(item_model):
+func add_item(item):
 	var index = _items.size()
-	_items.append(item_model)
+	_items.append(item)
 	
 	var holder = current_holder_for_index(index)
 	
 	if holder:
-		_draw_item(holder, item_model)
+		_draw_item(holder, item)
 	else:
 		# scroll to bottom to show it
 		while _can_go_down():
 			_offset += 1
 		_redraw_all()
-	
-	_update_arrows()
+		_update_arrows()
 
-func remove_item(_item_model):
-	print("Implement remove_item")
+func remove_item(_item):
+	_items.erase(_item)
+	_redraw_all()
+	_update_arrows()
+	
 	
 func _draw_item(holder, item_model):
 	var texture = null
+	var modulate = Color.white
 	if item_model:
 		texture = item_model.texture
+		modulate = item_model.modulate
+		
 	holder.get_node("image").texture = texture
+	holder.get_node("image").modulate = modulate
 
 func current_holder_for_index(index: int) -> Node:
 	var minimum_shown = _offset * num_cols
@@ -107,7 +113,6 @@ func get_item_at(global_position: Vector2):
 		if holder.get_global_rect().has_point(global_position):
 			var item_index = _offset * num_cols + holder_index
 			if item_index < _items.size():
-				var item_model = _items[item_index]
-				return item_model
+				return  _items[item_index]
 	
 	return null

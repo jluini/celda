@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://games/celda_escape/rooms/celda/images/background.jpg" type="Texture" id=1]
 [ext_resource path="res://games/celda_escape/items/mask.png" type="Texture" id=2]
@@ -11,6 +11,141 @@
 vertices = PoolVector2Array( -693.757, 575.281, -129.556, 575.385, 244.19, 576.673, 670.913, 578.145, 914.348, 787.213, -829.795, 791.509, -822.635, 674.087, -832.659, 499.386, -940.057, 570.985, -939.75, 503.444 )
 polygons = [ PoolIntArray( 0, 1, 2, 3, 4, 5, 6 ), PoolIntArray( 7, 0, 6, 8, 9 ) ]
 outlines = [ PoolVector2Array( -693.757, 575.281, -832.659, 499.386, -939.75, 503.444, -940.057, 570.985, -822.635, 674.087, -829.795, 791.509, 914.348, 787.213, 670.913, 578.145, 244.19, 576.673, -129.556, 575.385 ) ]
+
+[sub_resource type="Animation" id=2]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "green"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 1, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "red"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "green"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 1, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "red"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "green"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 1, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "red"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 0, 0, 1 ) ]
+}
 
 [node name="exit" type="Control"]
 anchor_left = 0.5
@@ -61,6 +196,36 @@ texture = ExtResource( 3 )
 centered = false
 flip_h = true
 
+[node name="ColorRect2" type="ColorRect" parent="background"]
+margin_left = 1405.01
+margin_top = 164.821
+margin_right = 1445.01
+margin_bottom = 204.821
+color = Color( 0, 0, 1, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect3" type="ColorRect" parent="background"]
+margin_left = 1339.63
+margin_top = 163.713
+margin_right = 1379.63
+margin_bottom = 203.713
+color = Color( 0, 1, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect4" type="ColorRect" parent="background"]
+margin_left = 1274.26
+margin_top = 164.821
+margin_right = 1314.26
+margin_bottom = 204.821
+color = Color( 1, 0.0470588, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Navigation2D" type="Navigation2D" parent="."]
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
@@ -78,7 +243,8 @@ position = Vector2( 1360, 383.942 )
 z_index = 571
 z_as_relative = false
 script = ExtResource( 5 )
-global_id = "exit/door1"
+item_key = "exit/door"
+instance_number = 0
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
 interact_angle = 270
 code = "
@@ -98,7 +264,18 @@ pick_up: TK
 	you.say \"¿Me decís en serio?\"
 
 open:
-	you.say \"Está cerrada con llave\"
+	if $claw1_content = red:
+		if $claw2_content = green:
+			if $claw3_content = default:
+				.say \"Ganaste\" skippable=false
+				.say \"Sos une genie\" skippable=false
+				.end
+			else:
+				you.say \"Está trabada.\"
+		else:
+			you.say \"Está trabada.\"
+	else:
+		you.say \"Está trabada.\"
 
 close: TK
 	you.say \"Ya está cerrada\""
@@ -111,7 +288,9 @@ position = Vector2( 10.0393, 239.253 )
 [node name="gate" type="Node2D" parent="items"]
 position = Vector2( 1841.05, 484.763 )
 script = ExtResource( 5 )
-global_id = "exit/gate"
+item_key = "exit/gate"
+instance_number = 0
+color = Color( 0, 0, 0, 1 )
 interact_angle = 0
 code = "
 walk_to:
@@ -123,40 +302,148 @@ radius = 250.0
 [node name="interact_position" type="Position2D" parent="items/gate"]
 position = Vector2( 6.47537, 125.192 )
 
-[node name="mask" type="Node2D" parent="items"]
+[node name="mask1" type="Node2D" parent="items"]
 position = Vector2( 603.91, 334.516 )
 script = ExtResource( 5 )
-global_id = "exit/mask"
+item_key = "exit/mask1"
+instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 270
 code = "look_at:
 	you.say DEMO_GAME_MASK
 
+
 pick_up:
-	self.disable
-	exit/claw.enable
-	inv_mask.add
-"
+	if $claw1_content = \"\":
+		.say \"No deberia pasar\"
+	else:
+		self.disable
+		exit/claw1.enable
+		
+		if $claw1_content = \"default\":
+			inv_mask_default.add
+		if $claw1_content = \"red\":
+			inv_mask_red.add
+		if $claw1_content = \"green\":
+			inv_mask_green.add
+		
+		.set claw1_content = \"\""
 walk_speed = 0.0
 radius = 40.0
 
-[node name="Sprite" type="Sprite" parent="items/mask"]
+[node name="Sprite" type="Sprite" parent="items/mask1"]
 texture = ExtResource( 2 )
 
-[node name="claw" type="Node2D" parent="items"]
-position = Vector2( 594.505, 328.497 )
+[node name="animation" type="AnimationPlayer" parent="items/mask1"]
+anims/default = SubResource( 2 )
+anims/green = SubResource( 3 )
+anims/red = SubResource( 4 )
+
+[node name="mask2" type="Node2D" parent="items"]
+position = Vector2( 803.91, 334.516 )
 script = ExtResource( 5 )
-global_id = "exit/claw"
+item_key = "exit/mask2"
+instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 270
-code = "# claw
+code = "look_at:
+	you.say DEMO_GAME_MASK
 
-use_with(inv_mask):
-	#tool.remove
+
+pick_up:
+	if $claw2_content = \"\":
+		.say \"No deberia pasar\"
+	else:
+		self.disable
+		exit/claw2.enable
+		
+		if $claw2_content = \"default\":
+			inv_mask_default.add
+		if $claw2_content = \"red\":
+			inv_mask_red.add
+		if $claw2_content = \"green\":
+			inv_mask_green.add
+		
+		.set claw2_content = \"\""
+walk_speed = 0.0
+radius = 40.0
+
+[node name="Sprite" type="Sprite" parent="items/mask2"]
+texture = ExtResource( 2 )
+
+[node name="animation" type="AnimationPlayer" parent="items/mask2"]
+anims/default = SubResource( 5 )
+anims/green = SubResource( 6 )
+anims/red = SubResource( 7 )
+
+[node name="mask3" type="Node2D" parent="items"]
+position = Vector2( 1003.91, 334.516 )
+script = ExtResource( 5 )
+item_key = "exit/mask3"
+instance_number = 0
+color = Color( 1, 1, 1, 1 )
+interact_angle = 270
+code = "look_at:
+	you.say DEMO_GAME_MASK
+
+
+pick_up:
+	if $claw3_content = \"\":
+		.say \"No deberia pasar\"
+	else:
+		self.disable
+		exit/claw3.enable
+		
+		if $claw3_content = \"default\":
+			inv_mask_default.add
+		if $claw3_content = \"red\":
+			inv_mask_red.add
+		if $claw3_content = \"green\":
+			inv_mask_green.add
+		
+		.set claw3_content = \"\""
+walk_speed = 0.0
+radius = 40.0
+
+[node name="Sprite" type="Sprite" parent="items/mask3"]
+texture = ExtResource( 2 )
+
+[node name="animation" type="AnimationPlayer" parent="items/mask3"]
+anims/default = SubResource( 8 )
+anims/green = SubResource( 9 )
+anims/red = SubResource( 10 )
+
+[node name="claw1" type="Node2D" parent="items"]
+position = Vector2( 594.505, 328.497 )
+script = ExtResource( 5 )
+item_key = "exit/claw1"
+instance_number = 0
+color = Color( 1, 1, 1, 1 )
+interact_angle = 270
+code = "# claw1
+
+use_with(inv_mask_default):
+	tool.remove
 	self.disable
-	exit/mask.enable
+	exit/mask1.enable
+	exit/mask1.play default
+	.set claw1_content=default
 
-#use_with:
+use_with(inv_mask_red):
+	tool.remove
+	self.disable
+	exit/mask1.enable
+	exit/mask1.play red
+	.set claw1_content=red
+	
+use_with(inv_mask_green):
+	tool.remove
+	self.disable
+	exit/mask1.enable
+	exit/mask1.play green
+	.set claw1_content=green
+		
+
 
 look_at:
 	you.say \"Me parece peligroso.\"
@@ -166,6 +453,94 @@ talk_to: TK
 walk_speed = 0.0
 radius = 35.0
 
-[node name="Sprite" type="Sprite" parent="items/claw"]
+[node name="Sprite" type="Sprite" parent="items/claw1"]
+rotation = 0.621337
+texture = ExtResource( 6 )
+
+[node name="claw2" type="Node2D" parent="items"]
+position = Vector2( 794.505, 328.497 )
+script = ExtResource( 5 )
+item_key = "exit/claw2"
+instance_number = 0
+color = Color( 1, 1, 1, 1 )
+interact_angle = 270
+code = "# claw2
+
+use_with(inv_mask_default):
+	tool.remove
+	self.disable
+	exit/mask2.enable
+	exit/mask2.play default
+	.set claw2_content=default
+
+use_with(inv_mask_red):
+	tool.remove
+	self.disable
+	exit/mask2.enable
+	exit/mask2.play red
+	.set claw2_content=red
+	
+use_with(inv_mask_green):
+	tool.remove
+	self.disable
+	exit/mask2.enable
+	exit/mask2.play green
+	.set claw2_content=green
+		
+
+
+look_at:
+	you.say \"Me parece peligroso.\"
+	
+talk_to: TK
+	you.say \"¿Hablar con un gancho?\""
+walk_speed = 0.0
+radius = 35.0
+
+[node name="Sprite" type="Sprite" parent="items/claw2"]
+rotation = 0.621337
+texture = ExtResource( 6 )
+
+[node name="claw3" type="Node2D" parent="items"]
+position = Vector2( 994.505, 328.497 )
+script = ExtResource( 5 )
+item_key = "exit/claw3"
+instance_number = 0
+color = Color( 1, 1, 1, 1 )
+interact_angle = 270
+code = "# claw3
+
+use_with(inv_mask_default):
+	tool.remove
+	self.disable
+	exit/mask3.enable
+	exit/mask3.play default
+	.set claw3_content=default
+
+use_with(inv_mask_red):
+	tool.remove
+	self.disable
+	exit/mask3.enable
+	exit/mask3.play red
+	.set claw3_content=red
+	
+use_with(inv_mask_green):
+	tool.remove
+	self.disable
+	exit/mask3.enable
+	exit/mask3.play green
+	.set claw3_content=green
+		
+
+
+look_at:
+	you.say \"Me parece peligroso.\"
+	
+talk_to: TK
+	you.say \"¿Hablar con un gancho?\""
+walk_speed = 0.0
+radius = 35.0
+
+[node name="Sprite" type="Sprite" parent="items/claw3"]
 rotation = 0.621337
 texture = ExtResource( 6 )

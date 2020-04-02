@@ -172,6 +172,11 @@ func _on_server_item_disabled(item):
 	
 	if current_item == item:
 		_set_current_item(null)
+	elif current_tool == item:
+		current_item = null
+		current_tool = null
+		current_tool_verb = ""
+		_update_action_display()
 
 func _on_server_wait_started(_duration: float, skippable: bool):
 	# start waiting '_duration' seconds
@@ -193,13 +198,20 @@ func _on_server_say(subject: Node, speech: String, _duration: float, skippable: 
 	
 	_set_skippable(skippable)
 
-# inventory item added (or incremented)
-func _on_server_item_added(item_model, instance_number: int):
-	_inventory.add_item(item_model)
+func _on_server_item_added(item):
+	_inventory.add_item(item)
 
-func _on_server_item_removed(_item_model: Node, instance_number: int):
-	print("Implement _on_server_item_removed")
-	#_inventory.remove_item(_item_resource)
+func _on_server_item_removed(item: Node):
+	_inventory.remove_item(item)
+	
+	if current_item == item:
+		_set_current_item(null)
+	elif current_tool == item:
+		current_item = null
+		current_tool = null
+		current_tool_verb = ""
+		_update_action_display()
+	
 
 func _on_server_tool_set(new_tool, verb_name: String):
 	current_tool = new_tool
@@ -232,7 +244,7 @@ func _left_click(position: Vector2):
 		else:
 			server.interact_request(clicked_item, current_action.target)
 		
-		# _clear_all() TODO
+		_clear_all()
 	elif _room_area.get_global_rect().has_point(position) and not current_tool:
 		server.go_to_request(position)
 
@@ -294,10 +306,14 @@ func _set_input_enabled(new_value: bool):
 	_input_enabled_flag.pressed = new_value
 
 func _on_action_selected(_old_action, new_action: Node):
+	current_tool = null
+	current_tool_verb = ""
 	_set_current_action(new_action)
 	
 
 func _on_action_deselected(_old_view):
+	current_tool = null
+	current_tool_verb = ""
 	_set_current_action(default_action)
 
 func _set_current_action(new_action):
@@ -332,7 +348,7 @@ func _update_action_display():
 # Misc
 
 func _item_name(item):
-	var translation_key = "ITEM_" + item.get_id().to_upper()
+	var translation_key = "ITEM_" + item.get_key().to_upper()
 	return tr(translation_key)
 
 #func _current_item_id():

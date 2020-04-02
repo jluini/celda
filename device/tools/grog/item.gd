@@ -1,6 +1,8 @@
 extends Node2D
 
-export (String) var global_id
+export (String) var item_key
+
+export (int) var instance_number = 0
 export (Color) var color
 
 export (int) var interact_angle = 90
@@ -30,7 +32,7 @@ func init_item(compiler):
 		_compiled_script = compiler.compile_text(code)
 		
 		if not _compiled_script.is_valid:
-			print("Item '%s': script is invalid" % global_id)
+			print("Item '%s': script is invalid" % get_key())
 			_compiled_script.print_errors()
 
 func get_sequence(trigger_name: String) -> Dictionary:
@@ -71,4 +73,10 @@ func disable():
 	visible = false
 
 func get_id():
-	return global_id
+	if instance_number == 0:
+		return get_key()
+	else:
+		return "%s.%s" % [get_key(), str(instance_number)]
+
+func get_key():
+	return item_key

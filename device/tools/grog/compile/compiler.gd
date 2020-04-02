@@ -707,15 +707,16 @@ func compile_lines(compiled_script, lines: Array):
 	assert(level == 0)
 	
 	for seq in statements:
-		var sequence = {
-			statements = seq.instructions,
-			telekinetic = seq.telekinetic
-		}
 		if seq.pattern:
-			sequence.pattern = seq.pattern
-		
-		compiled_script.add_sequence(seq.trigger_name, sequence)
-		
+			compiled_script.add_sequence_with_parameter(seq.trigger_name, seq.pattern, {
+				statements = seq.instructions,
+				telekinetic = seq.telekinetic,
+			})
+		else:
+			compiled_script.add_sequence(seq.trigger_name, {
+				statements = seq.instructions,
+				telekinetic = seq.telekinetic
+			})
 
 func get_named_param(named_params: Array, name: String):
 	for np in named_params:
@@ -740,6 +741,8 @@ func parse_expression(tokens: Array) -> Dictionary:
 				return { result = FixedExpression.new(false), type = "bool" }
 			Grog.TokenType.Integer, Grog.TokenType.Float:
 				return { result = FixedExpression.new(token.data.number_value), type = "number" }
+			Grog.TokenType.Quote:
+				return { result = FixedExpression.new(token.content), type = "string" }
 			_:
 				return { result = false, message = "token of type %s can't be used as expression" % Grog.TokenType.keys()[token.type] }
 	

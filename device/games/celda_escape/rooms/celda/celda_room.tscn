@@ -12,9 +12,9 @@
 [ext_resource path="res://games/celda_escape/rooms/celda/images/Cartel.png" type="Texture" id=13]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 897.983, 762.257, 967.964, 804, 367.645, 803.591, 750.654, 758.574, 737.149, 635.8, 794.707, 677.744, 706.456, 676.315, 389.7, 634.572, 705.228, 714.375, 258.812, 829.946, 117.333, 568.755, 329.54, 574.413, 283.299, 873.478, 91.4861, 803.403, -833.127, 802.772, -822.635, 674.087, -669.838, 601.423, -940.057, 570.985, -939.75, 503.444, -832.659, 499.386, -588.807, 562.136, 8.50293, 764.648, 166.306, 868.037, 204.397, 843.55, 179.91, 795.937, -18.6998, 569.758 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7 ), PoolIntArray( 8, 3, 2, 7 ), PoolIntArray( 9, 10, 11, 7, 2, 12 ), PoolIntArray( 13, 14, 15, 16 ), PoolIntArray( 15, 17, 18, 19, 16 ), PoolIntArray( 13, 16, 20, 21 ), PoolIntArray( 7, 6, 8 ), PoolIntArray( 9, 12, 22, 23 ), PoolIntArray( 24, 23, 22, 13 ), PoolIntArray( 21, 24, 13 ), PoolIntArray( 21, 20, 25 ) ]
-outlines = [ PoolVector2Array( -669.838, 601.423, -832.659, 499.386, -939.75, 503.444, -940.057, 570.985, -822.635, 674.087, -833.127, 802.772, 91.4861, 803.403, 166.306, 868.037, 283.299, 873.478, 367.645, 803.591, 967.964, 804, 897.983, 762.257, 750.654, 758.574, 705.228, 714.375, 706.456, 676.315, 794.707, 677.744, 737.149, 635.8, 389.7, 634.572, 329.54, 574.413, 117.333, 568.755, 258.812, 829.946, 204.397, 843.55, 179.91, 795.937, 8.50293, 764.648, -18.6998, 569.758, -588.807, 562.136 ) ]
+vertices = PoolVector2Array( 897.983, 762.257, 967.964, 804, 241.487, 805.672, 750.654, 758.574, 737.149, 635.8, 794.707, 677.744, 706.456, 676.315, 389.7, 634.572, 705.228, 714.375, 117.333, 568.755, 329.54, 574.413 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7 ), PoolIntArray( 8, 3, 2, 7 ), PoolIntArray( 2, 9, 10, 7 ), PoolIntArray( 8, 7, 6 ) ]
+outlines = [ PoolVector2Array( 967.964, 804, 897.983, 762.257, 750.654, 758.574, 705.228, 714.375, 706.456, 676.315, 794.707, 677.744, 737.149, 635.8, 389.7, 634.572, 329.54, 574.413, 117.333, 568.755, 241.487, 805.672 ) ]
 
 [sub_resource type="Animation" id=2]
 resource_name = "default"
@@ -136,7 +136,8 @@ position = Vector2( 1206.05, 586.552 )
 position = Vector2( 1162.07, 233.242 )
 z_index = 571
 script = ExtResource( 5 )
-global_id = "celda/thing"
+item_key = "celda/thing"
+instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 22
 code = "
@@ -176,7 +177,8 @@ anims/erased = SubResource( 3 )
 [node name="exit" type="Node2D" parent="items"]
 position = Vector2( 1726.48, 251.712 )
 script = ExtResource( 5 )
-global_id = "celda/exit"
+item_key = "celda/exit"
+instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 0
 code = "
@@ -225,7 +227,8 @@ texture = ExtResource( 13 )
 [node name="door" type="Node2D" parent="items"]
 position = Vector2( 555.421, 383.942 )
 script = ExtResource( 5 )
-global_id = "celda/door1"
+item_key = "celda/door"
+instance_number = 0
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
 interact_angle = 270
 code = "
@@ -263,7 +266,8 @@ position = Vector2( 10.0393, 239.253 )
 [node name="bed" type="Node2D" parent="items"]
 position = Vector2( 1508, 530 )
 script = ExtResource( 5 )
-global_id = "celda/bed"
+item_key = "celda/bed"
+instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 270
 code = "
@@ -274,7 +278,7 @@ look_at:
 	you.say \"Se retira en mi domicilio\" duration=1.5
 
 talk_to: TK
-	you.say \"¿Posta?\"
+	.load_room exit
 
 pick_up:
 	if $exit_is_open and $door_seen:
@@ -306,7 +310,8 @@ texture = ExtResource( 10 )
 [node name="toilet" type="Node2D" parent="items"]
 position = Vector2( 1775, 718 )
 script = ExtResource( 5 )
-global_id = "celda/toilet"
+item_key = "celda/toilet"
+instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 0
 code = "look_at:
@@ -327,7 +332,9 @@ texture = ExtResource( 12 )
 [node name="gate" type="Node2D" parent="items"]
 position = Vector2( 76.3334, 474.827 )
 script = ExtResource( 5 )
-global_id = "celda/gate"
+item_key = "celda/gate"
+instance_number = 0
+color = Color( 0, 0, 0, 1 )
 interact_angle = 180
 code = "
 walk_to:

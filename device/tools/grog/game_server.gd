@@ -41,15 +41,24 @@ var _walking_path: PoolVector2Array
 var _path_changed = false
 
 # Live state
-var symbols = SymbolTable.new(["player", "scene_item", "inventory_item", "global_variable"])
+var symbols = SymbolTable.new([
+	"player",
+	"global_variable",
+	"scene_item",
+	"inventory_item",
+	"inventory_item_instance",
+])
+
 var loaded_scene_items = {}
 
 var inventory_items_scene: Node
 
 var current_player: Node = null # TODO needs reference? it's in symbols
 var current_room: Node = null
-var interacting_symbol = null
-var interacting_tool_symbol = null
+
+#var interacting_symbol = null
+#var interacting_tool_symbol = null
+
 #var current_tool_symbol = null
 #var current_tool_verb = ""
 
@@ -140,6 +149,8 @@ func init_game(p_compiler, game_data: Resource, p_game_start_mode = StartMode.De
 		
 		var new_symbol = symbols.add_symbol(id, "inventory_item", item)
 		new_symbol.amount = 0
+		new_symbol.last_instance_number = 0
+		#new_symbol.instances = []
 		
 	return true
 
@@ -209,7 +220,7 @@ func _command_wait(duration: float, opts: Dictionary) -> Dictionary:
 	
 	return { coroutine = _wait_coroutine(duration) }
 
-func _command_say(item_name: String, speech_token: Dictionary, opts: Dictionary) -> Dictionary:
+func _command_say(item_id: String, speech_token: Dictionary, opts: Dictionary) -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	var speech: String
@@ -218,30 +229,23 @@ func _command_say(item_name: String, speech_token: Dictionary, opts: Dictionary)
 	else:
 		speech = tr(speech_token.data.key)
 	
+	#var item_name = original_item_name
 	var item = null
 	
-	if item_name:
-		var item_symbol
+	if item_id:
+		var item_symbol = symbols.get_symbol_of_types(item_id, ["player", "scene_item"], true) 
+		item_id = item_symbol.symbol_name
 		
-		if item_name == "self":
-			if not interacting_symbol:
-				print("There's no 'self' item")
+		if not item_symbol.type:
+			# absent
+			return empty_action
+		elif item_symbol.type == "scene_item":
+			if not item_symbol.loaded:
+				print("Item '%s' can't speak: isn't loaded" % item_id)
 				return empty_action
-				
-			item_symbol = interacting_symbol
-		else:
-			item_symbol = symbols.get_symbol_of_types(item_name, ["player", "scene_item"], true) 
-			
-			if not item_symbol.type:
-				# absent
+			elif item_symbol.disabled:
+				print("Item '%s' can't speak: is disabled" % item_id)
 				return empty_action
-			elif item_symbol.type == "scene_item":
-				if not item_symbol.loaded:
-					print("Item '%s' can't speak: isn't loaded" % item_name)
-					return empty_action
-				elif item_symbol.disabled:
-					print("Item '%s' can't speak: is disabled" % item_name)
-					return empty_action
 		
 		item = item_symbol.target
 		
@@ -258,13 +262,13 @@ func _command_say(item_name: String, speech_token: Dictionary, opts: Dictionary)
 	
 	return { coroutine = _wait_coroutine(duration) }
 
-func _command_walk(item_name: String, to_node_named: String) -> Dictionary:
+func _command_walk(item_id: String, to_node_named: String) -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
-	var item_symbol = symbols.get_symbol_of_types(item_name, ["player"], true)
+	var item_symbol = symbols.get_symbol_of_types(item_id, ["player"], true)
 	
 	if not item_symbol.type:
-		print("No actor '%s'" % item_name)
+		print("No actor '%s'" % item_id)
 		return empty_action
 	
 	var item = item_symbol.target
@@ -337,78 +341,114 @@ func _command_set(var_name: String, new_value_expression) -> Dictionary:
 	
 	return empty_action
 
-func _command_enable(item_id: String) -> Dictionary:
-	var item_symbol = _get_or_build_scene_item(item_id, "enable")
+func _command_enable(item_key: String) -> Dictionary:
+	var item_symbol = _get_or_build_scene_item(item_key, "enable")
 	
 	if not item_symbol:
 		return empty_action
 	
-	if item_id == "self":
-		item_id = item_symbol.symbol_name
+	item_key = item_symbol.symbol_name
 	
 	if not item_symbol.disabled:
-		print("Item '%s' is already enabled" % item_id)
+		print("Item '%s' is already enabled" % item_key)
 		return empty_action
 	
 	item_symbol.disabled = false
 
 	if item_symbol.loaded:
 		var item = item_symbol.target
-		assert(item == loaded_scene_items[item_id])
+		assert(item == loaded_scene_items[item_key])
 
 		item.enable()
 		_server_event("item_enabled", [item])
 
 	return empty_action
 	
-func _command_disable(item_id: String) -> Dictionary:
-	var item_symbol = _get_or_build_scene_item(item_id, "disable")
+func _command_disable(item_key: String) -> Dictionary:
+	var item_symbol = _get_or_build_scene_item(item_key, "disable")
 	
 	if not item_symbol:
 		return empty_action
 	
-	if item_id == "self":
-		item_id = item_symbol.symbol_name
+	item_key = item_symbol.symbol_name
 	
 	if item_symbol.disabled:
-		print("Item '%s' is already disabled" % item_id)
+		print("Item '%s' is already disabled" % item_key)
 		return empty_action
 	
 	item_symbol.disabled = true
 
 	if item_symbol.loaded:
 		var item = item_symbol.target
-		assert(item == loaded_scene_items[item_id])
+		assert(item == loaded_scene_items[item_key])
 
 		item.disable()
 		_server_event("item_disabled", [item])
 
 	return empty_action
 	
-func _command_add(item_name: String) -> Dictionary:
-	var item_symbol = symbols.get_symbol_of_types(item_name, ["inventory_item"], true)
+func _command_add(inv_key: String) -> Dictionary:
+	var item_symbol = symbols.get_symbol_of_types(inv_key, ["inventory_item"], true)
 	
 	if not item_symbol.type:
-		print("No inventory_item '%s'" % item_name)
+		print("No inventory_item '%s'" % inv_key)
 		return empty_action
 	
 	item_symbol.amount += 1
 	
-	_server_event("item_added", [item_symbol.target, item_symbol.amount])
+	var new_instance_number: int = item_symbol.last_instance_number + 1
+	item_symbol.last_instance_number = new_instance_number
+	var new_symbol_id = inv_key + "." + str(new_instance_number)
+
+	var target_node: Node = item_symbol.target
+	var new_instance = target_node.duplicate(Node.DUPLICATE_SCRIPTS)
+	
+	new_instance._compiled_script = target_node._compiled_script
+	new_instance.instance_number = new_instance_number
+	
+	assert(new_symbol_id == new_instance.get_id())
+	
+	# TODO check no symbol can collide with this...
+	symbols.add_symbol(new_symbol_id, "inventory_item_instance", new_instance)
+	
+	_server_event("item_added", [new_instance])
 	
 	return empty_action
 
-func _command_remove(item_name: String) -> Dictionary:
-	var item_symbol = symbols.get_symbol_of_types(item_name, ["inventory_item"], true)
+func _command_remove(item_id: String) -> Dictionary:
+	var instance_symbol = symbols.get_symbol_of_types(item_id, ["inventory_item_instance"], true)
 	
-	if not item_symbol.type:
-		print("No inventory_item '%s'" % item_name)
+	if not instance_symbol.type:
+		print("No inventory_item_instance '%s'" % item_id)
 		return empty_action
 	
-	item_symbol.amount -= 1
+	item_id = instance_symbol.symbol_name
+	
+	var last_dot_index = item_id.find_last(".")
+	if last_dot_index <= 0 or item_id.length() < last_dot_index + 2:
+		print("Invalid inventory_item_instance id '%s'" % item_id)
+		return empty_action
+	
+	var item_id_without_index = item_id.substr(0, last_dot_index)
+	var instance_number = int(item_id.substr(last_dot_index + 1))
+	
+	assert(instance_symbol.target.get_id() == item_id)
+	assert(instance_symbol.target.get_key() == item_id_without_index)
+	assert(instance_symbol.target.instance_number == instance_number)
+	var item_class_symbol = symbols.get_symbol_of_types(item_id_without_index, ["inventory_item"], true)
+	assert(item_class_symbol.type == "inventory_item" and item_class_symbol.target.get_id() == item_id_without_index)
+	
+	item_class_symbol.amount -= 1
+	
+	# TODO 
+	
+	_server_event("item_removed", [instance_symbol.target])
+	
+	instance_symbol.target.queue_free()
+	
+	var _r = symbols.remove_symbol(item_id)
 	
 	# TODO do this
-	_server_event("item_removed", [item_symbol.target, item_symbol.amount + 1])
 	
 	return empty_action
 
@@ -424,7 +464,7 @@ func _command_play(item_id: String, animation_name_token: Dictionary) -> Diction
 		item_id = item_symbol.symbol_name
 	
 	if item_symbol.animation == animation_name:
-		print("Item '%s' is already doing '%s'" % [item_id, animation_name])
+		#print("Item '%s' is already doing '%s'" % [item_id, animation_name])
 		return empty_action
 	
 	item_symbol.animation = animation_name
@@ -441,39 +481,21 @@ func _command_play(item_id: String, animation_name_token: Dictionary) -> Diction
 	return empty_action
 
 func _command_set_tool(item_id: String, verb_name: String):
-	var item_symbol
-	if item_id == "self":
-		if not interacting_symbol:
-			print("There's no 'self' item")
-			return empty_action
-			
-		item_symbol = interacting_symbol
-		item_id = interacting_symbol.target.get_id()
-	else:
-		item_symbol = symbols.get_symbol_of_types(item_id, ["scene_item", "inventory_item"], true)
-		
-		if not item_symbol.type:
-			return empty_action
-		
-		if item_symbol == "scene_item":
-			if not item_symbol.loaded:
-				print("Item '%s' can't be used as tool: isn't loaded" % item_id)
-				return empty_action
-			elif item_symbol.disabled:
-				print("Item '%s' can't be used as tool: is disabled" % item_id)
-				return empty_action
-			
-			print("Setting scene_item '%s' as tool" % item_id)
-		else:
-			print("Setting inventory_item '%s' as tool" % item_id)
+	var item_symbol = symbols.get_symbol_of_types(item_id, ["scene_item", "inventory_item_instance"], true)
 	
-	#if current_tool_symbol:
-	#	print("Clearing a previous tool %s" % current_tool_symbol.target.get_id())
-		
-	#_set_tool(item_symbol, verb_name)
-	#current_tool_symbol = item_symbol
-	#current_tool_verb = verb_name
+	if not item_symbol.type:
+		return empty_action
 	
+	item_id = item_symbol.symbol_name
+	
+	if item_symbol.type == "scene_item":
+		if not item_symbol.loaded:
+			print("Item '%s' can't be used as tool: isn't loaded" % item_id)
+			return empty_action
+		elif item_symbol.disabled:
+			print("Item '%s' can't be used as tool: is disabled" % item_id)
+			return empty_action
+		
 	_server_event("tool_set", [item_symbol.target, verb_name])
 	
 	return empty_action
@@ -519,6 +541,8 @@ func skip_or_cancel_request():
 		_canceled = true
 		_goal = null
 		
+		_clear_aliases()
+		
 		return true
 	else:
 		return false
@@ -549,6 +573,8 @@ func go_to_request(target_position: Vector2):
 	_walking_subject = current_player
 	_goal = null
 	
+	_clear_aliases()
+	
 	if _server_state == ServerState.Ready:
 		var ok = _run_sequence([
 			{
@@ -575,10 +601,11 @@ func interact_request(item, trigger_name: String, tool_item = null):
 		return
 	
 	var id = item.get_id()
-	var item_symbol = symbols.get_symbol_of_types(id, ["scene_item", "inventory_item"], true)
+	var item_symbol = symbols.get_symbol_of_types(id, ["scene_item", "inventory_item_instance"], true)
 	
 	if not item_symbol.type:
 		print("No item %s" % id)
+		return empty_action
 	
 	var is_scene_item
 	if item_symbol.type == "scene_item":
@@ -594,10 +621,10 @@ func interact_request(item, trigger_name: String, tool_item = null):
 	
 	var _sequence # : Dictionary or null
 	if tool_item:
-		_sequence = item.get_sequence_with_parameter(trigger_name, tool_item.get_id())
+		_sequence = item.get_sequence_with_parameter(trigger_name, tool_item.get_key())
 		if not _sequence:
 			# get fallback
-			_sequence = default_script.get_sequence_with_parameter("fallback/" + trigger_name, tool_item.get_id())
+			_sequence = default_script.get_sequence_with_parameter("fallback/" + trigger_name, tool_item.get_key())
 	else:
 		_sequence = item.get_sequence(trigger_name)
 	
@@ -607,14 +634,14 @@ func interact_request(item, trigger_name: String, tool_item = null):
 	
 	if not _sequence:
 		_sequence = { statements = [], telekinetic = true }
+
+	_clear_aliases()
 	
-	interacting_symbol = item_symbol
-	interacting_tool_symbol = tool_item
+	symbols.set_alias("self", id)
+	if tool_item:
+		symbols.set_alias("tool", tool_item.get_id())
 	
 	_goal = { instructions = _sequence.statements, subject = current_player }
-	
-	# TODO fix code
-	#var telekinetic = true
 	
 	var has_to_walk = is_scene_item and not _sequence.telekinetic
 	var path
@@ -682,25 +709,17 @@ func stop_request():
 		_:
 			print("Ignoring stop request")
 
-
 ##############################
 
 #	@PRIVATE
 
 
 # Note that if item_id=self, you should correct it to match symbol.symbol_name.
-func _get_or_build_scene_item(item_id: String, debug_action_name: String):
-	if item_id == "self":
-		if not interacting_symbol:
-			print("There's no 'self' item")
-			return null
-		
-		return interacting_symbol
-	
-	var symbol = symbols.get_symbol_of_types(item_id, ["scene_item"], false)
+func _get_or_build_scene_item(item_key: String, debug_action_name: String):
+	var symbol = symbols.get_symbol_of_types(item_key, ["scene_item"], false)
 	if symbol == null:
 		# absent
-		symbol = symbols.add_symbol(item_id, "scene_item", null)
+		symbol = symbols.add_symbol(item_key, "scene_item", null)
 		symbol.loaded = false
 		symbol.disabled = false
 		symbol.animation = "default"
@@ -709,7 +728,7 @@ func _get_or_build_scene_item(item_id: String, debug_action_name: String):
 		
 	elif not symbol.type:
 		# type mismatch
-		print("Can't %s '%s'; is %s instead of scene_item" % [debug_action_name, item_id, symbols.get_symbol_type(item_id)])
+		print("Can't %s '%s'; is %s instead of scene_item" % [debug_action_name, item_key, symbols.get_symbol_type(item_key)])
 		return null
 		
 	else:
@@ -804,9 +823,7 @@ func _runner_over(status):
 			
 			_set_state(ServerState.Ready)
 			
-			if interacting_symbol:
-				interacting_symbol = null
-				interacting_tool_symbol = null
+			_clear_aliases()
 			
 		ServerState.Serving:
 			if status == Runner.RunnerStatus.Canceled:
@@ -876,15 +893,19 @@ func _load_room(room_name: String) -> Node:
 	# care: items are not _ready yet
 	
 	for item in room.get_items():
-		var item_id = item.global_id
-		if item_id == "self":
-			print("An item can't have 'self' as id")
+		var item_key = item.get_key()
+		
+		if not item_key:
+			print("Item with empty key in room '%s'" % room_name)
 			continue
-		elif loaded_scene_items.has(item_id):
-			print("Duplicated global id '%s'" % item_id)
+		elif item_key in ["self", "tool", "if"]: # TODO better check
+			print("An item can't have '%s' as id" % item_key)
+			continue
+		elif loaded_scene_items.has(item_key):
+			print("Duplicated scene item '%s'" % item_key)
 			continue
 		
-		var item_symbol = _get_or_build_scene_item(item_id, "load")
+		var item_symbol = _get_or_build_scene_item(item_key, "load")
 		
 		if not item_symbol:
 			# type mismatch
@@ -894,7 +915,7 @@ func _load_room(room_name: String) -> Node:
 		item_symbol.target.init_item(compiler)
 		assert(not item_symbol.loaded)
 		item_symbol.loaded = true
-		loaded_scene_items[item_id] = item
+		loaded_scene_items[item_key] = item
 		
 		if item_symbol.disabled:
 			item.disable()
@@ -1031,7 +1052,7 @@ func get_value(var_name: String):
 			return symbol.target
 		
 		"inventory_item":
-			return symbol.amount
+			return symbol.amount # instances.size()
 			
 		"scene_item":
 			return not symbol.disabled
@@ -1053,3 +1074,9 @@ func _set_state(new_state, skippable=false, cancelable=false):
 #	current_tool_verb = verb_name
 #
 #	_server_event("tool_set", [item_symbol.target, verb_name])
+
+func _clear_aliases():
+	if symbols.has_alias("self"):
+		symbols.remove_alias("self")
+	if symbols.has_alias("tool"):
+		symbols.remove_alias("self")

@@ -13,17 +13,65 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="inv_mask" type="Control" parent="."]
+[node name="inv_mask_default" type="Control" parent="."]
 margin_right = 212.0
 margin_bottom = 86.0
 rect_min_size = Vector2( 212, 86 )
 
-[node name="item" type="Sprite" parent="inv_mask"]
+[node name="item" type="Sprite" parent="inv_mask_default"]
 position = Vector2( 106, 43 )
 scale = Vector2( 1.3, 1.3 )
 texture = ExtResource( 4 )
 script = ExtResource( 2 )
-global_id = "inv_mask"
+item_key = "inv_mask_default"
+color = Color( 1, 1, 1, 1 )
+interact_angle = 0
+code = "
+look_at:
+	you.say \"Es la máscara de godot\"
+
+use: TK
+	self.set_tool use_with
+	"
+walk_speed = 0.0
+
+[node name="inv_mask_red" type="Control" parent="."]
+margin_left = 216.0
+margin_right = 428.0
+margin_bottom = 86.0
+rect_min_size = Vector2( 212, 86 )
+
+[node name="item" type="Sprite" parent="inv_mask_red"]
+modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 106, 43 )
+scale = Vector2( 1.3, 1.3 )
+texture = ExtResource( 4 )
+script = ExtResource( 2 )
+item_key = "inv_mask_red"
+color = Color( 1, 1, 1, 1 )
+interact_angle = 0
+code = "
+look_at:
+	you.say \"Es la máscara de godot\"
+
+use: TK
+	self.set_tool use_with
+	"
+walk_speed = 0.0
+
+[node name="inv_mask_green" type="Control" parent="."]
+margin_left = 432.0
+margin_right = 644.0
+margin_bottom = 86.0
+rect_min_size = Vector2( 212, 86 )
+
+[node name="item" type="Sprite" parent="inv_mask_green"]
+modulate = Color( 0, 1, 0, 1 )
+position = Vector2( 106, 43 )
+scale = Vector2( 1.3, 1.3 )
+texture = ExtResource( 4 )
+script = ExtResource( 2 )
+item_key = "inv_mask_green"
 color = Color( 1, 1, 1, 1 )
 interact_angle = 0
 code = "
@@ -36,8 +84,8 @@ use: TK
 walk_speed = 0.0
 
 [node name="inv_paper" type="Control" parent="."]
-margin_left = 216.0
-margin_right = 428.0
+margin_left = 648.0
+margin_right = 860.0
 margin_bottom = 86.0
 rect_min_size = Vector2( 212, 86 )
 
@@ -46,7 +94,7 @@ position = Vector2( 106, 43 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 3 )
 script = ExtResource( 2 )
-global_id = "inv_paper"
+item_key = "inv_paper"
 color = Color( 1, 1, 1, 1 )
 interact_angle = 0
 code = "
@@ -55,8 +103,8 @@ look_at:
 walk_speed = 0.0
 
 [node name="inv_thing" type="Control" parent="."]
-margin_left = 432.0
-margin_right = 644.0
+margin_left = 864.0
+margin_right = 1076.0
 margin_bottom = 86.0
 rect_min_size = Vector2( 212, 86 )
 
@@ -65,7 +113,7 @@ position = Vector2( 106, 43 )
 scale = Vector2( 3, 3 )
 texture = ExtResource( 5 )
 script = ExtResource( 2 )
-global_id = "inv_thing"
+item_key = "inv_thing"
 color = Color( 1, 1, 1, 1 )
 interact_angle = 0
 code = "look_at:
