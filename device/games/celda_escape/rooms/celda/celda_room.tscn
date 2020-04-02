@@ -122,10 +122,10 @@ position = Vector2( 1143.49, 635.665 )
 position = Vector2( 1333.74, 813.979 )
 
 [node name="pos1" type="Position2D" parent="."]
-position = Vector2( 697.843, 718.947 )
+position = Vector2( 1133.16, 629.162 )
 
 [node name="pos2" type="Position2D" parent="."]
-position = Vector2( 913.596, 718.352 )
+position = Vector2( 1227.84, 787.731 )
 
 [node name="pos3" type="Position2D" parent="."]
 position = Vector2( 1206.05, 586.552 )

@@ -30,6 +30,12 @@ start:
 	.load_room celda
 	#.load_room exit
 	
+	you.walk to=pos2
+	you.walk to=pos1
+	you.walk to=pos2
+	you.walk to=pos1
+	you.walk to=pos2
+	
 	.enable_input
 
 
