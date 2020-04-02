@@ -13,7 +13,6 @@ func evaluate(_game):
 	var left_value = left.evaluate(_game)
 	var right_value = right.evaluate(_game)
 	
-	# TODO check types
 	match operator:
 		"+", "-", "<", ">":
 			if typeof(left_value) != TYPE_INT or typeof(right_value) != TYPE_INT:

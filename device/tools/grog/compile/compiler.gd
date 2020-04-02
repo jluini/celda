@@ -726,58 +726,123 @@ func get_named_param(named_params: Array, name: String):
 	return null
 
 func parse_expression(tokens: Array) -> Dictionary:
-	if tokens.size() == 1:
-		var token = tokens[0]
-		
-		match token.type:
-			Grog.TokenType.Identifier:
-				return {
-					result = IdentifierExpression.new(token.data.indirection_level, token.data.key),
-					type = "string" if token.data.indirection_level == 0 else ""
-				}
-			Grog.TokenType.TrueKeyword:
-				return { result = FixedExpression.new(true), type = "bool" }
-			Grog.TokenType.FalseKeyword:
-				return { result = FixedExpression.new(false), type = "bool" }
-			Grog.TokenType.Integer, Grog.TokenType.Float:
-				return { result = FixedExpression.new(token.data.number_value), type = "number" }
-			Grog.TokenType.Quote:
-				return { result = FixedExpression.new(token.content), type = "string" }
-			_:
-				return { result = false, message = "token of type %s can't be used as expression" % Grog.TokenType.keys()[token.type] }
+	var p = Parser.new()
+	var r
 	
-	elif tokens.size() >= 3:
-		var token_left = tokens[0]
-		var token_oper = tokens[1]
-		var tokens_rest = tokens.slice(2, tokens.size() - 1)
-		
-		var expression_left = parse_expression([token_left])
-		
-		if not expression_left.result:
-			return expression_left
+	for token in tokens:
+		match token.type:
+			Grog.TokenType.Command, Grog.TokenType.Pattern:
+				return { result = false, message = "invalid token '%s'" % token.content}
 			
-		var expression_rest = parse_expression(tokens_rest)
-		
-		if not expression_rest.result:
-			return expression_rest
-		
-		match token_oper.type:
-			Grog.TokenType.Operator:
-				match token_oper.content:
-					"+", "-", "<", ">", "=":
-						return { result = OperationExpression.new(expression_left.result, token_oper.content, expression_rest.result) }
-					
-					_:
-						return { result = false, message = "invalid operator %s after %s" % [token_oper.content, token_left.content] }
+			Grog.TokenType.Identifier:
+				r = p.read_token(token, 100)
+				if not r.result:
+					return r
+				
+			Grog.TokenType.Integer, Grog.TokenType.Float, Grog.TokenType.FalseKeyword, Grog.TokenType.TrueKeyword, Grog.TokenType.Quote:
+				r = p.read_token(token, 100)
+				if not r.result:
+					return r
+				
+			Grog.TokenType.Operator, Grog.TokenType.AndKeyword,  Grog.TokenType.OrKeyword, Grog.TokenType.NotKeyword:
+				if token.content == "(":
+					r = p.open_parenthesis()
+					if not r.result:
+						return r
+				elif token.content == ")":
+					r = p.close_parenthesis()
+					if not r.result:
+						return r
+				elif not Grog.parser_operators.has(token.content):
+					return { result = false, message = "invalid operator '%s'" % token.content}
+				else:
+					r = p.read_token(token, Grog.parser_operators[token.content].precedence)
+					if not r.result:
+						return r
 			
-			Grog.TokenType.AndKeyword, Grog.TokenType.OrKeyword:
-				return { result = OperationExpression.new(expression_left.result, token_oper.content, expression_rest.result) }
-			
-
 			_:
-				return { result = false, message = "expected operator after %s" % token_left.content }
-	else:
-		return { result = false, message = "expression is too complex" }
+				return { result = false, message = "invalid token '%s'" % token.content}
+	
+	r = p.finish()
+	if not r.result:
+		return r
+	
+	
+	var root = r.root
+	
+	assert(root.has("right"))
+	assert(not root.has("left"))
+	
+	var ret = node_to_expression(root.right)
+	
+	if not ret.result:
+		return ret
+	
+	return ret
+
+func node_to_expression(node):
+	if not node.token.has("type"):
+		print("Caso muy raro")
+		print(node.token)
+		return { result = false, message = "rarisimo"}
+	
+	match node.token.type:
+		Grog.TokenType.Integer, Grog.TokenType.Float:
+			assert(not node.has("left"))
+			assert(not node.has("right"))
+			return { result = FixedExpression.new(node.token.data.number_value) }
+		Grog.TokenType.TrueKeyword:
+			assert(not node.has("left"))
+			assert(not node.has("right"))
+			return { result = FixedExpression.new(true) }
+		Grog.TokenType.FalseKeyword:
+			assert(not node.has("left"))
+			assert(not node.has("right"))
+			return { result = FixedExpression.new(false) }
+		Grog.TokenType.Quote:
+			assert(not node.has("left"))
+			assert(not node.has("right"))
+			return { result = FixedExpression.new(node.token.content) }
+		Grog.TokenType.Identifier:
+			assert(not node.has("left"))
+			assert(not node.has("right"))
+			return { result = IdentifierExpression.new(node.token.data.indirection_level, node.token.data.key) }
+		
+		Grog.TokenType.NotKeyword:
+			assert(not node.has("left"))
+			assert(node.has("right"))
+			
+			var right = node_to_expression(node.right)
+			if not right.result:
+				return right
+			return { result = NegatedBoolExpression.new(right.result) }
+			
+		Grog.TokenType.AndKeyword, Grog.TokenType.OrKeyword, Grog.TokenType.Operator:
+			if not node.has("right"):
+				return { result = false, message = "unexpected binary operator %s" % node.token.content }
+			
+			if not node.has("left"):
+				if node.token.content == "-":
+					# unary - operator
+					var right = node_to_expression(node.right)
+					if not right.result:
+						return right
+					return { result = InverseNumberExpression.new(right.result) }
+				
+				return { result = false, message = "unexpected binary operator %s" % node.token.content }
+			
+			var left = node_to_expression(node.left)
+			if not left.result:
+				return left
+			
+			var right = node_to_expression(node.right)
+			if not right.result:
+				return right
+			
+			return { result = OperationExpression.new(left.result, node.token.content, right.result) }
+		_:
+			return { result = false, message = "unexpected node %s" % Grog.TokenType.keys()[node.token.type] }
+	pass
 
 # Misc
 

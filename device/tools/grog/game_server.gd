@@ -323,7 +323,7 @@ func _command_end() -> Dictionary:
 func _command_set(var_name: String, new_value_expression) -> Dictionary:
 	var new_value = new_value_expression.evaluate(self)
 	
-	#print("Setting global '%s' to '%s' (type %s, class %s)" % [var_name, new_value, _typestr(new_value), new_value.get_class() if typeof(new_value) == TYPE_OBJECT else "-"])
+	#print("Setting global '%s' to '%s' (type %s, class %s)" % [var_name, new_value, Grog._typestr(new_value), new_value.get_class() if typeof(new_value) == TYPE_OBJECT else "-"])
 	
 	var symbol = symbols.get_symbol_of_types(var_name, ["global_variable"], false)
 	
@@ -335,9 +335,7 @@ func _command_set(var_name: String, new_value_expression) -> Dictionary:
 		pass
 	else:
 		# already present
-		if new_value != symbol.target:
-			# value changed
-			symbol.target = new_value
+		symbol.target = new_value
 	
 	return empty_action
 

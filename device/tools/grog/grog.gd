@@ -25,6 +25,19 @@ enum TokenType {
 	Operator
 }
 
+const parser_operators = {
+	"+": { precedence = 20 },
+	"-": { precedence = 20 },
+	"=": { precedence = 18 },
+	"<": { precedence = 18 },
+	">": { precedence = 18 },
+	"not": { precedence = 16 },
+	"and": { precedence = 14 },
+	"or": { precedence = 12 },
+	#"*": { precedence = 2 },
+	#"/": { precedence = 2 },
+}
+
 const keywords = {
 	"if": TokenType.IfKeyword,
 	"else": TokenType.ElseKeyword,

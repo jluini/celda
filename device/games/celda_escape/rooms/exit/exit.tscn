@@ -264,16 +264,11 @@ pick_up: TK
 	you.say \"¿Me decís en serio?\"
 
 open:
-	if $claw1_content = red:
-		if $claw2_content = green:
-			if $claw3_content = default:
-				.say \"Ganaste\" skippable=false
-				.say \"Sos une genie\" skippable=false
-				.end
-			else:
-				you.say \"Está trabada.\"
-		else:
-			you.say \"Está trabada.\"
+	if $claw1_content = red and $claw2_content = green and $claw3_content = default:
+		.disable_input
+		.say \"Ganaste\" skippable=false
+		.say \"Sos une genie\" skippable=false
+		.end
 	else:
 		you.say \"Está trabada.\"
 
