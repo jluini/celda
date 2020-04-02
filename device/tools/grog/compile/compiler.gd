@@ -333,12 +333,17 @@ func compile_lines(compiled_script, lines: Array):
 					assert(stack.size() > 0)
 					assert(stack.size() == level)
 					
-					
-					if current_block.has("main_branch"):
+					if current_block.has("condition"):
+						if not current_block.has("main_branches"):
+							current_block.main_branches = []
+						
+						current_block.main_branches.append({
+							condition = current_block.condition,
+							statements = statements
+						})
+					else:
 						assert(not current_block.has("else_branch"))
 						current_block.else_branch = statements
-					else:
-						current_block.main_branch = statements
 				else:
 					compiled_script.add_error("Grog error: unexpected line type '%s'" % current_block.type)
 					return
@@ -659,23 +664,63 @@ func compile_lines(compiled_script, lines: Array):
 					statements.append({
 						type = "if",
 						condition = condition.result,
-						# waiting for main_branch/else_branch
+						# waiting for condition_branches/else_branch
 					})
 					
 					stack.push_back(statements)
 					statements = []
 					level += 1
 							
+				Grog.TokenType.ElifKeyword:
+					if statements.size() == 0:
+						compiled_script.add_error("Unexpected 'elif' block (line %s)" % line.line_number)
+						return
+					
+					var previous_statement = statements.back()
+					if previous_statement.type != "if" or previous_statement.has("else_branch"):
+						compiled_script.add_error("Unexpected 'elif' block (line %s)" % line.line_number)
+						return
+					
+					if num_tokens < 2:
+						compiled_script.add_error("Elif condition expected (line %s)" % line.line_number)
+						return
+					
+					var last_token = line.tokens[num_tokens - 1]
+					if last_token.type != Grog.TokenType.Operator or last_token.content != ":":
+						compiled_script.add_error("Colon expected at end of 'elif' line (line %s)" % line.line_number)
+						return
+					
+					if num_tokens < 3:
+						compiled_script.add_error("Missing elif condition (line %s)" % line.line_number)
+						return
+					
+					var condition_tokens = line.tokens.slice(1, num_tokens - 2)
+					
+					var condition = parse_expression(condition_tokens)
+					
+					if not condition.result:
+						compiled_script.add_error("Invalid elif condition (%s) (line %s)" % [condition.message, line.line_number])
+						return
+					
+					previous_statement.condition = condition.result
+					
+					stack.push_back(statements)
+					statements = []
+					level += 1
+					
 				Grog.TokenType.ElseKeyword:
 					if statements.size() == 0:
 						compiled_script.add_error("Unexpected 'else' block (line %s)" % line.line_number)
 						return
 					
-					var previous_statement = statements.back()
+					var previous_statement: Dictionary = statements.back()
 					if previous_statement.type != "if" or previous_statement.has("else_branch"):
 						compiled_script.add_error("Unexpected 'else' block (line %s)" % line.line_number)
 						return
-						
+					
+					var _r = previous_statement.erase("condition")
+					assert(_r)
+					
 					if num_tokens < 2:
 						compiled_script.add_error("Colon expected after 'else' (line %s)" % line.line_number)
 						return

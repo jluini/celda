@@ -132,29 +132,34 @@ func coroutine(instructions: Array):
 				# end if (no coroutine so we continue)
 			
 			"if":
-				if not instruction.has("condition") or not instruction.has("main_branch"):
+				if not instruction.has("main_branches") or instruction.main_branches.size() < 1:
 					end_with_error("Invalid if: %s" % instruction)
 					return null
 				
-				var condition = instruction.condition
-				var main_branch = instruction.main_branch
-				var else_branch = instruction.else_branch if instruction.has("else_branch") else []
+				var branch_to_execute = null
 				
-				var result = condition.evaluate(output)
+				for i in range(instruction.main_branches.size()):
+					var branch = instruction.main_branches[i]
+					
+					var result = branch.condition.evaluate(output)
+					if typeof(result) != TYPE_BOOL:
+						var original_result = result
+						result = true if result else false
+						print("Evaluating %s (%s) as bool (%s)" % [original_result, output._typestr(original_result), result])
 				
-				if typeof(result) != TYPE_BOOL:
-					#var original_result = result
-					result = true if result else false
-					#print("Evaluating %s (%s) as bool (%s)" % [original_result, output._typestr(original_result), result])
+					if result:
+						branch_to_execute = branch.statements
+						break
 				
-				var branch: Array = main_branch if result else else_branch
+				if branch_to_execute == null and instruction.has("else_branch"):
+					branch_to_execute = instruction.else_branch
 				
-				if branch.size() > 0:
+				if branch_to_execute != null and branch_to_execute.size() > 0:
 					stack.push_back({
 						instructions = instructions,
 						index = i
 					})
-					instructions = branch
+					instructions = branch_to_execute
 					i = 0
 			_:
 				print("Unexpected instruction type '%s'" % instruction.type)

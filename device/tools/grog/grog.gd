@@ -18,7 +18,7 @@ enum ParameterType {
 
 enum TokenType {
 	Standard, Command, Identifier, Pattern, # or Keyword (next line)
-	IfKeyword, ElseKeyword, NotKeyword, AndKeyword, OrKeyword, TrueKeyword, FalseKeyword,
+	IfKeyword, ElifKeyword, ElseKeyword, NotKeyword, AndKeyword, OrKeyword, TrueKeyword, FalseKeyword,
 	
 	Number, Integer, Float,
 	Quote,
@@ -40,6 +40,7 @@ const parser_operators = {
 
 const keywords = {
 	"if": TokenType.IfKeyword,
+	"elif": TokenType.ElifKeyword,
 	"else": TokenType.ElseKeyword,
 	"not": TokenType.NotKeyword,
 	"and": TokenType.AndKeyword,
