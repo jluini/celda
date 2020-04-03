@@ -303,7 +303,7 @@ script = ExtResource( 5 )
 item_key = "exit/mask1"
 instance_number = 0
 color = Color( 1, 1, 1, 1 )
-interact_angle = 270
+interact_angle = 210
 code = "look_at:
 	you.say DEMO_GAME_MASK
 
@@ -336,13 +336,16 @@ anims/default = SubResource( 2 )
 anims/green = SubResource( 3 )
 anims/red = SubResource( 4 )
 
+[node name="interact_position" type="Position2D" parent="items/mask1"]
+position = Vector2( 76.1199, 289.746 )
+
 [node name="mask2" type="Node2D" parent="items"]
 position = Vector2( 803.91, 334.516 )
 script = ExtResource( 5 )
 item_key = "exit/mask2"
 instance_number = 0
 color = Color( 1, 1, 1, 1 )
-interact_angle = 270
+interact_angle = 210
 code = "look_at:
 	you.say DEMO_GAME_MASK
 
@@ -375,13 +378,16 @@ anims/default = SubResource( 5 )
 anims/green = SubResource( 6 )
 anims/red = SubResource( 7 )
 
+[node name="interact_position" type="Position2D" parent="items/mask2"]
+position = Vector2( 88.3972, 293.43 )
+
 [node name="mask3" type="Node2D" parent="items"]
 position = Vector2( 1003.91, 334.516 )
 script = ExtResource( 5 )
 item_key = "exit/mask3"
 instance_number = 0
 color = Color( 1, 1, 1, 1 )
-interact_angle = 270
+interact_angle = 210
 code = "look_at:
 	you.say DEMO_GAME_MASK
 
@@ -414,36 +420,24 @@ anims/default = SubResource( 8 )
 anims/green = SubResource( 9 )
 anims/red = SubResource( 10 )
 
+[node name="interact_position" type="Position2D" parent="items/mask3"]
+position = Vector2( 83.4863, 294.657 )
+
 [node name="claw1" type="Node2D" parent="items"]
 position = Vector2( 594.505, 328.497 )
 script = ExtResource( 5 )
 item_key = "exit/claw1"
 instance_number = 0
 color = Color( 1, 1, 1, 1 )
-interact_angle = 270
+interact_angle = 210
 code = "# claw1
 
-use_with(inv_mask_default):
+use_with(inv_mask_*):
 	tool.remove
 	self.disable
 	exit/mask1.enable
-	exit/mask1.play default
-	.set claw1_content=default
-
-use_with(inv_mask_red):
-	tool.remove
-	self.disable
-	exit/mask1.enable
-	exit/mask1.play red
-	.set claw1_content=red
-	
-use_with(inv_mask_green):
-	tool.remove
-	self.disable
-	exit/mask1.enable
-	exit/mask1.play green
-	.set claw1_content=green
-		
+	exit/mask1.play $current_mask
+	.set claw1_content=$current_mask
 
 
 look_at:
@@ -458,36 +452,25 @@ radius = 35.0
 rotation = 0.621337
 texture = ExtResource( 6 )
 
+[node name="interact_position" type="Position2D" parent="items/claw1"]
+position = Vector2( 79.803, 294.657 )
+
 [node name="claw2" type="Node2D" parent="items"]
 position = Vector2( 794.505, 328.497 )
 script = ExtResource( 5 )
 item_key = "exit/claw2"
 instance_number = 0
 color = Color( 1, 1, 1, 1 )
-interact_angle = 270
+interact_angle = 210
 code = "# claw2
 
-use_with(inv_mask_default):
+use_with(inv_mask_*):
 	tool.remove
 	self.disable
 	exit/mask2.enable
-	exit/mask2.play default
-	.set claw2_content=default
+	exit/mask2.play $current_mask
+	.set claw2_content=$current_mask
 
-use_with(inv_mask_red):
-	tool.remove
-	self.disable
-	exit/mask2.enable
-	exit/mask2.play red
-	.set claw2_content=red
-	
-use_with(inv_mask_green):
-	tool.remove
-	self.disable
-	exit/mask2.enable
-	exit/mask2.play green
-	.set claw2_content=green
-		
 
 
 look_at:
@@ -502,35 +485,24 @@ radius = 35.0
 rotation = 0.621337
 texture = ExtResource( 6 )
 
+[node name="interact_position" type="Position2D" parent="items/claw2"]
+position = Vector2( 85.9417, 295.885 )
+
 [node name="claw3" type="Node2D" parent="items"]
 position = Vector2( 994.505, 328.497 )
 script = ExtResource( 5 )
 item_key = "exit/claw3"
 instance_number = 0
 color = Color( 1, 1, 1, 1 )
-interact_angle = 270
+interact_angle = 210
 code = "# claw3
 
-use_with(inv_mask_default):
+use_with(inv_mask_*):
 	tool.remove
 	self.disable
 	exit/mask3.enable
-	exit/mask3.play default
-	.set claw3_content=default
-
-use_with(inv_mask_red):
-	tool.remove
-	self.disable
-	exit/mask3.enable
-	exit/mask3.play red
-	.set claw3_content=red
-	
-use_with(inv_mask_green):
-	tool.remove
-	self.disable
-	exit/mask3.enable
-	exit/mask3.play green
-	.set claw3_content=green
+	exit/mask3.play $current_mask
+	.set claw3_content=$current_mask
 		
 
 
@@ -545,3 +517,6 @@ radius = 35.0
 [node name="Sprite" type="Sprite" parent="items/claw3"]
 rotation = 0.621337
 texture = ExtResource( 6 )
+
+[node name="interact_position" type="Position2D" parent="items/claw3"]
+position = Vector2( 79.8031, 300.796 )

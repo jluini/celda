@@ -145,6 +145,13 @@ const commands = {
 			{ name = "tool_verb", type = ParameterType.Identifier }
 		]
 	},
+	
+	debug = {
+		subject = SubjectType.None,
+		required_params = [
+			{ name = "value", type = ParameterType.ExpressionType }
+		]
+	},
 }
 
 static func _typestr(value):

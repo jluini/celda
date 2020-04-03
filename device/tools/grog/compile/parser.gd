@@ -1,43 +1,23 @@
 
 class_name Parser
 
-var root
-var current
+var root: Dictionary
+var current: Dictionary
 
 func _init():
 	root = {
 		precedence = -1,
+		token = { content = "#root#" },
 		right_child = true,
+		enable_right = true,
+		enable_left = false
 	}
 	current = root
-	
-
-#func parse_token(token) -> Dictionary:
-#	if token.type == Grog.TokenType.Operator and token.content == "(":
-#		read_token(token, 200)
-#		assert(current.precedence == 200)
-#		current.precedence = 1
-#
-#		return { result = true }
-#
-#	elif token.type == Grog.TokenType.Operator and token.content == ")":
-#		while current.precedence > 1:
-#			current = current.parent
-#
-#		if current.precedence < 1:
-#			return { result = false, message = "no closing parentheses" }
-#
-#		pass
-#
-#		return { result = true }
-#
-#	# else ...
-	
-	
-	#return { result = false, message = "not implemented" }
 
 func open_parenthesis():
-	read_token({}, 200)
+	var r = read_token({ content = "(" }, 200, false, true)
+	if not r.result:
+		return r
 	assert(current.precedence == 200)
 	current.precedence = 1
 	
@@ -70,7 +50,9 @@ func close_parenthesis():
 	return { result = true }
 	
 	
-func read_token(token, precedence, right_associate = false):
+func read_token(token: Dictionary, precedence: int, enable_left: bool, enable_right: bool): #, right_associate = false):
+	var right_associate = false
+	
 	while true:
 		var condition = current.precedence > precedence if right_associate else current.precedence >= precedence
 		if condition:
@@ -85,13 +67,20 @@ func read_token(token, precedence, right_associate = false):
 		token = token,
 		parent = current,
 		right_child = true,
+		enable_left = enable_left,
+		enable_right = enable_right
 	}
 	
+	if not current.enable_right:
+		return { result = false, message = "token '%s' can't have right child; reading %s" % [current.token.content, token.content] }
+	
 	if current.has("right"):
+		if not enable_left:
+			return { result = false, message = "token '%s' can't have left child" % [token.content] }
 		new_node.left = current.right
 		assert(new_node.left.right_child)
 		new_node.left.right_child = false
-		current.erase("right")
+		var _r = current.erase("right")
 	
 	current.right = new_node
 	current = new_node

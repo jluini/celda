@@ -31,6 +31,7 @@ look_at:
 	you.say \"Es la máscara de godot\"
 
 use: TK
+	.set current_mask=default
 	self.set_tool use_with
 	"
 walk_speed = 0.0
@@ -55,6 +56,7 @@ look_at:
 	you.say \"Es la máscara de godot\"
 
 use: TK
+	.set current_mask=red
 	self.set_tool use_with
 	"
 walk_speed = 0.0
@@ -79,6 +81,7 @@ look_at:
 	you.say \"Es la máscara de godot\"
 
 use: TK
+	.set current_mask=green
 	self.set_tool use_with
 	"
 walk_speed = 0.0

@@ -223,13 +223,10 @@ func _command_wait(duration: float, opts: Dictionary) -> Dictionary:
 func _command_say(item_id: String, speech_token: Dictionary, opts: Dictionary) -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
-	var speech: String
-	if speech_token.type == Grog.TokenType.Quote:
-		speech = speech_token.content
-	else:
-		speech = tr(speech_token.data.key)
+	var speech: String = speech_token.expression.evaluate(self)
+	if speech_token.type != Grog.TokenType.Quote:
+		speech = tr(speech)
 	
-	#var item_name = original_item_name
 	var item = null
 	
 	if item_id:
@@ -451,15 +448,17 @@ func _command_remove(item_id: String) -> Dictionary:
 	return empty_action
 
 func _command_play(item_id: String, animation_name_token: Dictionary) -> Dictionary:
-	var animation_name = animation_name_token.content
+	var animation_name = animation_name_token.expression.evaluate(self)
+#	content
+#	if animation_name_token.type == Grog.TokenType.Identifier:
+#		animation_name = animation_name + "" # TODO evaluate
 	
 	var item_symbol = _get_or_build_scene_item(item_id, "play '%s' in" % animation_name)
 	
 	if not item_symbol:
 		return empty_action
 	
-	if item_id == "self":
-		item_id = item_symbol.symbol_name
+	item_id = item_symbol.symbol_name
 	
 	if item_symbol.animation == animation_name:
 		#print("Item '%s' is already doing '%s'" % [item_id, animation_name])
@@ -472,7 +471,11 @@ func _command_play(item_id: String, animation_name_token: Dictionary) -> Diction
 		assert(item == loaded_scene_items[item_id])
 
 		if item.has_node("animation"):
-			item.get_node("animation").play(animation_name)
+			var animator: AnimationPlayer = item.get_node("animation")
+			if animator.has_animation(animation_name):
+				animator.play(animation_name)
+			else:
+				print("%s: animation '%s' not found" % [item_id, animation_name])
 		else:
 			print("%s: animation player not found" % item_id)
 	
@@ -495,6 +498,13 @@ func _command_set_tool(item_id: String, verb_name: String):
 			return empty_action
 		
 	_server_event("tool_set", [item_symbol.target, verb_name])
+	
+	return empty_action
+	
+func _command_debug(new_value_expression) -> Dictionary:
+	var new_value = new_value_expression.evaluate(self)
+	
+	print("DEBUG: %s (type %s, class %s)" % [new_value, Grog._typestr(new_value), new_value.get_class() if typeof(new_value) == TYPE_OBJECT else "-"])
 	
 	return empty_action
 	

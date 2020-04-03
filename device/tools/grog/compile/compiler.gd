@@ -537,6 +537,11 @@ func compile_lines(compiled_script, lines: Array):
 									compiled_script.add_error("Expected identifier or quote in command %s (line %s)" % [command_name, line.line_number])
 									return
 								
+								if actual_param.type == Grog.TokenType.Identifier:
+									actual_param.expression = IdentifierExpression.new(actual_param.data.indirection_level, actual_param.data.key)
+								else:
+									actual_param.expression = FixedExpression.new(actual_param.content)
+									
 								final_params.append(actual_param)
 							
 							Grog.ParameterType.ExpressionType:
@@ -551,7 +556,7 @@ func compile_lines(compiled_script, lines: Array):
 								var expression = parse_expression(expression_tokens)
 					
 								if not expression.result:
-									compiled_script.add_error("Invalid set expression (%s) (line %s)" % [expression.message, line.line_number])
+									compiled_script.add_error("Invalid expression (%s) (line %s)" % [expression.message, line.line_number])
 									return 
 								
 								final_params.append(expression.result)
@@ -780,12 +785,12 @@ func parse_expression(tokens: Array) -> Dictionary:
 				return { result = false, message = "invalid token '%s'" % token.content}
 			
 			Grog.TokenType.Identifier:
-				r = p.read_token(token, 100)
+				r = p.read_token(token, 100, false, false)
 				if not r.result:
 					return r
 				
 			Grog.TokenType.Integer, Grog.TokenType.Float, Grog.TokenType.FalseKeyword, Grog.TokenType.TrueKeyword, Grog.TokenType.Quote:
-				r = p.read_token(token, 100)
+				r = p.read_token(token, 100, false, false)
 				if not r.result:
 					return r
 				
@@ -801,7 +806,7 @@ func parse_expression(tokens: Array) -> Dictionary:
 				elif not Grog.parser_operators.has(token.content):
 					return { result = false, message = "invalid operator '%s'" % token.content}
 				else:
-					r = p.read_token(token, Grog.parser_operators[token.content].precedence)
+					r = p.read_token(token, Grog.parser_operators[token.content].precedence, token.type != Grog.TokenType.NotKeyword, true)
 					if not r.result:
 						return r
 			
@@ -864,7 +869,7 @@ func node_to_expression(node):
 			
 		Grog.TokenType.AndKeyword, Grog.TokenType.OrKeyword, Grog.TokenType.Operator:
 			if not node.has("right"):
-				return { result = false, message = "unexpected binary operator %s" % node.token.content }
+				return { result = false, message = "missing second parameter for binary operator %s" % node.token.content }
 			
 			if not node.has("left"):
 				if node.token.content == "-":
@@ -874,7 +879,7 @@ func node_to_expression(node):
 						return right
 					return { result = InverseNumberExpression.new(right.result) }
 				
-				return { result = false, message = "unexpected binary operator %s" % node.token.content }
+				return { result = false, message = "1unexpected binary operator %s" % node.token.content }
 			
 			var left = node_to_expression(node.left)
 			if not left.result:

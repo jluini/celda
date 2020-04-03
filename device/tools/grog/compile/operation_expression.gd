@@ -14,7 +14,20 @@ func evaluate(_game):
 	var right_value = right.evaluate(_game)
 	
 	match operator:
-		"+", "-", "<", ">":
+		"+":
+			if typeof(left_value) != TYPE_INT and typeof(left_value) != TYPE_STRING:
+				print("Invalid type %s for operator %s" % [Grog._typestr(left_value), operator])
+				return 0
+			if typeof(right_value) != TYPE_INT and typeof(right_value) != TYPE_STRING:
+				print("Invalid type %s for operator %s" % [Grog._typestr(right_value), operator])
+				return 0
+			if typeof(left_value) != typeof(right_value):
+				print("Invalid types %s and %s for operator %s" % [Grog._typestr(left_value), Grog._typestr(right_value), operator])
+				return 0
+			
+			return left_value + right_value
+				
+		"-", "<", ">":
 			if typeof(left_value) != TYPE_INT or typeof(right_value) != TYPE_INT:
 				print("Invalid types %s and %s for operator %s" % [Grog._typestr(left_value), Grog._typestr(right_value), operator])
 				return 0

@@ -15,5 +15,5 @@ default_action = "walk_to"
 actions = [ "look_at", "pick_up", "talk_to", "open", "close", "use" ]
 scripts = [ ExtResource( 4 ) ]
 rooms = [ ExtResource( 5 ), ExtResource( 11 ) ]
-actors = [ ExtResource( 2 ), ExtResource( 6 ) ]
+actors = [ ExtResource( 6 ), ExtResource( 2 ) ]
 inventory_items_scene = ExtResource( 3 )
