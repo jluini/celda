@@ -18,7 +18,7 @@ The tokenizer takes one line and reads one character at each step. If it reads:
 TOKEN =          STANDARD_TOKEN | NUMBER | QUOTE | OPERATOR
 STANDARD_TOKEN = KEYWORD | IDENTIFIER | COMMAND | PATTERN
 
-KEYWORD =        if | else | not | and | or | true | false
+KEYWORD =        if | elif | else | not | and | or | true | false
 
 IDENTIFIER =     IDENTIFIER_KEY | $IDENTIFIER                  # identifier key or reference to it (can be nested references)
 IDENTIFIER_KEY = ID_SEGMENT(/ID_SEGMENT)*
