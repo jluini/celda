@@ -173,6 +173,8 @@ pick_up:
 	inv_poster.add
 	self.disable
 	celda/exit.enable
+	you.say \"Mirá ese ventilete.\"
+	you.say \"Debe ser la salida.\"
 
 look_at:
 	you.say \"Lindo póster.\"
