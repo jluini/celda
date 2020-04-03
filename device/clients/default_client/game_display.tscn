@@ -349,46 +349,66 @@ margin_top = 90.0
 margin_right = 944.0
 margin_bottom = 176.0
 
-[node name="save_button" type="Button" parent="text_layer"]
-modulate = Color( 1, 1, 1, 0.686275 )
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
+[node name="VBoxContainer" type="VBoxContainer" parent="text_layer"]
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 870.0
-margin_top = -200.274
-margin_right = 946.0
-margin_bottom = -150.274
+margin_left = 1816.0
+margin_top = 850.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="fullscreen_button" type="Button" parent="text_layer/VBoxContainer"]
+modulate = Color( 1, 1, 1, 0.686275 )
+margin_left = 12.0
+margin_top = 7.0
+margin_right = 92.0
+margin_bottom = 47.0
+rect_min_size = Vector2( 80, 40 )
+size_flags_horizontal = 4
+size_flags_vertical = 6
+text = "Fullscreen"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="save_button2" type="Button" parent="text_layer/VBoxContainer"]
+modulate = Color( 1, 1, 1, 0.686275 )
+margin_left = 12.0
+margin_top = 65.0
+margin_right = 92.0
+margin_bottom = 105.0
+rect_min_size = Vector2( 80, 40 )
+size_flags_horizontal = 4
+size_flags_vertical = 6
 text = "Save"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="load_button" type="Button" parent="text_layer"]
+[node name="load_button" type="Button" parent="text_layer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.686275 )
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = 870.0
-margin_top = -134.293
-margin_right = 946.0
-margin_bottom = -84.2928
+margin_left = 12.0
+margin_top = 123.0
+margin_right = 92.0
+margin_bottom = 163.0
+rect_min_size = Vector2( 80, 40 )
+size_flags_horizontal = 4
+size_flags_vertical = 6
 text = "Load"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="quit_button" type="Button" parent="text_layer"]
+[node name="quit_button" type="Button" parent="text_layer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.686275 )
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = 870.0
-margin_top = -70.5872
-margin_right = 946.0
-margin_bottom = -20.5872
+margin_left = 12.0
+margin_top = 182.0
+margin_right = 92.0
+margin_bottom = 222.0
+rect_min_size = Vector2( 80, 40 )
+size_flags_horizontal = 4
+size_flags_vertical = 6
 text = "Quit"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -481,6 +501,7 @@ __meta__ = {
 }
 [connection signal="pressed" from="text_layer/command_area/controls/inventory/arrow_up/TextureButton" to="text_layer/command_area/controls/inventory" method="_on_up_pressed"]
 [connection signal="pressed" from="text_layer/command_area/controls/inventory/arrow_down/TextureButton" to="text_layer/command_area/controls/inventory" method="_on_down_pressed"]
-[connection signal="pressed" from="text_layer/save_button" to="." method="_on_quit_button_pressed"]
-[connection signal="pressed" from="text_layer/load_button" to="." method="_on_quit_button_pressed"]
-[connection signal="pressed" from="text_layer/quit_button" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="text_layer/VBoxContainer/fullscreen_button" to="." method="_on_fullscreen_button_pressed"]
+[connection signal="pressed" from="text_layer/VBoxContainer/save_button2" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="text_layer/VBoxContainer/load_button" to="." method="_on_load_button_pressed"]
+[connection signal="pressed" from="text_layer/VBoxContainer/quit_button" to="." method="_on_quit_button_pressed"]

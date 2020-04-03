@@ -137,7 +137,7 @@ func _input(event):
 			return
 		
 		if event.is_action_pressed("grog_toggle_fullscreen"):
-			OS.window_fullscreen = !OS.window_fullscreen
+			_toggle_fullscreen()
 		if event.scancode == KEY_Q:
 			_actions.select(0)
 		elif event.scancode == KEY_W:
@@ -319,7 +319,7 @@ func _on_quit_button_pressed():
 
 func _on_save_button_pressed():
 	if server:
-		server.save_request()
+		pass #server.save_request()
 
 func _on_load_button_pressed():
 	if server:
@@ -412,3 +412,8 @@ func _clear_all():
 	current_action = default_action
 	_update_action_display()
 	
+func _on_fullscreen_button_pressed():
+	_toggle_fullscreen()
+
+func _toggle_fullscreen():
+	OS.window_fullscreen = !OS.window_fullscreen
