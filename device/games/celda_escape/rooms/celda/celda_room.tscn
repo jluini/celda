@@ -8,7 +8,7 @@
 [ext_resource path="res://games/celda_escape/rooms/celda/images/background.jpg" type="Texture" id=6]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/exit_exposed.png" type="Texture" id=7]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/Inodoro2.png" type="Texture" id=8]
-[ext_resource path="res://games/celda_escape/rooms/celda/images/exit_poster.png" type="Texture" id=9]
+[ext_resource path="res://games/celda_escape/rooms/celda/images/Cartel.png" type="Texture" id=9]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/Cama.png" type="Texture" id=10]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/CeldaCelda.png" type="Texture" id=11]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/Inodoro.png" type="Texture" id=12]
@@ -29,7 +29,7 @@ tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1.56917 ),
+"transitions": PoolRealArray( 25.1067 ),
 "update": 1,
 "values": [ ExtResource( 7 ) ]
 }
@@ -162,7 +162,7 @@ texture = ExtResource( 13 )
 flip_h = true
 
 [node name="poster" type="Node2D" parent="items"]
-position = Vector2( 1726.48, 251.712 )
+position = Vector2( 1726, 252 )
 script = ExtResource( 5 )
 item_key = "celda/poster"
 instance_number = 0
@@ -186,10 +186,11 @@ radius = 70.0
 position = Vector2( -60.813, 434.711 )
 
 [node name="cartel1" type="Sprite" parent="items/poster"]
+z_index = 1
 texture = ExtResource( 9 )
 
 [node name="exit" type="Node2D" parent="items"]
-position = Vector2( 1726.48, 251.712 )
+position = Vector2( 1726, 242 )
 script = ExtResource( 5 )
 item_key = "celda/exit"
 instance_number = 0
@@ -257,6 +258,7 @@ anims/default = SubResource( 2 )
 anims/open = SubResource( 3 )
 
 [node name="cartel1" type="Sprite" parent="items/exit"]
+position = Vector2( 0, 10 )
 texture = ExtResource( 7 )
 
 [node name="door" type="Node2D" parent="items"]
