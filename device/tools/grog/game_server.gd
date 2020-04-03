@@ -223,7 +223,12 @@ func _command_wait(duration: float, opts: Dictionary) -> Dictionary:
 func _command_say(item_id: String, speech_token: Dictionary, opts: Dictionary) -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
-	var speech: String = speech_token.expression.evaluate(self)
+	var speech = speech_token.expression.evaluate(self)
+	
+	if typeof(speech) != TYPE_STRING:
+		print("Saying not string: %s" % Grog._typestr(speech))
+		speech = str(speech)
+	
 	if speech_token.type != Grog.TokenType.Quote:
 		speech = tr(speech)
 	
@@ -443,15 +448,15 @@ func _command_remove(item_id: String) -> Dictionary:
 	
 	var _r = symbols.remove_symbol(item_id)
 	
-	# TODO do this
+	if symbols.has_alias("self") and symbols.get_alias("self") == item_id:
+		symbols.remove_alias("self")
+	if symbols.has_alias("tool") and symbols.get_alias("tool") == item_id:
+		symbols.remove_alias("tool")
 	
 	return empty_action
 
 func _command_play(item_id: String, animation_name_token: Dictionary) -> Dictionary:
 	var animation_name = animation_name_token.expression.evaluate(self)
-#	content
-#	if animation_name_token.type == Grog.TokenType.Identifier:
-#		animation_name = animation_name + "" # TODO evaluate
 	
 	var item_symbol = _get_or_build_scene_item(item_id, "play '%s' in" % animation_name)
 	
@@ -1053,6 +1058,7 @@ func get_value(var_name: String):
 	
 	if symbol == null:
 		# absent
+		print("Global variable or symbol '%s' not found" % var_name) # TODO level
 		return 0 # absent symbol defaults to zero
 	
 	match symbol.type:
@@ -1061,10 +1067,15 @@ func get_value(var_name: String):
 		
 		"inventory_item":
 			return symbol.amount # instances.size()
+		
+		"inventory_item_instance":
+			return symbol.target.get_key()
 			
 		"scene_item":
-			return not symbol.disabled
-		
+			if symbol.disabled:
+				return "disabled"
+			else:
+				return symbol.animation
 		_:
 			print("Trying to dereference symbol '%s' of type '%s'" % [var_name, symbol.type])
 			return false

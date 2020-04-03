@@ -99,7 +99,10 @@ func add_symbol(symbol_name: String, symbol_type: String, target) -> Dictionary:
 
 func has_alias(alias_name: String) -> bool:
 	return _aliases.has(alias_name)
-	
+
+func get_alias(alias_name: String):
+	return _aliases.get(alias_name, null)
+
 func set_alias(alias_name: String, target_symbol_name: String):
 	_aliases[alias_name] = target_symbol_name
 

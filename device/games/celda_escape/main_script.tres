@@ -16,11 +16,7 @@ code_or_filename = "init:
 	exit/mask2.play red
 	exit/mask3.play green
 	
-	
 	.set current_mask=\"\"
-	.set claw1_content=default
-	.set claw2_content=red
-	.set claw3_content=green
 
 start:
 	.say \"Érase una celda...\"
@@ -29,7 +25,6 @@ start:
 	.set door_seen=false
 	
 	.load_room celda
-	#.load_room exit
 	
 	if true:
 		you.walk to=pos2
@@ -38,9 +33,7 @@ start:
 		you.walk to=pos1
 		you.walk to=pos2
 		you.walk to=pos1
-		you.walk to=pos2
-		you.walk to=pos1
-		you.walk to=pos2
+		you.walk to=pos3
 	
 	.enable_input
 
