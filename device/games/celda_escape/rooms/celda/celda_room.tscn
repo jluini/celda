@@ -19,7 +19,7 @@ vertices = PoolVector2Array( 241.487, 805.672, 117.333, 568.755, 329.54, 574.413
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7 ), PoolIntArray( 4, 7, 0, 8 ), PoolIntArray( 8, 0, 3, 9 ), PoolIntArray( 10, 9, 3 ), PoolIntArray( 10, 3, 11, 12 ), PoolIntArray( 12, 11, 13 ), PoolIntArray( 12, 13, 14 ) ]
 outlines = [ PoolVector2Array( 967.964, 804, 872.52, 745.468, 859.288, 748.408, 865.944, 762.589, 744.614, 763.845, 713.74, 731.501, 717.415, 696.951, 785.044, 693.276, 792.395, 704.302, 830.619, 705.037, 737.149, 635.8, 389.7, 634.572, 329.54, 574.413, 117.333, 568.755, 241.487, 805.672 ) ]
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 resource_name = "default"
 tracks/0/type = "value"
 tracks/0/path = NodePath("cartel1:texture")
@@ -34,7 +34,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 7 ) ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=3]
 resource_name = "open"
 tracks/0/type = "value"
 tracks/0/path = NodePath("cartel1:texture")
@@ -205,12 +205,13 @@ look_at:
 		you.say \"Me mando en cualquier momento.\"
 
 open:
-	.disable_input
-	.wait 2
+	if $self = default:
+		.disable_input
+		.wait 2
+			
+		you.say \"Está trabada.\"
 		
-	you.say \"Está trabada.\"
-	
-	.enable_input
+		.enable_input
 
 use_with(inv_poster):
 	self.disable
@@ -218,15 +219,16 @@ use_with(inv_poster):
 	tool.remove
 
 use_with(inv_thing):
-	.disable_input
-	
-	.wait 1 skippable=false
-	you.say \"Tal vez con esta cosa puedo abrirlo.\" skippable=false
-	.wait 3 skippable=false
-	self.play open
-	.set exit_is_open=true
-	.wait 0.5
-	.enable_input
+	if $self = default:
+		.disable_input
+		
+		.wait 1 skippable=false
+		you.say \"Tal vez con esta cosa puedo abrirlo.\" skippable=false
+		.wait 3 skippable=false
+		self.play open
+		.set exit_is_open=true
+		.wait 0.5
+		.enable_input
 
 
 walk_to:
@@ -251,8 +253,8 @@ radius = 70.0
 position = Vector2( -60.813, 434.711 )
 
 [node name="animation" type="AnimationPlayer" parent="items/exit"]
-anims/default = SubResource( 4 )
-anims/open = SubResource( 6 )
+anims/default = SubResource( 2 )
+anims/open = SubResource( 3 )
 
 [node name="cartel1" type="Sprite" parent="items/exit"]
 texture = ExtResource( 7 )
