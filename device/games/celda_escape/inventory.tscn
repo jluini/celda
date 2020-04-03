@@ -1,5 +1,6 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
+[ext_resource path="res://games/celda_escape/rooms/celda/images/Cartel.png" type="Texture" id=1]
 [ext_resource path="res://tools/grog/item.gd" type="Script" id=2]
 [ext_resource path="res://games/celda_escape/items/paper.png" type="Texture" id=3]
 [ext_resource path="res://games/celda_escape/items/mask.png" type="Texture" id=4]
@@ -120,7 +121,35 @@ item_key = "inv_thing"
 color = Color( 1, 1, 1, 1 )
 interact_angle = 0
 code = "look_at:
-	you.say \"Me sirve para abrir la salida\"
+	if $celda/exit = default:
+		you.say \"Me sirve para abrir la salida.\"
+	elif $celda/exit = disabled:
+		you.say \"Alta cosa.\"
+	else:
+		you.say \"Me re-sirvió.\"
+	
+use: TK
+	self.set_tool use_with"
+walk_speed = 0.0
+
+[node name="inv_poster" type="Control" parent="."]
+margin_left = 1080.0
+margin_right = 1292.0
+margin_bottom = 86.0
+rect_min_size = Vector2( 212, 86 )
+
+[node name="item" type="Sprite" parent="inv_poster"]
+position = Vector2( 106, 43 )
+scale = Vector2( 3, 3 )
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+item_key = "inv_poster"
+color = Color( 0.419608, 0.235294, 0.235294, 1 )
+interact_angle = 0
+code = "look_at:
+	you.say \"Lindo póster.\"
+	you.say \"Es un dibujo de Bubba.\"
+	
 
 use: TK
 	self.set_tool use_with"

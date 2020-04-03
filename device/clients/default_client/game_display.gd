@@ -236,7 +236,9 @@ func _end_game():
 	_clear_all()
 	_hide_all()
 	default_action.queue_free()
+	_curtain.play("default")
 	emit_signal("game_ended")
+	
 
 func _hide_all():
 	_set_skippable(false)

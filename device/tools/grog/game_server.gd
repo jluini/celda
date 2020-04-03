@@ -197,10 +197,10 @@ func _command_load_room(room_name: String) -> Dictionary:
 	
 	if theres_and_old_room:
 		_server_event("curtain_down")
+		
 		var duration = 1.0
 		_is_skippable = false
 		
-		_server_event("wait_started", [duration, _is_skippable])
 		_skipped = false
 		
 		return { coroutine = _wait_coroutine(duration, _load_room_coroutine(room)) }
@@ -656,6 +656,15 @@ func _command_curtain_up():
 	_server_event("curtain_up")
 	
 	return empty_action
+
+func _command_curtain_down():
+	_server_event("curtain_down")
+	var duration = 1.0
+	_is_skippable = false
+	
+	_skipped = false
+	
+	return { coroutine = _wait_coroutine(duration) }
 
 # only called manually
 func _command_intern_walk() -> Dictionary:

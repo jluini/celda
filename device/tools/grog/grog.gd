@@ -166,6 +166,10 @@ const commands = {
 		subject = SubjectType.None,
 		required_params = []
 	},
+	curtain_down = {
+		subject = SubjectType.None,
+		required_params = []
+	},
 }
 
 static func _typestr(value):
