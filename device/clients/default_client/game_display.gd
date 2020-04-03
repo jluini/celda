@@ -121,7 +121,10 @@ func _input(event):
 					_clear_all()
 					
 				
-	elif event is InputEventMouseMotion and server.current_room:
+	elif event is InputEventMouseMotion:
+		if not server.current_room:
+			return
+		
 		var mouse_position: Vector2 = event.position
 		
 		var item = _get_item_at(mouse_position)
@@ -135,7 +138,22 @@ func _input(event):
 		
 		if event.is_action_pressed("grog_toggle_fullscreen"):
 			OS.window_fullscreen = !OS.window_fullscreen
-			
+		if event.scancode == KEY_Q:
+			_actions.select(0)
+		elif event.scancode == KEY_W:
+			_actions.select(1)
+		elif event.scancode == KEY_E:
+			_actions.select(2)
+		elif event.scancode == KEY_A:
+			_actions.select(3)
+		elif event.scancode == KEY_S:
+			_actions.select(4)
+		elif event.scancode == KEY_D:
+			_actions.select(5)
+		else:
+			print("Action not found for %s:%s" % [event.scancode, event.unicode])
+	else:
+		print("Ignoring event %s" % event)
 		
 func on_server_event(event_name, args):
 	var handler_name = "_on_server_" + event_name

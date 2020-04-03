@@ -44,6 +44,13 @@ func add_element(target) -> void:
 	_list.add_child(element_view)
 	_element_views.append(element_view)
 
+func select(index):
+	if _element_views.size() <= index:
+		return
+	
+	var element = _element_views[index]
+	element.check()
+	
 # Selects the first element (if any)
 func select_first():
 	if _element_views.size() == 0:
