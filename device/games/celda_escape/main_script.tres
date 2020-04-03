@@ -6,6 +6,7 @@
 resource_name = "main"
 script = ExtResource( 1 )
 code_or_filename = "init:
+	.set take_desc_attempts=0
 	.set number=0
 	.set door_seen=false
 	

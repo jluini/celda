@@ -323,18 +323,15 @@ talk_to: TK
 	
 
 pick_up:
-	if $exit_is_open and $door_seen:
-		you.say \"¿Para qué quiero más papeles si ya me puedo ir?\"
-	else:
-		if $inv_paper = 3:
-			if $take_desc_attempts > 4:
-				you.say \"Ya que insistís...\"
-				inv_paper.add
-			else:
-				.set take_desc_attempts=$take_desc_attempts + 1
-				you.say \"Creo que ya tengo demasiadas.\"
-		else:
+	if $inv_paper = 3:
+		if $take_desc_attempts > 4:
+			you.say \"Ya que insistís...\"
 			inv_paper.add
+		else:
+			.set take_desc_attempts=$take_desc_attempts + 1
+			you.say \"Creo que ya tengo demasiadas.\"
+	else:
+		inv_paper.add
 	
 
 use:
