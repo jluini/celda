@@ -176,13 +176,110 @@ func _command_load_room(room_name: String) -> Dictionary:
 		
 		return empty_action
 		
-	var room = _load_room(room_name)
+	#var room = _load_room(room_name)
+	
+	var room_resource = _get_room_resource(room_name)
+	if not room_resource:
+		print("No room '%s'" % room_name)
+		return empty_action
+	
+	if not room_resource.room_scene:
+		print("No room_scene in room '%s'" % room_name)
+		return empty_action
+	
+	var room = room_resource.room_scene.instance()
 	
 	if not room:
-		print("Couldn't load room '%s'" % room_name)
+		push_error("Couldn't load room '%s'"  % room_name)
+		return empty_action
 	
-	return empty_action
+	var theres_and_old_room = current_room != null
+	
+	if theres_and_old_room:
+		_server_event("curtain_down")
+		var duration = 1.0
+		_is_skippable = false
+		
+		_server_event("wait_started", [duration, _is_skippable])
+		_skipped = false
+		
+		return { coroutine = _wait_coroutine(duration, _load_room_coroutine(room)) }
+	
+	else:
+		return { coroutine = _load_room_coroutine(room) }
 
+func _load_room_coroutine(room):
+	yield()
+	
+	# detaches player from previous room
+	if current_room and current_player:
+		current_room.remove_child(current_player)
+	
+	if current_room:
+		for item_key in loaded_scene_items:
+			var item_symbol = symbols.get_symbol(item_key)
+			
+			assert(item_symbol.type == "scene_item")
+			assert(item_symbol.loaded)
+			
+			if not item_symbol.disabled:
+				# then is loaded, so tell the client to disable it
+				_server_event("item_disabled", [item_symbol.target])
+			
+			item_symbol.loaded = false
+		
+		loaded_scene_items = {}
+		
+		root_node.remove_child(current_room)
+		current_room.queue_free()
+		current_room = null
+	
+	current_room = room
+	
+	if current_player:
+		room.add_child(current_player)
+		current_player.teleport(room.get_default_player_position())
+	else:
+		print("Playing with no player")
+	
+	# care: items are not _ready yet
+	
+	for item in room.get_items():
+		var item_key = item.get_key()
+		
+		if not item_key:
+			print("Item with empty key in room '%s'" % room.get_name())
+			continue
+		elif item_key in ["self", "tool", "if"]: # TODO better check
+			print("An item can't have '%s' as id" % item_key)
+			continue
+		elif loaded_scene_items.has(item_key):
+			print("Duplicated scene item '%s'" % item_key)
+			continue
+		
+		var item_symbol = _get_or_build_scene_item(item_key, "load")
+		
+		if not item_symbol:
+			# type mismatch
+			continue
+		
+		item_symbol.target = item
+		item_symbol.target.init_item(compiler)
+		assert(not item_symbol.loaded)
+		item_symbol.loaded = true
+		loaded_scene_items[item_key] = item
+		
+		if item_symbol.disabled:
+			item.disable()
+		else:
+			if item.has_node("animation"):
+				item.get_node("animation").play(item_symbol.animation)
+			_server_event("item_enabled", [item])
+	
+	root_node.add_child(room) # _ready is called here for room and its items
+	
+	_server_event("room_loaded", [room]) # TODO parameter is not necessary
+	
 func _command_enable_input() -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
@@ -512,7 +609,54 @@ func _command_debug(new_value_expression) -> Dictionary:
 	print("DEBUG: %s (type %s, class %s)" % [new_value, Grog._typestr(new_value), new_value.get_class() if typeof(new_value) == TYPE_OBJECT else "-"])
 	
 	return empty_action
+
+func _command_teleport(item_id: String, to_node_named: String) -> Dictionary:
+	assert(_server_state == ServerState.RunningSequence)
 	
+	var item_symbol = symbols.get_symbol_of_types(item_id, ["player"], true)
+	
+	if not item_symbol.type:
+		print("No actor '%s'" % item_id)
+		return empty_action
+	
+	var item = item_symbol.target
+	
+	var to_node_symbol = symbols.get_symbol_of_types(to_node_named, ["scene_item"], false)
+	
+	var to_node
+	
+	if to_node_symbol == null:
+		# absent
+		if not current_room.has_node(to_node_named):
+			print("Node '%s' not found" % to_node_named)
+			return empty_action
+		else:
+			to_node = current_room.get_node(to_node_named)
+	
+	elif not to_node_symbol.type:
+		# type mismatch
+		print("Can't walk to an object of type '%s'" % symbols.get_symbol_type(to_node_named))
+		return empty_action
+	else:
+		if not to_node_symbol.loaded:
+			print("walk: item '%s' is not in current room" % to_node_named)
+			return empty_action
+		elif to_node_symbol.disabled:
+			print("walk: item '%s' is disabled" % to_node_named)
+			return empty_action
+		else:
+			to_node = to_node_symbol.target
+		
+	var target_position = to_node.position
+	item.position = target_position
+	
+	return empty_action
+
+func _command_curtain_up():
+	_server_event("curtain_up")
+	
+	return empty_action
+
 # only called manually
 func _command_intern_walk() -> Dictionary:
 	return { coroutine = _intern_walk_coroutine() }
@@ -856,94 +1000,10 @@ func _runner_over(status):
 func _server_event(event_name: String, args: Array = []):
 	emit_signal("game_server_event", event_name, args)
 
-func _load_room(room_name: String) -> Node:
-	var room_resource = _get_room_resource(room_name)
-	if not room_resource:
-		print("No room '%s'" % room_name)
-		return null
+#func _load_room(room_name: String) -> Node:
 	
-	if not room_resource.room_scene:
-		print("No room_scene in room '%s'" % room_name)
-		return null
-	
-	var room = room_resource.room_scene.instance()
-	
-	if not room:
-		push_error("Couldn't load room '%s'"  % room_name)
-		return null
-	
-	# detaches player from previous room
-	if current_room and current_player:
-		current_room.remove_child(current_player)
-	
-	if current_room:
-		for item_key in loaded_scene_items:
-			var item_symbol = symbols.get_symbol(item_key)
-			
-			assert(item_symbol.type == "scene_item")
-			assert(item_symbol.loaded)
-			
-			if not item_symbol.disabled:
-				# then is loaded, so tell the client to disable it
-				_server_event("item_disabled", [item_symbol.target])
-			
-			item_symbol.loaded = false
-		
-		loaded_scene_items = {}
-		
-		root_node.remove_child(current_room)
-		current_room.queue_free()
-		current_room = null
-	
-	current_room = room
-	
-	if current_player:
-		room.add_child(current_player)
-		current_player.teleport(room.get_default_player_position())
-	else:
-		print("Playing with no player")
-	
-	# care: items are not _ready yet
-	
-	for item in room.get_items():
-		var item_key = item.get_key()
-		
-		if not item_key:
-			print("Item with empty key in room '%s'" % room_name)
-			continue
-		elif item_key in ["self", "tool", "if"]: # TODO better check
-			print("An item can't have '%s' as id" % item_key)
-			continue
-		elif loaded_scene_items.has(item_key):
-			print("Duplicated scene item '%s'" % item_key)
-			continue
-		
-		var item_symbol = _get_or_build_scene_item(item_key, "load")
-		
-		if not item_symbol:
-			# type mismatch
-			continue
-		
-		item_symbol.target = item
-		item_symbol.target.init_item(compiler)
-		assert(not item_symbol.loaded)
-		item_symbol.loaded = true
-		loaded_scene_items[item_key] = item
-		
-		if item_symbol.disabled:
-			item.disable()
-		else:
-			if item.has_node("animation"):
-				item.get_node("animation").play(item_symbol.animation)
-			_server_event("item_enabled", [item])
-	
-	root_node.add_child(room) # _ready is called here for room and its items
-	
-	_server_event("room_loaded", [room]) # TODO parameter is not necessary
 
-	return room
-
-func _wait_coroutine(delay_seconds: float):
+func _wait_coroutine(delay_seconds: float, and_then = null):
 	var elapsed = 0.0
 
 	while elapsed < delay_seconds:
@@ -954,6 +1014,9 @@ func _wait_coroutine(delay_seconds: float):
 		elapsed += yield()
 
 	_server_event("wait_ended")
+	
+	while and_then:
+		and_then = and_then.resume(yield())
 
 func _free_all():
 	if current_player:

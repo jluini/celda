@@ -6,6 +6,8 @@ export (float) var distance_threshold = 50
 
 export (Resource) var action_button_model
 
+export (NodePath) var curtain_path
+
 export (NodePath) var room_area_path
 export (NodePath) var room_place_path
 
@@ -43,6 +45,8 @@ var current_tool = null # Node for scene_item or Resource for inventory_item
 var current_tool_verb = ""
 
 # Node hooks
+onready var _curtain: AnimationPlayer = get_node(curtain_path)
+
 onready var _room_area: Control = get_node(room_area_path)
 onready var _room_place: Control = get_node(room_place_path)
 
@@ -139,7 +143,7 @@ func on_server_event(event_name, args):
 	if self.has_method(handler_name):
 		self.callv(handler_name, args)
 	else:
-		push_warning("Display has no method '%s'" % handler_name)
+		print("Display has no method '%s'" % handler_name)
 
 #	@SERVER EVENTS
 
@@ -162,6 +166,7 @@ func _on_server_input_disabled():
 	_hide_controls()
 
 func _on_server_room_loaded(_room):
+	_curtain.play("default")
 	pass
 
 func _on_server_item_enabled(item):
@@ -212,12 +217,18 @@ func _on_server_item_removed(item: Node):
 		current_tool_verb = ""
 		_update_action_display()
 	
-
 func _on_server_tool_set(new_tool, verb_name: String):
 	current_tool = new_tool
 	current_tool_verb = verb_name
 	current_item = null
 	_update_action_display()
+
+func _on_server_curtain_up():
+	_curtain.play("up")
+	
+func _on_server_curtain_down():
+	_curtain.play("down")
+
 #	@PRIVATE
 
 func _end_game():

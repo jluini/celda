@@ -26,6 +26,7 @@
 |  `input_enabled()                                                    `  |  Input enabled (client should show controls).               |
 |  `input_disabled()                                                   `  |  Input disabled (client should hide controls).              |
 |  `room_loaded(room: Node)                                            `  |  Room loaded; then will receive 'item_enabled' for each loaded (and non-globally-disabled) item in room.  |
+|  `curtain_up()                                                       `  |  Curtain up.                                                |
 |  `wait_started(duration: float, skippable: bool)                     `  |  Start waiting 'duration' seconds (maybe skippable by client).        |
 |  `say(who: Node, speech: String, duration: float, skippable: bool)   `  |  The environment or some item says something; the client must show it. |
 |  `wait_ended()                                                       `  |  The wait (indicated by a 'wait' or a 'say') is over (either timed out or skipped by client). |

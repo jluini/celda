@@ -152,6 +152,20 @@ const commands = {
 			{ name = "value", type = ParameterType.ExpressionType }
 		]
 	},
+	
+	teleport = {
+		subject = SubjectType.Required,
+		required_params = [
+			{ name = "to", type = ParameterType.Fixed },
+			{ name = "equals", type = ParameterType.EqualsSign },
+			{ name = "value", type = ParameterType.Identifier }
+		]
+	},
+	
+	curtain_up = {
+		subject = SubjectType.None,
+		required_params = []
+	},
 }
 
 static func _typestr(value):

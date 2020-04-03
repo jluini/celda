@@ -188,10 +188,9 @@ __meta__ = {
 }
 
 [node name="gate" type="Sprite" parent="background"]
-visible = false
 modulate = Color( 0.388235, 0.388235, 0.388235, 1 )
-position = Vector2( 1721, -36.916 )
-z_index = 1000
+position = Vector2( 1720, 0 )
+z_index = 740
 texture = ExtResource( 3 )
 centered = false
 flip_h = true
@@ -235,6 +234,12 @@ navpoly = SubResource( 1 )
 
 [node name="default_player_position" type="Position2D" parent="."]
 position = Vector2( 1709.77, 710.391 )
+
+[node name="pos1" type="Position2D" parent="."]
+position = Vector2( 1888.48, 541.702 )
+
+[node name="pos2" type="Position2D" parent="."]
+position = Vector2( 1656.32, 747.135 )
 
 [node name="items" type="Node2D" parent="."]
 
@@ -281,7 +286,7 @@ radius = 200.0
 position = Vector2( 10.0393, 239.253 )
 
 [node name="gate" type="Node2D" parent="items"]
-position = Vector2( 1841.05, 484.763 )
+position = Vector2( 1770.9, 439.668 )
 script = ExtResource( 5 )
 item_key = "exit/gate"
 instance_number = 0
@@ -290,12 +295,13 @@ interact_angle = 0
 code = "
 walk_to:
 	.load_room celda
+	.curtain_up
 	"
 walk_speed = 0.0
-radius = 250.0
+radius = 150.0
 
 [node name="interact_position" type="Position2D" parent="items/gate"]
-position = Vector2( 6.47537, 125.192 )
+position = Vector2( 93.3249, 161.936 )
 
 [node name="mask1" type="Node2D" parent="items"]
 position = Vector2( 603.91, 334.516 )

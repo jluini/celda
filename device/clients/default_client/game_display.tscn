@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://clients/default_client/game_display.gd" type="Script" id=1]
 [ext_resource path="res://clients/default_client/pixel_intv.otf" type="DynamicFontData" id=2]
@@ -12,6 +12,53 @@
 [ext_resource path="res://clients/default_client/inventory/inventory.gd" type="Script" id=10]
 [ext_resource path="res://clients/default_client/sample_images/arrow_up.png" type="Texture" id=11]
 [ext_resource path="res://clients/default_client/sample_images/arrow_up2.png" type="Texture" id=12]
+
+[sub_resource type="Animation" id=3]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/path = NodePath("curtain/curtain:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "down"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("curtain/curtain:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.6 ),
+"transitions": PoolRealArray( 1, 0.297302 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "up"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("curtain/curtain:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
 
 [sub_resource type="DynamicFont" id=1]
 size = 32
@@ -31,6 +78,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 action_button_model = ExtResource( 3 )
+curtain_path = NodePath("text_layer/curtain")
 room_area_path = NodePath("world_layer/room_area")
 room_place_path = NodePath("world_layer/room_area")
 inventory_path = NodePath("text_layer/command_area/controls/inventory")
@@ -71,6 +119,19 @@ __meta__ = {
 }
 
 [node name="text_layer" type="CanvasLayer" parent="."]
+
+[node name="curtain" type="AnimationPlayer" parent="text_layer"]
+anims/default = SubResource( 3 )
+anims/down = SubResource( 5 )
+anims/up = SubResource( 4 )
+
+[node name="curtain" type="ColorRect" parent="text_layer/curtain"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="text_anchor" type="Control" parent="text_layer"]
 anchor_left = 0.5

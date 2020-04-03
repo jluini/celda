@@ -22,7 +22,7 @@ CELDA_ESCAPE_THING_NO_TAKE	Never!	No sería capaz de recoger semejante cosa.
 ITEM_CELDA/GATE	gate	portón
 ITEM_CELDA/THING	thing	cosa
 ITEM_CELDA/EXIT	exit	salida
-ITEM_CELDA/DOOR1	door	puerta
+ITEM_CELDA/DOOR	door	puerta
 ITEM_CELDA/BED	bed	cama
 ITEM_CELDA/TOILET	toilet	inodoro
 ITEM_EXIT/DOOR	door	puerta

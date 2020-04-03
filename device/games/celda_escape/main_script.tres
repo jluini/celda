@@ -9,6 +9,8 @@ code_or_filename = "init:
 	.set number=0
 	.set door_seen=false
 	
+	celda/gate.disable
+	
 	exit/claw1.disable
 	exit/claw2.disable
 	exit/claw3.disable
@@ -25,6 +27,11 @@ start:
 	.set door_seen=false
 	
 	.load_room celda
+	
+	you.teleport to=pos1
+	
+	.curtain_up
+	
 	
 	if true:
 		you.walk to=pos2

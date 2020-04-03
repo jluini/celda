@@ -98,9 +98,7 @@ texture = ExtResource( 1 )
 centered = false
 
 [node name="gate" type="Sprite" parent="background"]
-visible = false
-position = Vector2( -1, -36.916 )
-z_index = 1000
+z_index = 740
 texture = ExtResource( 3 )
 centered = false
 
@@ -119,7 +117,7 @@ navpoly = SubResource( 1 )
 position = Vector2( 1143.49, 635.665 )
 
 [node name="test_position" type="Position2D" parent="."]
-position = Vector2( 1333.74, 813.979 )
+position = Vector2( 113.997, 740.459 )
 
 [node name="pos1" type="Position2D" parent="."]
 position = Vector2( 1103.38, 605.697 )
@@ -277,6 +275,11 @@ look_at:
 
 talk_to: TK
 	.load_room exit
+	you.teleport to=pos1
+	.curtain_up
+	you.walk to=pos2
+
+	
 
 pick_up:
 	if $exit_is_open and $door_seen:
@@ -328,17 +331,15 @@ z_index = 773
 texture = ExtResource( 12 )
 
 [node name="gate" type="Node2D" parent="items"]
-position = Vector2( 76.3334, 474.827 )
+position = Vector2( 69.5315, 457.142 )
 script = ExtResource( 5 )
 item_key = "celda/gate"
 instance_number = 0
 color = Color( 0, 0, 0, 1 )
 interact_angle = 180
-code = "
-walk_to:
-	.load_room exit"
+code = ""
 walk_speed = 0.0
-radius = 250.0
+radius = 150.0
 
 [node name="interact_position" type="Position2D" parent="items/gate"]
 position = Vector2( 5.38055, 128.475 )
