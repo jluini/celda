@@ -17,8 +17,10 @@ enum ParameterType {
 }
 
 enum TokenType {
-	Standard, Command, Identifier, Pattern, # or Keyword (next line)
-	IfKeyword, ElifKeyword, ElseKeyword, NotKeyword, AndKeyword, OrKeyword, TrueKeyword, FalseKeyword,
+	Standard, Command, Identifier, Pattern, # or Keyword (next lines)
+	IfKeyword, ElifKeyword, ElseKeyword,
+	LoopKeyword, BreakKeyword,
+	NotKeyword, AndKeyword, OrKeyword, TrueKeyword, FalseKeyword,
 	
 	Number, Integer, Float,
 	Quote,
@@ -42,6 +44,8 @@ const keywords = {
 	"if": TokenType.IfKeyword,
 	"elif": TokenType.ElifKeyword,
 	"else": TokenType.ElseKeyword,
+	"loop": TokenType.LoopKeyword,
+	"break": TokenType.BreakKeyword,
 	"not": TokenType.NotKeyword,
 	"and": TokenType.AndKeyword,
 	"or": TokenType.OrKeyword,
@@ -173,6 +177,7 @@ const commands = {
 		subject = SubjectType.None,
 		required_params = []
 	},
+	
 }
 
 static func _typestr(value):

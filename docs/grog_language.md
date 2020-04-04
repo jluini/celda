@@ -1,6 +1,17 @@
 [<- back to index](index.md)
 
-# Instruction reference
+# Grog language
+
+Instructions can be:
+
+ - `if <expression...>:`
+ - `elif <expression...>:`
+ - `else:`
+ - `loop:`
+ - `break`
+ - or a command
+
+# Command reference
 
 |      Command      |                  Description                  |   Sintaxis                                                                            |
 |:-----------------:|:--------------------------------------------- |:------------------------------------------------------------------------------------- |
@@ -20,7 +31,6 @@
 | **play**          | Sets a state to a scene item (loaded or not). | `   <sc_item>.play         <animation_name>                                         ` |
 | **set_tool**      | Sets a scene/inventory item as "tool".        | `      <item>.set_tool     <verb_name>                                              ` |
 | **debug**         | Shows evaluation result in console.           | `            .debug        <expression...>                                          ` |
-
 | **end**           | Ends the game.                                | `            .end                                                                   ` |
 
 

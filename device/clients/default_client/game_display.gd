@@ -150,8 +150,6 @@ func _input(event):
 			_actions.select(4)
 		elif event.scancode == KEY_D:
 			_actions.select(5)
-		else:
-			print("Action not found for %s:%s" % [event.scancode, event.unicode])
 	else:
 		print("Ignoring event %s" % event)
 		
@@ -286,7 +284,7 @@ func _get_item_at(position: Vector2):
 		if item == current_tool:
 			continue
 		
-		var disp: Vector2 = item.global_position - position
+		var disp: Vector2 = item.global_position + item.offset - position
 		var distance = disp.length()
 		
 		if distance <= item.radius:

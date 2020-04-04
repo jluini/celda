@@ -344,6 +344,13 @@ func compile_lines(compiled_script, lines: Array):
 					else:
 						assert(not current_block.has("else_branch"))
 						current_block.else_branch = statements
+				elif current_block.type == "loop":
+					assert(stack.size() > 0)
+					assert(stack.size() == level)
+					
+					assert(not current_block.has("statements"))
+					current_block.statements = statements
+					
 				else:
 					compiled_script.add_error("Grog error: unexpected line type '%s'" % current_block.type)
 					return
@@ -675,7 +682,7 @@ func compile_lines(compiled_script, lines: Array):
 					stack.push_back(statements)
 					statements = []
 					level += 1
-							
+				
 				Grog.TokenType.ElifKeyword:
 					if statements.size() == 0:
 						compiled_script.add_error("Unexpected 'elif' block (line %s)" % line.line_number)
@@ -742,7 +749,39 @@ func compile_lines(compiled_script, lines: Array):
 					stack.push_back(statements)
 					statements = []
 					level += 1
-							
+				
+				Grog.TokenType.LoopKeyword:
+					if num_tokens < 2:
+						compiled_script.add_error("Colon expected after 'loop' (line %s)" % line.line_number)
+						return
+					
+					var colon_token = line.tokens[1]
+					if not _token_is_operator(colon_token, ":"):
+						compiled_script.add_error("Expecting : after 'loop' (line %s)" % line.line_number)
+						return
+					
+					if num_tokens > 2:
+						compiled_script.add_error("End of line expected after 'loop:' (line %s)" % line.line_number)
+						return
+					
+					statements.append({
+						type = "loop",
+						# waiting for statements
+					})
+					
+					stack.push_back(statements)
+					statements = []
+					level += 1
+				
+				Grog.TokenType.BreakKeyword:
+					if num_tokens > 1:
+						compiled_script.add_error("End of line expected after 'break' (line %s)" % line.line_number)
+						return
+					
+					statements.append({
+						type = "break"
+					})
+					
 				_:
 					compiled_script.add_error("Command, if or else expected at start of line (line %s)" % line.line_number)
 					return

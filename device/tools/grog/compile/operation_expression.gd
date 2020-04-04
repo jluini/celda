@@ -22,8 +22,15 @@ func evaluate(_game):
 				print("Invalid type %s for operator %s" % [Grog._typestr(right_value), operator])
 				return 0
 			if typeof(left_value) != typeof(right_value):
-				print("Invalid types %s and %s for operator %s" % [Grog._typestr(left_value), Grog._typestr(right_value), operator])
-				return 0
+				#print("Invalid types %s and %s for operator %s" % [Grog._typestr(left_value), Grog._typestr(right_value), operator])
+				#return 0
+				var left_is_int = typeof(left_value) == TYPE_INT
+				if left_is_int:
+					#print("Converting int %s to string" % left_value)
+					left_value = str(left_value)
+				else:
+					#print("Converting int %s to string" % right_value)
+					right_value = str(right_value)
 			
 			return left_value + right_value
 				

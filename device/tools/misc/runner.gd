@@ -17,6 +17,10 @@ var output
 var _routine
 var _stopped: bool
 
+#var loop_count = 0
+#var current_block = "main"
+
+
 #
 # output must have:
 #     _runner_over(status)
@@ -48,15 +52,23 @@ func coroutine(instructions: Array):
 	_stopped = false
 	
 	var stack = []
+	var loop_count = 0
+	var current_block = "main"
 	
 	var delta = yield()
 	
 	while true:
 		while i >= instructions.size() and stack.size() > 0:
 				# this branch is over
-				var previous_level = stack.pop_back()
-				instructions = previous_level.instructions
-				i = previous_level.index
+				if current_block == "loop":
+					# resets the loop to the first instruction
+					i = 0
+				else:
+					# ends the block
+					var previous_level = stack.pop_back()
+					instructions = previous_level.instructions
+					i = previous_level.index
+					current_block = previous_level.block_type
 		
 		if i >= instructions.size(): # now stack.size() == 0
 			# whole sequence is over
@@ -159,10 +171,54 @@ func coroutine(instructions: Array):
 				if branch_to_execute != null and branch_to_execute.size() > 0:
 					stack.push_back({
 						instructions = instructions,
-						index = i
+						index = i,
+						block_type = current_block,
 					})
 					instructions = branch_to_execute
 					i = 0
+					current_block = "if"
+			
+			"loop":
+				if not instruction.has("statements"):
+					end_with_error("Invalid loop: %s" % instruction)
+					return null
+				
+				var statements = instruction.statements
+				
+				if statements.size() == 0:
+					end_with_error("Empty loop: %s" % instruction)
+					return null
+				
+				stack.push_back({
+					instructions = instructions,
+					index = i,
+					block_type = current_block
+				})
+				instructions = statements
+				i = 0
+				current_block = "loop"
+				loop_count += 1
+			
+			"break":
+				if loop_count <= 0:
+					print("Break but no loop")
+				else:
+					
+					while true:
+						var loop_found = current_block == "loop"
+						
+						assert(stack.size() > 0)
+						
+						var previous_level = stack.pop_back()
+						instructions = previous_level.instructions
+						i = previous_level.index
+						current_block = previous_level.block_type
+						
+						if loop_found:
+							break
+					
+					loop_count -= 1
+				
 			_:
 				print("Unexpected instruction type '%s'" % instruction.type)
 		

@@ -674,6 +674,10 @@ func _command_curtain_down():
 	
 	return { coroutine = _wait_coroutine(duration) }
 
+#func _command_break():
+#	print("Break is called")
+#	return empty_action
+
 # only called manually
 func _command_intern_walk() -> Dictionary:
 	return { coroutine = _intern_walk_coroutine() }

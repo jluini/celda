@@ -43,7 +43,7 @@ start2:
 	.load_room celda
 	.curtain_up
 	.enable_input
-	you.teleport to=pos2 angle=45
+	you.teleport to=pos1 angle=90
 
 fallback/walk_to: # goes but nothing more
 

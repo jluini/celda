@@ -11,7 +11,7 @@ ACTION_OPEN	open	abrir
 ACTION_LOOK_AT	look at	mirar
 ACTION_PUSH	push	empujar
 ACTION_CLOSE	close	cerrar
-ACTION_TALK_TO	talk to	hablar
+ACTION_TALK_TO	talk to	hablar con
 ACTION_PULL	pull	tirar
 DEMO_GAME_FALLBACK_LOOK	I see.	Veo.
 DEMO_GAME_FALLBACK_CANT	I can't.	No puedo.

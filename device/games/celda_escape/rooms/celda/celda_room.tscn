@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://games/demo_game/rooms/room1/images/desk.png" type="Texture" id=1]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/exit_open.png" type="Texture" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://games/celda_escape/rooms/celda/images/CeldaCelda.png" type="Texture" id=11]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/Inodoro.png" type="Texture" id=12]
 [ext_resource path="res://games/celda_escape/items/thing.png" type="Texture" id=13]
+[ext_resource path="res://games/demo_game/actors/mark/mark.tscn" type="PackedScene" id=14]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 241.487, 805.672, 117.333, 568.755, 329.54, 574.413, 389.7, 634.572, 865.944, 762.589, 859.288, 748.408, 872.52, 745.468, 967.964, 804, 744.614, 763.845, 713.74, 731.501, 717.415, 696.951, 737.149, 635.8, 785.044, 693.276, 830.619, 705.037, 792.395, 704.302 )
@@ -145,7 +146,6 @@ pick_up:
 	inv_thing.add
 		
 "
-walk_speed = 0.0
 radius = 30.0
 
 [node name="interact_position" type="Position2D" parent="items/thing"]
@@ -165,7 +165,6 @@ position = Vector2( 1726, 252 )
 script = ExtResource( 5 )
 item_key = "celda/poster"
 color = Color( 1, 1, 1, 1 )
-interact_angle = 0
 code = "
 pick_up:
 	inv_poster.add
@@ -181,7 +180,6 @@ look_at:
 	you.say \"Es un dibujo de Bubba.\"
 
 "
-walk_speed = 0.0
 radius = 70.0
 
 [node name="interact_position" type="Position2D" parent="items/poster"]
@@ -196,7 +194,6 @@ position = Vector2( 1726, 242 )
 script = ExtResource( 5 )
 item_key = "celda/exit"
 color = Color( 1, 1, 1, 1 )
-interact_angle = 0
 code = "
 
 look_at:
@@ -248,7 +245,6 @@ use:
 
 
 "
-walk_speed = 0.0
 radius = 70.0
 
 [node name="interact_position" type="Position2D" parent="items/exit"]
@@ -292,7 +288,6 @@ open:
 
 close: TK
 	you.say \"Ya está cerrada\""
-walk_speed = 0.0
 radius = 200.0
 
 [node name="interact_position" type="Position2D" parent="items/door"]
@@ -333,7 +328,6 @@ pick_up:
 
 use:
 	self.set_tool use_with"
-walk_speed = 0.0
 radius = 150.0
 
 [node name="interact_position" type="Position2D" parent="items/bed"]
@@ -348,7 +342,6 @@ position = Vector2( 1775, 748 )
 script = ExtResource( 5 )
 item_key = "celda/toilet"
 color = Color( 1, 1, 1, 1 )
-interact_angle = 0
 code = "look_at:
 	you.say \"Alto inodoro.\"
 	you.say \"Tal vez me pueda ecapar por el desagüe del mismo.\"
@@ -360,7 +353,6 @@ use:
 	.wait 2
 	.curtain_up
 "
-walk_speed = 0.0
 radius = 70.0
 
 [node name="interact_position" type="Position2D" parent="items/toilet"]
@@ -380,8 +372,47 @@ position = Vector2( 69.5315, 457.142 )
 script = ExtResource( 5 )
 item_key = "celda/gate"
 interact_angle = 180
-walk_speed = 0.0
 radius = 150.0
 
 [node name="interact_position" type="Position2D" parent="items/gate"]
 position = Vector2( 5.38055, 128.475 )
+
+[node name="mark" parent="items" instance=ExtResource( 14 )]
+position = Vector2( 880.894, 614.405 )
+interact_angle = 180
+code = "
+talk_to:
+	self.say \"Hola.\"
+	you.say \"Hola.\""
+
+[node name="ndirections" parent="items/mark" index="3"]
+config = [ {
+"idle": "idle_right",
+"value": 22.5,
+"walk": "walk_right"
+}, {
+"idle": "idle_rightfront",
+"value": 67.5,
+"walk": "walk_front"
+}, {
+"idle": "idle_front",
+"value": 112.5,
+"walk": "walk_front"
+}, {
+"idle": "idle_rightfront.flip_h",
+"value": 135.0,
+"walk": "walk_front"
+}, {
+"idle": "idle_right.flip_h",
+"value": 225.0,
+"walk": "walk_right.flip_h"
+}, {
+"idle": "idle_up",
+"value": 315.0,
+"walk": "walk_up"
+} ]
+
+[node name="interact_position" type="Position2D" parent="items/mark"]
+position = Vector2( 231.327, 5.55182 )
+
+[editable path="items/mark"]
