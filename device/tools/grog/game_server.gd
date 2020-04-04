@@ -239,6 +239,7 @@ func _load_room_coroutine(room):
 	if current_player:
 		room.add_child(current_player)
 		current_player.teleport(room.get_default_player_position())
+		#current_player.set_angle(90)
 	else:
 		print("Playing with no player")
 	
@@ -610,7 +611,7 @@ func _command_debug(new_value_expression) -> Dictionary:
 	
 	return empty_action
 
-func _command_teleport(item_id: String, to_node_named: String) -> Dictionary:
+func _command_teleport(item_id: String, to_node_named: String, opts: Dictionary) -> Dictionary:
 	assert(_server_state == ServerState.RunningSequence)
 	
 	var item_symbol = symbols.get_symbol_of_types(item_id, ["player"], true)
@@ -649,6 +650,13 @@ func _command_teleport(item_id: String, to_node_named: String) -> Dictionary:
 		
 	var target_position = to_node.position
 	item.position = target_position
+	
+	if opts.has("angle"):
+		var angle_option = opts["angle"]
+		if typeof(angle_option) != TYPE_INT:
+			print("Angle is of type %s" % Grog._typestr(angle_option))
+		angle_option = int(angle_option)
+		item.set_angle(angle_option)
 	
 	return empty_action
 
@@ -921,14 +929,15 @@ func _intern_walk_coroutine():
 		var displacement = destiny - origin
 		var distance2 = displacement.length_squared()
 		var direction = displacement.normalized()
+		var angle = _get_degrees(direction)
 
-		_walking_subject.emit_signal("start_walking", direction)
+		_walking_subject.walk(angle)
 		
 		while true:
 			
 			if _canceled:
 				# walk canceled in response to client
-				_walking_subject.emit_signal("stop_walking")
+				_walking_subject.stop()
 				return {} # returning a dict makes Runner cancel all remaining tasks
 			elif _path_changed: # this allows to change path from outside (for rewalk from client)
 				break
@@ -945,14 +954,24 @@ func _intern_walk_coroutine():
 			else:
 				_walking_subject.teleport(target_point)
 	
-	_walking_subject.emit_signal("stop_walking")
+	_walking_subject.stop()
 	
 	return null
 
+# Returns angle in degrees between 0 and 360
+func _get_degrees(direction: Vector2) -> float:
+	var radians_angle = direction.angle()
+
+	var deg_angle = radians_angle * 180.0 / PI
+
+	if deg_angle < 0:
+		deg_angle += 360.0
+
+	return deg_angle
 
 func _do_goal():
 	if _goal.has("angle"):
-		_goal.subject.emit_signal("angle_changed", _goal.angle)
+		_goal.subject.set_angle(_goal.angle)
 	
 	var ok = _run_sequence(_goal.instructions)
 	
@@ -1008,9 +1027,6 @@ func _runner_over(status):
 	
 func _server_event(event_name: String, args: Array = []):
 	emit_signal("game_server_event", event_name, args)
-
-#func _load_room(room_name: String) -> Node:
-	
 
 func _wait_coroutine(delay_seconds: float, and_then = null):
 	var elapsed = 0.0

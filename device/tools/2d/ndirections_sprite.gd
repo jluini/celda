@@ -12,38 +12,40 @@ export (NodePath) var sprite_path
 onready var _animation = get_node(animation_path)
 
 # Expected to be Sprite or AnimatedSprite. We use flip_h and flip_v properties.
-onready var _sprite = get_node(sprite_path)
+var _sprite
 
-var last_direction = null
+var walking = false
+var angle = 0
+#var last_angle: int = 0
 
-func _on_start_walking(direction: Vector2):
-	if not direction:
-		print("No direction")
+func _get_sprite():
+	if not _sprite:
+		_sprite = get_node(sprite_path)
+	return _sprite
+
+func _on_start_walking(new_angle: int):
+	angle = new_angle
+	walking = true
 	
-	var deg_angle = get_degrees(direction)
-	
-	var index = get_range_index(deg_angle, config)
+	var index = get_range_index(angle, config)
 	var key = config[index].walk
 	
 	play_animation(key)
-	
-	last_direction = direction
 
-func _on_angle_changed(angle_degrees: int):
-	var index = get_range_index(angle_degrees, config)
-	var key = config[index].idle
+func _on_angle_changed(new_angle: int):
+	angle = new_angle
+	var index = get_range_index(angle, config)
+	var key = config[index].walk if walking else config[index].idle
 	play_animation(key)
 	
+	
 func _on_stop_walking():
+	walking = false
+	
 	var key: String = config.back().idle
 	
-	if last_direction:
-		var deg_angle = get_degrees(last_direction)
-		
-		var index = get_range_index(deg_angle, config)
-		key = config[index].idle
-	else:
-		print("No last direction")
+	var index = get_range_index(angle, config)
+	key = config[index].idle
 	
 	play_animation(key)
 	
@@ -51,23 +53,12 @@ func play_animation(key):
 	var keys: Array = key.split(".", false)
 	var animation_name = keys.pop_front()
 
-	_sprite.flip_h = keys.has("flip_h")
-	_sprite.flip_v = keys.has("flip_v")
+	_get_sprite().flip_h = keys.has("flip_h")
+	_get_sprite().flip_v = keys.has("flip_v")
 
 	_animation.play(animation_name)
 	
 # Misc
-
-# Returns angle in degrees between 0 and 360
-func get_degrees(direction: Vector2) -> float:
-	var radians_angle = direction.angle()
-	
-	var deg_angle = radians_angle * 180.0 / PI
-	
-	if deg_angle < 0:
-		deg_angle += 360.0
-	
-	return deg_angle
 
 # Return the index of the first element greater than the reference value, or 0
 func get_range_index(value, cut_values: Array) -> int:

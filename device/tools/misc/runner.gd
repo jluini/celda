@@ -87,6 +87,8 @@ func coroutine(instructions: Array):
 				
 				#print("%s %s" % [cmd, params])
 				
+				# TODO check number of parameters!!!
+				
 				var command_result = output.callv(method_name, params)
 				
 				if typeof(command_result) != TYPE_DICTIONARY:

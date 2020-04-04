@@ -159,6 +159,9 @@ const commands = {
 			{ name = "to", type = ParameterType.Fixed },
 			{ name = "equals", type = ParameterType.EqualsSign },
 			{ name = "value", type = ParameterType.Identifier }
+		],
+		named_params = [
+			{ name = "angle", type = ParameterType.FloatType }
 		]
 	},
 	

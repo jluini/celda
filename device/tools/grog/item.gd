@@ -2,14 +2,17 @@ extends Node2D
 
 export (String) var item_key
 
-export (int) var instance_number = 0
+export (int) var instance_number
 export (Color) var color
 
-export (int) var interact_angle = 90
+export (int) var interact_angle
 
 export (String, MULTILINE) var code
 
-export (float) var walk_speed = 300 # pixels per second
+export (float) var walk_speed
+
+var walking = false
+var angle = 0
 
 #warning-ignore:unused_signal
 signal start_walking
@@ -46,9 +49,6 @@ func is_enabled():
 	
 ##############################
 
-func teleport(target_pos):
-	position = target_pos#set_position(target_pos)
-	on_teleport(target_pos)
 
 # abstract method
 func on_teleport(_target_pos):
@@ -80,3 +80,40 @@ func get_id():
 
 func get_key():
 	return item_key
+
+### 
+
+func teleport(target_pos):
+	position = target_pos#set_position(target_pos)
+	on_teleport(target_pos)
+
+func get_angle():
+	return angle
+
+func set_angle(new_angle: int):
+	new_angle = _normalize_angle(new_angle)
+	
+	angle = new_angle
+	emit_signal("angle_changed", new_angle)
+
+func walk(new_angle):
+	new_angle = _normalize_angle(new_angle)
+	
+	angle = new_angle
+	walking = true
+	emit_signal("start_walking", new_angle)
+
+func stop():
+	walking = false
+	emit_signal("stop_walking")
+
+static func _normalize_angle(_angle: int) -> int:
+	if _angle < 0:
+		print("Negative angle")
+		while _angle < 0:
+			_angle += 360
+	elif _angle >= 360:
+		print("Angle greater than 360")
+		while _angle >= 360:
+			_angle -= 360
+	return _angle

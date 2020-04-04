@@ -132,7 +132,6 @@ position = Vector2( 1834.39, 561.453 )
 z_index = 571
 script = ExtResource( 5 )
 item_key = "celda/thing"
-instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 22
 code = "
@@ -165,7 +164,6 @@ flip_h = true
 position = Vector2( 1726, 252 )
 script = ExtResource( 5 )
 item_key = "celda/poster"
-instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 0
 code = "
@@ -197,7 +195,6 @@ texture = ExtResource( 9 )
 position = Vector2( 1726, 242 )
 script = ExtResource( 5 )
 item_key = "celda/exit"
-instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 0
 code = "
@@ -269,7 +266,6 @@ texture = ExtResource( 7 )
 position = Vector2( 555.421, 383.942 )
 script = ExtResource( 5 )
 item_key = "celda/door"
-instance_number = 0
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
 interact_angle = 270
 code = "
@@ -306,7 +302,6 @@ position = Vector2( 10.0393, 239.253 )
 position = Vector2( 1508, 530 )
 script = ExtResource( 5 )
 item_key = "celda/bed"
-instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 270
 code = "
@@ -352,7 +347,6 @@ texture = ExtResource( 10 )
 position = Vector2( 1775, 748 )
 script = ExtResource( 5 )
 item_key = "celda/toilet"
-instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 0
 code = "look_at:
@@ -364,7 +358,8 @@ code = "look_at:
 use:
 	.curtain_down
 	.wait 2
-	.curtain_up"
+	.curtain_up
+"
 walk_speed = 0.0
 radius = 70.0
 
@@ -384,10 +379,7 @@ texture = ExtResource( 12 )
 position = Vector2( 69.5315, 457.142 )
 script = ExtResource( 5 )
 item_key = "celda/gate"
-instance_number = 0
-color = Color( 0, 0, 0, 1 )
 interact_angle = 180
-code = ""
 walk_speed = 0.0
 radius = 150.0
 
