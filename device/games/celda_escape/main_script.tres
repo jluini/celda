@@ -40,10 +40,10 @@ start:
 	.enable_input
 
 start2:
-	.load_room celda
+	.load_room office
 	.curtain_up
 	.enable_input
-	you.teleport to=pos1 angle=90
+	#you.teleport to=pos1 angle=90
 
 fallback/walk_to: # goes but nothing more
 

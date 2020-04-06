@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://tools/grog/room_resource.gd" type="Script" id=1]
+[ext_resource path="res://games/celda_escape/rooms/office/office.tscn" type="PackedScene" id=2]
+
+[resource]
+resource_name = "office"
+script = ExtResource( 1 )
+room_scene = ExtResource( 2 )

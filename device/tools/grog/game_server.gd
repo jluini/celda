@@ -111,11 +111,14 @@ func init_game(p_compiler, game_data: Resource, p_game_start_mode = StartMode.De
 		
 	match _game_start_mode:
 		StartMode.Default:
-			pass
+			_game_start_param = default_script
 		
-		#StartMode.FromRoom:
-		#	pass # TODO
-		
+		StartMode.FromRoom:
+			var compiled_script = CompiledGrogScript.new()
+			var start_sequence = build_start_sequence(_game_start_param)
+	
+			compiled_script.add_sequence("start", start_sequence)
+			_game_start_param = compiled_script
 		_:
 			print("Grog error: start mode %s not implemented" % StartMode.keys()[_game_start_mode])
 			return false
@@ -153,6 +156,17 @@ func init_game(p_compiler, game_data: Resource, p_game_start_mode = StartMode.De
 		#new_symbol.instances = []
 		
 	return true
+
+##############################
+
+func build_start_sequence(room_resource):
+	var ret = []
+
+	ret.append({ type="command", command="load_room", params=[room_resource.get_name()] })
+	ret.append({ type="command", command = "curtain_up", params = [] })
+	ret.append({ type="command", command = "enable_input", params = [] })
+
+	return { statements=ret, telekinetic=false }
 
 ##############################
 
@@ -1000,7 +1014,7 @@ func _runner_over(status):
 			_stop()
 			
 		ServerState.Initializing:
-			if _run_compiled(default_script, "start"):
+			if _run_compiled(_game_start_param, "start"):
 				_set_state(ServerState.RunningSequence)
 				_server_event("game_started", [current_player])
 			else:

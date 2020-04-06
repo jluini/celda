@@ -126,6 +126,9 @@ position = Vector2( 1231.45, 822.929 )
 [node name="pos3" type="Position2D" parent="."]
 position = Vector2( 1652.37, 767.605 )
 
+[node name="pos4" type="Position2D" parent="."]
+position = Vector2( 1679.64, 683.84 )
+
 [node name="items" type="Node2D" parent="."]
 
 [node name="thing" type="Node2D" parent="items"]
@@ -232,10 +235,8 @@ use_with(inv_thing):
 
 walk_to:
 	if $self=open:
-		.disable_input
-		you.say \"¡Me escapé!\" duration=3 skippable=false
-		.say \"Game over.\"  duration=2 skippable=false
-		.end
+		.load_room office
+		.curtain_up
 use:
 	if $self=open:
 		.disable_input

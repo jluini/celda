@@ -90,20 +90,20 @@ func _on_quit_button_pressed():
 	get_tree().quit()
 	
 func test_room(_room_resource, _actor_resource):
-	var compiled_script = CompiledGrogScript.new()
-	var start_sequence = build_start_sequence(_room_resource)
+	#var compiled_script = CompiledGrogScript.new()
+	#var start_sequence = build_start_sequence(_room_resource)
 	
-	compiled_script.add_sequence("start", start_sequence)
+	#compiled_script.add_sequence("start", start_sequence)
 	
-	play_game(_actor_resource, GameServer.StartMode.FromCompiledScript, compiled_script)
+	play_game(_actor_resource, GameServer.StartMode.FromRoom, _room_resource)
 
-func build_start_sequence(room_resource):#, actor_resource):
-	var ret = []
-	
-	ret.append({ type="command", command="load_room", params=[room_resource.get_name()] })
-	ret.append({ type="command", command = "enable_input", params = [] })
-	
-	return { statements=ret, telekinetic=false }
+#func build_start_sequence(room_resource):#, actor_resource):
+#	var ret = []
+#
+#	ret.append({ type="command", command="load_room", params=[room_resource.get_name()] })
+#	ret.append({ type="command", command = "enable_input", params = [] })
+#
+#	return { statements=ret, telekinetic=false }
 
 func play_game(actor, game_mode = GameServer.StartMode.Default, param = null):
 	_grog_game = GameServer.new()

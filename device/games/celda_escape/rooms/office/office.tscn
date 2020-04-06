@@ -1,0 +1,94 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://games/celda_escape/rooms/office/images/Office-BG.jpg" type="Texture" id=1]
+[ext_resource path="res://games/celda_escape/rooms/office/images/Mesa.png" type="Texture" id=2]
+[ext_resource path="res://games/celda_escape/rooms/office/images/Silla-Of1.png" type="Texture" id=3]
+[ext_resource path="res://tools/grog/room.gd" type="Script" id=4]
+[ext_resource path="res://tools/2d/item2d.gd" type="Script" id=5]
+[ext_resource path="res://games/celda_escape/rooms/office/images/Armor-Of1.png" type="Texture" id=6]
+[ext_resource path="res://games/celda_escape/rooms/office/images/Busto-Of1.png" type="Texture" id=7]
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( 380.204, 838.492, 1231.84, 680.592, 1405.11, 653.384, 1489.6, 667.704, 1522.53, 699.207, 1349.27, 573.194, 1178.86, 600.401, 613.231, 574.626, 802.251, 603.265, 759.292, 686.32, 1715.85, 700.639, 1720.39, 837.408 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 2, 1, 6 ), PoolIntArray( 7, 5, 6, 8 ), PoolIntArray( 7, 8, 9, 0 ), PoolIntArray( 10, 11, 0, 4 ), PoolIntArray( 9, 1, 0 ) ]
+outlines = [ PoolVector2Array( 1720.39, 837.408, 1715.85, 700.639, 1522.53, 699.207, 1489.6, 667.704, 1405.11, 653.384, 1349.27, 573.194, 613.231, 574.626, 380.204, 838.492 ), PoolVector2Array( 759.292, 686.32, 1231.84, 680.592, 1178.86, 600.401, 802.251, 603.265 ) ]
+
+[node name="office" type="Control"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -960.0
+margin_right = 960.0
+margin_bottom = 850.0
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+default_player_position_path = NodePath("default_player_position")
+navigation_path = NodePath("Navigation2D")
+
+[node name="background" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="background" type="TextureRect" parent="background"]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -755.0
+margin_right = 756.0
+rect_scale = Vector2( 0.787, 0.787 )
+texture = ExtResource( 1 )
+stretch_mode = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="chair" type="Sprite" parent="background/background"]
+position = Vector2( 1027.05, 663.363 )
+z_index = 640
+texture = ExtResource( 3 )
+
+[node name="table" type="Sprite" parent="background/background"]
+position = Vector2( 1006.34, 738.386 )
+z_index = 650
+texture = ExtResource( 2 )
+
+[node name="bust" type="Sprite" parent="background/background"]
+position = Vector2( 1578.32, 685.625 )
+texture = ExtResource( 7 )
+
+[node name="armor" type="Sprite" parent="background/background"]
+position = Vector2( 436.556, 530.523 )
+texture = ExtResource( 6 )
+
+[node name="Navigation2D" type="Navigation2D" parent="."]
+
+[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
+position = Vector2( 0, 1.43195 )
+navpoly = SubResource( 1 )
+
+[node name="default_player_position" type="Position2D" parent="."]
+position = Vector2( 550.653, 691.512 )
+
+[node name="test_position" type="Position2D" parent="."]
+position = Vector2( 1167, 724.459 )
+
+[node name="items" type="Node2D" parent="."]
+
+[node name="duct" type="Node2D" parent="items"]
+position = Vector2( 341.158, 191.053 )
+script = ExtResource( 5 )
+item_key = "office/duct"
+interact_angle = 200
+code = "
+walk_to:
+	.load_room celda
+	.curtain_up
+	you.teleport to=pos4 angle=150"
+radius = 75.0
+
+[node name="interact_position" type="Position2D" parent="items/duct"]
+position = Vector2( 206.316, 506.316 )

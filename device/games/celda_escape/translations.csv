@@ -24,10 +24,11 @@ ITEM_CELDA/GATE	gate	portón
 ITEM_CELDA/THING	thing	cosa
 ITEM_CELDA/POSTER	poster	póster
 ITEM_INV_POSTER	poster	póster
-ITEM_CELDA/EXIT	exit	salida
+ITEM_CELDA/EXIT	duct	ducto
 ITEM_CELDA/DOOR	door	puerta
 ITEM_CELDA/BED	bed	cama
 ITEM_CELDA/TOILET	toilet	inodoro
+ITEM_OFFICE/DUCT	duct	ducto
 ITEM_EXIT/DOOR	door	puerta
 ITEM_EXIT/GATE	gate	portón
 ITEM_EXIT/CLAW1	claw	gancho
