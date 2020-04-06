@@ -37,9 +37,8 @@ __meta__ = {
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -755.0
-margin_right = 756.0
-rect_scale = Vector2( 0.787, 0.787 )
+margin_left = -960.0
+margin_right = 960.0
 texture = ExtResource( 1 )
 stretch_mode = 3
 __meta__ = {
@@ -48,12 +47,12 @@ __meta__ = {
 
 [node name="chair" type="Sprite" parent="background/background"]
 position = Vector2( 1027.05, 663.363 )
-z_index = 640
+z_index = 786
 texture = ExtResource( 3 )
 
 [node name="table" type="Sprite" parent="background/background"]
 position = Vector2( 1006.34, 738.386 )
-z_index = 650
+z_index = 830
 texture = ExtResource( 2 )
 
 [node name="bust" type="Sprite" parent="background/background"]
@@ -67,19 +66,20 @@ texture = ExtResource( 6 )
 [node name="Navigation2D" type="Navigation2D" parent="."]
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
-position = Vector2( 0, 1.43195 )
+position = Vector2( -270, 0 )
+scale = Vector2( 1.27, 1.27 )
 navpoly = SubResource( 1 )
 
 [node name="default_player_position" type="Position2D" parent="."]
-position = Vector2( 550.653, 691.512 )
+position = Vector2( 420.202, 867.626 )
 
 [node name="test_position" type="Position2D" parent="."]
-position = Vector2( 1167, 724.459 )
+position = Vector2( 699.349, 829.944 )
 
 [node name="items" type="Node2D" parent="."]
 
 [node name="duct" type="Node2D" parent="items"]
-position = Vector2( 341.158, 191.053 )
+position = Vector2( 170.901, 241.02 )
 script = ExtResource( 5 )
 item_key = "office/duct"
 interact_angle = 200
@@ -91,4 +91,4 @@ walk_to:
 radius = 75.0
 
 [node name="interact_position" type="Position2D" parent="items/duct"]
-position = Vector2( 206.316, 506.316 )
+position = Vector2( 226.821, 625.248 )

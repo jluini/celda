@@ -113,7 +113,7 @@ layer = 0
 
 [node name="room_area" type="Control" parent="world_layer"]
 anchor_right = 1.0
-margin_bottom = 850.0
+margin_bottom = 903.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -171,6 +171,7 @@ __meta__ = {
 }
 
 [node name="ColorRect" type="ColorRect" parent="text_layer/command_area"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_top = -0.513306
@@ -181,7 +182,6 @@ color = Color( 1, 1, 1, 0.0588235 )
 modulate = Color( 0.564706, 0.2, 0.564706, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 5.0
 margin_bottom = -251.0
 custom_fonts/font = SubResource( 5 )
 text = "Walk to path"

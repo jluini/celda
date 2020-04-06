@@ -23,7 +23,20 @@ code_or_filename = "init:
 	
 	.set current_mask=\"\"
 
+
 start:
+	inv_poster.add
+	inv_thing.add
+	celda/poster.disable
+	celda/exit.enable
+	celda/exit.play open
+	celda/thing.disable
+	.load_room office
+	.curtain_up
+	.enable_input
+	
+
+start3:
 	.say \"Érase una celda...\"
 	.load_room celda
 	you.teleport to=pos1
