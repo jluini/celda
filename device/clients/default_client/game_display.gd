@@ -95,6 +95,8 @@ func init(p_game_server):
 		_end_game()
 	
 	# else signal game_started was just received (or it will now)
+	
+	$AudioStreamPlayer.play()
 
 func _input(event):
 	if not server or not server.is_playing():
