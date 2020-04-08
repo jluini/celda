@@ -219,11 +219,11 @@ func _command_load_room(room_name: String) -> Dictionary:
 		print("No room '%s'" % room_name)
 		return empty_action
 	
-	if not room_resource.room_scene:
-		print("No room_scene in room '%s'" % room_name)
+	if not room_resource.get_target():
+		print("No target scene in room resource '%s'" % room_name)
 		return empty_action
 	
-	var room = room_resource.room_scene.instance()
+	var room = room_resource.get_target().instance()
 	
 	if not room:
 		push_error("Couldn't load room '%s'"  % room_name)
@@ -731,11 +731,11 @@ func start_game_request(p_root_node: Node) -> bool:
 	root_node = p_root_node
 	
 	if player_resource:
-		if player_resource.actor_scene:
-			current_player = player_resource.actor_scene.instance()
+		if player_resource.get_target():
+			current_player = player_resource.get_target().instance()
 			symbols.add_symbol("you", "player", current_player)
 		else:
-			print("No actor scene in actor resource")
+			print("No target scene in actor resource")
 	
 	# initialize grog game
 	

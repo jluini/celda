@@ -9,11 +9,6 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Resource",
-"class": "ActorResource",
-"language": "GDScript",
-"path": "res://tools/grog/actor_resource.gd"
-}, {
 "base": "Reference",
 "class": "CompiledGrogScript",
 "language": "GDScript",
@@ -100,7 +95,6 @@ _global_script_classes=[ {
 "path": "res://tools/test/test.gd"
 } ]
 _global_script_class_icons={
-"ActorResource": "",
 "CompiledGrogScript": "",
 "FixedExpression": "",
 "GameResource": "",
