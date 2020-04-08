@@ -1,40 +1,40 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://apps/room_tester/room_tester_element.gd" type="Script" id=1]
+[ext_resource path="res://apps/room_tester/checked.png" type="Texture" id=2]
 
-[node name="element" type="HBoxContainer"]
+[node name="element" type="Control"]
 margin_top = 84.0
 margin_right = 440.0
-margin_bottom = 164.0
+margin_bottom = 144.0
+rect_min_size = Vector2( 0, 60 )
 size_flags_horizontal = 3
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-label_path = NodePath("element_name/Label")
+label_path = NodePath("Label")
 
-[node name="check" type="CheckBox" parent="."]
-margin_right = 24.0
-margin_bottom = 80.0
-
-[node name="element_name" type="Control" parent="."]
-margin_left = 28.0
-margin_right = 232.0
-margin_bottom = 80.0
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="element_name"]
+[node name="check" type="TextureButton" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+toggle_mode = true
+texture_pressed = ExtResource( 2 )
+expand = true
+stretch_mode = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 80.0
+margin_right = -3.05176e-05
+margin_bottom = -3.8147e-06
 text = "mark"
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Control2" type="Control" parent="."]
-margin_left = 236.0
-margin_right = 440.0
-margin_bottom = 80.0
-size_flags_horizontal = 3
 [connection signal="toggled" from="check" to="." method="_on_check_toggled"]

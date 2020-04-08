@@ -55,7 +55,9 @@ func add_element(target) -> void:
 	var index = _element_views.size()
 	element_view.set_target(index, target)
 	
-	element_view.connect("element_toggled", self, "on_element_toggled")
+	var r = element_view.connect("element_toggled", self, "on_element_toggled")
+	if r:
+		print("Couldn't connect: %s" % r)
 	
 	_list.add_child(element_view)
 	_element_views.append(element_view)
