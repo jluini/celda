@@ -66,7 +66,7 @@ var current_room: Node = null
 var player_resource
 
 # Cache scripts
-var default_script
+#var default_script
 
 # Intern
 var runner: Runner = null # TODO reuse instead of dereference and recreate?
@@ -77,8 +77,7 @@ enum StartMode {
 	Default,
 	FromRawScript,
 	FromScriptResource,
-	FromCompiledScript,
-	FromRoom
+	FromCompiledScript
 }
 
 var _game_start_mode
@@ -88,7 +87,10 @@ const empty_action = { }
 
 var _input_enabled = false
 
-func init_game(p_compiler, game_data: Resource, p_game_start_mode = StartMode.Default, p_game_start_param = null) -> bool:
+var _compiled_scripts = []
+
+
+func init_game(p_compiler, game_data: Resource, p_game_start_mode, p_game_start_param) -> bool:
 	if _server_state != ServerState.None:
 		push_error("Invalid call to init_game")
 		return false
@@ -96,29 +98,49 @@ func init_game(p_compiler, game_data: Resource, p_game_start_mode = StartMode.De
 	compiler = p_compiler
 	data = game_data
 	
-	if game_data.get_all_scripts().size() > 0:
-		default_script = compiler.compile_text(game_data.get_all_scripts()[0].get_code())
-		if not default_script.is_valid:
-			print("Default script is invalid")
-			default_script.print_errors()
-			default_script = CompiledGrogScript.new()
-	else:
-		print("No default script")
-		default_script = CompiledGrogScript.new()
+	var scripts = game_data.get_all_scripts()
+	var number_of_scripts = scripts.size()
+	
+	if number_of_scripts == 0:
+		print("No scripts")
+		_compiled_scripts.append(CompiledGrogScript.new())
+	
+	for i in range(number_of_scripts):
+		var compiled = compiler.compile_text(scripts[i].get_code())
+		if not compiled.is_valid:
+			print("Starting script %s is invalid" % i)
+			compiled.print_errors()
+			compiled = CompiledGrogScript.new() # replaces it by an empty script
+		
+		_compiled_scripts.append(compiled)
+	
+#	if number_of_scripts > 0:
+#		default_script = compiler.compile_text(game_data.get_all_scripts()[0].get_code())
+#		if not default_script.is_valid:
+#			print("Default script is invalid")
+#			default_script.print_errors()
+#			default_script = CompiledGrogScript.new()
 	
 	_game_start_mode = p_game_start_mode
 	_game_start_param = p_game_start_param
 		
 	match _game_start_mode:
 		StartMode.Default:
-			_game_start_param = default_script
+			if typeof(_game_start_param) != TYPE_INT or _game_start_param < 0:
+				print("Expected non-negative int as param")
+				return false
+			elif _game_start_param >= number_of_scripts:
+				print("Starting script %s out of bounds" % _game_start_param)
+				return false
+			
+			#_game_start_param = game_data.get_all_scripts()[_game_start_param]
 		
-		StartMode.FromRoom:
-			var compiled_script = CompiledGrogScript.new()
-			var start_sequence = build_start_sequence(_game_start_param)
-	
-			compiled_script.add_sequence("start", start_sequence)
-			_game_start_param = compiled_script
+#		StartMode.FromRoom:
+#			var compiled_script = CompiledGrogScript.new()
+#			var start_sequence = build_start_sequence(_game_start_param)
+#
+#			compiled_script.add_sequence("start", start_sequence)
+#			_game_start_param = compiled_script
 		_:
 			print("Grog error: start mode %s not implemented" % StartMode.keys()[_game_start_mode])
 			return false
@@ -253,6 +275,7 @@ func _load_room_coroutine(room):
 	if current_player:
 		room.add_child(current_player)
 		current_player.teleport(room.get_default_player_position())
+		#current_player.scale = Vector2(2, 2)
 		#current_player.set_angle(90)
 	else:
 		print("Playing with no player")
@@ -718,7 +741,7 @@ func start_game_request(p_root_node: Node) -> bool:
 	
 	_set_state(ServerState.Initializing)
 	
-	if _run_compiled(default_script, "init"):
+	if _run_compiled(_compiled_scripts[0], "init"):
 		return true
 	else:
 		print("Couldn't run init script")
@@ -816,13 +839,13 @@ func interact_request(item, trigger_name: String, tool_item = null):
 		_sequence = item.get_sequence_with_parameter(trigger_name, tool_item.get_key())
 		if not _sequence:
 			# get fallback
-			_sequence = default_script.get_sequence_with_parameter("fallback/" + trigger_name, tool_item.get_key())
+			_sequence = _compiled_scripts[0].get_sequence_with_parameter("fallback/" + trigger_name, tool_item.get_key())
 	else:
 		_sequence = item.get_sequence(trigger_name)
 	
 		if not _sequence:
 			# get fallback
-			_sequence = default_script.get_sequence("fallback/" + trigger_name)
+			_sequence = _compiled_scripts[0].get_sequence("fallback/" + trigger_name)
 	
 	if not _sequence:
 		_sequence = { statements = [], telekinetic = true }
@@ -1014,7 +1037,7 @@ func _runner_over(status):
 			_stop()
 			
 		ServerState.Initializing:
-			if _run_compiled(_game_start_param, "start"):
+			if _run_compiled(_compiled_scripts[_game_start_param], "start"):
 				_set_state(ServerState.RunningSequence)
 				_server_event("game_started", [current_player])
 			else:

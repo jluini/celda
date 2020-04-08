@@ -124,7 +124,7 @@ position = Vector2( 1103.38, 605.697 )
 position = Vector2( 1231.45, 822.929 )
 
 [node name="pos3" type="Position2D" parent="."]
-position = Vector2( 1652.37, 767.605 )
+position = Vector2( 1525.48, 730.738 )
 
 [node name="pos4" type="Position2D" parent="."]
 position = Vector2( 1679.64, 683.84 )
@@ -136,6 +136,7 @@ position = Vector2( 1834.39, 561.453 )
 z_index = 571
 script = ExtResource( 5 )
 item_key = "celda/thing"
+instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 22
 code = "
@@ -149,7 +150,9 @@ pick_up:
 	inv_thing.add
 		
 "
+walk_speed = 0.0
 radius = 30.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/thing"]
 position = Vector2( -74.9568, 159.142 )
@@ -167,7 +170,9 @@ flip_h = true
 position = Vector2( 1726, 252 )
 script = ExtResource( 5 )
 item_key = "celda/poster"
+instance_number = 0
 color = Color( 1, 1, 1, 1 )
+interact_angle = 0
 code = "
 pick_up:
 	inv_poster.add
@@ -183,7 +188,9 @@ look_at:
 	you.say \"Es un dibujo de Bubba.\"
 
 "
+walk_speed = 0.0
 radius = 70.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/poster"]
 position = Vector2( -60.813, 434.711 )
@@ -196,7 +203,9 @@ texture = ExtResource( 9 )
 position = Vector2( 1726, 242 )
 script = ExtResource( 5 )
 item_key = "celda/exit"
+instance_number = 0
 color = Color( 1, 1, 1, 1 )
+interact_angle = 0
 code = "
 
 look_at:
@@ -246,7 +255,9 @@ use:
 
 
 "
+walk_speed = 0.0
 radius = 70.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/exit"]
 position = Vector2( -60.813, 434.711 )
@@ -263,6 +274,7 @@ texture = ExtResource( 7 )
 position = Vector2( 555.421, 383.942 )
 script = ExtResource( 5 )
 item_key = "celda/door"
+instance_number = 0
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
 interact_angle = 270
 code = "
@@ -289,7 +301,9 @@ open:
 
 close: TK
 	you.say \"Ya está cerrada\""
+walk_speed = 0.0
 radius = 200.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/door"]
 position = Vector2( 10.0393, 239.253 )
@@ -298,6 +312,7 @@ position = Vector2( 10.0393, 239.253 )
 position = Vector2( 1508, 530 )
 script = ExtResource( 5 )
 item_key = "celda/bed"
+instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 270
 code = "
@@ -329,7 +344,9 @@ pick_up:
 
 use:
 	self.set_tool use_with"
+walk_speed = 0.0
 radius = 150.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/bed"]
 position = Vector2( 15.6344, 153.356 )
@@ -342,7 +359,9 @@ texture = ExtResource( 10 )
 position = Vector2( 1775, 748 )
 script = ExtResource( 5 )
 item_key = "celda/toilet"
+instance_number = 0
 color = Color( 1, 1, 1, 1 )
+interact_angle = 0
 code = "look_at:
 	you.say \"Alto inodoro.\"
 	you.say \"Tal vez me pueda ecapar por el desagüe del mismo.\"
@@ -354,7 +373,9 @@ use:
 	.wait 2
 	.curtain_up
 "
+walk_speed = 0.0
 radius = 70.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/toilet"]
 position = Vector2( -120.155, 82.8297 )
@@ -372,14 +393,20 @@ texture = ExtResource( 12 )
 position = Vector2( 69.5315, 457.142 )
 script = ExtResource( 5 )
 item_key = "celda/gate"
+instance_number = 0
+color = Color( 0, 0, 0, 1 )
 interact_angle = 180
+code = ""
+walk_speed = 0.0
 radius = 150.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/gate"]
 position = Vector2( 5.38055, 128.475 )
 
 [node name="mark" parent="items" instance=ExtResource( 14 )]
 position = Vector2( 880.894, 614.405 )
+instance_number = 0
 interact_angle = 180
 code = "
 talk_to:

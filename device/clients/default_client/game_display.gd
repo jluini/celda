@@ -75,7 +75,7 @@ func init(p_game_server):
 	data = server.data
 	
 	default_action = _actions.element_view_model.instance()
-	default_action.set_target(data.default_action)
+	default_action.set_target(0, data.default_action)
 		
 	_hide_controls()
 	

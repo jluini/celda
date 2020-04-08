@@ -116,7 +116,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Grog"
+config/name="celda"
 run/main_scene="res://apps/room_tester/room_tester.tscn"
 config/icon="res://icon.png"
 
@@ -124,6 +124,7 @@ config/icon="res://icon.png"
 
 window/size/width=1920
 window/size/height=1080
+window/size/fullscreen=true
 window/size/test_width=1366
 window/size/test_height=768
 window/stretch/mode="2d"
@@ -144,4 +145,6 @@ translations=PoolStringArray( "res://apps/room_tester/translations.en.translatio
 
 [rendering]
 
+quality/driver/driver_name="GLES2"
+vram_compression/import_etc=true
 environment/default_environment="res://default_env.tres"

@@ -28,14 +28,13 @@ font_data = ExtResource( 5 )
 [node name="room_tester" type="Node"]
 script = ExtResource( 3 )
 start_game_automatically = true
+displays = [ ExtResource( 4 ) ]
 game_to_load = ExtResource( 1 )
 ui_path = NodePath("ui_layer/ui")
-display_path = NodePath("display")
 game_name_label_path = NodePath("ui_layer/ui/game_name")
-room_list_path = NodePath("ui_layer/ui/test_rooms/lists/room_list_column/room_list_border/room_list")
-actor_list_path = NodePath("ui_layer/ui/test_rooms/lists/actor_list_column/actor_list_border/actor_list")
-script_list_path = NodePath("ui_layer/ui/test_scripts/script_list_column/script_list_border/script_list")
-raw_script_edit_path = NodePath("ui_layer/ui/test_scripts/test_raw/border/raw_script")
+display_list_path = NodePath("ui_layer/ui/test_rooms/lists/display_list_column/list_border/list")
+start_list_path = NodePath("ui_layer/ui/test_rooms/lists/start_list_column/list_border/list")
+actor_list_path = NodePath("ui_layer/ui/test_rooms/lists/actor_list_column/list_border/list")
 
 [node name="ui_layer" type="CanvasLayer" parent="."]
 layer = 2
@@ -95,11 +94,12 @@ __meta__ = {
 }
 
 [node name="room_list_column" type="Control" parent="ui_layer/ui/test_rooms/lists"]
-margin_right = 428.0
+visible = false
+margin_right = 212.0
 margin_bottom = 709.0
 size_flags_horizontal = 3
 
-[node name="room_list_border" type="NinePatchRect" parent="ui_layer/ui/test_rooms/lists/room_list_column"]
+[node name="list_border" type="NinePatchRect" parent="ui_layer/ui/test_rooms/lists/room_list_column"]
 self_modulate = Color( 0, 0, 0, 0.231373 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -117,21 +117,84 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="room_list" parent="ui_layer/ui/test_rooms/lists/room_list_column/room_list_border" instance=ExtResource( 7 )]
+[node name="list" parent="ui_layer/ui/test_rooms/lists/room_list_column/list_border" instance=ExtResource( 7 )]
 
-[node name="header" parent="ui_layer/ui/test_rooms/lists/room_list_column/room_list_border/room_list/elements" index="0"]
-margin_right = 368.0
+[node name="header" parent="ui_layer/ui/test_rooms/lists/room_list_column/list_border/list/elements" index="0"]
+margin_right = 152.0
 
-[node name="Label" parent="ui_layer/ui/test_rooms/lists/room_list_column/room_list_border/room_list/elements/header" index="0"]
-text = "ROOM_TESTER_ROOMS"
+[node name="Label" parent="ui_layer/ui/test_rooms/lists/room_list_column/list_border/list/elements/header" index="0"]
+text = "RT_ROOMS"
+
+[node name="display_list_column" type="Control" parent="ui_layer/ui/test_rooms/lists"]
+margin_right = 284.0
+margin_bottom = 709.0
+size_flags_horizontal = 3
+
+[node name="list_border" type="NinePatchRect" parent="ui_layer/ui/test_rooms/lists/display_list_column"]
+self_modulate = Color( 0, 0, 0, 0.231373 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -150.0
+size_flags_horizontal = 3
+texture = ExtResource( 8 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="list" parent="ui_layer/ui/test_rooms/lists/display_list_column/list_border" instance=ExtResource( 7 )]
+
+[node name="header" parent="ui_layer/ui/test_rooms/lists/display_list_column/list_border/list/elements" index="0"]
+margin_right = 224.0
+
+[node name="Label" parent="ui_layer/ui/test_rooms/lists/display_list_column/list_border/list/elements/header" index="0"]
+text = "RT_DISPLAYS"
+
+[node name="start_list_column" type="Control" parent="ui_layer/ui/test_rooms/lists"]
+margin_left = 288.0
+margin_right = 572.0
+margin_bottom = 709.0
+size_flags_horizontal = 3
+
+[node name="list_border" type="NinePatchRect" parent="ui_layer/ui/test_rooms/lists/start_list_column"]
+self_modulate = Color( 0, 0, 0, 0.231373 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -150.0
+size_flags_horizontal = 3
+texture = ExtResource( 8 )
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="list" parent="ui_layer/ui/test_rooms/lists/start_list_column/list_border" instance=ExtResource( 7 )]
+
+[node name="header" parent="ui_layer/ui/test_rooms/lists/start_list_column/list_border/list/elements" index="0"]
+margin_right = 224.0
+
+[node name="Label" parent="ui_layer/ui/test_rooms/lists/start_list_column/list_border/list/elements/header" index="0"]
+text = "RT_STARTS"
 
 [node name="actor_list_column" type="Control" parent="ui_layer/ui/test_rooms/lists"]
-margin_left = 432.0
+margin_left = 576.0
 margin_right = 860.0
 margin_bottom = 709.0
 size_flags_horizontal = 3
 
-[node name="actor_list_border" type="NinePatchRect" parent="ui_layer/ui/test_rooms/lists/actor_list_column"]
+[node name="list_border" type="NinePatchRect" parent="ui_layer/ui/test_rooms/lists/actor_list_column"]
 self_modulate = Color( 0, 0, 0, 0.231373 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -149,15 +212,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="actor_list" parent="ui_layer/ui/test_rooms/lists/actor_list_column/actor_list_border" instance=ExtResource( 7 )]
+[node name="list" parent="ui_layer/ui/test_rooms/lists/actor_list_column/list_border" instance=ExtResource( 7 )]
 
-[node name="header" parent="ui_layer/ui/test_rooms/lists/actor_list_column/actor_list_border/actor_list/elements" index="0"]
-margin_right = 368.0
+[node name="header" parent="ui_layer/ui/test_rooms/lists/actor_list_column/list_border/list/elements" index="0"]
+margin_right = 224.0
 
-[node name="Label" parent="ui_layer/ui/test_rooms/lists/actor_list_column/actor_list_border/actor_list/elements/header" index="0"]
-text = "ROOM_TESTER_ACTORS"
+[node name="Label" parent="ui_layer/ui/test_rooms/lists/actor_list_column/list_border/list/elements/header" index="0"]
+text = "RT_ACTORS"
 
 [node name="test_room_button" type="Button" parent="ui_layer/ui/test_rooms"]
+visible = false
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -166,13 +230,14 @@ margin_left = -200.0
 margin_top = -125.0
 margin_right = 200.0
 margin_bottom = -19.0
-text = "ROOM_TESTER_TEST_ROOM"
+text = "RT_TEST_ROOM"
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="test_scripts" type="NinePatchRect" parent="ui_layer/ui"]
+visible = false
 self_modulate = Color( 0, 0, 0, 0.352941 )
 anchor_left = 0.5
 anchor_right = 1.0
@@ -195,7 +260,7 @@ anchor_right = 0.5
 anchor_bottom = 1.0
 margin_bottom = -150.0
 
-[node name="script_list_border" type="NinePatchRect" parent="ui_layer/ui/test_scripts/script_list_column"]
+[node name="list_border" type="NinePatchRect" parent="ui_layer/ui/test_scripts/script_list_column"]
 self_modulate = Color( 0, 0, 0, 0.231373 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -212,13 +277,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="script_list" parent="ui_layer/ui/test_scripts/script_list_column/script_list_border" instance=ExtResource( 7 )]
-
-[node name="header" parent="ui_layer/ui/test_scripts/script_list_column/script_list_border/script_list/elements" index="0"]
-margin_right = 370.0
-
-[node name="Label" parent="ui_layer/ui/test_scripts/script_list_column/script_list_border/script_list/elements/header" index="0"]
-text = "ROOM_TESTER_SCRIPTS"
+[node name="list" parent="ui_layer/ui/test_scripts/script_list_column/list_border" instance=ExtResource( 7 )]
 
 [node name="test_raw" type="NinePatchRect" parent="ui_layer/ui/test_scripts"]
 self_modulate = Color( 0.376471, 0.360784, 0.431373, 0 )
@@ -295,7 +354,7 @@ margin_left = -173.209
 margin_top = -105.862
 margin_right = 164.791
 margin_bottom = -38.8618
-text = "ROOM_TESTER_TEST_SCRIPT"
+text = "RT_TEST_SCRIPT"
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -306,7 +365,7 @@ margin_left = 87.4317
 margin_top = 897.635
 margin_right = 490.432
 margin_bottom = 1032.64
-text = "ROOM_TESTER_PLAY_GAME"
+text = "RT_PLAY_GAME"
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -317,14 +376,11 @@ margin_left = 514.471
 margin_top = 898.029
 margin_right = 917.471
 margin_bottom = 1033.03
-text = "ROOM_TESTER_QUIT"
+text = "RT_QUIT"
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="display" parent="." instance=ExtResource( 4 )]
-visible = false
 
 [node name="grog_compiler" type="Node" parent="."]
 script = ExtResource( 9 )
@@ -333,8 +389,10 @@ script = ExtResource( 9 )
 [connection signal="pressed" from="ui_layer/ui/play_game_button" to="." method="_on_play_game_button_pressed"]
 [connection signal="pressed" from="ui_layer/ui/quit_button" to="." method="_on_quit_button_pressed"]
 
-[editable path="ui_layer/ui/test_rooms/lists/room_list_column/room_list_border/room_list"]
+[editable path="ui_layer/ui/test_rooms/lists/room_list_column/list_border/list"]
 
-[editable path="ui_layer/ui/test_rooms/lists/actor_list_column/actor_list_border/actor_list"]
+[editable path="ui_layer/ui/test_rooms/lists/display_list_column/list_border/list"]
 
-[editable path="ui_layer/ui/test_scripts/script_list_column/script_list_border/script_list"]
+[editable path="ui_layer/ui/test_rooms/lists/start_list_column/list_border/list"]
+
+[editable path="ui_layer/ui/test_rooms/lists/actor_list_column/list_border/list"]

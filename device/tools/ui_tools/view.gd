@@ -8,13 +8,15 @@
 
 extends Node
 
-var target = null setget set_target, get_target
+var target = null # setget set_target, get_target
+var index = -1
 
 #	@PUBLIC
 """
 """
-func set_target(new_target):
+func set_target(new_index, new_target):
 	target_changing(target, new_target)
+	index = new_index
 	target = new_target
 
 """

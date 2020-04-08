@@ -1,0 +1,19 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://tools/grog/grog_script.gd" type="Script" id=1]
+
+[resource]
+resource_name = "part2"
+script = ExtResource( 1 )
+code_or_filename = "
+start:
+	inv_poster.add
+	inv_thing.add
+	celda/poster.disable
+	celda/exit.enable
+	celda/exit.play open
+	celda/thing.disable
+	.load_room office
+	.curtain_up
+	.enable_input
+"

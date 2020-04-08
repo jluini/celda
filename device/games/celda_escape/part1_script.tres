@@ -1,0 +1,23 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://tools/grog/grog_script.gd" type="Script" id=1]
+
+[resource]
+resource_name = "part1"
+script = ExtResource( 1 )
+code_or_filename = "
+start:
+	.say \"Érase una celda...\"
+	.load_room celda
+	you.teleport to=pos1
+	.curtain_up
+	
+	you.walk to=pos2
+	you.walk to=pos1
+	you.walk to=pos2
+	you.walk to=pos1
+	you.walk to=pos2
+	you.walk to=pos1
+	you.walk to=pos2
+	
+	.enable_input"

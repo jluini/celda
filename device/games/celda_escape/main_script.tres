@@ -26,39 +26,12 @@ code_or_filename = "init:
 	.set current_mask=\"\"
 
 
-start3:
-	inv_poster.add
-	inv_thing.add
-	celda/poster.disable
-	celda/exit.enable
-	celda/exit.play open
-	celda/thing.disable
-	.load_room office
-	.curtain_up
-	.enable_input
-	
-
 start:
-	.say \"Érase una celda...\"
 	.load_room celda
-	you.teleport to=pos1
+	you.teleport to=pos3
 	.curtain_up
-	
-	you.walk to=pos2
-	you.walk to=pos1
-	you.walk to=pos2
-	you.walk to=pos1
-	you.walk to=pos2
-	you.walk to=pos1
-	you.walk to=pos2
-	
 	.enable_input
 
-start2:
-	.load_room office
-	.curtain_up
-	.enable_input
-	#you.teleport to=pos1 angle=90
 
 fallback/walk_to: # goes but nothing more
 

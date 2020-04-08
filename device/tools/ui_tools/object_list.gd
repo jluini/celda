@@ -16,16 +16,31 @@ export (Resource) var element_view_model
 export (NodePath) var list_path
 
 var _element_views = []
-onready var _list = get_node(list_path)
+#onready var _list = get_node(list_path)
+var _list
 
 var _current_selected_view = null
 
+func _ready():
+	if list_path:
+		if has_node(list_path):
+			_list = get_node(list_path)
+		else:
+			print("List path is bad configured")
+	if not _list:
+		_list = self
 
 #	@PUBLIC
+
+func has_current():
+	return _current_selected_view != null
 
 func get_current():
 	return _current_selected_view.target if _current_selected_view else null
 
+func get_current_index() -> int:
+	return _current_selected_view.index if _current_selected_view else -1
+	
 func add_element(target) -> void:
 	if not element_view_model:
 		print("No element_model")
@@ -37,7 +52,8 @@ func add_element(target) -> void:
 	
 	var element_view = element_view_model.instance()
 	
-	element_view.set_target(target)
+	var index = _element_views.size()
+	element_view.set_target(index, target)
 	
 	element_view.connect("element_toggled", self, "on_element_toggled")
 	
