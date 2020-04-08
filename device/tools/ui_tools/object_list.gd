@@ -11,7 +11,7 @@ signal on_element_selected
 signal on_element_deselected
 
 
-export (Resource) var element_view_model
+export (PackedScene) var element_view_model
 
 export (NodePath) var list_path
 

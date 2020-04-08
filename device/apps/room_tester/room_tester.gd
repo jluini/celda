@@ -2,7 +2,7 @@ extends Node
 
 export (bool) var start_game_automatically
 
-export (Array, PackedScene) var displays
+export (Array, Resource) var displays
 
 export (Resource) var game_to_load
 
@@ -125,12 +125,13 @@ func _on_quit_button_pressed():
 #	return { statements=ret, telekinetic=false }
 
 #func play_game(actor, game_mode = GameServer.StartMode.Default, param = null):
-func play_game(display_resource: PackedScene, actor, starting_index: int):
+func play_game(display_resource: Resource, actor, starting_index: int):
 	if current_display:
 		print("Undeleted old display!!")
 		return
 	
-	current_display = display_resource.instance()
+	var display_scene = display_resource.get_target()
+	current_display = display_scene.instance()
 	
 	var _r = current_display.connect("game_ended", self, "_on_game_ended")
 	

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://tools/grog/named_scene.gd" type="Script" id=1]
+[ext_resource path="res://clients/default_client/game_display.tscn" type="PackedScene" id=2]
+
+[resource]
+resource_name = "default display"
+script = ExtResource( 1 )
+target_scene = ExtResource( 2 )
