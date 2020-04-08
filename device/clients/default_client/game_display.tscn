@@ -348,6 +348,7 @@ __meta__ = {
 }
 
 [node name="fullscreen_button" type="Button" parent="text_layer/VBoxContainer"]
+visible = false
 modulate = Color( 1, 1, 1, 0.686275 )
 margin_left = 12.0
 margin_top = 7.0
@@ -362,11 +363,12 @@ __meta__ = {
 }
 
 [node name="save_button2" type="Button" parent="text_layer/VBoxContainer"]
+visible = false
 modulate = Color( 1, 1, 1, 0.686275 )
 margin_left = 12.0
-margin_top = 65.0
+margin_top = 17.0
 margin_right = 92.0
-margin_bottom = 105.0
+margin_bottom = 57.0
 rect_min_size = Vector2( 80, 40 )
 size_flags_horizontal = 4
 size_flags_vertical = 6
@@ -376,11 +378,12 @@ __meta__ = {
 }
 
 [node name="load_button" type="Button" parent="text_layer/VBoxContainer"]
+visible = false
 modulate = Color( 1, 1, 1, 0.686275 )
 margin_left = 12.0
-margin_top = 123.0
+margin_top = 36.0
 margin_right = 92.0
-margin_bottom = 163.0
+margin_bottom = 76.0
 rect_min_size = Vector2( 80, 40 )
 size_flags_horizontal = 4
 size_flags_vertical = 6
@@ -392,12 +395,11 @@ __meta__ = {
 [node name="quit_button" type="Button" parent="text_layer/VBoxContainer"]
 modulate = Color( 1, 1, 1, 0.686275 )
 margin_left = 12.0
-margin_top = 182.0
 margin_right = 92.0
-margin_bottom = 222.0
+margin_bottom = 230.0
 rect_min_size = Vector2( 80, 40 )
 size_flags_horizontal = 4
-size_flags_vertical = 6
+size_flags_vertical = 7
 text = "Quit"
 __meta__ = {
 "_edit_use_anchors_": false
