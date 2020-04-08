@@ -147,11 +147,15 @@ func play_game(display_resource: Resource, actor, starting_index: int):
 	if is_valid:
 		_ui.hide()
 		#current_display.show()
+		if not $ui_layer/ui/music/toggle.pressed:
+			$AudioStreamPlayer.play()
+		
 		current_display.init(_grog_game)
 	else:
 		print("Invalid start")
 	
 func _on_game_ended():
+	$AudioStreamPlayer.stop()
 	_grog_game = null
 	#current_display.hide()
 	remove_child(current_display)

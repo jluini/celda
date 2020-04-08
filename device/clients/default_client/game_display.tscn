@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://clients/default_client/game_display.gd" type="Script" id=1]
 [ext_resource path="res://clients/default_client/pixel_intv.otf" type="DynamicFontData" id=2]
@@ -11,7 +11,6 @@
 [ext_resource path="res://clients/default_client/inventory/inventory.gd" type="Script" id=10]
 [ext_resource path="res://clients/default_client/sample_images/arrow_up.png" type="Texture" id=11]
 [ext_resource path="res://clients/default_client/sample_images/arrow_up2.png" type="Texture" id=12]
-[ext_resource path="res://games/celda_escape/music/templo.ogg" type="AudioStream" id=13]
 
 [sub_resource type="Animation" id=1]
 resource_name = "default"
@@ -489,9 +488,6 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 13 )
 [connection signal="pressed" from="text_layer/command_area/controls/inventory/arrow_up/TextureButton" to="text_layer/command_area/controls/inventory" method="_on_up_pressed"]
 [connection signal="pressed" from="text_layer/command_area/controls/inventory/arrow_down/TextureButton" to="text_layer/command_area/controls/inventory" method="_on_down_pressed"]
 [connection signal="pressed" from="text_layer/VBoxContainer/fullscreen_button" to="." method="_on_fullscreen_button_pressed"]

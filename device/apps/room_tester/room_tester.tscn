@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://games/celda_escape/game_data.tres" type="Resource" id=1]
 [ext_resource path="res://tools/ui_tools/label.gd" type="Script" id=2]
@@ -9,6 +9,9 @@
 [ext_resource path="res://apps/room_tester/object_list.tscn" type="PackedScene" id=7]
 [ext_resource path="res://apps/room_tester/rounded_rect.png" type="Texture" id=8]
 [ext_resource path="res://tools/grog/compile/compiler.gd" type="Script" id=9]
+[ext_resource path="res://apps/room_tester/play_button_on.png" type="Texture" id=10]
+[ext_resource path="res://apps/room_tester/play_button_off.png" type="Texture" id=11]
+[ext_resource path="res://games/celda_escape/music/templo.ogg" type="AudioStream" id=12]
 
 [sub_resource type="DynamicFont" id=1]
 size = 24
@@ -18,7 +21,11 @@ font_data = ExtResource( 6 )
 default_font = SubResource( 1 )
 
 [sub_resource type="DynamicFont" id=3]
-size = 60
+size = 90
+font_data = ExtResource( 6 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 28
 font_data = ExtResource( 6 )
 
 [sub_resource type="DynamicFont" id=4]
@@ -59,10 +66,10 @@ anchor_left = 0.5
 anchor_top = 0.002
 anchor_right = 0.5
 anchor_bottom = 0.002
-margin_left = -828.0
-margin_top = 0.84
-margin_right = 832.0
-margin_bottom = 133.84
+margin_left = -952.0
+margin_top = 11.84
+margin_right = -24.0
+margin_bottom = 240.84
 custom_fonts/font = SubResource( 3 )
 custom_colors/font_color = Color( 0.87, 0.9, 0.81, 1 )
 text = "(game name)"
@@ -72,14 +79,147 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="game_details" type="Label" parent="ui_layer/ui"]
+visible = false
+anchor_left = 0.4
+anchor_right = 1.0
+anchor_bottom = 0.2
+margin_left = 167.246
+margin_right = -761.754
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0.229034, 0.308594, 0.233012, 1 )
+text = "programming
+graphics
+music"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="game_detail_1" type="Label" parent="ui_layer/ui"]
+anchor_left = 0.4
+anchor_right = 1.0
+anchor_bottom = 0.2
+margin_left = 23.0
+margin_top = 55.0
+margin_right = -762.0
+margin_bottom = -128.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0.229034, 0.308594, 0.233012, 1 )
+text = "RT_PROGRAMMING"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="game_detail_2" type="Label" parent="ui_layer/ui"]
+anchor_left = 0.4
+anchor_right = 1.0
+anchor_bottom = 0.2
+margin_left = 23.0
+margin_top = 91.0136
+margin_right = -761.582
+margin_bottom = -91.9864
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0.229034, 0.308594, 0.233012, 1 )
+text = "RT_GRAPHICS"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="game_detail_3" type="Label" parent="ui_layer/ui"]
+anchor_left = 0.4
+anchor_right = 1.0
+anchor_bottom = 0.2
+margin_left = 23.0
+margin_top = 126.972
+margin_right = -762.0
+margin_bottom = -56.0281
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0.229034, 0.308594, 0.233012, 1 )
+text = "RT_MUSIC"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="game_details2" type="Label" parent="ui_layer/ui"]
+anchor_left = 0.4
+anchor_right = 1.0
+anchor_bottom = 0.2
+margin_left = 404.369
+margin_right = -483.631
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0.741348, 0.925781, 0.747298, 1 )
+text = "Julián Luini
+Demián Taborda
+Felipe Sartori"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="game_details3" type="Label" parent="ui_layer/ui"]
+anchor_left = 0.4
+anchor_right = 1.0
+anchor_bottom = 0.2
+margin_left = 681.0
+custom_fonts/font = SubResource( 5 )
+custom_colors/font_color = Color( 0.4674, 0.82, 0.561427, 1 )
+text = "(jluini@gmail.com)
+(bubba1942.soft@gmail.com)
+(felipepote@gmail.com)"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="music" type="Control" parent="ui_layer/ui"]
+margin_left = 1349.41
+margin_top = 305.104
+margin_right = 1761.41
+margin_bottom = 408.104
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="toggle" type="TextureButton" parent="ui_layer/ui/music"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_bottom = -10.0
+toggle_mode = true
+texture_normal = ExtResource( 10 )
+texture_pressed = ExtResource( 11 )
+expand = true
+stretch_mode = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="ui_layer/ui/music"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 115.0
+text = "RT_PLAY_MUSIC"
+valign = 1
+
 [node name="test_rooms" type="NinePatchRect" parent="ui_layer/ui"]
 self_modulate = Color( 0, 0, 0, 0.352941 )
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 50.0
-margin_top = 136.0
-margin_right = -719.0
-margin_bottom = -215.0
+margin_left = 90.8973
+margin_top = 258.692
+margin_right = -678.103
+margin_bottom = -92.3081
 texture = ExtResource( 8 )
 patch_margin_left = 10
 patch_margin_top = 10
@@ -364,10 +504,10 @@ __meta__ = {
 }
 
 [node name="play_game_button" type="Button" parent="ui_layer/ui"]
-margin_left = 1282.8
-margin_top = 195.105
-margin_right = 1818.8
-margin_bottom = 479.105
+margin_left = 1329.0
+margin_top = 505.838
+margin_right = 1819.0
+margin_bottom = 690.838
 text = "RT_PLAY_GAME"
 script = ExtResource( 2 )
 __meta__ = {
@@ -375,10 +515,10 @@ __meta__ = {
 }
 
 [node name="quit_button" type="Button" parent="ui_layer/ui"]
-margin_left = 1330.32
-margin_top = 601.175
-margin_right = 1782.32
-margin_bottom = 816.175
+margin_left = 1334.51
+margin_top = 814.436
+margin_right = 1793.51
+margin_bottom = 964.436
 text = "RT_QUIT"
 script = ExtResource( 2 )
 __meta__ = {
@@ -387,6 +527,9 @@ __meta__ = {
 
 [node name="grog_compiler" type="Node" parent="."]
 script = ExtResource( 9 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 12 )
 [connection signal="pressed" from="ui_layer/ui/test_rooms/test_room_button" to="." method="_on_test_room_button_pressed"]
 [connection signal="pressed" from="ui_layer/ui/test_scripts/test_script_button" to="." method="_on_test_script_button_pressed"]
 [connection signal="pressed" from="ui_layer/ui/play_game_button" to="." method="_on_play_game_button_pressed"]
