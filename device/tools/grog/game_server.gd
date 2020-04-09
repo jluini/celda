@@ -774,7 +774,7 @@ func go_to_request(target_position: Vector2):
 
 	var origin_position = current_player.position
 	
-	var path = build_path(origin_position, target_position, true)
+	var path = build_path(origin_position, target_position, false)
 	
 	if not path:
 		if _server_state == ServerState.Serving:
@@ -1067,6 +1067,7 @@ func _runner_over(status):
 			print("_runner_over: unexpected state %s" % _server_state)
 	
 func _server_event(event_name: String, args: Array = []):
+	#print("SERVER EVENT '%s'" % event_name)
 	emit_signal("game_server_event", event_name, args)
 
 func _wait_coroutine(delay_seconds: float, and_then = null):
@@ -1228,3 +1229,18 @@ func _clear_aliases():
 		symbols.remove_alias("self")
 	if symbols.has_alias("tool"):
 		symbols.remove_alias("self")
+
+func is_navigable(point: Vector2):
+	if not current_room:
+		return false
+	if point.x < 0 or point.x > 1920:
+		return false
+	if point.y < 0 or point.y > 1080:
+		return false
+	
+	var nav : Navigation2D = current_room.get_navigation()
+	
+	if not nav:
+		return false
+	
+	return point.is_equal_approx(nav.get_closest_point(point))

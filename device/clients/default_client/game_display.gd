@@ -1,6 +1,4 @@
-extends Node
-
-signal game_ended
+extends "res://tools/grog/base_client.gd"
 
 export (float) var distance_threshold = 50
 
@@ -25,12 +23,9 @@ export (NodePath) var input_enabled_flag_path
 export (NodePath) var skippable_flag_path
 
 # Server
-var server
-var data: GameResource
 
 var _skippable: bool
 var _input_enabled: bool
-var _loaded_items: Array
 
 # Input
 enum InputState { Nothing, DoingLeftClick }
@@ -70,10 +65,7 @@ func _ready():
 	#warning-ignore:return_value_discarded
 	_actions.connect("on_element_deselected", self, "_on_action_deselected")
 
-func init(p_game_server):
-	server = p_game_server
-	data = server.data
-	
+func _on_init():
 	default_action = _actions.element_view_model.instance()
 	default_action.set_target(0, data.default_action)
 		
@@ -86,17 +78,22 @@ func init(p_game_server):
 	for action_name in data.actions:
 		_actions.add_element(action_name)
 	
-	#warning-ignore:return_value_discarded
-	server.connect("game_server_event", self, "on_server_event")
-	
 	_clear_all()
 	
 	if not server.start_game_request(_room_place):
 		_end_game()
 	
 	# else signal game_started was just received (or it will now)
-	
-	#$AudioStreamPlayer.play()
+
+func _on_start():
+	_hide_all()
+	_set_current_action(default_action)
+
+func _on_end():
+	_clear_all()
+	_hide_all()
+	default_action.queue_free()
+	_curtain.play("default")
 
 func _input(event):
 	if not server or not server.is_playing():
@@ -155,25 +152,7 @@ func _input(event):
 	else:
 		print("Ignoring event %s" % event)
 		
-func on_server_event(event_name, args):
-	var handler_name = "_on_server_" + event_name
-	
-	if self.has_method(handler_name):
-		self.callv(handler_name, args)
-	else:
-		print("Display has no method '%s'" % handler_name)
-
 #	@SERVER EVENTS
-
-func _on_server_game_started(_player):
-	_loaded_items = []
-	# TODO register player as an "item"
-	
-	_hide_all()
-	_set_current_action(default_action)
-
-func _on_server_game_ended():
-	_end_game()
 
 func _on_server_input_enabled():
 	_set_input_enabled(true)
@@ -187,12 +166,10 @@ func _on_server_room_loaded(_room):
 	_curtain.play("default")
 	pass
 
-func _on_server_item_enabled(item):
-	_loaded_items.append(item)
+func _on_item_enabled(item):
+	pass
 
-func _on_server_item_disabled(item):
-	_loaded_items.erase(item)
-	
+func _on_item_disabled(item):
 	if current_item == item:
 		_set_current_item(null)
 	elif current_tool == item:
@@ -249,14 +226,6 @@ func _on_server_curtain_down():
 
 #	@PRIVATE
 
-func _end_game():
-	server = null
-	_clear_all()
-	_hide_all()
-	default_action.queue_free()
-	_curtain.play("default")
-	emit_signal("game_ended")
-	
 
 func _hide_all():
 	_set_skippable(false)
@@ -276,8 +245,9 @@ func _left_click(position: Vector2):
 			server.interact_request(clicked_item, current_action.target)
 		
 		_clear_all()
-	elif _room_area.get_global_rect().has_point(position) and not current_tool:
-		server.go_to_request(position)
+	elif _is_in_room_area(position) and not current_tool:
+		var world_pos = _global_to_world(position)
+		server.go_to_request(world_pos)
 
 func _get_item_at(position: Vector2):
 	# check loaded scene items
@@ -286,7 +256,10 @@ func _get_item_at(position: Vector2):
 		if item == current_tool:
 			continue
 		
-		var disp: Vector2 = item.global_position + item.offset - position
+		var world_pos = _global_to_world(position)
+		var item_center = item.position + item.offset
+		
+		var disp: Vector2 = item_center - world_pos
 		var distance = disp.length()
 		
 		if distance <= item.radius:
@@ -382,28 +355,6 @@ func _item_name(item):
 	var translation_key = "ITEM_" + item.get_key().to_upper()
 	return tr(translation_key)
 
-#func _current_item_id():
-#	if not current_item:
-#		return null
-#	elif current_item is Resource:
-#		return current_item.get_name()
-#	else:
-#		return current_item.global_id
-
-func make_empty(node: Node):
-	while node.get_child_count() > 0:
-		var child = node.get_child(0)
-		node.remove_child(child)
-		child.queue_free()
-
-func capitalize_first(text: String) -> String:
-	text[0] = text[0].to_upper()
-	return text
-
-func _process(delta):
-	if server:
-		server.update(delta)
-
 func _clear_all():
 	current_item = null
 	current_tool = null
@@ -417,3 +368,17 @@ func _on_fullscreen_button_pressed():
 
 func _toggle_fullscreen():
 	OS.window_fullscreen = !OS.window_fullscreen
+
+func _global_to_world(position: Vector2, difference = true):
+	var scale = 0.787
+	
+	var viewport_rect = _room_place.rect_global_position
+	var pos2 = (position - viewport_rect) if difference else position
+	var world_pos = pos2 / scale
+	
+	return world_pos
+
+func _is_in_room_area(position: Vector2):
+	var w = _global_to_world(position)
+	return w.x >= 0 and w.x <= 1920 and w.y >= 0 and w.y <= 1080
+	

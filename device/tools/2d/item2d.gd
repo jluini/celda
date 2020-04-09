@@ -8,7 +8,7 @@ export (Vector2) var offset setget set_offset
 
 func on_teleport(target_pos):
 	# position = target_pos
-	z_index = int(target_pos.y)
+	z_index = int(target_pos.y) - 1080
 
 func _draw():
 	if Engine.editor_hint:

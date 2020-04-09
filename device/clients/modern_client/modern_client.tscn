@@ -1,0 +1,225 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
+[ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
+[ext_resource path="res://clients/default_client/sample_images/arrow_down2.png" type="Texture" id=3]
+[ext_resource path="res://clients/default_client/sample_images/arrow_up2.png" type="Texture" id=4]
+[ext_resource path="res://clients/modern_client/lupa-100x100.png" type="Texture" id=5]
+[ext_resource path="res://tools/fonts/pixel_intv.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://clients/modern_client/close.png" type="Texture" id=8]
+[ext_resource path="res://clients/modern_client/close2.png" type="Texture" id=9]
+[ext_resource path="res://tools/ui_tools/object_list.gd" type="Script" id=10]
+[ext_resource path="res://clients/modern_client/action_button.tscn" type="PackedScene" id=11]
+
+[sub_resource type="Animation" id=1]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+tracks/0/type = "value"
+tracks/0/path = NodePath("curtain/Sprite:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+tracks/0/type = "value"
+tracks/0/path = NodePath("curtain/Sprite:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("curtain/Sprite:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 0.153893 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("curtain/Sprite:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 0.153893 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+
+[sub_resource type="DynamicFont" id=7]
+size = 45
+font_data = ExtResource( 6 )
+
+[node name="game_display" type="Node2D"]
+script = ExtResource( 1 )
+_room_parent_path = NodePath("../game_display/room_parent")
+
+[node name="room_parent" type="Node2D" parent="."]
+
+[node name="cursor" type="Node2D" parent="."]
+position = Vector2( 33.5732, -177.798 )
+z_index = 4096
+
+[node name="Sprite" type="Sprite" parent="cursor"]
+position = Vector2( 0, 60 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 4 )
+
+[node name="Sprite3" type="Sprite" parent="cursor"]
+position = Vector2( -60, 0 )
+rotation = 1.5708
+scale = Vector2( 4, 4 )
+texture = ExtResource( 4 )
+
+[node name="Sprite4" type="Sprite" parent="cursor"]
+position = Vector2( 60, 0 )
+rotation = 4.71239
+scale = Vector2( 4, 4 )
+texture = ExtResource( 4 )
+
+[node name="Sprite2" type="Sprite" parent="cursor"]
+position = Vector2( 0, -60 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 3 )
+
+[node name="animation" type="AnimationPlayer" parent="cursor"]
+anims/default = SubResource( 1 )
+anims/go = SubResource( 2 )
+
+[node name="Sprite5" type="Sprite" parent="cursor"]
+visible = false
+position = Vector2( 30.7658, 31.3222 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 5 )
+
+[node name="curtain" type="AnimationPlayer" parent="."]
+anims/closed = SubResource( 3 )
+anims/default = SubResource( 4 )
+anims/down = SubResource( 5 )
+anims/up = SubResource( 6 )
+
+[node name="Sprite" type="Sprite" parent="curtain"]
+self_modulate = Color( 0, 0, 0, 0 )
+scale = Vector2( 120, 120 )
+z_index = 4096
+texture = ExtResource( 2 )
+centered = false
+
+[node name="quit_button" type="Button" parent="."]
+margin_left = 1675.0
+margin_top = 16.0
+margin_right = 1899.0
+margin_bottom = 197.0
+text = "QUIT"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="item_menu" type="Control" parent="."]
+margin_left = 29.0
+margin_top = 173.0
+margin_right = 458.0
+margin_bottom = 685.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="item_menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0823529, 0.0627451, 0.431373, 0.278431 )
+
+[node name="item_name" type="Label" parent="item_menu"]
+margin_left = 16.0
+margin_top = 12.0
+margin_right = 299.0
+margin_bottom = 114.0
+custom_fonts/font = SubResource( 7 )
+text = "Póster"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="actions" type="VBoxContainer" parent="item_menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 118.0
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+element_view_model = ExtResource( 11 )
+list_path = NodePath(".")
+
+[node name="close_menu_button" type="TextureButton" parent="item_menu"]
+margin_left = 292.495
+margin_top = 17.7285
+margin_right = 394.495
+margin_bottom = 117.728
+texture_normal = ExtResource( 8 )
+texture_pressed = ExtResource( 9 )
+expand = true
+stretch_mode = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="quit_button" to="." method="_on_quit_button_pressed"]
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="item_menu/close_menu_button" to="." method="_on_close_menu_button_pressed"]

@@ -1,40 +1,41 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://games/celda_escape/game_data.tres" type="Resource" id=1]
 [ext_resource path="res://tools/ui_tools/label.gd" type="Script" id=2]
 [ext_resource path="res://apps/room_tester/room_tester.gd" type="Script" id=3]
 [ext_resource path="res://clients/default_client/default_client.tres" type="Resource" id=4]
-[ext_resource path="res://apps/room_tester/pointfree.ttf" type="DynamicFontData" id=5]
-[ext_resource path="res://apps/room_tester/pixel_intv.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://tools/fonts/pointfree.ttf" type="DynamicFontData" id=5]
 [ext_resource path="res://apps/room_tester/object_list.tscn" type="PackedScene" id=7]
 [ext_resource path="res://apps/room_tester/rounded_rect.png" type="Texture" id=8]
 [ext_resource path="res://tools/grog/compile/compiler.gd" type="Script" id=9]
 [ext_resource path="res://apps/room_tester/play_button_on.png" type="Texture" id=10]
 [ext_resource path="res://apps/room_tester/play_button_off.png" type="Texture" id=11]
 [ext_resource path="res://games/celda_escape/music/templo.ogg" type="AudioStream" id=12]
+[ext_resource path="res://clients/modern_client/modern_client.tres" type="Resource" id=13]
+[ext_resource path="res://tools/fonts/pixel_intv.otf" type="DynamicFontData" id=14]
 
 [sub_resource type="DynamicFont" id=1]
 size = 36
-font_data = ExtResource( 6 )
+font_data = ExtResource( 14 )
 
 [sub_resource type="Theme" id=2]
 default_font = SubResource( 1 )
 
 [sub_resource type="DynamicFont" id=3]
 size = 90
-font_data = ExtResource( 6 )
-
-[sub_resource type="DynamicFont" id=5]
-size = 28
-font_data = ExtResource( 6 )
+font_data = ExtResource( 14 )
 
 [sub_resource type="DynamicFont" id=4]
+size = 28
+font_data = ExtResource( 14 )
+
+[sub_resource type="DynamicFont" id=5]
 size = 18
 font_data = ExtResource( 5 )
 
 [node name="room_tester" type="Node"]
 script = ExtResource( 3 )
-displays = [ ExtResource( 4 ) ]
+displays = [ ExtResource( 4 ), ExtResource( 13 ) ]
 game_to_load = ExtResource( 1 )
 ui_path = NodePath("ui_layer/ui")
 game_name_label_path = NodePath("ui_layer/ui/game_name")
@@ -86,7 +87,7 @@ anchor_right = 1.0
 anchor_bottom = 0.2
 margin_left = 167.246
 margin_right = -761.754
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.229034, 0.308594, 0.233012, 1 )
 text = "programming
 graphics
@@ -105,7 +106,7 @@ margin_left = 23.0
 margin_top = 55.0
 margin_right = -762.0
 margin_bottom = -128.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.229034, 0.308594, 0.233012, 1 )
 text = "RT_PROGRAMMING"
 align = 2
@@ -122,7 +123,7 @@ margin_left = 23.0
 margin_top = 91.0136
 margin_right = -761.582
 margin_bottom = -91.9864
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.229034, 0.308594, 0.233012, 1 )
 text = "RT_GRAPHICS"
 align = 2
@@ -139,7 +140,7 @@ margin_left = 23.0
 margin_top = 126.972
 margin_right = -762.0
 margin_bottom = -56.0281
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.229034, 0.308594, 0.233012, 1 )
 text = "RT_MUSIC"
 align = 2
@@ -154,7 +155,7 @@ anchor_right = 1.0
 anchor_bottom = 0.2
 margin_left = 404.369
 margin_right = -483.631
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.741348, 0.925781, 0.747298, 1 )
 text = "Julián Luini
 Demián Taborda
@@ -170,7 +171,7 @@ anchor_left = 0.4
 anchor_right = 1.0
 anchor_bottom = 0.2
 margin_left = 681.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 4 )
 custom_colors/font_color = Color( 0.4674, 0.82, 0.561427, 1 )
 text = "(jluini@gmail.com)
 (bubba1942.soft@gmail.com)
@@ -211,6 +212,9 @@ anchor_bottom = 1.0
 margin_left = 115.0
 text = "RT_PLAY_MUSIC"
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="test_rooms" type="NinePatchRect" parent="ui_layer/ui"]
 self_modulate = Color( 0, 0, 0, 0.352941 )
@@ -461,7 +465,7 @@ margin_left = 10.0
 margin_top = 10.0
 margin_right = -10.0
 margin_bottom = -10.0
-custom_fonts/font = SubResource( 4 )
+custom_fonts/font = SubResource( 5 )
 text = "# grog script
 
 :start

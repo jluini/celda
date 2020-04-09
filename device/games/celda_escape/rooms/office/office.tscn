@@ -13,46 +13,26 @@ vertices = PoolVector2Array( 380.204, 838.492, 1231.84, 680.592, 1405.11, 653.38
 polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 2, 1, 6 ), PoolIntArray( 7, 5, 6, 8 ), PoolIntArray( 7, 8, 9, 0 ), PoolIntArray( 10, 11, 0, 4 ), PoolIntArray( 9, 1, 0 ) ]
 outlines = [ PoolVector2Array( 1720.39, 837.408, 1715.85, 700.639, 1522.53, 699.207, 1489.6, 667.704, 1405.11, 653.384, 1349.27, 573.194, 613.231, 574.626, 380.204, 838.492 ), PoolVector2Array( 759.292, 686.32, 1231.84, 680.592, 1178.86, 600.401, 802.251, 603.265 ) ]
 
-[node name="office" type="Control"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -960.0
-margin_right = 960.0
-margin_bottom = 850.0
+[node name="office" type="Node2D"]
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 default_player_position_path = NodePath("default_player_position")
 navigation_path = NodePath("Navigation2D")
 
-[node name="background" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="background" type="Node2D" parent="."]
 
-[node name="background" type="TextureRect" parent="background"]
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 1.0
-margin_left = -960.0
-margin_right = 960.0
+[node name="background" type="Sprite" parent="background"]
+z_index = -4096
 texture = ExtResource( 1 )
-stretch_mode = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
+centered = false
 
 [node name="chair" type="Sprite" parent="background/background"]
 position = Vector2( 1027.05, 663.363 )
-z_index = 786
+z_index = -294
 texture = ExtResource( 3 )
 
 [node name="table" type="Sprite" parent="background/background"]
 position = Vector2( 1006.34, 738.386 )
-z_index = 830
+z_index = -250
 texture = ExtResource( 2 )
 
 [node name="bust" type="Sprite" parent="background/background"]

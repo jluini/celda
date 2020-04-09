@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=2]
 
-[ext_resource path="res://games/demo_game/rooms/room1/images/desk.png" type="Texture" id=1]
+[ext_resource path="res://clients/util/curtain.png" type="Texture" id=1]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/exit_open.png" type="Texture" id=2]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/gate.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/room.gd" type="Script" id=4]
@@ -50,90 +50,67 @@ tracks/0/keys = {
 "values": [ ExtResource( 2 ) ]
 }
 
-[node name="celda" type="Control"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -960.0
-margin_right = 960.0
-margin_bottom = 850.0
+[node name="celda" type="Node2D"]
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 default_player_position_path = NodePath("default_player_position")
 navigation_path = NodePath("../celda/Navigation2D")
 
-[node name="background" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ColorRect" type="ColorRect" parent="background"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0.215686, 0.133333, 0.054902, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="background" type="TextureRect" parent="background"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource( 6 )
-stretch_mode = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="desk" type="Sprite" parent="background"]
-visible = false
-position = Vector2( 844, 405 )
-z_index = 597
+[node name="clearing" type="Sprite" parent="."]
+self_modulate = Color( 0.0784314, 0.0784314, 0.0784314, 1 )
+scale = Vector2( 120, 120 )
+z_index = -4096
 texture = ExtResource( 1 )
 centered = false
 
+[node name="background" type="Node2D" parent="."]
+position = Vector2( 0, 115 )
+z_index = -115
+
+[node name="background" type="Sprite" parent="background"]
+z_index = -4096
+texture = ExtResource( 6 )
+centered = false
+
 [node name="gate" type="Sprite" parent="background"]
-z_index = 740
+z_index = -78
 texture = ExtResource( 3 )
 centered = false
 
 [node name="grid" type="Sprite" parent="background"]
 position = Vector2( 1100.97, 444.995 )
-z_index = 850
+z_index = 3
 texture = ExtResource( 11 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
-position = Vector2( 961.305, 29.1782 )
+position = Vector2( 961.305, 144.178 )
 navpoly = SubResource( 1 )
 
 [node name="default_player_position" type="Position2D" parent="."]
-position = Vector2( 1143.49, 635.665 )
+position = Vector2( 1338.89, 931.034 )
 
 [node name="test_position" type="Position2D" parent="."]
-position = Vector2( 113.997, 740.459 )
+position = Vector2( 1663.68, 890.613 )
 
 [node name="pos1" type="Position2D" parent="."]
-position = Vector2( 1103.38, 605.697 )
+position = Vector2( 1121.56, 730.661 )
 
 [node name="pos2" type="Position2D" parent="."]
-position = Vector2( 1231.45, 822.929 )
+position = Vector2( 1231.45, 913.812 )
 
 [node name="pos3" type="Position2D" parent="."]
-position = Vector2( 1525.48, 730.738 )
+position = Vector2( 1500.49, 878.423 )
 
 [node name="pos4" type="Position2D" parent="."]
-position = Vector2( 1679.64, 683.84 )
+position = Vector2( 1643.29, 808.804 )
 
 [node name="items" type="Node2D" parent="."]
+z_index = -115
 
 [node name="thing" type="Node2D" parent="items"]
-position = Vector2( 1834.39, 561.453 )
-z_index = 571
+position = Vector2( 1834.39, 677 )
+z_index = -78
 script = ExtResource( 5 )
 item_key = "celda/thing"
 instance_number = 0
@@ -167,7 +144,8 @@ texture = ExtResource( 13 )
 flip_h = true
 
 [node name="poster" type="Node2D" parent="items"]
-position = Vector2( 1726, 252 )
+position = Vector2( 1726, 367 )
+z_index = -1000
 script = ExtResource( 5 )
 item_key = "celda/poster"
 instance_number = 0
@@ -196,11 +174,11 @@ offset = Vector2( 0, 0 )
 position = Vector2( -60.813, 434.711 )
 
 [node name="cartel1" type="Sprite" parent="items/poster"]
-z_index = 1
 texture = ExtResource( 9 )
 
 [node name="exit" type="Node2D" parent="items"]
-position = Vector2( 1726, 242 )
+position = Vector2( 1726, 357 )
+z_index = -1080
 script = ExtResource( 5 )
 item_key = "celda/exit"
 instance_number = 0
@@ -271,7 +249,7 @@ position = Vector2( 0, 10 )
 texture = ExtResource( 7 )
 
 [node name="door" type="Node2D" parent="items"]
-position = Vector2( 555.421, 383.942 )
+position = Vector2( 555.421, 500 )
 script = ExtResource( 5 )
 item_key = "celda/door"
 instance_number = 0
@@ -309,7 +287,8 @@ offset = Vector2( 0, 0 )
 position = Vector2( 10.0393, 239.253 )
 
 [node name="bed" type="Node2D" parent="items"]
-position = Vector2( 1508, 530 )
+position = Vector2( 1508, 645 )
+z_index = -1080
 script = ExtResource( 5 )
 item_key = "celda/bed"
 instance_number = 0
@@ -356,7 +335,7 @@ position = Vector2( 0, 50 )
 texture = ExtResource( 10 )
 
 [node name="toilet" type="Node2D" parent="items"]
-position = Vector2( 1775, 748 )
+position = Vector2( 1775, 793 )
 script = ExtResource( 5 )
 item_key = "celda/toilet"
 instance_number = 0
@@ -374,23 +353,22 @@ use:
 	.curtain_up
 "
 walk_speed = 0.0
-radius = 70.0
+radius = 90.0
 offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/toilet"]
 position = Vector2( -120.155, 82.8297 )
 
 [node name="Sprite" type="Sprite" parent="items/toilet"]
-position = Vector2( 0, -70 )
-z_index = 773
+z_index = -77
 texture = ExtResource( 8 )
 
 [node name="Sprite2" type="Sprite" parent="items/toilet"]
-position = Vector2( 0, -70 )
+z_index = -80
 texture = ExtResource( 12 )
 
 [node name="gate" type="Node2D" parent="items"]
-position = Vector2( 69.5315, 457.142 )
+position = Vector2( 69.531, 572 )
 script = ExtResource( 5 )
 item_key = "celda/gate"
 instance_number = 0
@@ -405,7 +383,7 @@ offset = Vector2( 0, 0 )
 position = Vector2( 5.38055, 128.475 )
 
 [node name="mark" parent="items" instance=ExtResource( 14 )]
-position = Vector2( 880.894, 614.405 )
+position = Vector2( 880.894, 729 )
 instance_number = 0
 interact_angle = 180
 code = "

@@ -1,10 +1,11 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://clients/default_client/game_display.gd" type="Script" id=1]
-[ext_resource path="res://clients/default_client/pixel_intv.otf" type="DynamicFontData" id=2]
+[ext_resource path="res://tools/fonts/pixel_intv.otf" type="DynamicFontData" id=2]
 [ext_resource path="res://clients/default_client/action.tscn" type="PackedScene" id=3]
 [ext_resource path="res://apps/room_tester/rounded_rect.png" type="Texture" id=4]
 [ext_resource path="res://tools/ui_tools/object_list.gd" type="Script" id=5]
+[ext_resource path="res://clients/util/curtain.tscn" type="PackedScene" id=6]
 [ext_resource path="res://clients/default_client/inventory/inventory_item.tscn" type="PackedScene" id=7]
 [ext_resource path="res://clients/default_client/sample_images/arrow_down.png" type="Texture" id=8]
 [ext_resource path="res://clients/default_client/sample_images/arrow_down2.png" type="Texture" id=9]
@@ -12,60 +13,13 @@
 [ext_resource path="res://clients/default_client/sample_images/arrow_up.png" type="Texture" id=11]
 [ext_resource path="res://clients/default_client/sample_images/arrow_up2.png" type="Texture" id=12]
 
-[sub_resource type="Animation" id=1]
-resource_name = "default"
-tracks/0/type = "value"
-tracks/0/path = NodePath("curtain/curtain:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ) ]
-}
-
-[sub_resource type="Animation" id=2]
-resource_name = "down"
-length = 0.6
-tracks/0/type = "value"
-tracks/0/path = NodePath("curtain/curtain:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 0.6 ),
-"transitions": PoolRealArray( 1, 0.297302 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
-}
-
-[sub_resource type="Animation" id=3]
-resource_name = "up"
-length = 2.0
-tracks/0/type = "value"
-tracks/0/path = NodePath("curtain/curtain:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
-}
-
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=1]
 size = 32
 outline_size = 2
 outline_color = Color( 0, 0, 0, 1 )
 font_data = ExtResource( 2 )
 
-[sub_resource type="DynamicFont" id=5]
+[sub_resource type="DynamicFont" id=2]
 size = 45
 font_data = ExtResource( 2 )
 
@@ -101,26 +55,20 @@ __meta__ = {
 layer = 0
 
 [node name="room_area" type="Control" parent="world_layer"]
-anchor_right = 1.0
-margin_bottom = 900.0
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -960.0
+margin_right = 960.0
+rect_scale = Vector2( 0.787, 0.787 )
+rect_pivot_offset = Vector2( 960, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="text_layer" type="CanvasLayer" parent="."]
 
-[node name="curtain" type="AnimationPlayer" parent="text_layer"]
-anims/default = SubResource( 1 )
-anims/down = SubResource( 2 )
-anims/up = SubResource( 3 )
-
-[node name="curtain" type="ColorRect" parent="text_layer/curtain"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0, 0, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="curtain" parent="text_layer" instance=ExtResource( 6 )]
 
 [node name="text_anchor" type="Control" parent="text_layer"]
 anchor_left = 0.5
@@ -143,7 +91,7 @@ margin_bottom = -8.0
 grow_horizontal = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_fonts/normal_font = SubResource( 4 )
+custom_fonts/normal_font = SubResource( 1 )
 custom_colors/default_color = Color( 1, 1, 1, 1 )
 bbcode_enabled = true
 __meta__ = {
@@ -172,7 +120,7 @@ modulate = Color( 0.564706, 0.2, 0.564706, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -251.0
-custom_fonts/font = SubResource( 5 )
+custom_fonts/font = SubResource( 2 )
 text = "Walk to path"
 align = 1
 valign = 1
