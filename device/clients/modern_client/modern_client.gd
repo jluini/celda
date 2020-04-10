@@ -16,9 +16,11 @@ onready var _room_parent = get_node(_room_parent_path)
 
 onready var _curtain = $curtain
 onready var _timer = $timer
-onready var _item_menu = $item_menu
-onready var _item_actions = $item_menu/actions
-onready var _item_name = $item_menu/item_name
+onready var _item_menu = $ui/item_menu
+onready var _item_actions = $ui/item_menu/actions
+onready var _item_name = $ui/item_menu/item_name
+
+onready var _text: Label = $ui/text
 
 var _current_item = null
 
@@ -35,6 +37,8 @@ func _on_init():
 		print("Couldn't start game")
 		_end_game()
 	# else signal game_started was just received (or it will now)
+	
+	_text.text = ""
 	
 	_curtain.play("closed")
 	_item_menu.hide()
@@ -179,10 +183,14 @@ func _on_server_wait_started(_duration: float, skippable: bool):
 	pass # print("_on_server_wait_started")
 
 func _on_server_wait_ended():
+	_text.text = ""
 	pass # print("_on_server_wait_ended")
 
 func _on_server_say(subject: Node, speech: String, _duration: float, skippable: bool):
-	pass # print("_on_server_say")
+	var color = subject.color if subject else server.options.default_color
+	
+	_text.text = speech
+	_text.modulate = color
 
 func _on_server_item_added(item):
 	pass # print("_on_server_item_added")
@@ -271,3 +279,8 @@ func _on_action_selected(_old_action, new_action: Node):
 
 func _on_action_deselected(_old_view):
 	pass # print("_on_action_deselected(%s)" % _old_view)
+
+
+func _on_skip_button_pressed():
+	print("TODO: skip")
+	pass # Replace with function body.

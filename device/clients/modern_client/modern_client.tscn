@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
@@ -102,9 +102,20 @@ tracks/0/keys = {
 size = 45
 font_data = ExtResource( 6 )
 
-[node name="game_display" type="Node2D"]
+[sub_resource type="DynamicFont" id=8]
+size = 36
+font_data = ExtResource( 6 )
+
+[sub_resource type="Theme" id=9]
+default_font = SubResource( 8 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 48
+font_data = ExtResource( 6 )
+
+[node name="modern_display" type="Node2D"]
 script = ExtResource( 1 )
-_room_parent_path = NodePath("../game_display/room_parent")
+_room_parent_path = NodePath("room_parent")
 
 [node name="room_parent" type="Node2D" parent="."]
 
@@ -157,20 +168,18 @@ z_index = 4096
 texture = ExtResource( 2 )
 centered = false
 
-[node name="quit_button" type="Button" parent="."]
-margin_left = 1675.0
-margin_top = 16.0
-margin_right = 1899.0
-margin_bottom = 197.0
-text = "QUIT"
+[node name="timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="ui" type="Control" parent="."]
+margin_right = 1920.0
+margin_bottom = 1080.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="timer" type="Timer" parent="."]
-one_shot = true
-
-[node name="item_menu" type="Control" parent="."]
+[node name="item_menu" type="Control" parent="ui"]
 margin_left = 29.0
 margin_top = 173.0
 margin_right = 458.0
@@ -179,12 +188,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ColorRect" type="ColorRect" parent="item_menu"]
+[node name="ColorRect" type="ColorRect" parent="ui/item_menu"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color( 0.0823529, 0.0627451, 0.431373, 0.278431 )
 
-[node name="item_name" type="Label" parent="item_menu"]
+[node name="item_name" type="Label" parent="ui/item_menu"]
 margin_left = 16.0
 margin_top = 12.0
 margin_right = 299.0
@@ -197,7 +206,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="actions" type="VBoxContainer" parent="item_menu"]
+[node name="actions" type="VBoxContainer" parent="ui/item_menu"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 13.0
@@ -209,9 +218,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 element_view_model = ExtResource( 11 )
-list_path = NodePath(".")
+list_path = NodePath("../../../../modern_display/ui/item_menu/actions")
 
-[node name="close_menu_button" type="TextureButton" parent="item_menu"]
+[node name="close_menu_button" type="TextureButton" parent="ui/item_menu"]
 margin_left = 292.495
 margin_top = 17.7285
 margin_right = 394.495
@@ -223,6 +232,57 @@ stretch_mode = 4
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="pressed" from="quit_button" to="." method="_on_quit_button_pressed"]
+
+[node name="buttons" type="Control" parent="ui"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -260.0
+margin_top = 5.0
+margin_right = -5.0
+margin_bottom = 412.0
+mouse_filter = 2
+theme = SubResource( 9 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="quit_button" type="Button" parent="ui/buttons"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -240.0
+margin_top = 11.0
+margin_right = -16.0
+margin_bottom = 192.0
+text = "QUIT"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="skip_button" type="Button" parent="ui/buttons"]
+visible = false
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -239.05
+margin_top = 208.6
+margin_right = -15.05
+margin_bottom = 389.6
+disabled = true
+text = "SKIP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="text" type="Label" parent="ui"]
+anchor_right = 1.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 10 )
+text = "En lo profundo del caribe..."
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
-[connection signal="pressed" from="item_menu/close_menu_button" to="." method="_on_close_menu_button_pressed"]
+[connection signal="pressed" from="ui/item_menu/close_menu_button" to="." method="_on_close_menu_button_pressed"]
+[connection signal="pressed" from="ui/buttons/quit_button" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="ui/buttons/skip_button" to="." method="_on_skip_button_pressed"]

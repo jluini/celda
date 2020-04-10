@@ -46,6 +46,8 @@ func _ready():
 	
 	if start_game_automatically:
 		play_game(displays[0], null, 0)
+	#else:
+	#	_display_list.select(1)
 
 func _process(delta):
 	if _grog_game:
