@@ -25,22 +25,24 @@ z_index = -4096
 texture = ExtResource( 1 )
 centered = false
 
-[node name="chair" type="Sprite" parent="background/background"]
+[node name="chair" type="Sprite" parent="background"]
 position = Vector2( 1027.05, 663.363 )
-z_index = -294
+z_index = -250
 texture = ExtResource( 3 )
 
-[node name="table" type="Sprite" parent="background/background"]
+[node name="table" type="Sprite" parent="background"]
 position = Vector2( 1006.34, 738.386 )
-z_index = -250
+z_index = -240
 texture = ExtResource( 2 )
 
-[node name="bust" type="Sprite" parent="background/background"]
+[node name="bust" type="Sprite" parent="background"]
 position = Vector2( 1578.32, 685.625 )
+z_index = -1080
 texture = ExtResource( 7 )
 
-[node name="armor" type="Sprite" parent="background/background"]
+[node name="armor" type="Sprite" parent="background"]
 position = Vector2( 436.556, 530.523 )
+z_index = -1080
 texture = ExtResource( 6 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
@@ -54,7 +56,7 @@ navpoly = SubResource( 1 )
 position = Vector2( 420.202, 867.626 )
 
 [node name="test_position" type="Position2D" parent="."]
-position = Vector2( 699.349, 829.944 )
+position = Vector2( 722.732, 774.828 )
 
 [node name="items" type="Node2D" parent="."]
 
@@ -62,13 +64,17 @@ position = Vector2( 699.349, 829.944 )
 position = Vector2( 170.901, 241.02 )
 script = ExtResource( 5 )
 item_key = "office/duct"
+instance_number = 0
+color = Color( 0, 0, 0, 1 )
 interact_angle = 200
 code = "
 walk_to:
 	.load_room celda
 	.curtain_up
 	you.teleport to=pos4 angle=150"
+walk_speed = 0.0
 radius = 75.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/duct"]
 position = Vector2( 226.821, 625.248 )
