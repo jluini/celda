@@ -41,14 +41,14 @@ func get_current():
 func get_current_index() -> int:
 	return _current_selected_view.index if _current_selected_view else -1
 	
-func add_element(target) -> void:
+func add_element(target) -> Node:
 	if not element_view_model:
 		print("No element_model")
-		return
+		return null
 	
 	if not _list:
 		print("No _list")
-		return
+		return null
 	
 	var element_view = element_view_model.instance()
 	
@@ -61,6 +61,8 @@ func add_element(target) -> void:
 	
 	_list.add_child(element_view)
 	_element_views.append(element_view)
+	
+	return element_view
 
 func select(index):
 	if _element_views.size() <= index:

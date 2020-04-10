@@ -224,12 +224,13 @@ walk_to:
 	if $self=open:
 		.load_room office
 		.curtain_up
-use:
-	if $self=open:
-		.disable_input
-		you.say \"¡Me escapé!\" duration=3 skippable=false
-		.say \"Game over.\"  duration=2 skippable=false
-		.end
+
+#use:
+#	if $self=open:
+#		.disable_input
+#		you.say \"¡Me escapé!\" duration=3 skippable=false
+#		.say \"Game over.\"  duration=2 skippable=false
+#		.end
 
 
 "
@@ -301,11 +302,11 @@ look_at:
 	you.say \"Está con muy poco uso.\" duration=1.5
 	you.say \"Se retira en mi domicilio\" duration=1.5
 
-talk_to: TK
-	.load_room exit
-	you.teleport to=pos1
-	.curtain_up
-	you.walk to=pos2
+#talk_to: TK
+#	.load_room exit
+#	you.teleport to=pos1
+#	.curtain_up
+#	you.walk to=pos2
 
 	
 

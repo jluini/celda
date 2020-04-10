@@ -38,6 +38,10 @@ func init_item(compiler):
 			print("Item '%s': script is invalid" % get_key())
 			_compiled_script.print_errors()
 
+func has_action(action_name: String) -> bool:
+	return _compiled_script != null and _compiled_script.has_sequence(action_name)
+	
+	
 func get_sequence(trigger_name: String) -> Dictionary:
 	return _compiled_script.get_sequence(trigger_name) if _compiled_script else null
 

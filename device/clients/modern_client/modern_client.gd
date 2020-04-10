@@ -22,6 +22,8 @@ onready var _item_name = $item_menu/item_name
 
 var _current_item = null
 
+var _actions = []
+
 func _on_init():
 	if _room_parent.get_child_count() > 0 :
 		print("Room place is not empty! Clearing it.")
@@ -43,8 +45,12 @@ func _on_init():
 	_item_actions.connect("on_element_deselected", self, "_on_action_deselected")
 	
 	for action_name in data.actions:
-		_item_actions.add_element(action_name)
-	
+		var new_elem = _item_actions.add_element(action_name)
+		
+		_actions.append({
+			action_name = action_name,
+			menu_element = new_elem
+		})
 
 func _on_start():
 	pass
@@ -116,7 +122,11 @@ func _left_click(position: Vector2):
 	
 	var world_position = position
 	
-	if server.is_navigable(world_position):
+	var item = _get_scene_item_at(world_position)
+	if item:
+		server.interact_request(item, data.default_action)
+	
+	elif server.is_navigable(world_position):
 		$cursor.position = world_position
 		$cursor/animation.play("default")
 		$cursor/animation.play("go")
@@ -224,9 +234,20 @@ func _select_item(_new_item):
 	
 	_current_item = _new_item
 	if _new_item:
-		_item_menu.show()
-		_item_actions.deselect()
 		_item_name.text = capitalize_first(_item_name(_new_item))
+		
+		_item_actions.deselect()
+		
+		for i in range(_actions.size()):
+			var action_name = _actions[i].action_name
+			var menu_element = _actions[i].menu_element
+			
+			if not _new_item.has_action(action_name):
+				menu_element.hide()
+			else:
+				menu_element.show()
+		
+		_item_menu.show()
 		
 		_new_item.modulate = Color(0.7, 1 ,0.7)
 	else:
@@ -249,4 +270,4 @@ func _on_action_selected(_old_action, new_action: Node):
 	
 
 func _on_action_deselected(_old_view):
-	print("_on_action_deselected(%s)" % _old_view)
+	pass # print("_on_action_deselected(%s)" % _old_view)

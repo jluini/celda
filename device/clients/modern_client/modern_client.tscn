@@ -77,7 +77,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 2 ),
+"times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 0.153893 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
@@ -92,7 +92,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 2 ),
+"times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 0.153893 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
@@ -200,7 +200,10 @@ __meta__ = {
 [node name="actions" type="VBoxContainer" parent="item_menu"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = 118.0
+margin_left = 13.0
+margin_top = 126.0
+margin_right = -13.0
+margin_bottom = -13.0
 script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
