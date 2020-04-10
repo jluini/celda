@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
@@ -6,10 +6,12 @@
 [ext_resource path="res://clients/default_client/sample_images/arrow_up2.png" type="Texture" id=4]
 [ext_resource path="res://clients/modern_client/lupa-100x100.png" type="Texture" id=5]
 [ext_resource path="res://tools/fonts/pixel_intv.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://clients/modern_client/clicking.gd" type="Script" id=7]
 [ext_resource path="res://clients/modern_client/close.png" type="Texture" id=8]
 [ext_resource path="res://clients/modern_client/close2.png" type="Texture" id=9]
 [ext_resource path="res://tools/ui_tools/object_list.gd" type="Script" id=10]
 [ext_resource path="res://clients/modern_client/action_button.tscn" type="PackedScene" id=11]
+[ext_resource path="res://clients/modern_client/item_menu.gd" type="Script" id=12]
 
 [sub_resource type="Animation" id=1]
 resource_name = "default"
@@ -168,22 +170,20 @@ z_index = 4096
 texture = ExtResource( 2 )
 centered = false
 
-[node name="timer" type="Timer" parent="."]
-one_shot = true
-
 [node name="ui" type="Control" parent="."]
 margin_right = 1920.0
 margin_bottom = 1080.0
-mouse_filter = 2
+script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="item_menu" type="Control" parent="ui"]
-margin_left = 29.0
+margin_left = 102.0
 margin_top = 173.0
 margin_right = 458.0
 margin_bottom = 685.0
+script = ExtResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -191,13 +191,31 @@ __meta__ = {
 [node name="ColorRect" type="ColorRect" parent="ui/item_menu"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color( 0.0823529, 0.0627451, 0.431373, 0.278431 )
+color = Color( 0, 0, 0, 0.623529 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="item_name" type="Label" parent="ui/item_menu"]
-margin_left = 16.0
-margin_top = 12.0
-margin_right = 299.0
-margin_bottom = 114.0
+[node name="actions" type="VBoxContainer" parent="ui/item_menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = 0
+script = ExtResource( 10 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+element_view_model = ExtResource( 11 )
+list_path = NodePath("../../../../modern_display/ui/item_menu/actions")
+
+[node name="item_name" type="Control" parent="ui/item_menu/actions"]
+margin_right = 356.0
+margin_bottom = 80.0
+rect_min_size = Vector2( 0, 80 )
+
+[node name="label" type="Label" parent="ui/item_menu/actions/item_name"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -84.0
 custom_fonts/font = SubResource( 7 )
 text = "Póster"
 align = 1
@@ -206,25 +224,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="actions" type="VBoxContainer" parent="ui/item_menu"]
+[node name="close_menu_button" type="TextureButton" parent="ui/item_menu/actions/item_name"]
+anchor_left = 0.776
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 13.0
-margin_top = 126.0
-margin_right = -13.0
-margin_bottom = -13.0
-script = ExtResource( 10 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-element_view_model = ExtResource( 11 )
-list_path = NodePath("../../../../modern_display/ui/item_menu/actions")
-
-[node name="close_menu_button" type="TextureButton" parent="ui/item_menu"]
-margin_left = 292.495
-margin_top = 17.7285
-margin_right = 394.495
-margin_bottom = 117.728
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
 texture_normal = ExtResource( 8 )
 texture_pressed = ExtResource( 9 )
 expand = true
@@ -282,7 +289,18 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
-[connection signal="pressed" from="ui/item_menu/close_menu_button" to="." method="_on_close_menu_button_pressed"]
+
+[node name="timer" type="Timer" parent="ui"]
+one_shot = true
+[connection signal="click" from="ui" to="." method="_on_ui_click"]
+[connection signal="drag" from="ui" to="." method="_on_ui_drag"]
+[connection signal="end_drag" from="ui" to="." method="_on_ui_end_drag"]
+[connection signal="end_hold" from="ui" to="." method="_on_ui_end_hold"]
+[connection signal="lock_hold" from="ui" to="." method="_on_ui_lock_hold"]
+[connection signal="start_drag" from="ui" to="." method="_on_ui_start_drag"]
+[connection signal="start_hold" from="ui" to="." method="_on_ui_start_hold"]
+[connection signal="item_action" from="ui/item_menu" to="." method="_on_item_menu_item_action"]
+[connection signal="pressed" from="ui/item_menu/actions/item_name/close_menu_button" to="." method="_on_close_menu_button_pressed"]
 [connection signal="pressed" from="ui/buttons/quit_button" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="ui/buttons/skip_button" to="." method="_on_skip_button_pressed"]
+[connection signal="timeout" from="ui/timer" to="ui" method="_on_timer_timeout"]
