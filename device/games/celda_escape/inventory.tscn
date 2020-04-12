@@ -26,16 +26,14 @@ texture = ExtResource( 4 )
 script = ExtResource( 2 )
 item_key = "inv_mask_default"
 color = Color( 1, 1, 1, 1 )
-interact_angle = 0
 code = "
-look_at:
+look_at: TK
 	you.say \"Es la máscara de godot\"
 
 use: TK
 	.set current_mask=default
 	self.set_tool use_with
 	"
-walk_speed = 0.0
 
 [node name="inv_mask_red" type="Control" parent="."]
 margin_left = 216.0
@@ -51,16 +49,14 @@ texture = ExtResource( 4 )
 script = ExtResource( 2 )
 item_key = "inv_mask_red"
 color = Color( 1, 1, 1, 1 )
-interact_angle = 0
 code = "
-look_at:
+look_at: TK
 	you.say \"Es la máscara de godot\"
 
 use: TK
 	.set current_mask=red
 	self.set_tool use_with
 	"
-walk_speed = 0.0
 
 [node name="inv_mask_green" type="Control" parent="."]
 margin_left = 432.0
@@ -76,16 +72,14 @@ texture = ExtResource( 4 )
 script = ExtResource( 2 )
 item_key = "inv_mask_green"
 color = Color( 1, 1, 1, 1 )
-interact_angle = 0
 code = "
-look_at:
+look_at: TK
 	you.say \"Es la máscara de godot\"
 
 use: TK
 	.set current_mask=green
 	self.set_tool use_with
 	"
-walk_speed = 0.0
 
 [node name="inv_paper" type="Control" parent="."]
 margin_left = 648.0
@@ -100,11 +94,9 @@ texture = ExtResource( 3 )
 script = ExtResource( 2 )
 item_key = "inv_paper"
 color = Color( 1, 1, 1, 1 )
-interact_angle = 0
 code = "
-look_at:
+look_at: TK
 	you.say \"Es una hoja de papel.\""
-walk_speed = 0.0
 
 [node name="inv_thing" type="Control" parent="."]
 margin_left = 864.0
@@ -119,8 +111,7 @@ texture = ExtResource( 5 )
 script = ExtResource( 2 )
 item_key = "inv_thing"
 color = Color( 1, 1, 1, 1 )
-interact_angle = 0
-code = "look_at:
+code = "look_at: TK
 	if $celda/exit = default:
 		you.say \"Me sirve para abrir la salida.\"
 	elif $celda/exit = disabled:
@@ -130,7 +121,6 @@ code = "look_at:
 	
 use: TK
 	self.set_tool use_with"
-walk_speed = 0.0
 
 [node name="inv_poster" type="Control" parent="."]
 margin_left = 1080.0
@@ -145,12 +135,10 @@ texture = ExtResource( 1 )
 script = ExtResource( 2 )
 item_key = "inv_poster"
 color = Color( 0.419608, 0.235294, 0.235294, 1 )
-interact_angle = 0
-code = "look_at:
+code = "look_at: TK
 	you.say \"Lindo póster.\"
 	you.say \"Es un dibujo de Bubba.\"
 	
 
 use: TK
 	self.set_tool use_with"
-walk_speed = 0.0

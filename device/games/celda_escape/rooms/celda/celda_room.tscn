@@ -198,9 +198,11 @@ open:
 		.disable_input
 		.wait 2
 			
-		you.say \"Está trabada.\"
+		you.say \"No lo puedo abrir.\"
 		
 		.enable_input
+	else:
+		you.say \"Ya está abierto.\"
 
 use_with(inv_poster):
 	self.disable
@@ -212,13 +214,14 @@ use_with(inv_thing):
 		.disable_input
 		
 		.wait 1 skippable=false
-		you.say \"Tal vez con esta cosa puedo abrirlo.\" skippable=false
+		you.say \"Tal vez con esto lo abro.\" skippable=false
 		.wait 3 skippable=false
 		self.play open
 		.set exit_is_open=true
 		.wait 0.5
 		.enable_input
-
+	else:
+		you.say \"Ya está abierto.\"
 
 walk_to:
 	if $self=open:
@@ -264,22 +267,11 @@ look_at:
 		you.say \"Es alta puerta.\"
 		.set door_seen=true
 
-talk_to: TK
-	.set number=$number+1
-	if $number < 3:
-		you.say \"¿Posta?\"
-	else:
-		you.say \"Bueno dale\"
-	
-
-pick_up: TK
-	you.say \"¿Me decís en serio?\"
-
 open:
-	you.say \"Está cerrada con llave\"
+	you.say \"No llego.\"
 
 close: TK
-	you.say \"Ya está cerrada\""
+	you.say \"Ya está cerrada.\""
 walk_speed = 0.0
 radius = 200.0
 offset = Vector2( 0, 0 )
@@ -297,10 +289,7 @@ color = Color( 1, 1, 1, 1 )
 interact_angle = 270
 code = "
 look_at:
-	you.say \"Es un escritorio de pino.\" duration=1.5
-	you.say \"Detalle en los rieles de dos cajones.\" duration=1.5
-	you.say \"Está con muy poco uso.\" duration=1.5
-	you.say \"Se retira en mi domicilio\" duration=1.5
+	you.say \"Menuda cama.\"
 
 #talk_to: TK
 #	.load_room exit
@@ -310,20 +299,20 @@ look_at:
 
 	
 
-pick_up:
-	if $inv_paper = 3:
-		if $take_desc_attempts > 4:
-			you.say \"Ya que insistís...\"
-			inv_paper.add
-		else:
-			.set take_desc_attempts=$take_desc_attempts + 1
-			you.say \"Creo que ya tengo demasiadas.\"
-	else:
-		inv_paper.add
-	
-
-use:
-	self.set_tool use_with"
+#pick_up:
+#	if $inv_paper = 3:
+#		if $take_desc_attempts > 4:
+#			you.say \"Ya que insistís...\"
+#			inv_paper.add
+#		else:
+#			.set take_desc_attempts=$take_desc_attempts + 1
+#			you.say \"Creo que ya tengo demasiadas.\"
+#	else:
+#		inv_paper.add
+#	
+#
+#use:
+#	self.set_tool use_with"
 walk_speed = 0.0
 radius = 150.0
 offset = Vector2( 0, 0 )
@@ -350,7 +339,8 @@ code = "look_at:
 
 use:
 	.curtain_down
-	.wait 2
+	.say \"10 minutos despues...\" duration=2
+	.wait 1
 	.curtain_up
 "
 walk_speed = 0.0

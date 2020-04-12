@@ -56,22 +56,22 @@ func _on_server_item_disabled(item):
 	_loaded_items.erase(item)
 	_on_item_disabled(item)
 
-func _on_server_wait_started(_duration: float, skippable: bool):
+func _on_server_wait_started(_duration: float, _skippable: bool):
 	print("Override _on_server_wait_started()")
 
 func _on_server_wait_ended():
 	print("Override _on_server_wait_ended()")
 
-func _on_server_say(subject: Node, speech: String, _duration: float, skippable: bool):
+func _on_server_say(_subject: Node, _speech: String, _duration: float, _skippable: bool):
 	print("Override _on_server_say()")
 
-func _on_server_item_added(item):
+func _on_server_item_added(_item):
 	print("Override _on_server_item_added()")
 
-func _on_server_item_removed(item: Node):
+func _on_server_item_removed(_item: Node):
 	print("Override _on_server_item_removed()")
 	
-func _on_server_tool_set(new_tool, verb_name: String):
+func _on_server_tool_set(_new_tool, _verb_name: String):
 	print("Override _on_server_tool_set()")
 
 func _on_server_curtain_up():
@@ -121,8 +121,8 @@ func _on_start():
 func _on_end():
 	print("Override _on_end()")
 
-func _on_item_enabled(item):
+func _on_item_enabled(_item):
 	print("Override _on_item_enabled()")
 
-func _on_item_disabled(item):
+func _on_item_disabled(_item):
 	print("Override _on_item_disabled()")

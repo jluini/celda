@@ -239,7 +239,13 @@ func _command_load_room(room_name: String) -> Dictionary:
 		
 		_skipped = false
 		
-		return { coroutine = _wait_coroutine(duration, _load_room_coroutine(room)) }
+		var load_coroutine = _load_room_coroutine(room)
+		
+		var coroutine_state = _wait_coroutine(duration, load_coroutine)
+		
+		var ret = { coroutine = coroutine_state }
+		
+		return ret
 	
 	else:
 		return { coroutine = _load_room_coroutine(room) }
@@ -636,7 +642,7 @@ func _command_set_tool(item_id: String, verb_name: String):
 		elif item_symbol.disabled:
 			print("Item '%s' can't be used as tool: is disabled" % item_id)
 			return empty_action
-		
+	
 	_server_event("tool_set", [item_symbol.target, verb_name])
 	
 	return empty_action

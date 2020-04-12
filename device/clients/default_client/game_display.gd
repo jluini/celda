@@ -166,7 +166,7 @@ func _on_server_room_loaded(_room):
 	_curtain.play("default")
 	pass
 
-func _on_item_enabled(item):
+func _on_item_enabled(_item):
 	pass
 
 func _on_item_disabled(item):

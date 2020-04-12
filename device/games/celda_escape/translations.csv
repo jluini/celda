@@ -29,6 +29,7 @@ ITEM_CELDA/DOOR	door	puerta
 ITEM_CELDA/BED	bed	cama
 ITEM_CELDA/TOILET	toilet	inodoro
 ITEM_OFFICE/DUCT	duct	ducto
+ITEM_OFFICE/BUST	bust	busto
 ITEM_EXIT/DOOR	door	puerta
 ITEM_EXIT/GATE	gate	portón
 ITEM_EXIT/CLAW1	claw	gancho

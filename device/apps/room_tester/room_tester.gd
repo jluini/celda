@@ -44,10 +44,11 @@ func _ready():
 	list_elements("starts", game_to_load.get_all_scripts(), _start_list)
 	list_elements("actors", game_to_load.get_all_actors(), _actor_list)
 	
+	_display_list.select(1)
+	_start_list.select(1)
+	
 	if start_game_automatically:
-		play_game(displays[0], null, 0)
-	#else:
-	#	_display_list.select(1)
+		_play()
 
 func _process(delta):
 	if _grog_game:
@@ -65,6 +66,9 @@ func list_elements(name: String, elements: Array, list: Node, select_first = tru
 		list.select_first()
 
 func _on_play_game_button_pressed():
+	_play()
+
+func _play():
 	if not _display_list.has_current():
 		print("Select a display please")
 		return

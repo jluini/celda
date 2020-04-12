@@ -16,6 +16,10 @@ func init(p_client, data):
 	_item_actions.connect("on_element_selected", self, "_on_action_selected")
 	
 	for action_name in data.actions:
+		# TODO fix this!
+		if action_name == "use":
+			continue
+		
 		var new_elem = _item_actions.add_element(action_name)
 		
 		_actions.append({
@@ -23,7 +27,7 @@ func init(p_client, data):
 			menu_element = new_elem
 		})
 
-func _on_item_selected(item: Node):
+func _on_item_selected(item: Node, position): # is_inventory: bool):
 	_item_name.text = _client.capitalize_first(_client._item_name(item))
 
 	_item_actions.deselect()
@@ -46,17 +50,22 @@ func _on_item_selected(item: Node):
 	
 	rect_size = real_size
 	
-	var item_position = item.position
+	var item_position = position #item.position if not is_inventory else item.global_position
 	
 	var center = item_position - Vector2(width - 100, 0)
 	
-	var pos = center - real_size / 2
+	var pos: Vector2 = center - real_size / 2
+	
+	if pos.y < 0:
+		pos.y = 0
+	if pos.x < 0:
+		pos.x = 0
 	
 	rect_position = pos # item_position - Vector2(rect_size.x + 100, 0)
 	
 	show()
 
-func _on_item_deselected(item: Node):
+func _on_item_deselected(_item: Node):
 	hide()
 
 func _on_action_selected(_old_action, new_action: Node):

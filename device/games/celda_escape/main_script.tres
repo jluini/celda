@@ -21,10 +21,11 @@ code_or_filename = "init:
 	exit/mask2.play red
 	exit/mask3.play green
 	
-	#mark.disable
+	mark.disable
 	
 	.set current_mask=\"\"
-
+	
+	.set bust_turn = false
 
 start:
 	.load_room celda

@@ -7,7 +7,8 @@ resource_name = "part1"
 script = ExtResource( 1 )
 code_or_filename = "
 start:
-	.say \"Érase una celda...\"
+	.say \"En una celda oscura...\" duration=3
+	.say \"...despertóse Juan Carlos.\" duration=3
 	.load_room celda
 	you.teleport to=pos1
 	.curtain_up

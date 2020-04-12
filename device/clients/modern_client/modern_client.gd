@@ -3,19 +3,31 @@ extends "res://tools/grog/base_client.gd"
 signal item_selected # (item)
 signal item_deselected # (item)
 
-
 export (NodePath) var _room_parent_path
-
 
 onready var _room_parent = get_node(_room_parent_path)
 
-onready var _curtain = $curtain
+onready var _curtain = $ui/curtain_animation
 onready var _item_menu = $ui/item_menu
-
+onready var _inventory = $ui/inventory
 
 onready var _text: Label = $ui/text
 
+onready var _tool: Control = $ui/tool
+
 var _current_item = null
+
+var _tool_item = null
+var _tool_verb 
+var _initial_drag_position: Vector2
+
+enum DragState {
+	None,
+	Trying,
+	Dragging
+}
+var _drag_state = DragState.None
+
 
 func _on_init():
 	if _room_parent.get_child_count() > 0 :
@@ -36,6 +48,7 @@ func _on_init():
 	
 	#warning-ignore:return_value_discarded
 	self.connect("item_selected", _item_menu, "_on_item_selected")
+	#warning-ignore:return_value_discarded
 	self.connect("item_deselected", _item_menu, "_on_item_deselected")
 	
 	_item_menu.init(self, data)
@@ -60,7 +73,7 @@ func _on_server_input_disabled():
 func _on_server_room_loaded(_room):
 	pass # print("_on_server_room_loaded")
 
-func _on_item_enabled(item):
+func _on_item_enabled(_item):
 	pass
 
 func _on_item_disabled(item):
@@ -68,27 +81,45 @@ func _on_item_disabled(item):
 		_select_item(null)
 	
 
-func _on_server_wait_started(_duration: float, skippable: bool):
+func _on_server_wait_started(_duration: float, _skippable: bool):
 	pass # print("_on_server_wait_started")
 
 func _on_server_wait_ended():
 	_text.text = ""
 	pass # print("_on_server_wait_ended")
 
-func _on_server_say(subject: Node, speech: String, _duration: float, skippable: bool):
+func _on_server_say(subject: Node, speech: String, _duration: float, _skippable: bool):
 	var color = subject.color if subject else server.options.default_color
 	
 	_text.text = speech
 	_text.modulate = color
 
-func _on_server_item_added(item):
-	pass # print("_on_server_item_added")
+func _on_server_item_added(item: Node):
+	_inventory.add_item(item)
 
 func _on_server_item_removed(item: Node):
-	pass # print("_on_server_item_removed")
+	_inventory.remove_item(item)
 	
+	if _current_item == item:
+		_select_item(null)
+
 func _on_server_tool_set(new_tool, verb_name: String):
-	pass # print("_on_server_tool_set")
+	if _drag_state != DragState.Trying:
+		print("Unexpected tool_set")
+		return
+	
+	if _tool_item.model != new_tool:
+		print("Expecting to use another tool!")
+		_drag_state = DragState.None
+		return
+	
+	_tool_verb = verb_name
+	
+	_drag_state = DragState.Dragging
+	_tool.texture = _tool_item.model.texture
+	_tool.show()
+	_update_tool_position(_initial_drag_position)
+	
 
 func _on_server_curtain_up():
 	_curtain.play("up")
@@ -105,7 +136,7 @@ func _on_quit_button_pressed():
 
 ###
 
-func _select_item(_new_item):
+func _select_item(_new_item, position = Vector2(960, 540)): #is_inventory = false):
 	if _current_item == _new_item:
 		return
 	
@@ -115,7 +146,7 @@ func _select_item(_new_item):
 	
 	_current_item = _new_item
 	if _new_item:
-		emit_signal("item_selected", _new_item)
+		emit_signal("item_selected", _new_item, position)
 		
 #		_new_item.modulate = Color(0.7, 1 ,0.7)
 		
@@ -141,18 +172,28 @@ func _on_ui_click(position: Vector2):
 	var item = _get_scene_item_at(world_position)
 	if item:
 		server.interact_request(item, data.default_action)
-	
-	elif server.is_navigable(world_position):
-		$cursor.position = world_position
-		$cursor/animation.play("default")
-		$cursor/animation.play("go")
-		server.go_to_request(world_position)
+	else:
+		var inventory_item = _get_inventory_item_at(world_position)
+		
+		if inventory_item != null:
+			var view = inventory_item
+			var model = inventory_item.model
+			
+			var rect: Rect2 = view.get_global_rect()
+			var menu_position: Vector2 = rect.position + rect.size / 2
+			_select_item(model, menu_position)
+			
+		elif server.is_navigable(world_position):
+			$cursor.position = world_position
+			$cursor/animation.play("default")
+			$cursor/animation.play("go")
+			server.go_to_request(world_position)
 	
 func _on_ui_start_hold(position: Vector2):
 	var item = _get_scene_item_at(position)
 	
 	if item:
-		_select_item(item)
+		_select_item(item, item.position)
 	else:
 		_select_item(null)
 
@@ -160,21 +201,65 @@ func _on_ui_lock_hold():
 	pass # print("_on_ui_lock_hold")
 func _on_ui_end_hold():
 	print("_on_ui_end_hold")
+	
 func _on_ui_start_drag(position: Vector2):
-	print("_on_ui_start_drag")
-func _on_ui_drag(position: Vector2):
-	print("_on_ui_drag")
-func _on_ui_end_drag(position: Vector2):
-	print("_on_ui_end_drag")
+	if _drag_state != DragState.None:
+		print("Unexpected drag")
+		return
+	
+	var item = _get_inventory_item_at(position)
+	
+	if not item:
+		return
+	
+	var model = item.model
+	if not model.has_action("use"):
+		return
+	
+	_drag_state = DragState.Trying
+	_tool_item = item
+	_initial_drag_position = position
+	server.interact_request(item.model, "use")
 
+func _on_ui_drag(position: Vector2):
+	if _drag_state != DragState.Dragging:
+		return
+	
+	_update_tool_position(position)
+	
+
+func _on_ui_end_drag(position: Vector2):
+	if _drag_state == DragState.Trying:
+		# Cancels use attempt
+		_drag_state = DragState.None
+		return
+	elif _drag_state != DragState.Dragging:
+		return
+	
+	_tool.hide()
+	_drag_state = DragState.None
+	
+	var target_item = _get_scene_item_at(position)
+	
+	if not target_item:
+		return
+	
+	server.interact_request(target_item, _tool_verb, _tool_item.model)
+	_tool_item = null
+	
 
 func _on_item_menu_item_action(_bad_item, new_action):
-#	print("_on_item_menu_item_action(%s, %s)" % [item, action])
-#	
-#func _on_action_selected(_old_action, new_action: Node):
 	var item = _current_item
 	var action_name = new_action.target
 	
 	_select_item(null)
 	
 	server.interact_request(item, action_name)
+
+func _get_inventory_item_at(position: Vector2):
+	var ret = _inventory.get_item_at(position)
+	
+	return ret
+
+func _update_tool_position(position: Vector2):
+	_tool.set_position(position - _tool.get_rect().size / 2)
