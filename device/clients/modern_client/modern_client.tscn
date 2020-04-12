@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://clients/modern_client/action_button.tscn" type="PackedScene" id=11]
 [ext_resource path="res://clients/modern_client/item_menu.gd" type="Script" id=12]
 [ext_resource path="res://clients/modern_client/inventory.gd" type="Script" id=13]
+[ext_resource path="res://tools/ui_tools/label.gd" type="Script" id=14]
 [ext_resource path="res://clients/modern_client/inventory_item.tscn" type="PackedScene" id=15]
 
 [sub_resource type="Animation" id=1]
@@ -44,14 +45,14 @@ tracks/0/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 
-[sub_resource type="DynamicFont" id=4]
+[sub_resource type="DynamicFont" id=3]
 size = 36
 font_data = ExtResource( 6 )
 
-[sub_resource type="Theme" id=5]
-default_font = SubResource( 4 )
+[sub_resource type="Theme" id=4]
+default_font = SubResource( 3 )
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=5]
 size = 48
 font_data = ExtResource( 6 )
 
@@ -113,7 +114,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=10]
 size = 45
 font_data = ExtResource( 6 )
 
@@ -172,7 +173,7 @@ __meta__ = {
 anchor_top = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-theme = SubResource( 5 )
+theme = SubResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -180,7 +181,8 @@ __meta__ = {
 [node name="quit_button" type="Button" parent="ui/buttons"]
 margin_top = -150.0
 margin_right = 150.0
-text = "QUIT"
+text = "RT_QUIT"
+script = ExtResource( 14 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -214,7 +216,7 @@ __meta__ = {
 anchor_right = 1.0
 margin_right = -488.0
 margin_bottom = 72.0
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 5 )
 text = "text..."
 align = 1
 valign = 1
@@ -289,7 +291,7 @@ rect_min_size = Vector2( 0, 80 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -84.0
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 10 )
 text = "Póster"
 align = 1
 valign = 1
