@@ -14,7 +14,8 @@ func add_item(item: Node):
 	# TODO test this with masks
 	new_item_view.get_node("image").modulate = modulate
 	
-	add_child_below_node(get_child(0), new_item_view)
+	#add_child_below_node(get_child(0), new_item_view)
+	add_child(new_item_view)
 	
 func remove_item(item: Node):
 	var cs = get_children()

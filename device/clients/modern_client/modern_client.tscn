@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://tools/fonts/pixel_intv.otf" type="DynamicFontData" id=6]
 [ext_resource path="res://clients/modern_client/clicking.gd" type="Script" id=7]
 [ext_resource path="res://clients/modern_client/close.png" type="Texture" id=8]
-[ext_resource path="res://clients/modern_client/close2.png" type="Texture" id=9]
 [ext_resource path="res://tools/ui_tools/object_list.gd" type="Script" id=10]
 [ext_resource path="res://clients/modern_client/action_button.tscn" type="PackedScene" id=11]
 [ext_resource path="res://clients/modern_client/item_menu.gd" type="Script" id=12]
@@ -170,7 +169,9 @@ __meta__ = {
 }
 
 [node name="buttons" type="Control" parent="ui"]
+anchor_left = 1.0
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 theme = SubResource( 4 )
@@ -179,8 +180,8 @@ __meta__ = {
 }
 
 [node name="quit_button" type="Button" parent="ui/buttons"]
+margin_left = -150.0
 margin_top = -150.0
-margin_right = 150.0
 text = "RT_QUIT"
 script = ExtResource( 14 )
 __meta__ = {
@@ -200,6 +201,22 @@ text = "SKIP"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="inventory" type="HBoxContainer" parent="ui"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -150.0
+margin_right = 800.0
+grow_horizontal = 0
+mouse_filter = 2
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+item_scene = ExtResource( 15 )
+
+[node name="head" type="Control" parent="ui/inventory"]
+margin_bottom = 150.0
 
 [node name="curtain" type="TextureRect" parent="ui"]
 modulate = Color( 0, 0, 0, 0 )
@@ -232,26 +249,6 @@ anims/up = SubResource( 9 )
 
 [node name="timer" type="Timer" parent="ui"]
 one_shot = true
-
-[node name="inventory" type="HBoxContainer" parent="ui"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -758.0
-margin_right = -2.0
-margin_bottom = 150.0
-grow_horizontal = 0
-mouse_filter = 2
-alignment = 2
-script = ExtResource( 13 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-item_scene = ExtResource( 15 )
-
-[node name="head" type="Control" parent="ui/inventory"]
-margin_left = 756.0
-margin_right = 756.0
-margin_bottom = 150.0
 
 [node name="item_menu" type="Control" parent="ui"]
 margin_left = 102.0
@@ -308,7 +305,6 @@ margin_top = 10.0
 margin_right = -10.0
 margin_bottom = -10.0
 texture_normal = ExtResource( 8 )
-texture_pressed = ExtResource( 9 )
 expand = true
 stretch_mode = 4
 __meta__ = {

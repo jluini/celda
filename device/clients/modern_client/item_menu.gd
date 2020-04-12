@@ -52,14 +52,16 @@ func _on_item_selected(item: Node, position): # is_inventory: bool):
 	
 	var item_position = position #item.position if not is_inventory else item.global_position
 	
-	var center = item_position - Vector2(width - 100, 0)
-	
+	#var center = item_position - Vector2(width - 100, 0)
+	var center = item_position - Vector2(0, real_size.y / 2 + 100)
 	var pos: Vector2 = center - real_size / 2
 	
 	if pos.y < 0:
 		pos.y = 0
 	if pos.x < 0:
 		pos.x = 0
+	if pos.x > 1920 - real_size.x:
+		pos.x = 1920 - real_size.x
 	
 	rect_position = pos # item_position - Vector2(rect_size.x + 100, 0)
 	

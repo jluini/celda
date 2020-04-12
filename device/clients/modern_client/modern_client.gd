@@ -136,6 +136,15 @@ func _on_quit_button_pressed():
 
 ###
 
+func _select_inventory_item(inventory_item):
+	var view = inventory_item
+	var model = inventory_item.model
+	
+	var rect: Rect2 = view.get_global_rect()
+	var menu_position: Vector2 = rect.position + rect.size / 2
+	_select_item(model, menu_position)
+	
+	
 func _select_item(_new_item, position = Vector2(960, 540)): #is_inventory = false):
 	if _current_item == _new_item:
 		return
@@ -176,12 +185,7 @@ func _on_ui_click(position: Vector2):
 		var inventory_item = _get_inventory_item_at(world_position)
 		
 		if inventory_item != null:
-			var view = inventory_item
-			var model = inventory_item.model
-			
-			var rect: Rect2 = view.get_global_rect()
-			var menu_position: Vector2 = rect.position + rect.size / 2
-			_select_item(model, menu_position)
+			_select_inventory_item(inventory_item)
 			
 		elif server.is_navigable(world_position):
 			$cursor.position = world_position
@@ -195,7 +199,12 @@ func _on_ui_start_hold(position: Vector2):
 	if item:
 		_select_item(item, item.position)
 	else:
-		_select_item(null)
+		var inventory_item = _get_inventory_item_at(position)
+		
+		if inventory_item != null:
+			_select_inventory_item(inventory_item)
+		else:
+			_select_item(null)
 
 func _on_ui_lock_hold():
 	pass # print("_on_ui_lock_hold")

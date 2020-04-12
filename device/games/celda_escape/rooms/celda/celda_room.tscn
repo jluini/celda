@@ -258,7 +258,7 @@ script = ExtResource( 5 )
 item_key = "celda/door"
 instance_number = 0
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
-interact_angle = 270
+interact_angle = 180
 code = "
 look_at:
 	if $door_seen:
