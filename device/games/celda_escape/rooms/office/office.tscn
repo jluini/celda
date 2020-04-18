@@ -58,6 +58,9 @@ position = Vector2( 420.202, 867.626 )
 [node name="test_position" type="Position2D" parent="."]
 position = Vector2( 722.732, 774.828 )
 
+[node name="pos1" type="Position2D" parent="."]
+position = Vector2( 1736.08, 974.77 )
+
 [node name="items" type="Node2D" parent="."]
 
 [node name="duct" type="Node2D" parent="items"]
@@ -67,8 +70,12 @@ item_key = "office/duct"
 interact_angle = 200
 code = "
 walk_to:
-	.load_room celda
-	.set music=sufre
+	if $stage < 3:
+		.load_room celda
+		.set music=sufre
+	else:
+		.load_room celda_open
+		.set music=uajari
 	
 	.curtain_up
 	you.teleport to=pos4 angle=150"

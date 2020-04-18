@@ -6,13 +6,14 @@
 resource_name = "main"
 script = ExtResource( 1 )
 code_or_filename = "init:
+	.set stage=1
+
 	.set take_desc_attempts=0
 	.set number=0
 	.set door_seen=false
 	.set poster_was_taken=false
 	
 	celda/exit.disable
-	celda/gate.disable
 	
 	exit/claw1.disable
 	exit/claw2.disable
