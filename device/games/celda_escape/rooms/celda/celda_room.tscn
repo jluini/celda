@@ -276,9 +276,8 @@ code = "
 look_at:
 	you.say \"Menuda cama.\"
 
-talk_to: TK
-	.load_room 
-	
+#talk_to: TK
+#	.load_room 
 #	you.teleport to=pos1
 #	.curtain_up
 #	you.walk to=pos2

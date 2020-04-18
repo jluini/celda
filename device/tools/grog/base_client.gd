@@ -81,7 +81,12 @@ func _on_server_curtain_up():
 	
 func _on_server_curtain_down():
 	print("Override _on_server_curtain_down()")
-	
+
+func _on_server_variable_set(var_name: String, new_value):
+	if var_name == "music":
+		emit_signal("music_changed", new_value)
+
+###
 
 func _get_scene_item_at(position: Vector2):
 	for item in _loaded_items:

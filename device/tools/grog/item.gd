@@ -14,11 +14,8 @@ export (float) var walk_speed
 var walking = false
 var angle = 0
 
-#warning-ignore:unused_signal
 signal start_walking
-#warning-ignore:unused_signal
 signal stop_walking
-#warning-ignore:unused_signal
 signal angle_changed
 
 

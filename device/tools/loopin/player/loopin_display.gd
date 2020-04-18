@@ -39,9 +39,20 @@ func _ready():
 	var end_mode_index = _loopin.get_end_mode()
 	var end_mode_name = _end_mode.get_popup().get_item_text(end_mode_index)
 	
-	_end_mode.connect("end_mode_selected", self, "_on_end_mode_selected")
-
+	var _r1 = _end_mode.connect("end_mode_selected", self, "_on_end_mode_selected")
 	_end_mode.text = end_mode_name
+	
+	_set_length_label($divisions/separation_length/value, _loopin.separation_length)
+	_set_length_slider($divisions/separation_length/h_slider, _loopin.separation_length)
+	_set_length_label($divisions/fedeout_length/value, _loopin.fedeout_length)
+	_set_length_slider($divisions/fedeout_length/h_slider, _loopin.fedeout_length)
+	_set_length_label($divisions/afterfinal_length/value, _loopin.afterfinal_length)
+	_set_length_slider($divisions/afterfinal_length/h_slider, _loopin.afterfinal_length)
+	
+	var _r2 = $divisions/separation_length/h_slider.connect("value_changed", self, "_on_separation_length_value_changed")
+	var _r3 = $divisions/fedeout_length/h_slider.connect("value_changed", self, "_on_fedeout_length_value_changed")
+	var _r4 = $divisions/afterfinal_length/h_slider.connect("value_changed", self, "_on_afterfinal_length_value_changed")
+	
 	
 func _on_song_started(song):
 	_title.text = song.get_name()
@@ -50,7 +61,7 @@ func _on_song_ended(_song):
 	_title.text = "------"
 
 func _on_state_changed(_new_state):
-	_state_label.text = _new_state
+	_state_label.set_text(_new_state)
 	
 	_state_color.modulate = state_colors[_new_state]
 
@@ -80,8 +91,8 @@ func _on_stop_button_pressed():
 	stop()
 
 func stop_now():
+	#TODO stop now
 	stop()
-	print("TODO: stop now!")
 
 func stop():
 	if _loopin.stop():
@@ -90,12 +101,18 @@ func stop():
 
 func _on_separation_length_value_changed(value):
 	_loopin.set_separation_length(value)
-	$divisions/separation_length/value.text = "%1.1f" % value
+	_set_length_label($divisions/separation_length/value, value)
 	
 func _on_fedeout_length_value_changed(value):
 	_loopin.set_fedeout_length(value)
-	$divisions/fedeout_length/value.text = "%1.1f" % value
+	_set_length_label($divisions/fedeout_length/value, value)
 	
 func _on_afterfinal_length_value_changed(value):
 	_loopin.set_afterfinal_length(value)
-	$divisions/afterfinal_length/value.text = "%1.1f" % value
+	_set_length_label($divisions/afterfinal_length/value, value)
+
+func _set_length_slider(slider, value):
+	slider.value = value
+
+func _set_length_label(label, value):
+	label.text = "%1.1f" % value
