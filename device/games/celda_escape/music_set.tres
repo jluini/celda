@@ -1,0 +1,48 @@
+[gd_resource type="Resource" load_steps=11 format=2]
+
+[ext_resource path="res://tools/loopin/set_resource.gd" type="Script" id=1]
+[ext_resource path="res://tools/loopin/song_resource.gd" type="Script" id=2]
+[ext_resource path="res://music/sources/uajari_final.ogg" type="AudioStream" id=3]
+[ext_resource path="res://music/sources/uajari.ogg" type="AudioStream" id=4]
+[ext_resource path="res://music/sources/office.ogg" type="AudioStream" id=5]
+[ext_resource path="res://music/sources/office_final.ogg" type="AudioStream" id=6]
+[ext_resource path="res://music/sources/sufre_uno.ogg" type="AudioStream" id=7]
+
+[sub_resource type="Resource" id=1]
+resource_name = "office"
+script = ExtResource( 2 )
+main_loop_stream = ExtResource( 5 )
+final_stream = ExtResource( 6 )
+number_of_measures = 48
+measure_numerator = 8
+measure_denominator = 3
+end_mode = 2
+breaking_mode = 2
+breaking_measures = 2
+
+[sub_resource type="Resource" id=2]
+resource_name = "uajari"
+script = ExtResource( 2 )
+main_loop_stream = ExtResource( 4 )
+final_stream = ExtResource( 3 )
+number_of_measures = 22
+measure_numerator = 4
+measure_denominator = 1
+end_mode = 2
+breaking_mode = 2
+breaking_measures = 1
+
+[sub_resource type="Resource" id=3]
+resource_name = "sufre"
+script = ExtResource( 2 )
+main_loop_stream = ExtResource( 7 )
+number_of_measures = 0
+measure_numerator = 0
+measure_denominator = 0
+end_mode = 0
+breaking_mode = 1
+breaking_measures = 0
+
+[resource]
+script = ExtResource( 1 )
+songs = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ) ]

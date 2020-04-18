@@ -89,6 +89,7 @@ func play_game(display_resource: Resource, actor, starting_index: int):
 	current_display = display_scene.instance()
 	
 	var _r = current_display.connect("game_ended", self, "_on_game_ended")
+	var _s = current_display.connect("music_changed", self, "_on_music_changed")
 	
 	add_child(current_display)
 	
@@ -102,15 +103,12 @@ func play_game(display_resource: Resource, actor, starting_index: int):
 	if is_valid:
 		_ui.hide()
 		
-		if not $ui_layer/ui/music/toggle.pressed:
-			$AudioStreamPlayer.play()
-		
 		current_display.init(_grog_game)
 	else:
 		print("Invalid start")
 	
 func _on_game_ended():
-	$AudioStreamPlayer.stop()
+	$ui_layer/ui/loopin_display.stop_now()
 	_grog_game = null
 	
 	remove_child(current_display)
@@ -118,3 +116,10 @@ func _on_game_ended():
 	current_display = null
 	
 	_ui.show()
+
+func _on_music_changed(new_song):
+	if not $ui_layer/ui/music/toggle.pressed:
+		if new_song:
+			$ui_layer/ui/loopin_display.play_song(new_song)
+		else:
+			$ui_layer/ui/loopin_display.stop()

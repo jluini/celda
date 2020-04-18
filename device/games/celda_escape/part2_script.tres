@@ -13,7 +13,10 @@ start:
 	celda/exit.enable
 	celda/exit.play open
 	celda/thing.disable
+	
 	.load_room office
+	.set music=office
+	
 	.curtain_up
 	.enable_input
 "

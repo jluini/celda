@@ -1,0 +1,315 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://tools/loopin/loopin.gd" type="Script" id=1]
+[ext_resource path="res://tools/loopin/player/song_list.gd" type="Script" id=2]
+[ext_resource path="res://tools/loopin/player/end_mode_list.gd" type="Script" id=3]
+[ext_resource path="res://tools/loopin/player/loopin_display.gd" type="Script" id=4]
+[ext_resource path="res://fonts/pixel_intv.otf" type="DynamicFontData" id=5]
+[ext_resource path="res://tools/fonts/pixel_intv.otf" type="DynamicFontData" id=6]
+
+[sub_resource type="DynamicFont" id=2]
+size = 14
+font_data = ExtResource( 6 )
+
+[sub_resource type="Theme" id=3]
+default_font = SubResource( 2 )
+
+[sub_resource type="DynamicFont" id=1]
+size = 36
+font_data = ExtResource( 5 )
+
+[node name="loopin_display" type="PanelContainer"]
+margin_right = 360.0
+margin_bottom = 251.0
+theme = SubResource( 3 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="loopin" type="Node" parent="."]
+script = ExtResource( 1 )
+end_mode = 1
+separation_length = 0.0
+fedeout_length = 3.0
+
+[node name="divisions" type="VBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 353.0
+margin_bottom = 312.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="info" type="Control" parent="divisions"]
+margin_right = 346.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 0, 75 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="title" type="Label" parent="divisions/info"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -13.0
+custom_fonts/font = SubResource( 1 )
+text = "(title)"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="playback_time" type="Label" parent="divisions/info" groups=[
+"playback_time",
+]]
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_right = -271.0
+margin_bottom = 0.5
+text = "0.15416"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="state_color" type="ColorRect" parent="divisions/info"]
+modulate = Color( 0, 0, 0, 1 )
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 0.5
+margin_right = -270.0
+margin_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="state_label" type="Label" parent="divisions/info"]
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 0.5
+margin_right = -271.0
+margin_bottom = 1.0
+text = "stopped"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="control" type="Control" parent="divisions"]
+margin_top = 79.0
+margin_right = 346.0
+margin_bottom = 139.0
+rect_min_size = Vector2( 0, 60 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="stop_button" type="Button" parent="divisions/control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 272.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+text = "STOP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="song_list_box" type="Control" parent="divisions/control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 15.0
+margin_top = 15.0
+margin_right = -102.0
+margin_bottom = -15.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="background" type="ColorRect" parent="divisions/control/song_list_box"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.717647, 0.717647, 0.717647, 0.14902 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="list" type="MenuButton" parent="divisions/control/song_list_box"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "PLAY"
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="control2" type="Control" parent="divisions"]
+margin_top = 143.0
+margin_right = 346.0
+margin_bottom = 203.0
+rect_min_size = Vector2( 0, 60 )
+
+[node name="label" type="Label" parent="divisions/control2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -262.0
+text = "End Mode:"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="end_mode_box" type="Control" parent="divisions/control2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 102.437
+margin_top = 15.0
+margin_right = -14.5629
+margin_bottom = -15.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="background" type="ColorRect" parent="divisions/control2/end_mode_box"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.717647, 0.717647, 0.717647, 0.14902 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="list" type="MenuButton" parent="divisions/control2/end_mode_box"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Use song end"
+items = [ "Use song end", null, 0, false, false, 0, 0, null, "", false, "Always fede-out", null, 0, false, false, 1, 0, null, "", false, "Always sudden", null, 0, false, false, 2, 0, null, "", false ]
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="separation_length" type="Control" parent="divisions"]
+margin_top = 207.0
+margin_right = 346.0
+margin_bottom = 237.0
+rect_min_size = Vector2( 0, 30 )
+
+[node name="label" type="Label" parent="divisions/separation_length"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Separation:"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="h_slider" type="HSlider" parent="divisions/separation_length"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 129.0
+margin_right = -52.0
+margin_bottom = -1.90735e-06
+max_value = 10.0
+step = 0.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="value" type="Label" parent="divisions/separation_length"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "0.0"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="fedeout_length" type="Control" parent="divisions"]
+margin_top = 241.0
+margin_right = 346.0
+margin_bottom = 271.0
+rect_min_size = Vector2( 0, 30 )
+
+[node name="label" type="Label" parent="divisions/fedeout_length"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Fede-out:"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="h_slider" type="HSlider" parent="divisions/fedeout_length"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 129.0
+margin_right = -52.0
+margin_bottom = -1.90735e-06
+max_value = 10.0
+step = 0.0
+value = 3.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="value" type="Label" parent="divisions/fedeout_length"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "3.0"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="afterfinal_length" type="Control" parent="divisions"]
+margin_top = 275.0
+margin_right = 346.0
+margin_bottom = 305.0
+rect_min_size = Vector2( 0, 30 )
+
+[node name="label" type="Label" parent="divisions/afterfinal_length"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "After final:"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="h_slider" type="HSlider" parent="divisions/afterfinal_length"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 129.0
+margin_right = -52.0
+margin_bottom = -1.90735e-06
+max_value = 10.0
+step = 0.0
+value = 2.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="value" type="Label" parent="divisions/afterfinal_length"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "2.5"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="divisions/control/stop_button" to="." method="_on_stop_button_pressed"]
+[connection signal="value_changed" from="divisions/separation_length/h_slider" to="." method="_on_separation_length_value_changed"]
+[connection signal="value_changed" from="divisions/fedeout_length/h_slider" to="." method="_on_fedeout_length_value_changed"]
+[connection signal="value_changed" from="divisions/afterfinal_length/h_slider" to="." method="_on_afterfinal_length_value_changed"]

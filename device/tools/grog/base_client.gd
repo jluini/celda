@@ -1,5 +1,7 @@
 extends Node
 
+signal music_changed
+
 signal game_ended
 
 var server

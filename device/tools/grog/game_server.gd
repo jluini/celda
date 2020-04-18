@@ -480,6 +480,8 @@ func _command_set(var_name: String, new_value_expression) -> Dictionary:
 		# already present
 		symbol.target = new_value
 	
+	_server_event("variable_set", [var_name, new_value])
+	
 	return empty_action
 
 func _command_enable(item_key: String) -> Dictionary:

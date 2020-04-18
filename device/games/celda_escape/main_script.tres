@@ -29,6 +29,8 @@ code_or_filename = "init:
 
 start:
 	.load_room celda
+	.set music=sufre
+	
 	you.teleport to=pos3
 	.curtain_up
 	.enable_input

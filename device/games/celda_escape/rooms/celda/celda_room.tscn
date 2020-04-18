@@ -226,6 +226,7 @@ use_with(inv_thing):
 walk_to:
 	if $self=open:
 		.load_room office
+		.set music=office
 		.curtain_up
 
 #use:

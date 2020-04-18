@@ -147,16 +147,8 @@ tracks/0/keys = {
 "values": [ Color( 1, 0, 0, 1 ) ]
 }
 
-[node name="exit" type="Control"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -960.0
-margin_right = 960.0
-margin_bottom = 850.0
+[node name="exit" type="Node2D"]
 script = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 default_player_position_path = NodePath("default_player_position")
 navigation_path = NodePath("Navigation2D")
 
@@ -281,6 +273,7 @@ close: TK
 	you.say \"Ya está cerrada\""
 walk_speed = 0.0
 radius = 200.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/door"]
 position = Vector2( 10.0393, 239.253 )
@@ -299,6 +292,7 @@ walk_to:
 	"
 walk_speed = 0.0
 radius = 150.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/gate"]
 position = Vector2( 93.3249, 161.936 )
@@ -330,6 +324,7 @@ pick_up:
 	"
 walk_speed = 0.0
 radius = 40.0
+offset = Vector2( 0, 0 )
 
 [node name="Sprite" type="Sprite" parent="items/mask1"]
 texture = ExtResource( 2 )
@@ -369,6 +364,7 @@ pick_up:
 	"
 walk_speed = 0.0
 radius = 40.0
+offset = Vector2( 0, 0 )
 
 [node name="Sprite" type="Sprite" parent="items/mask2"]
 texture = ExtResource( 2 )
@@ -408,6 +404,7 @@ pick_up:
 	"
 walk_speed = 0.0
 radius = 40.0
+offset = Vector2( 0, 0 )
 
 [node name="Sprite" type="Sprite" parent="items/mask3"]
 texture = ExtResource( 2 )
@@ -442,6 +439,7 @@ talk_to: TK
 	you.say \"¿Hablar con un gancho?\""
 walk_speed = 0.0
 radius = 35.0
+offset = Vector2( 0, 0 )
 
 [node name="Sprite" type="Sprite" parent="items/claw1"]
 rotation = 0.621337
@@ -472,6 +470,7 @@ talk_to: TK
 	you.say \"¿Hablar con un gancho?\""
 walk_speed = 0.0
 radius = 35.0
+offset = Vector2( 0, 0 )
 
 [node name="Sprite" type="Sprite" parent="items/claw2"]
 rotation = 0.621337
@@ -502,6 +501,7 @@ talk_to: TK
 	you.say \"¿Hablar con un gancho?\""
 walk_speed = 0.0
 radius = 35.0
+offset = Vector2( 0, 0 )
 
 [node name="Sprite" type="Sprite" parent="items/claw3"]
 rotation = 0.621337

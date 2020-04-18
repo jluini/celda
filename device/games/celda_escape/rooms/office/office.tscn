@@ -70,6 +70,8 @@ interact_angle = 200
 code = "
 walk_to:
 	.load_room celda
+	.set music=sufre
+	
 	.curtain_up
 	you.teleport to=pos4 angle=150"
 walk_speed = 0.0

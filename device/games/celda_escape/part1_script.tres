@@ -9,7 +9,10 @@ code_or_filename = "
 start:
 	.say \"En una celda oscura...\" duration=3
 	.say \"...despertóse Juan Carlos.\" duration=3
+	
 	.load_room celda
+	.set music=sufre
+	
 	you.teleport to=pos1
 	.curtain_up
 	
