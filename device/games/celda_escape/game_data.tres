@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=16 format=2]
+[gd_resource type="Resource" load_steps=17 format=2]
 
 [ext_resource path="res://tools/grog/game_resource.gd" type="Script" id=1]
 [ext_resource path="res://games/demo_game/actors/mark/mark.tres" type="Resource" id=2]
@@ -15,13 +15,14 @@
 [ext_resource path="res://games/celda_escape/rooms/celda_open/celda_open.tres" type="Resource" id=13]
 [ext_resource path="res://games/celda_escape/rooms/lab/lab.tres" type="Resource" id=14]
 [ext_resource path="res://games/celda_escape/rooms/cellar/cellar.tres" type="Resource" id=15]
+[ext_resource path="res://games/celda_escape/part4_script.tres" type="Resource" id=16]
 
 [resource]
 resource_name = "Celda escape"
 script = ExtResource( 1 )
 default_action = "walk_to"
 actions = [ "look_at", "pick_up", "talk_to", "open", "close", "use" ]
-scripts = [ ExtResource( 4 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 12 ) ]
+scripts = [ ExtResource( 4 ), ExtResource( 9 ), ExtResource( 8 ), ExtResource( 12 ), ExtResource( 16 ) ]
 rooms = [ ExtResource( 5 ), ExtResource( 11 ), ExtResource( 7 ), ExtResource( 10 ), ExtResource( 13 ), ExtResource( 15 ), ExtResource( 14 ) ]
 actors = [ ExtResource( 6 ), ExtResource( 2 ) ]
 inventory_items_scene = ExtResource( 3 )
