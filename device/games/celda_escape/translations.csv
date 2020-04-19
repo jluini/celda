@@ -37,6 +37,7 @@ ITEM_EXIT/CLAW3	claw	gancho
 ITEM_EXIT/MASK1	mask	máscara
 ITEM_EXIT/MASK2	mask	máscara
 ITEM_EXIT/MASK3	mask	máscara
+ITEM_LAB/STRETCHER	stretcher	camilla
 ITEM_INV_MASK_DEFAULT	blue mask	máscara azul
 ITEM_INV_MASK_RED	red mask	máscara roja
 ITEM_INV_MASK_GREEN	green mask	máscara verde
