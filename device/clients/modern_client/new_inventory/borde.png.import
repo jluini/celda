@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/bag_selected.png-04f6a8c25c7decdce606d63c36168778.stex"
+path="res://.import/borde.png-b275ba0dcc1fd16340bea8047dbb6832.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://clients/modern_client/new_inventory/bag_selected.png"
-dest_files=[ "res://.import/bag_selected.png-04f6a8c25c7decdce606d63c36168778.stex" ]
+source_file="res://clients/modern_client/new_inventory/borde.png"
+dest_files=[ "res://.import/borde.png-b275ba0dcc1fd16340bea8047dbb6832.stex" ]
 
 [params]
 

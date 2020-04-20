@@ -10,12 +10,17 @@ func add_item(item: Node):
 	
 	new_item_view.model = item
 	
-	new_item_view.get_node("image").texture = texture
-	# TODO test this with masks
-	new_item_view.get_node("image").modulate = modulate
+	var image = new_item_view.get_node("item_box/image")
 	
-	add_child_below_node(get_child(0), new_item_view)
-	#add_child(new_item_view)
+	image.texture = texture
+	# TODO test this with masks
+	image.modulate = modulate
+	
+	var count = get_child_count()
+	if count <= 1:
+		add_child(new_item_view)
+	else:
+		add_child_below_node(get_child(count - 2), new_item_view)
 	
 func remove_item(item: Node):
 	var cs = get_children()
@@ -31,8 +36,10 @@ func get_item_at(position: Vector2) -> Node:
 	var cs = get_children()
 	for i in range(1, cs.size()):
 		var c = cs[i]
-		var rect: Rect2 = c.get_global_rect()
-		if rect.has_point(position):
-			return c
+		if c.has_node("item_box"):
+			var f = c.get_node("item_box")
+			var rect: Rect2 = f.get_global_rect()
+			if rect.has_point(position):
+				return c
 	
 	return null

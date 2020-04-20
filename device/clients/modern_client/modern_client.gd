@@ -15,6 +15,7 @@ onready var _text: Label = $ui/text
 
 onready var _tool: Control = $ui/tool
 
+var _inventory_visible = false
 var _hidden_inventory_pos: Vector2
 var _visible_inventory_pos: Vector2
 
@@ -180,6 +181,9 @@ func _on_skip_button_pressed():
 ### Clicking ui events
 
 func _on_ui_click(position: Vector2):
+	#if _inventory_visible:
+	#	_hide_inventory()
+	
 	if _current_item != null:
 		_select_item(null)
 		return
@@ -189,19 +193,27 @@ func _on_ui_click(position: Vector2):
 	var item = _get_scene_item_at(world_position)
 	if item:
 		server.interact_request(item, data.default_action)
+		if _inventory_visible:
+			_hide_inventory()
+	
 	else:
 		var inventory_item = _get_inventory_item_at(world_position)
 		
 		if inventory_item != null:
 			_select_inventory_item(inventory_item)
-			
-		elif server.is_navigable(world_position):
-			$cursor.position = world_position
-			$cursor/animation.play("default")
-			$cursor/animation.play("go")
-			server.go_to_request(world_position)
+		else:
+			if _inventory_visible:
+				_hide_inventory()
+			if server.is_navigable(world_position):
+				$cursor.position = world_position
+				$cursor/animation.play("default")
+				$cursor/animation.play("go")
+				server.go_to_request(world_position)
 	
 func _on_ui_start_hold(position: Vector2):
+	if _inventory_visible:
+		_hide_inventory()
+	
 	var item = _get_scene_item_at(position)
 	
 	if item:
@@ -221,28 +233,50 @@ func _on_ui_end_hold():
 	
 func _on_ui_start_drag(position: Vector2):
 	if _drag_state != DragState.None:
-		print("Unexpected drag")
+		print("Unexpected drag state '%s'" % DragState.keys()[_drag_state])
 		return
 	
-	var item = _get_inventory_item_at(position)
-	
-	if not item:
-		return
-	
-	var model = item.model
-	if not model.has_action("use"):
-		return
-	
-	_drag_state = DragState.Trying
-	_tool_item = item
+	#_drag_starting_position = position
 	_initial_drag_position = position
-	server.interact_request(item.model, "use")
+	_drag_state = DragState.Dragging
+	
+#	var item = _get_inventory_item_at(position)
+#
+#	if not item:
+#		return
+#
+#	var model = item.model
+#	if not model.has_action("use"):
+#		return
+#
+#	_drag_state = DragState.Trying
+#	_tool_item = item
+#	_initial_drag_position = position
+#	server.interact_request(item.model, "use")
 
 func _on_ui_drag(position: Vector2):
 	if _drag_state != DragState.Dragging:
 		return
 	
-	_update_tool_position(position)
+	#_update_tool_position(position)
+	
+	var delta = position - _initial_drag_position
+	var dy = delta.y
+	
+	if _inventory_visible:
+		dy = max(0, dy)
+		if dy > 100:
+			_hide_inventory()
+			_drag_state = DragState.None
+		else:
+			$ui/inventory_base.rect_position.y = _visible_inventory_pos.y + dy
+	else:
+		dy = min(0, dy)
+		if dy < -100:
+			_show_inventory()
+			_drag_state = DragState.None
+		else:
+			$ui/inventory_base.rect_position.y = _hidden_inventory_pos.y + dy
 	
 
 func _on_ui_end_drag(position: Vector2):
@@ -253,17 +287,43 @@ func _on_ui_end_drag(position: Vector2):
 	elif _drag_state != DragState.Dragging:
 		return
 	
-	_tool.hide()
+	if _inventory_visible:
+		_show_inventory()
+	else:
+		_hide_inventory()
+	
 	_drag_state = DragState.None
 	
-	var target_item = _get_scene_item_at(position)
 	
-	if not target_item:
-		return
-	
-	server.interact_request(target_item, _tool_verb, _tool_item.model)
-	_tool_item = null
-	
+#	_tool.hide()
+#	_drag_state = DragState.None
+#
+#	var target_item = _get_scene_item_at(position)
+#
+#	if not target_item:
+#		return
+#
+#	server.interact_request(target_item, _tool_verb, _tool_item.model)
+#	_tool_item = null
+#
+
+func _on_ui_screen_drag(_delta: Vector2):
+	pass
+#	var dy = delta.y
+#
+#	if _inventory_visible:
+#		dy = max(0, dy)
+#		if dy > 60:
+#			_hide_inventory()
+#		else:
+#			$ui/inventory_base.rect_position.y = _visible_inventory_pos.y + dy
+#	else:
+#		dy = min(0, dy)
+#		if dy < -60:
+#			_show_inventory()
+#		else:
+#			$ui/inventory_base.rect_position.y = _hidden_inventory_pos.y + dy
+
 
 func _on_item_menu_item_action(_bad_item, new_action):
 	var item = _current_item
@@ -282,25 +342,47 @@ func _update_tool_position(position: Vector2):
 	_tool.set_position(position - _tool.get_rect().size / 2)
 
 
+func _show_inventory():
+	_interpolate_inventory_position(_hidden_inventory_pos, _visible_inventory_pos)
+	_interpolate_button_visibility(Color.transparent)
+	_inventory_visible = true
 
-func _on_inventory_button_toggled(button_pressed):
-	pass
-	if button_pressed:
-		_interpolate_inventory_position(_hidden_inventory_pos, _visible_inventory_pos)
+func _hide_inventory():
+	_interpolate_inventory_position(_visible_inventory_pos, _hidden_inventory_pos)
+	_interpolate_button_visibility(Color.white)
+	_inventory_visible = false
+
+func _on_inventory_button_pressed():
+	if not _inventory_visible:
+		_show_inventory()
 	else:
-		_interpolate_inventory_position(_visible_inventory_pos, _hidden_inventory_pos)
+		_hide_inventory()
 
-func _interpolate_inventory_position(initial: Vector2, final: Vector2):
-	#$ui/inventory_base.rect_position = final
-	#return
+func _interpolate_inventory_position(_initial: Vector2, final: Vector2):
 	var tween = $ui/inventory_base/tween
 	tween.interpolate_property(
 		$ui/inventory_base,
 		"rect_position",
-		initial,
+		null, # initial,
 		final,
 		0.3,
 		Tween.TRANS_SINE,
 		Tween.EASE_OUT
 	)
 	tween.start()
+
+
+func _interpolate_button_visibility(final: Color):
+	var tween = $ui/inventory_base/tween2
+	
+	tween.interpolate_property(
+		$ui/inventory_button,
+		"modulate",
+		null, # initial,
+		final,
+		0.3,
+		Tween.TRANS_SINE,
+		Tween.EASE_OUT
+	)
+	tween.start()
+
