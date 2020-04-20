@@ -76,16 +76,6 @@ func _gui_input(event):
 			emit_signal("drag", mouse_position)
 		#else: # _input_state == InputState.None
 
-	elif event is InputEventScreenDrag or event is InputEventMouseButton and event.button_index == BUTTON_RIGHT:
-		#var n3 = t.get_node("InputEventPanGesture")
-		var t:Node = get_tree().current_scene
-		var n1 = t.get_node("ui_layer/label1")
-		var n2 = t.get_node("ui_layer/label2")
-		
-		#print(n1)
-		n1.text = str(event.position)
-		n2.text = str(event.relative) if event is InputEventScreenDrag else "---"
-		
 ###
 
 func _set_input_state(_new_state, _mouse_pos):
