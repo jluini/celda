@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/thing_erased.png-cbf62c7891c47e4981231fccd9438d57.stex"
+path="res://.import/grid_closed.png-40e8a8467a695b8b47f9d43f0a90d4e2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/celda/images/thing_erased.png"
-dest_files=[ "res://.import/thing_erased.png-cbf62c7891c47e4981231fccd9438d57.stex" ]
+source_file="res://games/celda_escape/rooms/celda/images/grid_closed.png"
+dest_files=[ "res://.import/grid_closed.png-40e8a8467a695b8b47f9d43f0a90d4e2.stex" ]
 
 [params]
 

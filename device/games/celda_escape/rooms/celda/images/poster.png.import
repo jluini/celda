@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Cartel.png-d39d53763cf6cac4ec939a5c1b38b83c.stex"
+path="res://.import/poster.png-7228a020911eee05c42aeba30ff57feb.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/celda/images/Cartel.png"
-dest_files=[ "res://.import/Cartel.png-d39d53763cf6cac4ec939a5c1b38b83c.stex" ]
+source_file="res://games/celda_escape/rooms/celda/images/poster.png"
+dest_files=[ "res://.import/poster.png-7228a020911eee05c42aeba30ff57feb.stex" ]
 
 [params]
 

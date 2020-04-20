@@ -63,6 +63,7 @@ anims/default = SubResource( 1 )
 script = ExtResource( 7 )
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
+visible = false
 
 [node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
 position = Vector2( -270, 0 )
@@ -78,7 +79,7 @@ position = Vector2( 1445.92, 864.58 )
 [node name="items" type="Node2D" parent="."]
 
 [node name="exit" type="Node2D" parent="items"]
-position = Vector2( 193.941, 777.897 )
+position = Vector2( 180.308, 707.462 )
 script = ExtResource( 2 )
 item_key = "lab/exit"
 instance_number = 0

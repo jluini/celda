@@ -8,7 +8,8 @@ script = ExtResource( 1 )
 code_or_filename = "
 start:
 	.set stage=2
-
+	
+	.set poster_was_taken=true
 	inv_poster.add
 	inv_thing.add
 	celda/poster.disable

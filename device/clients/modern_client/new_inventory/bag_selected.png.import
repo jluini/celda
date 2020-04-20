@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/CeldaOpen2.png-f685a842da218eed4ad4773f25f46854.stex"
+path="res://.import/bag_selected.png-04f6a8c25c7decdce606d63c36168778.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/celda_open/images/CeldaOpen2.png"
-dest_files=[ "res://.import/CeldaOpen2.png-f685a842da218eed4ad4773f25f46854.stex" ]
+source_file="res://clients/modern_client/new_inventory/bag_selected.png"
+dest_files=[ "res://.import/bag_selected.png-04f6a8c25c7decdce606d63c36168778.stex" ]
 
 [params]
 

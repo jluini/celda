@@ -8,10 +8,11 @@ script = ExtResource( 1 )
 code_or_filename = "
 start:
 	.set stage=3
-
-	inv_poster.add
+	
+	.set poster_was_taken=true
+	#inv_poster.add
 	inv_thing.add
-	celda/poster.disable
+	#celda/poster.disable
 	celda/exit.enable
 	celda/exit.play open
 	celda/thing.disable

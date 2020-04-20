@@ -9,11 +9,14 @@ onready var _room_parent = get_node(_room_parent_path)
 
 onready var _curtain = $ui/curtain_animation
 onready var _item_menu = $ui/item_menu
-onready var _inventory = $ui/inventory
+onready var _inventory = $ui/inventory_base/inventory
 
 onready var _text: Label = $ui/text
 
 onready var _tool: Control = $ui/tool
+
+var _hidden_inventory_pos: Vector2
+var _visible_inventory_pos: Vector2
 
 var _current_item = null
 
@@ -52,6 +55,11 @@ func _on_init():
 	self.connect("item_deselected", _item_menu, "_on_item_deselected")
 	
 	_item_menu.init(self, data)
+	
+	#$ui/inventory_animation.play("hidden")
+	_hidden_inventory_pos = $ui/inventory_base.rect_position
+	_visible_inventory_pos = _hidden_inventory_pos
+	_visible_inventory_pos.y -= 200
 	
 func _on_start():
 	pass
@@ -272,3 +280,27 @@ func _get_inventory_item_at(position: Vector2):
 
 func _update_tool_position(position: Vector2):
 	_tool.set_position(position - _tool.get_rect().size / 2)
+
+
+
+func _on_inventory_button_toggled(button_pressed):
+	pass
+	if button_pressed:
+		_interpolate_inventory_position(_hidden_inventory_pos, _visible_inventory_pos)
+	else:
+		_interpolate_inventory_position(_visible_inventory_pos, _hidden_inventory_pos)
+
+func _interpolate_inventory_position(initial: Vector2, final: Vector2):
+	#$ui/inventory_base.rect_position = final
+	#return
+	var tween = $ui/inventory_base/tween
+	tween.interpolate_property(
+		$ui/inventory_base,
+		"rect_position",
+		initial,
+		final,
+		0.3,
+		Tween.TRANS_SINE,
+		Tween.EASE_OUT
+	)
+	tween.start()
