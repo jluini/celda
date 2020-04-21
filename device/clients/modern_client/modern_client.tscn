@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
@@ -15,7 +15,13 @@
 [ext_resource path="res://clients/modern_client/inventory.gd" type="Script" id=13]
 [ext_resource path="res://tools/ui_tools/label.gd" type="Script" id=14]
 [ext_resource path="res://clients/modern_client/inventory_item.tscn" type="PackedScene" id=15]
+[ext_resource path="res://apps/room_tester/rounded_rect.png" type="Texture" id=16]
+[ext_resource path="res://clients/modern_client/new_inventory/slider.gd" type="Script" id=17]
 [ext_resource path="res://clients/modern_client/new_inventory/right.png" type="Texture" id=18]
+[ext_resource path="res://fonts/mortified.ttf" type="DynamicFontData" id=19]
+[ext_resource path="res://clients/modern_client/new_inventory/side_menu.gd" type="Script" id=20]
+[ext_resource path="res://clients/modern_client/new_inventory/continue_button.gd" type="Script" id=21]
+[ext_resource path="res://clients/modern_client/new_inventory/quit_button.gd" type="Script" id=22]
 
 [sub_resource type="Animation" id=1]
 resource_name = "default"
@@ -47,17 +53,20 @@ tracks/0/keys = {
 }
 
 [sub_resource type="DynamicFont" id=3]
-size = 18
-font_data = ExtResource( 6 )
+size = 90
+font_data = ExtResource( 19 )
 
 [sub_resource type="Theme" id=4]
 default_font = SubResource( 3 )
 
 [sub_resource type="DynamicFont" id=5]
-size = 48
+size = 18
 font_data = ExtResource( 6 )
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Theme" id=6]
+default_font = SubResource( 5 )
+
+[sub_resource type="Animation" id=7]
 tracks/0/type = "value"
 tracks/0/path = NodePath("curtain:modulate")
 tracks/0/interp = 1
@@ -71,7 +80,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=8]
 tracks/0/type = "value"
 tracks/0/path = NodePath("curtain:modulate")
 tracks/0/interp = 1
@@ -83,21 +92,6 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ Color( 0, 0, 0, 0 ) ]
-}
-
-[sub_resource type="Animation" id=8]
-length = 2.0
-tracks/0/type = "value"
-tracks/0/path = NodePath("curtain:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 0,
-"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
 [sub_resource type="Animation" id=9]
@@ -112,10 +106,25 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
+"values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("curtain:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 
-[sub_resource type="DynamicFont" id=10]
+[sub_resource type="DynamicFont" id=11]
 size = 45
 font_data = ExtResource( 6 )
 
@@ -165,14 +174,16 @@ texture = ExtResource( 5 )
 margin_right = 1920.0
 margin_bottom = 1080.0
 mouse_default_cursor_shape = 2
+theme = SubResource( 4 )
 script = ExtResource( 7 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="buttons" type="Control" parent="ui"]
+visible = false
 mouse_filter = 2
-theme = SubResource( 4 )
+theme = SubResource( 6 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -200,25 +211,33 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="inventory_button" type="TextureButton" parent="ui"]
-self_modulate = Color( 1, 1, 1, 0.243137 )
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_left = 27.794
-margin_top = -194.404
-margin_right = 282.794
-margin_bottom = 119.596
-expand = true
-stretch_mode = 5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="inventory_base" type="Control" parent="ui"]
 anchor_left = 0.139
 anchor_top = 1.0
 anchor_right = 0.139
 anchor_bottom = 1.0
+margin_left = 0.119995
+margin_top = -200.0
+margin_right = 0.119995
+margin_bottom = -200.0
+script = ExtResource( 17 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+initial_position = Vector2( 267, 1080 )
+other_position = Vector2( 267, 880 )
+amplitude = 0.07
+
+[node name="inventory_button" type="TextureButton" parent="ui/inventory_base"]
+self_modulate = Color( 1, 1, 1, 0 )
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = -266.0
+margin_top = -126.0
+margin_right = 16.0
+margin_bottom = 204.0
+texture_normal = ExtResource( 16 )
+expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -228,7 +247,7 @@ anchor_left = 0.5
 anchor_right = 0.5
 margin_left = 60.0
 margin_top = -350.0
-margin_right = 60.0
+margin_right = 160.0
 margin_bottom = 150.0
 mouse_filter = 2
 alignment = 1
@@ -248,9 +267,11 @@ stretch_mode = 6
 flip_h = true
 
 [node name="Control" type="Control" parent="ui/inventory_base/inventory"]
-margin_right = 100.0
+margin_left = 77.0
+margin_right = 177.0
 margin_bottom = 500.0
 rect_min_size = Vector2( 100, 500 )
+mouse_filter = 2
 
 [node name="right" type="TextureRect" parent="ui/inventory_base/inventory/Control"]
 modulate = Color( 0.870588, 0.890196, 0.647059, 0.145098 )
@@ -260,6 +281,7 @@ anchor_bottom = 1.0
 margin_top = -150.0
 margin_right = -7.62939e-06
 margin_bottom = -3.05176e-05
+mouse_filter = 2
 size_flags_vertical = 0
 texture = ExtResource( 18 )
 stretch_mode = 6
@@ -290,7 +312,6 @@ __meta__ = {
 [node name="text" type="Label" parent="ui"]
 anchor_right = 1.0
 margin_bottom = 72.0
-custom_fonts/font = SubResource( 5 )
 text = "text..."
 align = 1
 valign = 1
@@ -299,10 +320,10 @@ __meta__ = {
 }
 
 [node name="curtain_animation" type="AnimationPlayer" parent="ui"]
-anims/closed = SubResource( 6 )
-anims/default = SubResource( 7 )
-anims/down = SubResource( 8 )
-anims/up = SubResource( 9 )
+anims/closed = SubResource( 7 )
+anims/default = SubResource( 8 )
+anims/down = SubResource( 9 )
+anims/up = SubResource( 10 )
 
 [node name="timer" type="Timer" parent="ui"]
 one_shot = true
@@ -346,7 +367,7 @@ rect_min_size = Vector2( 0, 80 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -84.0
-custom_fonts/font = SubResource( 10 )
+custom_fonts/font = SubResource( 11 )
 text = "Póster"
 align = 1
 valign = 1
@@ -375,6 +396,106 @@ margin_right = 100.0
 margin_bottom = 100.0
 expand = true
 stretch_mode = 6
+
+[node name="overlay" type="ColorRect" parent="ui"]
+visible = false
+modulate = Color( 0, 0, 0, 0.901961 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="side_menu" type="Control" parent="ui" groups=[
+"slider",
+]]
+modulate = Color( 0.854902, 0.854902, 0.854902, 1 )
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = -650.0
+margin_right = -12.0001
+script = ExtResource( 20 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+slide_mode = 0
+initial_position = Vector2( -650, 540 )
+other_position = Vector2( 50, 540 )
+amplitude = 0.07
+overlay_path = NodePath("../overlay")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ui/side_menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_vertical = 2
+
+[node name="Control4" type="Control" parent="ui/side_menu/VBoxContainer"]
+margin_right = 637.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 0, 150 )
+script = ExtResource( 21 )
+
+[node name="Label" type="Label" parent="ui/side_menu/VBoxContainer/Control4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Continue"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="ui/side_menu/VBoxContainer"]
+margin_top = 154.0
+margin_right = 637.0
+margin_bottom = 304.0
+rect_min_size = Vector2( 0, 150 )
+
+[node name="Label" type="Label" parent="ui/side_menu/VBoxContainer/Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Save game"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control2" type="Control" parent="ui/side_menu/VBoxContainer"]
+margin_top = 308.0
+margin_right = 637.0
+margin_bottom = 458.0
+rect_min_size = Vector2( 0, 150 )
+
+[node name="Label" type="Label" parent="ui/side_menu/VBoxContainer/Control2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Load game"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control3" type="Control" parent="ui/side_menu/VBoxContainer"]
+margin_top = 462.0
+margin_right = 637.0
+margin_bottom = 612.0
+rect_min_size = Vector2( 0, 150 )
+script = ExtResource( 22 )
+
+[node name="Label" type="Label" parent="ui/side_menu/VBoxContainer/Control3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "Quit"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="tween" type="Tween" parent="ui/side_menu"]
 [connection signal="click" from="ui" to="." method="_on_ui_click"]
 [connection signal="drag" from="ui" to="." method="_on_ui_drag"]
 [connection signal="end_drag" from="ui" to="." method="_on_ui_end_drag"]
@@ -384,7 +505,7 @@ stretch_mode = 6
 [connection signal="start_hold" from="ui" to="." method="_on_ui_start_hold"]
 [connection signal="pressed" from="ui/buttons/quit_button" to="." method="_on_quit_button_pressed"]
 [connection signal="pressed" from="ui/buttons/skip_button" to="." method="_on_skip_button_pressed"]
-[connection signal="pressed" from="ui/inventory_button" to="." method="_on_inventory_button_pressed"]
+[connection signal="pressed" from="ui/inventory_base/inventory_button" to="." method="_on_inventory_button_pressed"]
 [connection signal="timeout" from="ui/timer" to="ui" method="_on_timer_timeout"]
 [connection signal="item_action" from="ui/item_menu" to="." method="_on_item_menu_item_action"]
 [connection signal="pressed" from="ui/item_menu/actions/item_name/close_menu_button" to="." method="_on_close_menu_button_pressed"]
