@@ -3,10 +3,12 @@
 [ext_resource path="res://games/celda_escape/rooms/office/images/Office-BG.jpg" type="Texture" id=1]
 [ext_resource path="res://games/celda_escape/rooms/office/images/Mesa.png" type="Texture" id=2]
 [ext_resource path="res://games/celda_escape/rooms/office/images/Silla-Of1.png" type="Texture" id=3]
-[ext_resource path="res://tools/grog/room.gd" type="Script" id=4]
-[ext_resource path="res://tools/2d/item2d.gd" type="Script" id=5]
+[ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
+[ext_resource path="res://tools/grog/twod/item2d.gd" type="Script" id=5]
 [ext_resource path="res://games/celda_escape/rooms/office/images/Armor-Of1.png" type="Texture" id=6]
 [ext_resource path="res://games/celda_escape/rooms/office/images/Busto-Of1.png" type="Texture" id=7]
+
+
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 380.204, 838.492, 1231.84, 680.592, 1405.11, 653.384, 1489.6, 667.704, 1522.53, 699.207, 1349.27, 573.194, 1178.86, 600.401, 613.231, 574.626, 802.251, 603.265, 759.292, 686.32, 1715.85, 700.639, 1720.39, 837.408 )

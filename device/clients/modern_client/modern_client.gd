@@ -1,4 +1,4 @@
-extends "res://tools/grog/base_client.gd"
+extends "res://tools/grog/base/base_client.gd"
 
 signal item_selected # (item)
 signal item_deselected # (item)

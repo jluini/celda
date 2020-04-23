@@ -1,13 +1,15 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://games/celda_escape/rooms/lab/images/background.jpg" type="Texture" id=1]
-[ext_resource path="res://tools/2d/item2d.gd" type="Script" id=2]
+[ext_resource path="res://tools/grog/twod/item2d.gd" type="Script" id=2]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/gate.png" type="Texture" id=3]
-[ext_resource path="res://tools/grog/room.gd" type="Script" id=4]
+[ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/Vidrio.png" type="Texture" id=5]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/HombreFlotante.png" type="Texture" id=6]
 [ext_resource path="res://games/celda_escape/rooms/lab/floating_guy.gd" type="Script" id=7]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/Camilla.png" type="Texture" id=8]
+
+
 
 [sub_resource type="Animation" id=1]
 resource_name = "default"

@@ -1,8 +1,10 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://games/celda_escape/rooms/living/images/background.jpg" type="Texture" id=1]
-[ext_resource path="res://tools/2d/item2d.gd" type="Script" id=2]
-[ext_resource path="res://tools/grog/room.gd" type="Script" id=4]
+[ext_resource path="res://tools/grog/twod/item2d.gd" type="Script" id=2]
+[ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
+
+
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 538.357, 586.75, 1395.79, 577.547, 1651.95, 835.237, 380.204, 838.492, 449.393, 652.707, 230.049, 651.173, 222.38, 833.704 )

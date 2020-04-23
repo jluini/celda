@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=16 format=2]
 
-[ext_resource path="res://tools/grog/game_resource.gd" type="Script" id=1]
+[ext_resource path="res://tools/grog/core/game_resource.gd" type="Script" id=1]
 [ext_resource path="res://games/demo_game/actors/mark/mark.tres" type="Resource" id=2]
 [ext_resource path="res://games/celda_escape/inventory.tscn" type="PackedScene" id=3]
 [ext_resource path="res://games/celda_escape/main_script.tres" type="Resource" id=4]

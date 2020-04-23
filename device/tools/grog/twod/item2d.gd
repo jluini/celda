@@ -1,6 +1,6 @@
 tool
 
-extends "res://tools/grog/item.gd"
+extends "res://tools/grog/base/base_item.gd"
 
 
 export (float) var radius = 50 setget set_radius

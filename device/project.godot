@@ -17,47 +17,47 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "CompiledGrogScript",
 "language": "GDScript",
-"path": "res://tools/grog/compiled_grog_script.gd"
+"path": "res://tools/grog/lang/compiled_grog_script.gd"
 }, {
 "base": "Reference",
 "class": "FixedExpression",
 "language": "GDScript",
-"path": "res://tools/grog/compile/fixed_expression.gd"
+"path": "res://tools/grog/lang/fixed_expression.gd"
 }, {
 "base": "Resource",
 "class": "GameResource",
 "language": "GDScript",
-"path": "res://tools/grog/game_resource.gd"
+"path": "res://tools/grog/core/game_resource.gd"
 }, {
 "base": "Reference",
 "class": "GameServer",
 "language": "GDScript",
-"path": "res://tools/grog/game_server.gd"
+"path": "res://tools/grog/core/game_server.gd"
 }, {
 "base": "Reference",
 "class": "Grog",
 "language": "GDScript",
-"path": "res://tools/grog/grog.gd"
+"path": "res://tools/grog/lang/grog.gd"
 }, {
 "base": "Resource",
 "class": "GrogScript",
 "language": "GDScript",
-"path": "res://tools/grog/grog_script.gd"
+"path": "res://tools/grog/core/grog_script.gd"
 }, {
 "base": "Reference",
 "class": "IdentifierExpression",
 "language": "GDScript",
-"path": "res://tools/grog/compile/identifier_expression.gd"
+"path": "res://tools/grog/lang/identifier_expression.gd"
 }, {
 "base": "Resource",
 "class": "InventoryItemResource",
 "language": "GDScript",
-"path": "res://tools/grog/inventory_item_resource.gd"
+"path": "res://tools/grog/core/inventory_item_resource.gd"
 }, {
 "base": "Reference",
 "class": "InverseNumberExpression",
 "language": "GDScript",
-"path": "res://tools/grog/compile/inverse_number_expression.gd"
+"path": "res://tools/grog/lang/inverse_number_expression.gd"
 }, {
 "base": "AudioStreamPlayer",
 "class": "LoopinStreamPlayer",
@@ -72,27 +72,27 @@ _global_script_classes=[ {
 "base": "Resource",
 "class": "NamedScene",
 "language": "GDScript",
-"path": "res://tools/grog/named_scene.gd"
+"path": "res://tools/grog/core/named_scene.gd"
 }, {
 "base": "Reference",
 "class": "NegatedBoolExpression",
 "language": "GDScript",
-"path": "res://tools/grog/compile/negated_bool_expression.gd"
+"path": "res://tools/grog/lang/negated_bool_expression.gd"
 }, {
 "base": "Reference",
 "class": "OperationExpression",
 "language": "GDScript",
-"path": "res://tools/grog/compile/operation_expression.gd"
+"path": "res://tools/grog/lang/operation_expression.gd"
 }, {
 "base": "Reference",
 "class": "Parser",
 "language": "GDScript",
-"path": "res://tools/grog/compile/parser.gd"
+"path": "res://tools/grog/lang/parser.gd"
 }, {
 "base": "Resource",
 "class": "RoomResource",
 "language": "GDScript",
-"path": "res://tools/grog/room_resource.gd"
+"path": "res://tools/grog/core/room_resource.gd"
 }, {
 "base": "Reference",
 "class": "Runner",
@@ -154,8 +154,7 @@ config/icon="res://icon.png"
 
 window/size/width=1920
 window/size/height=1080
-window/size/fullscreen=true
-window/size/test_width=1024
+window/size/test_width=1366
 window/size/test_height=768
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
