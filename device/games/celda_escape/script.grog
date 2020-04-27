@@ -1,4 +1,7 @@
 main:
+	start:
+		# nothing
+		# TODO remove this when unnecessary
 	init:
 		.set door_seen=false
 		.set poster_was_taken=false

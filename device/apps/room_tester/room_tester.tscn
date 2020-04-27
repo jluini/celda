@@ -8,7 +8,7 @@
 [ext_resource path="res://tools/loopin/player/loopin_player.tscn" type="PackedScene" id=6]
 [ext_resource path="res://apps/room_tester/object_list.tscn" type="PackedScene" id=7]
 [ext_resource path="res://apps/room_tester/rounded_rect.png" type="Texture" id=8]
-[ext_resource path="res://tools/grog/lang/compiler.gd" type="Script" id=9]
+[ext_resource path="res://tools/grog/newcore/environment.tscn" type="PackedScene" id=9]
 [ext_resource path="res://apps/room_tester/play_button_on.png" type="Texture" id=10]
 [ext_resource path="res://apps/room_tester/play_button_off.png" type="Texture" id=11]
 [ext_resource path="res://clients/modern_client/modern_client.tres" type="Resource" id=13]
@@ -538,8 +538,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="grog_compiler" type="Node" parent="."]
-script = ExtResource( 9 )
+[node name="environment" parent="." instance=ExtResource( 9 )]
 [connection signal="pressed" from="ui_layer/ui/test_rooms/test_room_button" to="." method="_on_test_room_button_pressed"]
 [connection signal="pressed" from="ui_layer/ui/test_scripts/test_script_button" to="." method="_on_test_script_button_pressed"]
 [connection signal="pressed" from="ui_layer/ui/play_game_button" to="." method="_on_play_game_button_pressed"]

@@ -17,11 +17,14 @@ func _ready():
 	client._pre_init()
 	
 	var e = environment.initialize()
-	if not e.result:
+	if e.result:
+		client.init(environment)
+	else:
 		client.show_error(e.message if e.message else "error...")
+		
 	
-func _on_environment_ready():
-	client.init(environment)
+#func _on_environment_ready():
+#	client.init(environment)
 	
 #	_grog_game = GameServer.new()
 #	var is_valid = _grog_game.init_game(_compiler, game_to_play, GameServer.StartMode.Default, starting_index)

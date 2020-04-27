@@ -1,16 +1,10 @@
 extends Node
 
-signal environment_ready
-
-#export (String) var user_dir_path = "user://"
-#export (String) var saved_games_path = "saved_games"
 export (String) var saved_games_path = "user://saved_games"
 
 export (Resource) var game_to_play
 
-export (String) var savegame_path = "user://saved_games/"
-
-onready var _compiler = $compiler
+onready var compiler = $compiler
 
 var _compiled_game = null
 
@@ -18,16 +12,13 @@ var server = null
 
 func initialize() -> Dictionary:
 	if not game_to_play:
-		return { result = false, msg = "There's no game set" }
+		return { result = false, message = "There's no game set" }
 	
-	#_compiled_game = game_to_play.get_compiled()
-	var res = game_to_play.prepare(_compiler)
+	var res = game_to_play.prepare(compiler)
 	
-	#if not game_to_play.valid():
 	if not res.result:
 		# invalid game
 		return res
-		#return { result = false, msg = "Game is not valid" }
 	
 	var dir = Directory.new()
 	
@@ -39,8 +30,6 @@ func initialize() -> Dictionary:
 	if not dir.dir_exists(saved_games_path):
 		print("Folder 'saved_games' does not exist; creating it")
 		dir.make_dir(saved_games_path)
-	
-	emit_signal("environment_ready")
 	
 	return { result = true }
 	
@@ -56,11 +45,11 @@ func new_game():
 	
 	assert(not server)
 	
-	server = load("res://tools/grog/newcore/server.gd").new()
+	#server = load("res://tools/grog/newcore/server.gd").new()
+	#add_child(server)
 	
-	add_child(server)
-	
-	server.init(game_to_play)
+	server = load("res://tools/grog/core/game_server.gd").new()
+	server.init(self, game_to_play)
 	
 	return server
 

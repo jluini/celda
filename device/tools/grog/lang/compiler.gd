@@ -41,7 +41,7 @@ func _ready():
 	pattern_regex = build_regex(pattern_regex_pattern)
 
 
-func new_compile(code: String, level: int): # -> CompiledScript:
+func compile(code: String, level: int): # -> CompiledScript:
 	var ret = CompiledScript.new()
 	
 	if level < 1:
@@ -63,32 +63,32 @@ func new_compile(code: String, level: int): # -> CompiledScript:
 		if not line_data.blank:
 			lines.append(line_data)
 	
-	compile_lines(ret, lines, level)
+	_compile_lines(ret, lines, level)
 	
 	return ret
 
 # TODO remove
-func compile_text(code: String) -> CompiledGrogScript:
-	var compiled_script = CompiledGrogScript.new()
-	
-	var raw_lines: Array = _get_lines(code) # code.split("\n")
-	
-	var lines = []
-	
-	for i in range(raw_lines.size()):
-		var line_data = { raw = raw_lines[i], line_number = i + 1 }
-		
-		tokenize_line(compiled_script, line_data) # sets 'blank', 'indent_level' and 'tokens' in line_data
-		
-		if not compiled_script.is_valid():
-			return compiled_script
-		
-		if not line_data.blank:
-			lines.append(line_data)
-	
-	compile_lines(compiled_script, lines)
-	
-	return compiled_script
+#func compile_text(code: String) -> CompiledGrogScript:
+#	var compiled_script = CompiledGrogScript.new()
+#
+#	var raw_lines: Array = _get_lines(code) # code.split("\n")
+#
+#	var lines = []
+#
+#	for i in range(raw_lines.size()):
+#		var line_data = { raw = raw_lines[i], line_number = i + 1 }
+#
+#		tokenize_line(compiled_script, line_data) # sets 'blank', 'indent_level' and 'tokens' in line_data
+#
+#		if not compiled_script.is_valid():
+#			return compiled_script
+#
+#		if not line_data.blank:
+#			lines.append(line_data)
+#
+#	_compile_lines(compiled_script, lines)
+#
+#	return compiled_script
 
 func tokenize_line(compiled_script, line: Dictionary) -> void: 
 	line.indent_level = number_of_leading_tabs(line.raw)
@@ -310,7 +310,7 @@ func recognize_token(content: String, parse_as_number: bool) -> Dictionary:
 	
 # Compiling
 
-func compile_lines(compiled_script, lines: Array, code_levels = 1):
+func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 	var num_lines = lines.size()
 	
 	var statements = []

@@ -15,9 +15,10 @@ export (NodePath) var start_list_path
 export (NodePath) var actor_list_path
 
 
-onready var _compiler = $grog_compiler
+onready var environment = $environment
 
-var _grog_game: GameServer = null
+#onready var _compiler = $grog_compiler
+#var _grog_game: GameServer = null
 
 onready var _ui = get_node(ui_path)
 
@@ -41,18 +42,18 @@ func _ready():
 		return
 	
 	list_elements("displays", displays, _display_list)
-	list_elements("starts", game_to_load.get_all_scripts(), _start_list)
-	list_elements("actors", game_to_load.get_all_actors(), _actor_list)
+	#list_elements("starts", game_to_load.get_all_scripts(), _start_list)
+	#list_elements("actors", game_to_load.get_all_actors(), _actor_list)
 	
 	_display_list.select(1)
-	_start_list.select(1)
+	#_start_list.select(1)
 	
 	if start_game_automatically:
 		_play()
 
-func _process(delta):
-	if _grog_game:
-		_grog_game.update(delta)
+#func _process(delta):
+#	if _grog_game:
+#		_grog_game.update(delta)
 	
 func list_elements(name: String, elements: Array, list: Node, select_first = true):
 	if not list:
@@ -73,14 +74,15 @@ func _play():
 		print("Select a display please")
 		return
 	
-	var index = _start_list.get_current_index() if _start_list.has_current() else 0
+	#var index = _start_list.get_current_index() if _start_list.has_current() else 0
 	
-	play_game(_display_list.get_current(), _actor_list.get_current(), index)
+	#play_game(_display_list.get_current(), _actor_list.get_current(), index)
+	play_game(_display_list.get_current())
 	
 func _on_quit_button_pressed():
 	get_tree().quit()
 	
-func play_game(display_resource: Resource, actor, starting_index: int):
+func play_game(display_resource: Resource): #, actor, starting_index: int):
 	if current_display:
 		print("Undeleted old display!!")
 		return
@@ -93,12 +95,19 @@ func play_game(display_resource: Resource, actor, starting_index: int):
 	
 	add_child(current_display)
 	
-	_grog_game = GameServer.new()
+	#_grog_game = GameServer.new()
+	current_display._pre_init()
+	
+	var e = environment.initialize()
+	if not e.result:
+		print("Error!!")
+		print(e.message)
+		#client.show_error(e.message if e.message else "error...")
 
-	var is_valid = _grog_game.init_game(_compiler, game_to_load, GameServer.StartMode.Default, starting_index)
+	var is_valid = _grog_game.init_game(_compiler, game_to_load, GameServer.StartMode.Default, 0)
 
-	if actor:
-		_grog_game.set_player(actor)
+	#if actor:
+	#	_grog_game.set_player(actor)
 
 	if is_valid:
 		_ui.hide()

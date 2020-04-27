@@ -1,8 +1,10 @@
 extends Node
 
+var environment
 var _game = null
 
-func init(game):
+func init(env, game):
+	environment = env
 	#assert(game.is_compiled() and game.is_valid())
 	assert(game.is_valid())
 	_game = game

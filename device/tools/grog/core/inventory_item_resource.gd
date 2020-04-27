@@ -9,7 +9,7 @@ export (String, MULTILINE) var code
 var _compiled_script
 
 func compile(compiler):
-	_compiled_script = compiler.compile_text(code)
+	_compiled_script = compiler.compile(code, 1)
 	if not _compiled_script.is_valid:
 		print("Inventory item '%s' script is invalid:" % get_name())
 		_compiled_script.print_errors()

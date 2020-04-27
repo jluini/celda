@@ -25,13 +25,15 @@ var enabled = true
 
 ##############################
 
+# TODO remove
 func init_item(compiler):
 	#add_to_group("item")
-	
+
 	if code:
-		_compiled_script = compiler.compile_text(code)
-		
-		if not _compiled_script.is_valid:
+		#_compiled_script = compiler.compile_text(code)
+		_compiled_script = compiler.compile(code, 1)
+
+		if not _compiled_script.is_valid():
 			print("Item '%s': script is invalid" % get_key())
 			_compiled_script.print_errors()
 
