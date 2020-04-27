@@ -53,7 +53,8 @@ func add_element(target) -> Node:
 	var element_view = element_view_model.instance()
 	
 	var index = _element_views.size()
-	element_view.set_target(index, target)
+	element_view.set_target(target)
+	element_view.index = index
 	
 	var r = element_view.connect("element_toggled", self, "on_element_toggled")
 	if r:

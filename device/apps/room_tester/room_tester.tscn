@@ -36,6 +36,7 @@ font_data = ExtResource( 5 )
 
 [node name="room_tester" type="Node"]
 script = ExtResource( 3 )
+start_game_automatically = true
 displays = [ ExtResource( 4 ), ExtResource( 13 ) ]
 game_to_load = ExtResource( 1 )
 ui_path = NodePath("ui_layer/ui")

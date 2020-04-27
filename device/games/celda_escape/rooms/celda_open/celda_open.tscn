@@ -10,8 +10,6 @@
 [ext_resource path="res://games/celda_escape/rooms/celda/images/background.jpg" type="Texture" id=11]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/toilet.png" type="Texture" id=12]
 
-
-
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 670.651, 625.289, 785.887, 712.824, 695.027, 712.824, 345.995, 621.965, 194.266, 888.625, -979.802, 887.463, -782.63, 723.398, -996.986, 655.482, -913.931, 573.859, -692.712, 648.578, -596.032, 568.131, -57.404, 778.434, 184.744, 694.091, 153.455, 639.675, 122.171, 572.103, 288.377, 575.427, 867.881, 782.631, 909.987, 820.304, 912.203, 898.975, 306.105, 895.651, 722.728, 781.523, 680.623, 746.065, 94.9586, 692.73, 90.8775, 639.675, 56.9514, 579.587, -81.8909, 719.938, 122.166, 747.145 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6 ), PoolIntArray( 6, 7, 8, 9 ), PoolIntArray( 4, 6, 9 ), PoolIntArray( 4, 9, 10, 11 ), PoolIntArray( 12, 13, 14, 15, 3 ), PoolIntArray( 16, 17, 18, 19, 20 ), PoolIntArray( 21, 20, 19, 12, 3 ), PoolIntArray( 3, 2, 21 ), PoolIntArray( 13, 12, 22, 23 ), PoolIntArray( 24, 23, 22, 25, 10 ), PoolIntArray( 11, 26, 4 ), PoolIntArray( 10, 25, 11 ) ]
@@ -102,7 +100,9 @@ position = Vector2( 1726, 367 )
 z_index = -1000
 script = ExtResource( 5 )
 item_key = "celda/poster"
+instance_number = 0
 color = Color( 1, 1, 1, 1 )
+interact_angle = 0
 code = "
 pick_up:
 	inv_poster.add
@@ -118,7 +118,9 @@ look_at:
 	you.say \"Es un dibujo de Bubba.\"
 
 "
+walk_speed = 0.0
 radius = 70.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/poster"]
 position = Vector2( -38.8429, 468.312 )
@@ -131,7 +133,9 @@ position = Vector2( 1726.57, 363.826 )
 z_index = -1080
 script = ExtResource( 5 )
 item_key = "celda/exit"
+instance_number = 0
 color = Color( 1, 1, 1, 1 )
+interact_angle = 0
 code = "
 look_at:
 	you.say \"Cómo olvidar ese ventilete.\"
@@ -153,7 +157,9 @@ walk_to:
 	.curtain_up
 
 "
+walk_speed = 0.0
 radius = 70.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/exit"]
 position = Vector2( -40.1814, 479.087 )
@@ -170,6 +176,7 @@ texture = ExtResource( 7 )
 position = Vector2( 551.32, 528.708 )
 script = ExtResource( 5 )
 item_key = "celda/door"
+instance_number = 0
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
 interact_angle = 180
 code = "
@@ -185,7 +192,9 @@ open:
 
 close: TK
 	you.say \"Ya está cerrada.\""
+walk_speed = 0.0
 radius = 200.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/door"]
 position = Vector2( 597.308, 233.071 )
@@ -194,6 +203,7 @@ position = Vector2( 597.308, 233.071 )
 position = Vector2( 71.5218, 687.711 )
 script = ExtResource( 5 )
 item_key = "celda/gate"
+instance_number = 0
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
 interact_angle = 180
 code = "walk_to:
@@ -202,7 +212,9 @@ code = "walk_to:
 	
 	you.teleport to=pos1 angle=45
 	.curtain_up"
+walk_speed = 0.0
 radius = 200.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/gate"]
 position = Vector2( 31.0345, 118.701 )
@@ -212,6 +224,7 @@ position = Vector2( 1481.78, 652.801 )
 z_index = -1080
 script = ExtResource( 5 )
 item_key = "celda/bed"
+instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 270
 code = "
@@ -240,7 +253,9 @@ look_at:
 #
 #use:
 #	self.set_tool use_with"
+walk_speed = 0.0
 radius = 150.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/bed"]
 position = Vector2( 18.2191, 157.233 )
@@ -254,7 +269,9 @@ position = Vector2( 1777.82, 821.366 )
 z_index = -156
 script = ExtResource( 5 )
 item_key = "celda/toilet"
+instance_number = 0
 color = Color( 1, 1, 1, 1 )
+interact_angle = 0
 code = "look_at:
 	you.say \"Alto inodoro.\"
 	you.say \"Tal vez me pueda ecapar por el desagüe del mismo.\"
@@ -267,7 +284,9 @@ use:
 	.wait 1
 	.curtain_up
 "
+walk_speed = 0.0
 radius = 100.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/toilet"]
 position = Vector2( -124.032, 86.7068 )

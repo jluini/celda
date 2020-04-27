@@ -9,15 +9,17 @@
 extends Node
 
 var target = null # setget set_target, get_target
+
+# TODO remove this or extract to superclass
 var index = -1
 
 #	@PUBLIC
 """
 """
-func set_target(new_index, new_target):
+func set_target(new_target): # new_index, new_target):
 	target_changing(target, new_target)
-	index = new_index
 	target = new_target
+	#index = new_index
 
 """
 """
@@ -29,7 +31,6 @@ func get_target():
 
 """
 	Private Function: target_changing
-	Getter for the Id for this Thing
 
 	Called when target has changed.
 	Must be overriden by subclasses.

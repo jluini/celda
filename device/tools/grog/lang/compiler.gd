@@ -40,16 +40,38 @@ func _ready():
 	standard_token_character_regex = build_regex(standard_token_character_pattern)
 	pattern_regex = build_regex(pattern_regex_pattern)
 
+
+func new_compile(code: String, level: int): # -> CompiledScript:
+	var ret = CompiledScript.new()
+	
+	if level < 1:
+		ret.add_error("Invalid level %s" % level)
+		return ret
+	
+	var raw_lines: Array = _get_lines(code)
+	
+	var lines = []
+	
+	for i in range(raw_lines.size()):
+		var line_data = { raw = raw_lines[i], line_number = i + 1 }
+		
+		tokenize_line(ret, line_data) # sets 'blank', 'indent_level' and 'tokens' in line_data
+		
+		if not ret.is_valid():
+			return ret
+		
+		if not line_data.blank:
+			lines.append(line_data)
+	
+	compile_lines(ret, lines, level)
+	
+	return ret
+
+# TODO remove
 func compile_text(code: String) -> CompiledGrogScript:
 	var compiled_script = CompiledGrogScript.new()
 	
-	if code.find("\r") != -1:
-		print("Warning: unexpected carriage returns in code")
-		print("removing them...")
-		
-		code = code.replace("\r", "")
-	
-	var raw_lines: Array = code.split("\n")
+	var raw_lines: Array = _get_lines(code) # code.split("\n")
 	
 	var lines = []
 	
@@ -58,7 +80,7 @@ func compile_text(code: String) -> CompiledGrogScript:
 		
 		tokenize_line(compiled_script, line_data) # sets 'blank', 'indent_level' and 'tokens' in line_data
 		
-		if not compiled_script.is_valid:
+		if not compiled_script.is_valid():
 			return compiled_script
 		
 		if not line_data.blank:
@@ -83,7 +105,7 @@ func tokenize_line(compiled_script, line: Dictionary) -> void:
 	else:
 		line.tokens = get_tokens(compiled_script, line)
 		
-		if not compiled_script.is_valid:
+		if not compiled_script.is_valid():
 			# Invalid line
 			return
 			
@@ -288,7 +310,7 @@ func recognize_token(content: String, parse_as_number: bool) -> Dictionary:
 	
 # Compiling
 
-func compile_lines(compiled_script, lines: Array):
+func compile_lines(compiled_script, lines: Array, code_levels = 1):
 	var num_lines = lines.size()
 	
 	var statements = []
@@ -315,7 +337,11 @@ func compile_lines(compiled_script, lines: Array):
 		assert(level == stack.size())
 		
 		if new_level < level:
+			# indentation has decreased
+			
 			var diff_level = level - new_level
+			
+			# closing diff_level levels
 			
 			for _j in range(diff_level):
 				level -= 1
@@ -323,15 +349,19 @@ func compile_lines(compiled_script, lines: Array):
 				
 				var current_block = previous_level.back()
 				
-				if current_block.type == "sequence":
-					assert(stack.size() == 0)
-					assert(level == 0)
+				assert(stack.size() == level)
+				
+				if current_block.type == "section":
+					assert(level < code_levels - 1)
+					current_block.sections = statements
+					
+				elif current_block.type == "sequence":
+					assert(level == code_levels - 1)
 				
 					current_block.instructions = statements
 					
 				elif current_block.type == "if":
-					assert(stack.size() > 0)
-					assert(stack.size() == level)
+					assert(level >= code_levels)
 					
 					if current_block.has("condition"):
 						if not current_block.has("main_branches"):
@@ -345,8 +375,7 @@ func compile_lines(compiled_script, lines: Array):
 						assert(not current_block.has("else_branch"))
 						current_block.else_branch = statements
 				elif current_block.type == "loop":
-					assert(stack.size() > 0)
-					assert(stack.size() == level)
+					assert(level >= code_levels)
 					
 					assert(not current_block.has("statements"))
 					current_block.statements = statements
@@ -367,10 +396,7 @@ func compile_lines(compiled_script, lines: Array):
 		var k = 1
 		var num_tokens = line.tokens.size()
 		
-		if level == 0: # sequence header
-			assert(stack.size() == 0)
-			assert(level == 0)
-			
+		if level < code_levels: # header
 			if not _token_is_straight_identifier(first_token):
 				compiled_script.add_error("Invalid trigger name (line %s)" % line.line_number)
 				return
@@ -428,6 +454,8 @@ func compile_lines(compiled_script, lines: Array):
 					compiled_script.add_error("Expecting : or after closing pharentheses (line %s)" % line.line_number)
 					return
 			
+			# TODO check here: only telekinetic in sequences, not sections!
+			
 			var is_telekinetic = false
 			while num_tokens > k:
 				var option_token = line.tokens[k]
@@ -439,13 +467,25 @@ func compile_lines(compiled_script, lines: Array):
 					compiled_script.add_error("Invalid sequence parameter (only TK allowed) (line %s)" % line.line_number)
 					return
 			
-			statements.append({
-				type = "sequence",
-				trigger_name = first_token.data.key,
-				telekinetic = is_telekinetic,
-				pattern = pattern
-				# waiting for instructions
-			})
+			if level == code_levels - 1:
+				statements.append({
+					type = "sequence",
+					trigger_name = first_token.data.key,
+					telekinetic = is_telekinetic,
+					pattern = pattern
+					# waiting for instructions
+				})
+			else:
+				if is_telekinetic:
+					print("Why telekinetic here?")
+				statements.append({
+					type = "section",
+					trigger_name = first_token.data.key,
+					#telekinetic = is_telekinetic,
+					#pattern = pattern
+					
+					# waiting for sections
+				})
 			
 			stack.push_back(statements)
 			statements = []
@@ -795,17 +835,102 @@ func compile_lines(compiled_script, lines: Array):
 	assert(stack.size() == 0)
 	assert(level == 0)
 	
-	for seq in statements:
-		if seq.pattern:
-			compiled_script.add_sequence_with_parameter(seq.trigger_name, seq.pattern, {
-				statements = seq.instructions,
-				telekinetic = seq.telekinetic,
-			})
-		else:
-			compiled_script.add_sequence(seq.trigger_name, {
-				statements = seq.instructions,
-				telekinetic = seq.telekinetic
-			})
+	
+	var header_chain = []
+	var data = {}
+	
+	var current_items = statements
+	var index = 0
+	
+	var done = false
+	
+	while true:
+		assert(level == stack.size())
+		assert(level <= code_levels - 1)
+		
+		while index >= current_items.size():
+			if level == 0:
+				done = true
+				break
+			else:
+				level -= 1
+				header_chain.pop_back()
+				
+				var previous_level = stack.pop_back()
+				
+				data = previous_level.data
+				index = previous_level.index
+				current_items = previous_level.items
+		
+		if done:
+			break
+		
+		var next_element = current_items[index]
+		index += 1
+		
+		if level < code_levels - 1:
+			assert(next_element.type == "section")
+			assert(next_element.has("trigger_name"))
+			assert(next_element.has("sections"))
+			
+			var new_header = next_element.trigger_name
+			var subsections = next_element.sections
+			header_chain.push_back(new_header)
+			
+			if data.has(new_header):
+				print("Duplicated header '%s'" % str(header_chain))
+				header_chain.pop_back()
+			else:
+				data[new_header] = {}
+				
+				stack.push_back({
+					data = data,
+					index = index,
+					items = current_items
+				})
+				
+				level += 1
+				data = data[new_header]
+				index = 0
+				current_items = subsections
+				
+		elif level == code_levels - 1:
+			assert(next_element.type == "sequence")
+			assert(next_element.has("trigger_name"))
+			assert(next_element.has("instructions"))
+			
+			var new_header = next_element.trigger_name
+			#var instructions = next_element.instructions
+			header_chain.push_back(new_header)
+			
+			if data.has(new_header):
+				print("Duplicated header '%s'" % str(header_chain))
+			else:
+				data[new_header] = next_element
+	
+			header_chain.pop_back()
+		
+	assert(level == 0)
+	assert(stack.size() == 0)
+	assert(header_chain.size() == 0)
+	
+	compiled_script.initialize(code_levels, data)
+	
+	#compiled_script.initialize(code_levels, statements)
+	
+#	# TODO check here
+#
+#	for seq in statements:
+#		if seq.pattern:
+#			compiled_script.add_sequence_with_parameter(seq.trigger_name, seq.pattern, {
+#				statements = seq.instructions,
+#				telekinetic = seq.telekinetic,
+#			})
+#		else:
+#			compiled_script.add_sequence(seq.trigger_name, {
+#				statements = seq.instructions,
+#				telekinetic = seq.telekinetic
+#			})
 
 func get_named_param(named_params: Array, name: String):
 	for np in named_params:
@@ -967,3 +1092,18 @@ func _token_is_straight_identifier(token):
 
 func _token_is_operator(token, operator: String):
 	return token.type == Grog.TokenType.Operator or token.content == operator
+
+func _get_lines(code: String) -> Array:
+	var sanitized_code = _sanitize(code)
+	return sanitized_code.split("\n")
+
+# Removes carriage returns and warns if they're present
+func _sanitize(code: String) -> String:
+	if code.find("\r") != -1:
+		print("Warning: unexpected carriage returns in code")
+		print("removing them...")
+		
+		return code.replace("\r", "")
+	else:
+		return code
+

@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://games/celda_escape/new_game_data.tres" type="Resource" id=1]
+[ext_resource path="res://apps/grog_runner/grog_runner.gd" type="Script" id=2]
+[ext_resource path="res://clients/modern_client/modern_client2.tscn" type="PackedScene" id=3]
+[ext_resource path="res://tools/grog/lang/compiler.gd" type="Script" id=4]
+[ext_resource path="res://apps/grog_runner/environment.gd" type="Script" id=5]
+
+[node name="grog_runner" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="client" parent="." instance=ExtResource( 3 )]
+
+[node name="environment" type="Node" parent="."]
+script = ExtResource( 5 )
+game_to_play = ExtResource( 1 )
+
+[node name="compiler" type="Node" parent="environment"]
+script = ExtResource( 4 )
+[connection signal="game_ended" from="client" to="." method="_on_client_game_ended"]
+[connection signal="music_changed" from="client" to="." method="_on_client_music_changed"]
+[connection signal="environment_ready" from="environment" to="." method="_on_environment_ready"]

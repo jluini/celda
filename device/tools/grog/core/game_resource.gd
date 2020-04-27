@@ -23,3 +23,5 @@ func get_all_scripts():
 func get_all_actors():
 	return actors
 
+func get_compiled():
+	return null

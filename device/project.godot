@@ -19,6 +19,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/grog/lang/compiled_grog_script.gd"
 }, {
+"base": "Resource",
+"class": "CompiledScript",
+"language": "GDScript",
+"path": "res://tools/grog/newcore/compiled_script.gd"
+}, {
 "base": "Reference",
 "class": "FixedExpression",
 "language": "GDScript",
@@ -28,6 +33,11 @@ _global_script_classes=[ {
 "class": "GameResource",
 "language": "GDScript",
 "path": "res://tools/grog/core/game_resource.gd"
+}, {
+"base": "Resource",
+"class": "GameScript",
+"language": "GDScript",
+"path": "res://tools/grog/newcore/game_script.gd"
 }, {
 "base": "Reference",
 "class": "GameServer",
@@ -104,6 +114,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/loopin/set_resource.gd"
 }, {
+"base": "Resource",
+"class": "SimpleGameScript",
+"language": "GDScript",
+"path": "res://tools/grog/newcore/simple_game_script.gd"
+}, {
 "base": "NamedResource",
 "class": "SongResource",
 "language": "GDScript",
@@ -122,8 +137,10 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AudioPlayerPool": "",
 "CompiledGrogScript": "",
+"CompiledScript": "",
 "FixedExpression": "",
 "GameResource": "",
+"GameScript": "",
 "GameServer": "",
 "Grog": "",
 "GrogScript": "",
@@ -139,6 +156,7 @@ _global_script_class_icons={
 "RoomResource": "",
 "Runner": "",
 "SetResource": "",
+"SimpleGameScript": "",
 "SongResource": "",
 "SymbolTable": "",
 "TestCase": ""
@@ -147,7 +165,7 @@ _global_script_class_icons={
 [application]
 
 config/name="celda"
-run/main_scene="res://apps/room_tester/room_tester.tscn"
+run/main_scene="res://apps/grog_runner/grog_runner.tscn"
 config/icon="res://icon.png"
 
 [display]
@@ -171,6 +189,10 @@ grog_toggle_fullscreen={
 [locale]
 
 translations=PoolStringArray( "res://apps/room_tester/translations.en.translation", "res://apps/room_tester/translations.es.translation", "res://games/demo_game/translations.en.translation", "res://games/demo_game/translations.es.translation", "res://games/celda_escape/translations.en.translation", "res://games/celda_escape/translations.es.translation" )
+
+[node]
+
+name_casing=2
 
 [rendering]
 

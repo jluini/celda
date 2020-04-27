@@ -45,7 +45,7 @@ func _ready():
 	list_elements("actors", game_to_load.get_all_actors(), _actor_list)
 	
 	_display_list.select(1)
-	_start_list.select(3)
+	_start_list.select(1)
 	
 	if start_game_automatically:
 		_play()

@@ -5,12 +5,13 @@
 [ext_resource path="res://clients/modern_client/inventory_item.gd" type="Script" id=3]
 
 [node name="item_container" type="Control"]
-margin_top = -500.0
-margin_right = 150.0
-rect_min_size = Vector2( 150, 500 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -1770.0
+rect_min_size = Vector2( 150, 0 )
 mouse_filter = 2
 size_flags_horizontal = 0
-size_flags_vertical = 0
+size_flags_vertical = 3
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -18,9 +19,10 @@ __meta__ = {
 
 [node name="item_box" type="Control" parent="."]
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -150.0
-margin_right = 150.0
+margin_top = -175.0
+margin_bottom = -25.0
 mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false

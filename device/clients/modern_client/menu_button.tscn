@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://clients/modern_client/new_inventory/main_menu_button.gd" type="Script" id=1]
+[ext_resource path="res://clients/modern_client/menu/border.png" type="Texture" id=2]
+
+[node name="button" type="TextureRect"]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_right = 767.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 0, 150 )
+mouse_default_cursor_shape = 2
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 4
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="label" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 20.0
+margin_right = -20.0
+margin_bottom = -20.0
+text = "...text..."
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

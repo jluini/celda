@@ -4,22 +4,27 @@ signal music_changed
 
 signal game_ended
 
-var server
+var environment
+var server = null # TODO
 var data
 
 var _loaded_items = []
 
-func init(p_game_server):
-	server = p_game_server
-	data = server.data
+func init(_environment):
+	environment = _environment
+	data = environment.get_game_data()
 	
-	server.connect("game_server_event", self, "on_server_event")
+	#server.connect("game_server_event", self, "on_server_event")
 	
 	_on_init()
-	
+
+func show_error(_msg: String):
+	print("Override show_error")
+
 func _end_game():
 	_on_end()
-	server = null
+	
+	#server = null
 	emit_signal("game_ended")
 	
 ####
@@ -133,3 +138,12 @@ func _on_item_enabled(_item):
 
 func _on_item_disabled(_item):
 	print("Override _on_item_disabled()")
+
+
+
+
+func _start_server():
+	assert(not server)
+	
+	server = environment.new_game()
+	

@@ -6,24 +6,46 @@ enum SlideMode {
 }
 
 export (SlideMode) var slide_mode = SlideMode.Vertical
-export (Vector2) var initial_position
-export (Vector2) var other_position
+export (Vector2) var start_position
+export (Vector2) var end_position
 export (float) var scale = 1.0
-export (float) var amplitude = 1.0
+export (float) var amplitude = 0.07
 export (float) var min_delta = 0.5
 
-var _position_is_initial: bool = true
-var _position_is_changed: bool = false
+export (bool) var initially_at_start = true
+
+export (bool) var start_enabled = true
+export (bool) var end_enabled = true
+
+var _position_is_initial: bool
+var _position_is_changed: bool
 var _current_level: float
-var _moving = false
+var _moving: bool
 
 func _ready():
-	#_position_is_minimum = true
-	_set_level(0.0) # if _position_is_minimum else 1.0)
+	if not (start_enabled or end_enabled):
+		print("No point is enabled")
+		start_enabled = true
+		end_enabled = true
+	elif initially_at_start and not start_enabled:
+		print("Bad configuration 1")
+		start_enabled = true
+	elif not initially_at_start and not end_enabled:
+		print("Bad configuration 2")
+		end_enabled = true
+	
+	_position_is_initial = initially_at_start
+	_position_is_changed = false
+	_current_level = 0.0 if _position_is_initial else 1.0
+	_moving = false
+	
+	# TODO why does this fail??? initialization problems?
+	_set_level(_current_level)
 
 func _set_level(new_level: float):
 	_current_level = new_level
-	rect_position = initial_position + new_level * (other_position - initial_position)
+	var init_pos = start_position + new_level * (end_position - start_position)
+	rect_position = init_pos
 
 func slide(delta: Vector2) -> bool:
 	_moving = true
@@ -32,10 +54,10 @@ func slide(delta: Vector2) -> bool:
 	var diff: float
 	if slide_mode == SlideMode.Vertical:
 		dy = delta.y
-		diff = other_position.y - initial_position.y
+		diff = end_position.y - start_position.y
 	else:
 		dy = delta.x
-		diff = other_position.x - initial_position.x
+		diff = end_position.x - start_position.x
 	
 	dy *= scale
 		
@@ -48,11 +70,11 @@ func slide(delta: Vector2) -> bool:
 	
 	dy = _ease(dy)
 	
-	# now it's contrated
+	# now it's contracted
 	
 	_set_level(dy if _position_is_initial else 1.0 - dy)
 	
-	_position_is_changed = dy >= min_delta
+	_position_is_changed = start_enabled and end_enabled and dy >= min_delta
 	
 	return not _position_is_initial if _position_is_changed else _position_is_initial
 
@@ -84,8 +106,8 @@ func _interpolate_position(final_value: float):
 	$tween.start()
 	
 func _ease(value: float) -> float:
-	var min_value = 0.0
-	var max_value = 1.0
+	var min_value = 0.0 if start_enabled else 1.0
+	var max_value = 1.0 if end_enabled else 0.0
 	var a = amplitude
 	
 	if value <= min_value:

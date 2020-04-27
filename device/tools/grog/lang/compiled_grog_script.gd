@@ -3,7 +3,7 @@ class_name CompiledGrogScript
 
 var empty_sequence = { statements=[], telekinetic=true }
 
-var is_valid
+var _valid
 var errors = []
 
 var _sequences = {}
@@ -12,7 +12,7 @@ var _parameterized_sequences = {}
 #	@CREATE
 
 func _init():
-	is_valid = true
+	_valid = true
 
 func add_sequence_with_parameter(sequence_name: String, pattern: String, sequence: Dictionary):
 	if not _parameterized_sequences.has(sequence_name):
@@ -46,13 +46,13 @@ func add_sequence(sequence_name: String, sequence: Dictionary):
 #	@USE
 
 func has_sequence(sequence_name: String):
-	if not is_valid:
+	if not _valid:
 		return false
 	
 	return _sequences.has(sequence_name)
 
 func get_sequence(sequence_name: String):
-	if not is_valid:
+	if not _valid:
 		return null
 	elif not has_sequence(sequence_name):
 		return null
@@ -87,9 +87,11 @@ func get_sequence_with_parameter(sequence_name: String, param: String):
 	
 func add_error(new_error):
 	errors.append(new_error)
-	is_valid = false
+	_valid = false
 
 func print_errors():
 	for i in range(errors.size()):
 		print(errors[i])
 		
+func is_valid():
+	return _valid

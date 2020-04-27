@@ -1,0 +1,77 @@
+main:
+	init:
+		.set door_seen=false
+		.set poster_was_taken=false
+		
+		celda/exit.disable
+		.set bust_turn = false
+
+		if $stage = 0:
+			.load_room celda
+			.set music=sufre
+			.curtain_up
+		elif $stage = 1:
+			.say "En una celda oscura..." duration=3
+			.say "...despertóse Juan Carlos." duration=3
+			
+			.load_room celda
+			.set music=sufre
+			
+			you.teleport to=pos1
+			.curtain_up
+			
+			you.walk to=pos2
+			you.walk to=pos1
+			you.walk to=pos2
+			you.walk to=pos1
+			you.walk to=pos2
+			you.walk to=pos1
+			you.walk to=pos2
+		else:
+			.set poster_was_taken=true
+			inv_poster.add
+			celda/poster.disable
+			celda/exit.enable
+			celda/exit.play open
+			inv_thing.add
+			celda/thing.disable
+			
+			if $stage = 2:
+				.load_room office
+				.set music=office
+			
+				.curtain_up
+			else:
+				inv_poster.remove # TODO test this...
+				celda/poster.enable
+				celda/exit.disable
+				
+				if $stage = 3:
+					.load_room celda_open
+					you.teleport to=pos5 angle=45
+					.set music=uajari
+				
+					.curtain_up
+				else:
+
+					# ...
+					if $stage = 4:
+						.load_room lab
+						.set music=lab
+					else:
+						.set msg = "Unknown stage " + $stage
+						.say $msg
+
+
+		.enable_input
+
+celda/thing:
+	look_at:
+		you.say CELDA_ESCAPE_NICE_THING
+		self.say CELDA_ESCAPE_THING_THANKS
+		
+
+	pick_up:
+		self.disable
+		inv_thing.add
+			

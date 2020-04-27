@@ -4,8 +4,7 @@ export (NodePath) var overlay_path
 
 var _overlay: Control
 
-func _get_overlay():
-	#print("gettin it")
+func _get_overlay() -> Control:
 	if not _overlay:
 		_overlay = get_node(overlay_path)
 		if not _overlay:
@@ -14,6 +13,8 @@ func _get_overlay():
 
 func _set_level(new_level: float):
 	._set_level(new_level)
+	
+	new_level = 1.0 - new_level
 	
 	if new_level <= 0.2:
 		_get_overlay().set_visible(false)
