@@ -11,18 +11,21 @@ func _prepare(compiler) -> Dictionary:
 		return { result = false, message = "GameScript: no filename" }
 	
 	var file = File.new()
+	if not file.file_exists(script_path):
+		return { result = false, message = "File '%s' does not exist" % script_path }
+	
 	var ret = file.open(script_path, File.READ)
 	
 	if ret != OK:
 		match ret:
 			ERR_FILE_NOT_FOUND:
 				return { result = false, message = "File '%s' not found" % script_path }
+			ERR_CANT_OPEN:
+				return { result = false, message = "Can't open '%s'" % script_path }
 			_:
 				return { result = false, message = "Error %s loading file '%s'" % [ret, script_path] }
 				
 	# compile it
-	
-	print("Continue here")
 	
 	var content = file.get_as_text()
 	

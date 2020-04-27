@@ -1,8 +1,12 @@
 main:
-	start:
+	init:
 		# nothing
 		# TODO remove this when unnecessary
-	init:
+		.set sarasas=false
+
+		# TODO set this from code?
+		.set stage = 1
+	start:
 		.set door_seen=false
 		.set poster_was_taken=false
 		

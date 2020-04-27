@@ -1,15 +1,11 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://clients/modern_client/modern_client2.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
-[ext_resource path="res://games/celda_escape/rooms/lab/lab.tscn" type="PackedScene" id=3]
+[ext_resource path="res://clients/modern_client/theme/small_font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://clients/modern_client/theme/theme.tres" type="Theme" id=4]
 [ext_resource path="res://clients/modern_client/saved/game_list.gd" type="Script" id=5]
-[ext_resource path="res://tools/fonts/pixel_intv.otf" type="DynamicFontData" id=6]
 [ext_resource path="res://clients/modern_client/clicking.gd" type="Script" id=7]
-[ext_resource path="res://clients/modern_client/close.png" type="Texture" id=8]
-[ext_resource path="res://tools/ui_tools/object_list.gd" type="Script" id=10]
-[ext_resource path="res://clients/modern_client/action_button.tscn" type="PackedScene" id=11]
 [ext_resource path="res://clients/modern_client/saved/game_entry.tscn" type="PackedScene" id=12]
 [ext_resource path="res://clients/modern_client/inventory.gd" type="Script" id=13]
 [ext_resource path="res://clients/modern_client/theme/big_font.tres" type="DynamicFont" id=14]
@@ -78,10 +74,6 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 
-[sub_resource type="DynamicFont" id=5]
-size = 45
-font_data = ExtResource( 6 )
-
 [node name="modern_display" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -117,7 +109,6 @@ usage = 0
 render_target_update_mode = 3
 
 [node name="color_rect" type="ColorRect" parent="room_parent/viewport_container/viewport"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -125,8 +116,6 @@ color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="lab" parent="room_parent/viewport_container/viewport" instance=ExtResource( 3 )]
 
 [node name="ui" type="Control" parent="."]
 anchor_right = 1.0
@@ -146,6 +135,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 end_position = Vector2( 0, 180 )
+delay = 1.5
 initially_at_start = false
 
 [node name="inventory" type="HBoxContainer" parent="ui/inventory_base"]
@@ -253,67 +243,6 @@ anims/up = SubResource( 4 )
 [node name="timer" type="Timer" parent="ui"]
 one_shot = true
 
-[node name="item_menu" type="Control" parent="ui"]
-visible = false
-margin_left = 102.0
-margin_top = 173.0
-margin_right = 458.0
-margin_bottom = 685.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ColorRect" type="ColorRect" parent="ui/item_menu"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0.623529 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="actions" type="VBoxContainer" parent="ui/item_menu"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-custom_constants/separation = 0
-script = ExtResource( 10 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-element_view_model = ExtResource( 11 )
-list_path = NodePath(".")
-
-[node name="item_name" type="Control" parent="ui/item_menu/actions"]
-margin_right = 356.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 0, 80 )
-
-[node name="label" type="Label" parent="ui/item_menu/actions/item_name"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = -84.0
-custom_fonts/font = SubResource( 5 )
-text = "Póster"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="close_menu_button" type="TextureButton" parent="ui/item_menu/actions/item_name"]
-anchor_left = 0.776
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 10.0
-margin_top = 10.0
-margin_right = -10.0
-margin_bottom = -10.0
-texture_normal = ExtResource( 8 )
-expand = true
-stretch_mode = 4
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="tool" type="TextureRect" parent="ui"]
 visible = false
 margin_right = 100.0
@@ -414,6 +343,8 @@ __meta__ = {
 }
 slide_mode = 0
 end_position = Vector2( -770, 0 )
+delay = 2.0
+fixed = true
 overlay_path = NodePath("../../menu")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ui/menu/side_menu"]
@@ -476,9 +407,11 @@ margin_right = 1810.99
 margin_bottom = 1043.26
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="preload" type="Control" parent="."]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -497,6 +430,7 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -289.0
+custom_fonts/font = ExtResource( 3 )
 text = "Trying to load the game..."
 align = 1
 valign = 1
@@ -518,7 +452,6 @@ text = "Quit"
 [connection signal="start_drag" from="ui" to="." method="_on_ui_start_drag"]
 [connection signal="start_hold" from="ui" to="." method="_on_ui_start_hold"]
 [connection signal="timeout" from="ui/timer" to="ui" method="_on_timer_timeout"]
-[connection signal="pressed" from="ui/item_menu/actions/item_name/close_menu_button" to="." method="_on_close_menu_button_pressed"]
 [connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/continue" to="." method="_on_continue_pressed"]
 [connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/save_game" to="." method="_on_save_game_pressed"]
 [connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/continue_previous" to="." method="_on_continue_previous_pressed"]

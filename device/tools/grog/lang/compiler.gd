@@ -878,7 +878,7 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 			header_chain.push_back(new_header)
 			
 			if data.has(new_header):
-				print("Duplicated header '%s'" % str(header_chain))
+				print("Duplicated header 1 '%s'" % str(header_chain))
 				header_chain.pop_back()
 			else:
 				data[new_header] = {}
@@ -904,7 +904,7 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 			header_chain.push_back(new_header)
 			
 			if data.has(new_header):
-				print("Duplicated header '%s'" % str(header_chain))
+				print("Duplicated header 2 '%s'" % str(header_chain))
 			else:
 				data[new_header] = next_element
 	

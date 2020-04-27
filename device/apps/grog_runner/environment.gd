@@ -10,6 +10,10 @@ var _compiled_game = null
 
 var server = null
 
+func _process(delta):
+	if server:
+		server.update(delta)
+
 func initialize() -> Dictionary:
 	if not game_to_play:
 		return { result = false, message = "There's no game set" }

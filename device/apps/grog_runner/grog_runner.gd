@@ -42,6 +42,13 @@ func _on_client_game_ended():
 	pass # Replace with function body.
 
 
-func _on_client_music_changed():
-	pass # Replace with function body.
+func _on_client_music_changed(new_song):
+	
+	#if not $ui_layer/ui/music/toggle.pressed:
+	if new_song:
+		#$ui_layer/ui/loopin_display.play_song(new_song)
+		print("Playing song '%s'" % new_song)
+	else:
+		#$ui_layer/ui/loopin_display.stop()
+		print("Stopping music")
 

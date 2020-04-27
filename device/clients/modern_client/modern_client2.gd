@@ -83,31 +83,34 @@ func _hide_group(group_name: String):
 	
 
 #func _on_init2():
-#	if _room_parent.get_child_count() > 0 :
-#		print("Room place is not empty! Clearing it.")
-#		make_empty(_room_parent)
-
-
-#	var ret = server.start_game_request(_room_parent)
-#
-#	if not ret:
-#		print("Couldn't start game")
-#		_end_game()
-#	# else signal game_started was just received (or it will now)
-#
-#	_text.text = ""
-#
-#	_curtain.play("closed")
-#
-#	_item_menu.hide()
-#	#warning-ignore:return_value_discarded
-#	self.connect("item_selected", _item_menu, "_on_item_selected")
-#	#warning-ignore:return_value_discarded
-#	self.connect("item_deselected", _item_menu, "_on_item_deselected")
-#	_item_menu.init(self, data)
+func _start():
+	if _room_parent.get_child_count() > 0 :
+		print("Room place is not empty! Clearing it.")
+		make_empty(_room_parent)
 	
+	_side_menu.open()
+	_side_menu.fixed = false
+	
+	var ret = server.start_game_request(_room_parent)
+
+	if not ret:
+		print("Couldn't start game")
+		_end_game()
+	# else signal game_started was just received (or it will now)
+
+	_text.text = ""
+
+	_curtain.play("closed")
+
+	#_item_menu.hide()
+	#warning-ignore:return_value_discarded
+	#self.connect("item_selected", _item_menu, "_on_item_selected")
+	#warning-ignore:return_value_discarded
+	#self.connect("item_deselected", _item_menu, "_on_item_deselected")
+	#_item_menu.init(self, data)
+
 func _on_start():
-	print("TODO game started")
+	#print("TODO game started")
 	pass
 	
 func _on_end():
@@ -304,13 +307,13 @@ func _on_ui_end_drag(_position: Vector2):
 	
 	_drag_state = DragState.None
 
-func _on_item_menu_item_action(_bad_item, new_action):
-	var item = _current_item
-	var action_name = new_action.target
-	
-	_select_item(null)
-	
-	server.interact_request(item, action_name)
+#func _on_item_menu_item_action(_bad_item, new_action):
+#	var item = _current_item
+#	var action_name = new_action.target
+#
+#	_select_item(null)
+#
+#	server.interact_request(item, action_name)
 
 func _get_inventory_item_at(position: Vector2):
 	var ret = _inventory.get_item_at(position)
@@ -336,6 +339,8 @@ func _on_new_game_pressed():
 		return
 	
 	_start_server()
+	
+	_start()
 	
 
 func _on_load_game_pressed():

@@ -8,12 +8,14 @@ enum SlideMode {
 export (SlideMode) var slide_mode = SlideMode.Vertical
 export (Vector2) var start_position
 export (Vector2) var end_position
+export (float) var delay = 0.5
 export (float) var scale = 1.0
 export (float) var amplitude = 0.07
 export (float) var min_delta = 0.5
 
 export (bool) var initially_at_start = true
 
+export (bool) var fixed = false
 export (bool) var start_enabled = true
 export (bool) var end_enabled = true
 
@@ -48,6 +50,11 @@ func _set_level(new_level: float):
 	rect_position = init_pos
 
 func slide(delta: Vector2) -> bool:
+	if fixed:
+		return _position_is_initial
+	
+	$tween.stop_all() # self, "_set_level"
+	
 	_moving = true
 	
 	var dy: float
@@ -94,12 +101,16 @@ func drop():
 		_interpolate_position(1.0)
 
 func _interpolate_position(final_value: float):
+	var scale = abs(final_value - _current_level)
+	if scale == 0:
+		return
+		
 	$tween.interpolate_method(
 		self,
 		"_set_level",
 		_current_level,
 		final_value,
-		0.3,
+		delay * scale,
 		Tween.TRANS_BACK,
 		Tween.EASE_OUT
 	)

@@ -38,7 +38,7 @@ func has_sequence(headers: Array) -> bool:
 	
 	return _has_sequence(headers)
 
-func get_sequence_with_parameter(headers: Array, param):
+func get_sequence_with_parameter(_headers: Array, _param):
 	print("Not implemented")
 	return null
 
@@ -49,11 +49,11 @@ func get_sequence(headers: Array):
 	
 	return _get_sequence(headers)
 
-func _get_sequence(headers: Array):
+func _get_sequence(_headers: Array):
 	print("Override _get_sequence")
 	return null
 	
-func _has_sequence(headers: Array) -> bool:
+func _has_sequence(_headers: Array) -> bool:
 	print("Override _has_sequence")
 	return false
 	

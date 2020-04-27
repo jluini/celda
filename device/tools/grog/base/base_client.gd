@@ -14,8 +14,6 @@ func init(_environment):
 	environment = _environment
 	data = environment.get_game_data()
 	
-	#server.connect("game_server_event", self, "on_server_event")
-	
 	_on_init()
 
 func show_error(_msg: String):
@@ -146,4 +144,4 @@ func _start_server():
 	assert(not server)
 	
 	server = environment.new_game()
-	
+	server.connect("game_server_event", self, "on_server_event")

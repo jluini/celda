@@ -754,7 +754,7 @@ func start_game_request(p_root_node: Node) -> bool:
 	# initialize grog game
 	
 	_set_state(ServerState.Initializing)
-	
+	print(1)
 	if _run_compiled(["main", "init"]):
 		return true
 	else:
@@ -1137,7 +1137,7 @@ func _run_compiled(sequence_header: Array) -> bool:
 	if data.has_sequence(sequence_header):
 		var sequence = data.get_sequence(sequence_header)
 		
-		return _run_sequence(sequence.statements)
+		return _run_sequence(sequence.instructions)
 	else:
 		print("Sequence '%s' not found" % str(sequence_header))
 		return false
@@ -1147,13 +1147,13 @@ func _run_compiled(sequence_header: Array) -> bool:
 #	@FIND ITEMS AND RESOURCES
 
 func _get_room_resource(room_name):
-	return _get_resource_in(data.get_all_rooms(), room_name)
+	return _get_resource_in(data.get_rooms(), room_name)
 
 func _get_actor_resource(actor_name):
-	return _get_resource_in(data.get_all_actors(), actor_name)
+	return _get_resource_in(data.get_actors(), actor_name)
 
-func _get_script_resource(script_name):
-	return _get_resource_in(data.get_all_scripts(), script_name)
+#func _get_script_resource(script_name):
+#	return _get_resource_in(data.get_all_scripts(), script_name)
 
 func _get_resource_in(list, elem_name):
 	for i in range(list.size()):
