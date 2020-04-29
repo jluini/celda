@@ -1,0 +1,82 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://tools/modular/theme_switcher.gd" type="Script" id=3]
+[ext_resource path="res://tools/theming/theme_selector.tscn" type="PackedScene" id=4]
+
+[node name="theme_switcher" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 65.0
+margin_right = -4.0
+margin_bottom = -4.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="background" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.72549, 0.180392, 0.180392, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="demo" type="Control" parent="."]
+anchor_right = 0.5
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="label" type="Label" parent="demo"]
+anchor_right = 1.0
+anchor_bottom = 0.2
+text = "Texto de ejemplo"
+align = 1
+valign = 1
+
+[node name="button" type="Button" parent="demo"]
+anchor_top = 0.2
+anchor_right = 1.0
+anchor_bottom = 0.4
+text = "Botón de ejemplo"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="theme_selector" parent="demo" instance=ExtResource( 4 )]
+anchor_top = 0.4
+anchor_right = 1.0
+anchor_bottom = 0.8
+margin_right = 0.0
+margin_bottom = 0.0
+
+[node name="theme_list" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="theme_selector" parent="theme_list" instance=ExtResource( 4 )]
+margin_bottom = 199.0
+
+[node name="theme_selector2" parent="theme_list" instance=ExtResource( 4 )]
+margin_top = 203.0
+margin_bottom = 402.0
+
+[node name="theme_selector3" parent="theme_list" instance=ExtResource( 4 )]
+margin_top = 406.0
+margin_bottom = 605.0
+
+[node name="theme_selector4" parent="theme_list" instance=ExtResource( 4 )]
+margin_top = 609.0
+margin_bottom = 808.0
+
+[node name="theme_selector5" parent="theme_list" instance=ExtResource( 4 )]
+margin_top = 812.0

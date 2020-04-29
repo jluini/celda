@@ -1,11 +1,10 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
 [ext_resource path="res://clients/default_client/sample_images/arrow_down2.png" type="Texture" id=3]
 [ext_resource path="res://clients/default_client/sample_images/arrow_up2.png" type="Texture" id=4]
 [ext_resource path="res://clients/modern_client/lupa-100x100.png" type="Texture" id=5]
-[ext_resource path="res://tools/fonts/pixel_intv.otf" type="DynamicFontData" id=6]
 [ext_resource path="res://clients/modern_client/clicking.gd" type="Script" id=7]
 [ext_resource path="res://clients/modern_client/close.png" type="Texture" id=8]
 [ext_resource path="res://clients/modern_client/new_inventory/open_bag.png" type="Texture" id=9]
@@ -13,7 +12,6 @@
 [ext_resource path="res://clients/modern_client/action_button.tscn" type="PackedScene" id=11]
 [ext_resource path="res://clients/modern_client/item_menu.gd" type="Script" id=12]
 [ext_resource path="res://clients/modern_client/inventory.gd" type="Script" id=13]
-[ext_resource path="res://tools/ui_tools/label.gd" type="Script" id=14]
 [ext_resource path="res://clients/modern_client/inventory_item.tscn" type="PackedScene" id=15]
 [ext_resource path="res://apps/room_tester/rounded_rect.png" type="Texture" id=16]
 [ext_resource path="res://clients/modern_client/new_inventory/slider.gd" type="Script" id=17]
@@ -58,13 +56,6 @@ font_data = ExtResource( 19 )
 
 [sub_resource type="Theme" id=4]
 default_font = SubResource( 3 )
-
-[sub_resource type="DynamicFont" id=5]
-size = 18
-font_data = ExtResource( 6 )
-
-[sub_resource type="Theme" id=6]
-default_font = SubResource( 5 )
 
 [sub_resource type="Animation" id=7]
 tracks/0/type = "value"
@@ -124,10 +115,6 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
 }
 
-[sub_resource type="DynamicFont" id=11]
-size = 45
-font_data = ExtResource( 6 )
-
 [node name="modern_display" type="Node2D"]
 script = ExtResource( 1 )
 _room_parent_path = NodePath("room_parent")
@@ -180,37 +167,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="buttons" type="Control" parent="ui"]
-visible = false
-mouse_filter = 2
-theme = SubResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="quit_button" type="Button" parent="ui/buttons"]
-margin_right = 140.0
-margin_bottom = 121.0
-text = "RT_QUIT"
-script = ExtResource( 14 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="skip_button" type="Button" parent="ui/buttons"]
-visible = false
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -239.05
-margin_top = 208.6
-margin_right = -15.05
-margin_bottom = 389.6
-disabled = true
-text = "SKIP"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="inventory_base" type="Control" parent="ui"]
 anchor_left = 0.139
 anchor_top = 1.0
@@ -224,9 +180,6 @@ script = ExtResource( 17 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-initial_position = Vector2( 267, 1080 )
-other_position = Vector2( 267, 880 )
-amplitude = 0.07
 
 [node name="inventory_button" type="TextureButton" parent="ui/inventory_base"]
 self_modulate = Color( 1, 1, 1, 0 )
@@ -366,7 +319,6 @@ rect_min_size = Vector2( 0, 80 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -84.0
-custom_fonts/font = SubResource( 11 )
 text = "Póster"
 align = 1
 valign = 1
@@ -418,9 +370,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 slide_mode = 0
-initial_position = Vector2( -650, 540 )
-other_position = Vector2( 50, 540 )
-amplitude = 0.07
 overlay_path = NodePath("../overlay")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ui/side_menu"]
@@ -539,8 +488,6 @@ __meta__ = {
 [connection signal="lock_hold" from="ui" to="." method="_on_ui_lock_hold"]
 [connection signal="start_drag" from="ui" to="." method="_on_ui_start_drag"]
 [connection signal="start_hold" from="ui" to="." method="_on_ui_start_hold"]
-[connection signal="pressed" from="ui/buttons/quit_button" to="." method="_on_quit_button_pressed"]
-[connection signal="pressed" from="ui/buttons/skip_button" to="." method="_on_skip_button_pressed"]
 [connection signal="pressed" from="ui/inventory_base/inventory_button" to="." method="_on_inventory_button_pressed"]
 [connection signal="timeout" from="ui/timer" to="ui" method="_on_timer_timeout"]
 [connection signal="item_action" from="ui/item_menu" to="." method="_on_item_menu_item_action"]

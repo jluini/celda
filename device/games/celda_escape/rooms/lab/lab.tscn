@@ -9,8 +9,6 @@
 [ext_resource path="res://games/celda_escape/rooms/lab/floating_guy.gd" type="Script" id=7]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/Camilla.png" type="Texture" id=8]
 
-
-
 [sub_resource type="Animation" id=1]
 resource_name = "default"
 length = 8.0

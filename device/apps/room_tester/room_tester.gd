@@ -104,22 +104,22 @@ func play_game(display_resource: Resource): #, actor, starting_index: int):
 		print(e.message)
 		#client.show_error(e.message if e.message else "error...")
 
-	var is_valid = _grog_game.init_game(_compiler, game_to_load, GameServer.StartMode.Default, 0)
+	#var is_valid = _grog_game.init_game(_compiler, game_to_load, GameServer.StartMode.Default, 0)
 
 	#if actor:
 	#	_grog_game.set_player(actor)
 
-	if is_valid:
-		_ui.hide()
-		
-		current_display.init(_grog_game)
-	else:
-		print("Invalid start")
+#	if is_valid:
+#		_ui.hide()
+#
+#		current_display.init(_grog_game)
+#	else:
+#		print("Invalid start")
 	
 func _on_game_ended():
 	$ui_layer/ui/loopin_display.stop_now()
-	_grog_game = null
-	
+	#_grog_game = null
+		
 	remove_child(current_display)
 	current_display.queue_free()
 	current_display = null

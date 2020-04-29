@@ -3,7 +3,7 @@ extends "res://tools/grog/base/base_client.gd"
 signal item_selected # (item)
 signal item_deselected # (item)
 
-onready var _room_parent = $room_parent/viewport_container/viewport
+onready var _room_parent = $viewport_container/viewport
 onready var _preload = $preload
 #onready var _ui = $ui
 

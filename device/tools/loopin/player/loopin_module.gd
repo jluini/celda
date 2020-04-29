@@ -1,4 +1,4 @@
-extends Control
+extends "res://tools/modular/module.gd"
 
 export (Resource) var loopin_set
 
@@ -19,7 +19,10 @@ var _state_label
 var _state_color
 var _end_mode: MenuButton
 
-func _ready():
+# Module methods
+
+#func _ready():
+func _on_initialize() -> Dictionary:
 	_loopin = $loopin
 	_songs = loopin_set.songs if loopin_set else []
 	
@@ -53,6 +56,25 @@ func _ready():
 	var _r3 = $divisions/fedeout_length/h_slider.connect("value_changed", self, "_on_fedeout_length_value_changed")
 	var _r4 = $divisions/afterfinal_length/h_slider.connect("value_changed", self, "_on_afterfinal_length_value_changed")
 	
+	return { valid = true }
+
+func get_module_name() -> String:
+	return "loopin"
+
+func get_signals() -> Array:
+	return [{
+		category = "music",
+		signal_name = "start",
+		target = self,
+		method_name = "play_song"
+	}, {
+		category = "music",
+		signal_name = "stop",
+		target = self,
+		method_name = "stop"
+	}]
+
+# TODO classify behind this
 	
 func _on_song_started(song):
 	_title.text = song.get_name()

@@ -1,27 +1,13 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://tools/loopin/loopin.gd" type="Script" id=1]
 [ext_resource path="res://tools/loopin/player/song_list.gd" type="Script" id=2]
 [ext_resource path="res://tools/loopin/player/end_mode_list.gd" type="Script" id=3]
-[ext_resource path="res://tools/loopin/player/loopin_display.gd" type="Script" id=4]
-[ext_resource path="res://fonts/pixel_intv.otf" type="DynamicFontData" id=5]
-[ext_resource path="res://tools/fonts/pixel_intv.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://tools/loopin/player/loopin_module.gd" type="Script" id=4]
 
-[sub_resource type="DynamicFont" id=2]
-size = 14
-font_data = ExtResource( 6 )
-
-[sub_resource type="Theme" id=3]
-default_font = SubResource( 2 )
-
-[sub_resource type="DynamicFont" id=4]
-size = 36
-font_data = ExtResource( 5 )
-
-[node name="loopin_display" type="PanelContainer"]
-margin_right = 360.0
-margin_bottom = 251.0
-theme = SubResource( 3 )
+[node name="loopin_module" type="PanelContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
 script = ExtResource( 4 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -36,14 +22,14 @@ fedeout_length = 3.0
 [node name="divisions" type="VBoxContainer" parent="."]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 353.0
-margin_bottom = 312.0
+margin_right = 1913.0
+margin_bottom = 1073.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="info" type="Control" parent="divisions"]
-margin_right = 346.0
+margin_right = 1906.0
 margin_bottom = 75.0
 rect_min_size = Vector2( 0, 75 )
 __meta__ = {
@@ -54,7 +40,6 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -13.0
-custom_fonts/font = SubResource( 4 )
 text = "(title)"
 align = 2
 valign = 1
@@ -104,7 +89,7 @@ __meta__ = {
 
 [node name="control" type="Control" parent="divisions"]
 margin_top = 79.0
-margin_right = 346.0
+margin_right = 1906.0
 margin_bottom = 139.0
 rect_min_size = Vector2( 0, 60 )
 __meta__ = {
@@ -153,7 +138,7 @@ __meta__ = {
 
 [node name="control2" type="Control" parent="divisions"]
 margin_top = 143.0
-margin_right = 346.0
+margin_right = 1906.0
 margin_bottom = 203.0
 rect_min_size = Vector2( 0, 60 )
 
@@ -199,7 +184,7 @@ __meta__ = {
 
 [node name="separation_length" type="Control" parent="divisions"]
 margin_top = 207.0
-margin_right = 346.0
+margin_right = 1906.0
 margin_bottom = 237.0
 rect_min_size = Vector2( 0, 30 )
 
@@ -236,7 +221,7 @@ __meta__ = {
 
 [node name="fedeout_length" type="Control" parent="divisions"]
 margin_top = 241.0
-margin_right = 346.0
+margin_right = 1906.0
 margin_bottom = 271.0
 rect_min_size = Vector2( 0, 30 )
 
@@ -274,7 +259,7 @@ __meta__ = {
 
 [node name="afterfinal_length" type="Control" parent="divisions"]
 margin_top = 275.0
-margin_right = 346.0
+margin_right = 1906.0
 margin_bottom = 305.0
 rect_min_size = Vector2( 0, 30 )
 

@@ -1,0 +1,39 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://tools/modular/modular.gd" type="Script" id=1]
+[ext_resource path="res://themes/mortified/mortified.tres" type="Theme" id=4]
+
+[node name="modular" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 4 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ui" type="Control" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="modules" type="TabContainer" parent="ui"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 200.0
+margin_top = 200.0
+margin_right = -200.0
+margin_bottom = -200.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="quit_button" type="Button" parent="ui"]
+margin_left = 754.169
+margin_top = 71.0897
+margin_right = 1174.17
+margin_bottom = 146.09
+text = "QUIT"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="ui/quit_button" to="." method="_on_quit_button_pressed"]

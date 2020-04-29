@@ -1,0 +1,9 @@
+[gd_resource type="Theme" load_steps=3 format=2]
+
+[ext_resource path="res://themes/subtlety/subtlety_36.tres" type="DynamicFont" id=1]
+[ext_resource path="res://themes/subtlety/subtlety_150.tres" type="DynamicFont" id=2]
+
+[resource]
+resource_name = "subtlety"
+default_font = ExtResource( 1 )
+Label/fonts/huge = ExtResource( 2 )

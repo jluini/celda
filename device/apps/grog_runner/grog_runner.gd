@@ -21,7 +21,7 @@ func _ready():
 		client.init(environment)
 	else:
 		client.show_error(e.message if e.message else "error...")
-		
+		Theme
 	
 #func _on_environment_ready():
 #	client.init(environment)

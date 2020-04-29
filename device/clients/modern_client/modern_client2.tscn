@@ -84,15 +84,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="room_parent" type="Control" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="viewport_container" type="ViewportContainer" parent="room_parent"]
+[node name="viewport_container" type="ViewportContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -101,14 +93,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="viewport" type="Viewport" parent="room_parent/viewport_container"]
+[node name="viewport" type="Viewport" parent="viewport_container"]
 size = Vector2( 1920, 1080 )
 size_override_stretch = true
 handle_input_locally = false
 usage = 0
 render_target_update_mode = 3
 
-[node name="color_rect" type="ColorRect" parent="room_parent/viewport_container/viewport"]
+[node name="empty_room" type="ColorRect" parent="viewport_container/viewport"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -358,37 +350,42 @@ __meta__ = {
 [node name="continue" parent="ui/menu/side_menu/VBoxContainer" groups=[
 "only_if_playing",
 ] instance=ExtResource( 21 )]
-margin_top = 80.0
-margin_bottom = 230.0
+margin_top = 3.0
+margin_bottom = 153.0
 caption = "Continue"
 
 [node name="save_game" parent="ui/menu/side_menu/VBoxContainer" groups=[
 "only_if_playing",
 ] instance=ExtResource( 21 )]
-margin_top = 234.0
-margin_bottom = 384.0
+margin_top = 157.0
+margin_bottom = 307.0
 caption = "Save game"
 
 [node name="continue_previous" parent="ui/menu/side_menu/VBoxContainer" groups=[
 "only_if_saved",
 ] instance=ExtResource( 21 )]
-margin_top = 388.0
-margin_bottom = 538.0
+margin_top = 311.0
+margin_bottom = 461.0
 caption = "Continue play"
 
 [node name="new_game" parent="ui/menu/side_menu/VBoxContainer" instance=ExtResource( 21 )]
-margin_top = 542.0
-margin_bottom = 692.0
+margin_top = 465.0
+margin_bottom = 615.0
 caption = "New game"
 
 [node name="load_game" parent="ui/menu/side_menu/VBoxContainer" instance=ExtResource( 21 )]
-margin_top = 696.0
-margin_bottom = 846.0
+margin_top = 619.0
+margin_bottom = 769.0
 caption = "Load game"
 
+[node name="options" parent="ui/menu/side_menu/VBoxContainer" instance=ExtResource( 21 )]
+margin_top = 773.0
+margin_bottom = 923.0
+caption = "Options"
+
 [node name="quit" parent="ui/menu/side_menu/VBoxContainer" instance=ExtResource( 21 )]
-margin_top = 850.0
-margin_bottom = 1000.0
+margin_top = 927.0
+margin_bottom = 1077.0
 caption = "Quit"
 
 [node name="tween" type="Tween" parent="ui/menu/side_menu"]
@@ -412,6 +409,7 @@ __meta__ = {
 }
 
 [node name="preload" type="Control" parent="."]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
@@ -457,6 +455,7 @@ text = "Quit"
 [connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/continue_previous" to="." method="_on_continue_previous_pressed"]
 [connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/new_game" to="." method="_on_new_game_pressed"]
 [connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/load_game" to="." method="_on_load_game_pressed"]
+[connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/options" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="ui/menu/back_button" to="." method="_on_back_button_pressed"]
 

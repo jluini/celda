@@ -101,7 +101,7 @@ func drop():
 		_interpolate_position(1.0)
 
 func _interpolate_position(final_value: float):
-	var scale = abs(final_value - _current_level)
+	var time_scale = abs(final_value - _current_level)
 	if scale == 0:
 		return
 		
@@ -110,7 +110,7 @@ func _interpolate_position(final_value: float):
 		"_set_level",
 		_current_level,
 		final_value,
-		delay * scale,
+		delay * time_scale,
 		Tween.TRANS_BACK,
 		Tween.EASE_OUT
 	)
