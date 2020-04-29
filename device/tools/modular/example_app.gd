@@ -4,11 +4,11 @@ func _on_initialize() -> Dictionary:
 	return { valid = true }
 
 func get_module_name() -> String:
-	return "example-module"
+	return "example-app"
 
 func get_signals() -> Array:
 	return []
-	
 
-func _on_play_uajari_pressed():
-	_modular.broadcast("music", "start", ["uajari"])
+
+func _on_show_modules_pressed():
+	_modular.show_modules()

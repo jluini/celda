@@ -1,21 +1,36 @@
-extends Node
+extends "res://tools/modular/module.gd"
 
 signal music_changed
 
 signal game_ended
 
-var environment
-var server = null # TODO
-var data
+var server
+#var server = null # TODO
+var game_instance = null
+#var data
 
 var _loaded_items = []
 
-func init(_environment):
-	environment = _environment
-	data = environment.get_game_data()
+func _on_initialize() -> Dictionary:
+	
+	server = _modular.get_module("grog-server")
+	if not server:
+		return { valid = false, message = "'grog-server' is required"}
 	
 	_on_init()
+	
+	return { valid = true }
+#func init(_server):
+#	server = _server
+#	data = server.get_game_script()
+	
 
+func get_module_name() -> String:
+	return "grog-client"
+
+func get_signals() -> Array:
+	return []
+	
 func show_error(_msg: String):
 	print("Override show_error")
 
@@ -140,8 +155,8 @@ func _on_item_disabled(_item):
 
 
 
-func _start_server():
-	assert(not server)
+func _start_game():
+	assert(not game_instance)
 	
-	server = environment.new_game()
-	server.connect("game_server_event", self, "on_server_event")
+	game_instance = server.new_game()
+	game_instance.connect("game_server_event", self, "on_server_event")

@@ -1,9 +1,17 @@
 extends Control
 
-#export (Array, Theme) var themes
-#export (int) var current_theme
+enum StartMode {
+	Welcome,
+	FirstApp
+}
+export (StartMode) var start_mode
+
+var modules = {}
 
 var _modules: Array
+var _apps: Array
+var _current = -1
+
 var _broadcast_listeners = {}
 
 func _ready():
@@ -13,41 +21,108 @@ func _ready():
 	
 	for index in range(_modules.size()):
 		var module: Control = _modules[index]
-		var name = module.get_name()
-		
-		_log("initializing '%s'" % name)
-		
-		var result = module.initialize(self)
-		
+		var result = _initialize_module(module)
 		if not result.valid:
 			valid = false
-			_log_error("error initializing '%s'" % name, 1)
+			_log_error("can't initialize '%s'" % module.get_module_name())
 			_log_error(result.message)
 			break
+		$ui/modules.set_tab_title(index + 1, module.get_module_name())
 		
-		var ls = module.get_signals()
-		
-		for l in ls:
-			var key = _signal_key(l.category, l.signal_name)
-			
-			if not _broadcast_listeners.has(key):
-				_broadcast_listeners[key] = []
-			
-			_broadcast_listeners[key].append({
-				target = l.target,
-				method_name = l.method_name
-			})
-		
-		if index != _modules.size() - 1:
-			module.hide()
-		
+
+	var _topbar = $ui/topbar
 	
-	if _modules.size() == 0:
+	_apps = _get_apps()
+	for index in range(_apps.size()):
+		var app: Control = _apps[index]
+		var result = _initialize_module(app)
+		if not result.valid:
+			valid = false
+			_log_error("can't initialize '%s'" % app.get_module_name())
+			_log_error(result.message)
+			break
+		app.hide()
+		
+		var app_thumbnail = preload("res://tools/modular/top_button.tscn").instance()
+		var button = app_thumbnail.get_node("button")
+		button.text = app.get_module_name()
+		button.connect("pressed", self, "_on_app_thumbnail_pressed", [index])
+		
+		_topbar.add_child(app_thumbnail)
+	
+	match start_mode:
+		StartMode.Welcome:
+			pass
+		
+		StartMode.FirstApp:
+			if _apps:
+				open_app(0)
+				
+	
+	var total = _modules.size() + _apps.size()
+	
+	if total == 0:
 		_log("No modules")
 	else:
 		if valid:
-			_log("%s modules initialized successfully" % _modules.size())
+			_log("%s modules initialized successfully (%s + %s)" % [total, _apps.size(), _modules.size()])
 
+func get_module(module_name: String):
+	return modules.get(module_name, null)
+
+func show_modules():
+	if _current == -1:
+		_log("already in modules")
+		return true
+	
+	_apps[_current].hide()
+	$ui.show()
+	_current = -1
+
+func open_app(index: int):
+	if index < 0 or index >= _apps.size():
+		_log_error("invalid app index %s (%s apps)" % [index, _apps.size()])
+		return false
+	
+	if _current == index:
+		_log("already in app %s" % [index])
+		return true
+	
+	$ui.hide()
+	_current = index
+	_apps[index].show()
+	
+	return true
+
+func _initialize_module(module: Node) -> Dictionary:
+	var module_name = module.get_module_name()
+	
+	_log("initializing '%s'" % module_name)
+	
+	if modules.has(module_name):
+		return { valid = false, message = "duplicated module '%s'" % module_name}
+	
+	var result = module.initialize(self)
+	
+	if not result.valid:
+		return result
+	
+	var ls = module.get_signals()
+	
+	for l in ls:
+		var key = _signal_key(l.category, l.signal_name)
+		
+		if not _broadcast_listeners.has(key):
+			_broadcast_listeners[key] = []
+		
+		_broadcast_listeners[key].append({
+			target = l.target,
+			method_name = l.method_name
+		})
+	
+	modules[module_name] = module
+
+	return { valid = true }
 
 func change_theme(new_theme: Theme):
 	set_theme(new_theme)
@@ -89,7 +164,20 @@ func _severity_str(severity: int) -> String:
 	
 
 func _get_modules():
-	return $ui/modules.get_children()
+	var children = $ui/modules.get_children()
+	var ret = []
+	for index in range(1, children.size()):
+		var c = children[index]
+		ret.append(c)
+	return ret
+	
+func _get_apps():
+	var children = $apps.get_children()
+	var ret = []
+	for index in range(0, children.size()):
+		var c = children[index]
+		ret.append(c)
+	return ret
 	
 func broadcast(category: String, signal_name: String, args: Array):
 	var key = _signal_key(category, signal_name)
@@ -107,3 +195,13 @@ func _signal_key(category: String, signal_name: String) -> String:
 
 func _on_quit_button_pressed():
 	get_tree().quit()
+
+func _on_app_thumbnail_pressed(index):
+	print("Open app index %s" % index)
+	open_app(index)
+	
+func make_empty(node: Node):
+	while(node.get_child_count() > 0):
+		var first_child = node.get_child(0)
+		node.remove_child(first_child)
+		first_child.queue_free()

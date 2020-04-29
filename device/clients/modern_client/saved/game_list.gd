@@ -5,14 +5,14 @@ export (PackedScene) var entry_model
 func _ready():
 	pass
 
-func init(environment):
+func init(server):
 	while get_child_count() > 1:
 		print("Removing")
 		var c = get_child(1)
 		remove_child(c)
 		c.queue_free()
 	
-	var saved_games = environment.get_saved_games()
+	var saved_games = server.get_saved_games()
 	
 	if saved_games:
 		get_child(0).hide()

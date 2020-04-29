@@ -52,7 +52,7 @@ func show_error(error_message: String):
 
 func _on_init():
 	var saved_game = null
-	assert(not not environment)
+	assert(not not server)
 	
 	_status.text = ""
 	
@@ -228,7 +228,7 @@ func _on_ui_click(position: Vector2):
 	
 	var item = _get_scene_item_at(world_position)
 	if item:
-		server.interact_request(item, data.default_action)
+		server.interact_request(item, server.game_script.default_action)
 		#if _inventory_visible:
 		#	_hide_inventory()
 	
@@ -338,7 +338,7 @@ func _on_new_game_pressed():
 		print("Replay not implemented!")
 		return
 	
-	_start_server()
+	_start_game()
 	
 	_start()
 	
@@ -347,7 +347,7 @@ func _on_load_game_pressed():
 	_load_button.set_pressed(true)
 	_back_button.show()
 	_status.text = "loading..."
-	_game_list.init(environment)
+	_game_list.init(server)
 	_game_list.show()
 	_status.text = ""
 	_tabs.show_named("game_list")

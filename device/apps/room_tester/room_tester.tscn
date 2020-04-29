@@ -6,10 +6,11 @@
 [ext_resource path="res://tools/loopin/player/loopin_module.tscn" type="PackedScene" id=6]
 [ext_resource path="res://apps/room_tester/object_list.tscn" type="PackedScene" id=7]
 [ext_resource path="res://apps/room_tester/rounded_rect.png" type="Texture" id=8]
-[ext_resource path="res://tools/grog/newcore/environment.tscn" type="PackedScene" id=9]
+[ext_resource path="res://tools/grog/newcore/server.tscn" type="PackedScene" id=9]
 [ext_resource path="res://apps/room_tester/play_button_on.png" type="Texture" id=10]
 [ext_resource path="res://apps/room_tester/play_button_off.png" type="Texture" id=11]
 [ext_resource path="res://games/celda_escape/music_set.tres" type="Resource" id=15]
+
 
 [sub_resource type="DynamicFont" id=1]
 size = 18
