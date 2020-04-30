@@ -21,7 +21,10 @@ onready var _tabs = $ui/menu/tab_container/tabs
 onready var _game_list = $ui/menu/tab_container/tabs/game_list/v_box_container
 onready var _load_button = $ui/menu/side_menu/VBoxContainer/load_game
 onready var _quit_button = $ui/menu/side_menu/VBoxContainer/quit
+onready var _options_button = $ui/menu/side_menu/VBoxContainer/options
 onready var _back_button = $ui/menu/back_button
+
+var _pressed_button = null
 
 #onready var _tool: Control = $ui/tool
 
@@ -39,8 +42,6 @@ enum DragState {
 }
 var _drag_state = DragState.None
 
-
-#var server = null # TODO
 
 func _pre_init():
 	#_ui.hide()
@@ -90,8 +91,9 @@ func _start():
 	
 	_side_menu.open()
 	_side_menu.fixed = false
+	_side_menu.end_enabled = true
 	
-	var ret = server.start_game_request(_room_parent)
+	var ret = game_instance.start_game_request(_room_parent)
 
 	if not ret:
 		print("Couldn't start game")
@@ -110,7 +112,7 @@ func _start():
 	#_item_menu.init(self, data)
 
 func _on_start():
-	#print("TODO game started")
+	print("TODO game started")
 	pass
 	
 func _on_end():
@@ -181,7 +183,7 @@ func _on_quit_button_pressed():
 		return
 	
 	print("Quit delayed")
-	server.stop_request()
+	game_instance.stop_request()
 
 ###
 
@@ -220,6 +222,9 @@ func _on_ui_click(position: Vector2):
 	#if _inventory_visible:
 	#	_hide_inventory()
 	
+	if not game_instance:
+		return
+	
 	if _current_item != null:
 		_select_item(null)
 		return
@@ -228,7 +233,7 @@ func _on_ui_click(position: Vector2):
 	
 	var item = _get_scene_item_at(world_position)
 	if item:
-		server.interact_request(item, server.game_script.default_action)
+		game_instance.interact_request(item, server.game_script.default_action)
 		#if _inventory_visible:
 		#	_hide_inventory()
 	
@@ -240,11 +245,11 @@ func _on_ui_click(position: Vector2):
 		else:
 			#if _inventory_visible:
 			#	_hide_inventory()
-			if server and server.is_navigable(world_position):
+			if game_instance.is_navigable(world_position):
 				#$cursor.position = world_position
 				#$cursor/animation.play("default")
 				#$cursor/animation.play("go")
-				server.go_to_request(world_position)
+				game_instance.go_to_request(world_position)
 	
 func _on_ui_start_hold(position: Vector2):
 	#if _inventory_visible:
@@ -284,6 +289,8 @@ func _on_ui_drag(position: Vector2):
 	
 	var delta = position - _initial_drag_position
 	
+	#print("drag %s" % delta)
+	
 	if abs(delta.x) > abs(delta.y):
 		delta.y = 0
 		_initial_drag_position.y = position.y
@@ -291,12 +298,17 @@ func _on_ui_drag(position: Vector2):
 		delta.x = 0
 		_initial_drag_position.x = position.x
 	
-	var menu_is_open = _side_menu.slide(delta)
-	if menu_is_open and _inventory_base._moving:
-		_inventory_base.drop()
+	# TODO fix inventory
 	
-	if not menu_is_open:
-		_inventory_base.slide(delta)
+#	var menu_is_open = _side_menu.slide(delta)
+#	if menu_is_open and _inventory_base._moving:
+#		_inventory_base.drop()
+#
+#	if not menu_is_open:
+#		_inventory_base.slide(delta)
+
+	var _m1 = _side_menu.slide(delta)
+	var _m2 = _inventory_base.slide(delta)
 	
 func _on_ui_end_drag(_position: Vector2):
 	if _drag_state != DragState.Dragging:
@@ -313,7 +325,7 @@ func _on_ui_end_drag(_position: Vector2):
 #
 #	_select_item(null)
 #
-#	server.interact_request(item, action_name)
+#	game_instance.interact_request(item, action_name)
 
 func _get_inventory_item_at(position: Vector2):
 	var ret = _inventory.get_item_at(position)
@@ -321,7 +333,7 @@ func _get_inventory_item_at(position: Vector2):
 	return ret
 
 func _on_inventory_button_pressed():
-	_inventory_base.toggle()
+	pass#_inventory_base.toggle()
 
 
 func _on_continue_pressed():
@@ -334,7 +346,7 @@ func _on_continue_previous_pressed():
 	pass # Replace with function body.
 
 func _on_new_game_pressed():
-	if server:
+	if game_instance:
 		print("Replay not implemented!")
 		return
 	
@@ -344,7 +356,14 @@ func _on_new_game_pressed():
 	
 
 func _on_load_game_pressed():
+	if _pressed_button == _load_button:
+		return
+	
+	_close_all()
+	
 	_load_button.set_pressed(true)
+	_pressed_button = _load_button
+	
 	_back_button.show()
 	_status.text = "loading..."
 	_game_list.init(server)
@@ -352,9 +371,31 @@ func _on_load_game_pressed():
 	_status.text = ""
 	_tabs.show_named("game_list")
 
+func _on_options_pressed():
+	if _pressed_button == _options_button:
+		return
+	
+	_close_all()
+	
+	#_options_button.set_pressed(true)
+	#_pressed_button = _options_button
+	
+	_modular.show_modules()
+
+func _close_all():
+	if _pressed_button:
+		_pressed_button.set_pressed(false)
+		
+		if _pressed_button == _load_button:
+			_go_back()
+		
+		_pressed_button = null
+
 func _on_quit_pressed():
-	_load_button.set_pressed(false)
+	_close_all()
+	
 	_quit_button.set_pressed(true)
+	_pressed_button = _quit_button
 	
 	# TODO!!
 	
@@ -362,6 +403,8 @@ func _on_quit_pressed():
 
 
 func _on_back_button_pressed():
+	_close_all()
+
+func _go_back():
 	_tabs.show_named("title")
-	_load_button.set_pressed(false)
 	_back_button.hide()

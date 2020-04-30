@@ -8,6 +8,7 @@ export (Array, Resource) var rooms
 
 export (Array, Resource) var actors
 export (Resource) var inventory_items_scene
+export (String) var default_action
 
 var _valid = false
 

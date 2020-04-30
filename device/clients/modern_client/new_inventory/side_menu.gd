@@ -11,9 +11,7 @@ func _get_overlay() -> Control:
 			assert(false)
 	return _overlay
 
-func _set_level(new_level: float):
-	._set_level(new_level)
-	
+func _on_level_set(new_level: float):
 	new_level = 1.0 - new_level
 	
 	if new_level <= 0.2:

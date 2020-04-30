@@ -754,7 +754,7 @@ func start_game_request(p_root_node: Node) -> bool:
 	# initialize grog game
 	
 	_set_state(ServerState.Initializing)
-	print(1)
+	
 	if _run_compiled(["main", "init"]):
 		return true
 	else:

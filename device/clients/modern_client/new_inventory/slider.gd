@@ -41,18 +41,23 @@ func _ready():
 	_current_level = 0.0 if _position_is_initial else 1.0
 	_moving = false
 	
-	# TODO why does this fail??? initialization problems?
 	_set_level(_current_level)
 
 func _set_level(new_level: float):
 	_current_level = new_level
 	var init_pos = start_position + new_level * (end_position - start_position)
 	rect_position = init_pos
+	#print("_set_level(%s, %s, %s, %s)" % [new_level, from_tween, get_name(), init_pos])
+	_on_level_set(new_level)
+
+func _on_level_set(_new_level: float):
+	pass # Override me
 
 func slide(delta: Vector2) -> bool:
 	if fixed:
 		return _position_is_initial
 	
+	# TODO check this
 	$tween.stop_all() # self, "_set_level"
 	
 	_moving = true
@@ -66,7 +71,7 @@ func slide(delta: Vector2) -> bool:
 		dy = delta.x
 		diff = end_position.x - start_position.x
 	
-	dy *= scale
+	#dy *= scale
 		
 	if not _position_is_initial:
 		dy = -dy
@@ -79,7 +84,7 @@ func slide(delta: Vector2) -> bool:
 	
 	# now it's contracted
 	
-	_set_level(dy if _position_is_initial else 1.0 - dy)
+	_set_level(dy if _position_is_initial else (1.0 - dy))
 	
 	_position_is_changed = start_enabled and end_enabled and dy >= min_delta
 	
@@ -102,15 +107,15 @@ func drop():
 
 func _interpolate_position(final_value: float):
 	var time_scale = abs(final_value - _current_level)
-	if scale == 0:
+	if time_scale == 0:
 		return
-		
+	
 	$tween.interpolate_method(
 		self,
 		"_set_level",
 		_current_level,
 		final_value,
-		delay * time_scale,
+		max(0.1, delay * time_scale),
 		Tween.TRANS_BACK,
 		Tween.EASE_OUT
 	)

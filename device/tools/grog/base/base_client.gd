@@ -12,7 +12,6 @@ var game_instance = null
 var _loaded_items = []
 
 func _on_initialize() -> Dictionary:
-	
 	server = _modular.get_module("grog-server")
 	if not server:
 		return { valid = false, message = "'grog-server' is required"}
@@ -20,10 +19,6 @@ func _on_initialize() -> Dictionary:
 	_on_init()
 	
 	return { valid = true }
-#func init(_server):
-#	server = _server
-#	data = server.get_game_script()
-	
 
 func get_module_name() -> String:
 	return "grog-client"

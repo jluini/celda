@@ -25,15 +25,13 @@ enum InputState {
 var _input_state = InputState.None
 var _input_position = null
 
-#func _unhandled_input(event):
 func _gui_input(event):
 	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT:
-		#print("Mouse button")
 		accept_event()
 		
 		var mouse_position: Vector2 = event.position
 		
-		_timer.stop() # doing always
+		_timer.stop() # TODO doing always
 	
 		if event.pressed:
 			if _input_state == InputState.None:
@@ -69,8 +67,6 @@ func _gui_input(event):
 				_set_input_state(InputState.None, null)
 		
 	elif event is InputEventMouseMotion:
-		#print("Mouse motion")
-		
 		accept_event()
 		
 		var mouse_position: Vector2 = event.position

@@ -336,7 +336,7 @@ __meta__ = {
 slide_mode = 0
 end_position = Vector2( -770, 0 )
 delay = 2.0
-fixed = true
+end_enabled = false
 overlay_path = NodePath("../../menu")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ui/menu/side_menu"]
@@ -455,7 +455,7 @@ text = "Quit"
 [connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/continue_previous" to="." method="_on_continue_previous_pressed"]
 [connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/new_game" to="." method="_on_new_game_pressed"]
 [connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/load_game" to="." method="_on_load_game_pressed"]
-[connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/options" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/options" to="." method="_on_options_pressed"]
 [connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="ui/menu/back_button" to="." method="_on_back_button_pressed"]
 

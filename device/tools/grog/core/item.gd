@@ -42,7 +42,7 @@ func has_action(action_name: String) -> bool:
 	
 	
 func get_sequence(trigger_name: String) -> Dictionary:
-	return _compiled_script.get_sequence(trigger_name) if _compiled_script else null
+	return _compiled_script.get_sequence([trigger_name]) if _compiled_script else null
 
 func get_sequence_with_parameter(trigger_name: String, param):
 	return _compiled_script.get_sequence_with_parameter(trigger_name, param) if _compiled_script else null
