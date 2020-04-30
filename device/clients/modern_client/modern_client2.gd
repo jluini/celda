@@ -164,19 +164,6 @@ func _on_server_curtain_down():
 
 ###
 
-func _on_quit_button_pressed():
-	if not server:
-		print("Quitting now")
-		
-		#get_tree().quit()
-		
-		return
-	
-	print("Quit delayed")
-	game_instance.stop_request()
-
-###
-
 func _select_inventory_item(inventory_item):
 	var view = inventory_item
 	var model = inventory_item.model
@@ -382,14 +369,15 @@ func _close_all():
 		_pressed_button = null
 
 func _on_quit_pressed():
+	var already_quitting = _pressed_button == _quit_button
 	_close_all()
 	
-	_quit_button.set_pressed(true)
-	_pressed_button = _quit_button
+	if not already_quitting:
+		_quit_button.set_pressed(true)
+		_pressed_button = _quit_button
 	
 	# TODO!!
-	
-	get_tree().quit()
+	#get_tree().quit()
 
 
 func _on_back_button_pressed():
