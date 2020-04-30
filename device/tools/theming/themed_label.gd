@@ -1,5 +1,5 @@
-tool
-
+#tool
+#
 extends Label
 
 export (String) var label_type = "" setget _set_label_type
@@ -25,6 +25,6 @@ func _set_label_type(new_label_type):
 	label_type = new_label_type
 	_update_theme_override()
 
-func _draw():
-	_update_theme_override()
+#func _draw():
+#	_update_theme_override()
 	#print("Redrawing")

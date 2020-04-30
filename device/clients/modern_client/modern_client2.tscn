@@ -1,14 +1,13 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://clients/modern_client/modern_client2.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
-[ext_resource path="res://clients/modern_client/theme/small_font.tres" type="DynamicFont" id=3]
-[ext_resource path="res://clients/modern_client/theme/theme.tres" type="Theme" id=4]
+[ext_resource path="res://games/celda_escape/rooms/celda/images/background.jpg" type="Texture" id=3]
+[ext_resource path="res://tools/theming/custom_label.gd" type="Script" id=4]
 [ext_resource path="res://clients/modern_client/saved/game_list.gd" type="Script" id=5]
 [ext_resource path="res://clients/modern_client/clicking.gd" type="Script" id=7]
 [ext_resource path="res://clients/modern_client/saved/game_entry.tscn" type="PackedScene" id=12]
 [ext_resource path="res://clients/modern_client/inventory.gd" type="Script" id=13]
-[ext_resource path="res://clients/modern_client/theme/big_font.tres" type="DynamicFont" id=14]
 [ext_resource path="res://clients/modern_client/inventory_item.tscn" type="PackedScene" id=15]
 [ext_resource path="res://clients/modern_client/new_inventory/slider.gd" type="Script" id=17]
 [ext_resource path="res://clients/modern_client/new_inventory/right.png" type="Texture" id=18]
@@ -78,7 +77,6 @@ tracks/0/keys = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
-theme = ExtResource( 4 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -101,6 +99,7 @@ usage = 0
 render_target_update_mode = 3
 
 [node name="empty_room" type="ColorRect" parent="viewport_container/viewport"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -108,6 +107,14 @@ color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="texture_rect" type="TextureRect" parent="viewport_container/viewport"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 40.0
+margin_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource( 3 )
 
 [node name="ui" type="Control" parent="."]
 anchor_right = 1.0
@@ -265,6 +272,7 @@ __meta__ = {
 }
 
 [node name="background" type="ColorRect" parent="ui/menu/tab_container"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -280,7 +288,6 @@ __meta__ = {
 }
 
 [node name="title" type="Control" parent="ui/menu/tab_container/tabs"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -288,16 +295,17 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="label" type="Label" parent="ui/menu/tab_container/tabs/title"]
+[node name="label" type="Control" parent="ui/menu/tab_container/tabs/title"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_fonts/font = ExtResource( 14 )
-custom_colors/font_color = Color( 0.682353, 0.690196, 0.411765, 1 )
-text = "Celda escape"
-align = 1
-valign = 1
+mouse_filter = 2
+script = ExtResource( 4 )
+text = "Celda"
+label_type = "big"
 
 [node name="game_list" type="Control" parent="ui/menu/tab_container/tabs"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -320,9 +328,6 @@ entry_model = ExtResource( 12 )
 margin_top = 301.0
 margin_right = 826.0
 margin_bottom = 451.0
-
-[node name="label" parent="ui/menu/tab_container/tabs/game_list/v_box_container/control" index="0"]
-text = "(no games)"
 
 [node name="side_menu" type="Control" parent="ui/menu"]
 anchor_right = 0.4
@@ -428,7 +433,6 @@ __meta__ = {
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = -289.0
-custom_fonts/font = ExtResource( 3 )
 text = "Trying to load the game..."
 align = 1
 valign = 1

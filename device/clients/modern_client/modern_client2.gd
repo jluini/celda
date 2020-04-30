@@ -67,23 +67,13 @@ func _on_init():
 	if not saved_game:
 		_hide_group("only_if_saved")
 	
-	#_hide_group("only_if_playing")
-	
+	_hide_group("only_if_playing")
 	
 
 func _hide_group(group_name: String):
 	for n in get_tree().get_nodes_in_group(group_name):
 		n.hide()
 	
-	
-#	_continue_button.hide()
-#	_save_button.hide()
-#
-#	# TODO show it if there's a record
-#	_continue_previous_button.hide()
-	
-
-#func _on_init2():
 func _start():
 	if _room_parent.get_child_count() > 0 :
 		print("Room place is not empty! Clearing it.")

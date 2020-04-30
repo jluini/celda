@@ -197,7 +197,6 @@ func _on_quit_button_pressed():
 	get_tree().quit()
 
 func _on_app_thumbnail_pressed(index):
-	print("Open app index %s" % index)
 	open_app(index)
 	
 func make_empty(node: Node):
