@@ -165,7 +165,7 @@ _global_script_class_icons={
 [application]
 
 config/name="celda"
-run/main_scene="res://apps/grog_runner/standard_runner.tscn"
+run/main_scene="res://apps/standard_runner/standard_runner.tscn"
 config/icon="res://icon.png"
 
 [display]
@@ -188,7 +188,7 @@ grog_toggle_fullscreen={
 
 [locale]
 
-translations=PoolStringArray( "res://apps/room_tester/translations.en.translation", "res://apps/room_tester/translations.es.translation", "res://games/celda_escape/translations.en.translation", "res://games/celda_escape/translations.es.translation" )
+translations=PoolStringArray( "res://games/celda_escape/translations.en.translation", "res://games/celda_escape/translations.es.translation" )
 
 [node]
 

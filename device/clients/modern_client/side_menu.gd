@@ -1,4 +1,4 @@
-extends "res://clients/modern_client/new_inventory/slider.gd"
+extends "res://tools/ui_tools/slider.gd"
 
 export (NodePath) var overlay_path
 

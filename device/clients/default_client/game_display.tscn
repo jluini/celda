@@ -1,8 +1,7 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://clients/default_client/game_display.gd" type="Script" id=1]
 [ext_resource path="res://clients/default_client/action.tscn" type="PackedScene" id=3]
-[ext_resource path="res://apps/room_tester/rounded_rect.png" type="Texture" id=4]
+[ext_resource path="res://clients/util/rounded_rect.png" type="Texture" id=4]
 [ext_resource path="res://tools/ui_tools/object_list.gd" type="Script" id=5]
 [ext_resource path="res://clients/util/curtain.tscn" type="PackedScene" id=6]
 [ext_resource path="res://clients/default_client/inventory/inventory_item.tscn" type="PackedScene" id=7]
@@ -12,25 +11,13 @@
 [ext_resource path="res://clients/default_client/sample_images/arrow_up.png" type="Texture" id=11]
 [ext_resource path="res://clients/default_client/sample_images/arrow_up2.png" type="Texture" id=12]
 
+
 [node name="game_display" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-action_button_model = ExtResource( 3 )
-curtain_path = NodePath("text_layer/curtain")
-room_area_path = NodePath("world_layer/room_area")
-room_place_path = NodePath("world_layer/room_area")
-inventory_path = NodePath("text_layer/command_area/controls/inventory")
-controls_place_path = NodePath("text_layer/command_area")
-actions_path = NodePath("text_layer/command_area/controls/actions")
-action_display_path = NodePath("text_layer/command_area/action_display")
-text_label_path = NodePath("text_layer/text_anchor/text")
-text_label_anchor_path = NodePath("text_layer/text_anchor")
-input_enabled_flag_path = NodePath("flags/VBoxContainer/input_enabled/CheckButton")
-skippable_flag_path = NodePath("flags/VBoxContainer/skippable/CheckButton")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchor_right = 1.0

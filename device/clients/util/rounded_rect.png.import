@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/tile079.png-db5421a116c918ef8c6de48dc8091b56.stex"
+path="res://.import/rounded_rect.png-a54fc4301281550c5f26da89303b28c3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://clients/default_client/sample_images/tile079.png"
-dest_files=[ "res://.import/tile079.png-db5421a116c918ef8c6de48dc8091b56.stex" ]
+source_file="res://clients/util/rounded_rect.png"
+dest_files=[ "res://.import/rounded_rect.png-a54fc4301281550c5f26da89303b28c3.stex" ]
 
 [params]
 

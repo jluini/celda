@@ -1,9 +1,10 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://clients/modern_client/new_inventory/borde.png" type="Texture" id=1]
+[ext_resource path="res://clients/modern_client/images/borde.png" type="Texture" id=1]
 [ext_resource path="res://tools/theming/themed_label.gd" type="Script" id=2]
 [ext_resource path="res://tools/theming/custom_label.gd" type="Script" id=3]
 [ext_resource path="res://tools/theming/theme_selector.gd" type="Script" id=4]
+
 
 [node name="theme_selector" type="Control"]
 margin_right = 956.0
