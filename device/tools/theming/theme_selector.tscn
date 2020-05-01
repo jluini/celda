@@ -48,7 +48,7 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-label_type = ""
+label_type = "big"
 
 [node name="custom_label" type="Control" parent="."]
 anchor_top = 0.667
@@ -61,5 +61,4 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 text = "font-name"
-color = Color( 1, 1, 1, 1 )
-label_type = ""
+label_type = "big"

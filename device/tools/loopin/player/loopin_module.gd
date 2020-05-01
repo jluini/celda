@@ -23,14 +23,19 @@ var _end_mode: MenuButton
 
 #func _ready():
 func _on_initialize() -> Dictionary:
-	_loopin = $loopin
+	_loopin = $loopin_server
 	_songs = loopin_set.songs if loopin_set else []
 	
-	_list = $divisions/control/song_list_box/list
-	_title = $divisions/info/title
-	_state_label = $divisions/info/state_label
-	_state_color = $divisions/info/state_color
-	_end_mode = $divisions/control2/end_mode_box/list
+	# TODO fix these node paths...
+	
+	#var _divisions = $h_split_container/v_split_container/panel_container/panel/divisions
+	
+	_list = $h_split_container/v_split_container/panel_container/panel/divisions/control/list
+	_title = $h_split_container/v_split_container/panel_container/panel/divisions/h_split_container/title
+	
+	_state_label = $h_split_container/v_split_container/panel_container/panel/divisions/h_split_container/control/state_label
+	_state_color = $h_split_container/v_split_container/panel_container/panel/divisions/h_split_container/control/state_color
+	_end_mode = $h_split_container/v_split_container/panel_container/panel/divisions/control2/end_mode_box/list
 	
 	_list.set_songs(_songs)
 	_list.connect("song_selected", self, "_on_song_selected")
@@ -45,18 +50,26 @@ func _on_initialize() -> Dictionary:
 	var _r1 = _end_mode.connect("end_mode_selected", self, "_on_end_mode_selected")
 	_end_mode.text = end_mode_name
 	
-	_set_length_label($divisions/separation_length/value, _loopin.separation_length)
-	_set_length_slider($divisions/separation_length/h_slider, _loopin.separation_length)
-	_set_length_label($divisions/fedeout_length/value, _loopin.fedeout_length)
-	_set_length_slider($divisions/fedeout_length/h_slider, _loopin.fedeout_length)
-	_set_length_label($divisions/afterfinal_length/value, _loopin.afterfinal_length)
-	_set_length_slider($divisions/afterfinal_length/h_slider, _loopin.afterfinal_length)
+	var sep = _get_setting("separation_length")
+	var fed = _get_setting("fedeout_length")
+	var aft = _get_setting("afterfinal_length")
 	
-	var _r2 = $divisions/separation_length/h_slider.connect("value_changed", self, "_on_separation_length_value_changed")
-	var _r3 = $divisions/fedeout_length/h_slider.connect("value_changed", self, "_on_fedeout_length_value_changed")
-	var _r4 = $divisions/afterfinal_length/h_slider.connect("value_changed", self, "_on_afterfinal_length_value_changed")
+	_set_length_label("separation_length", _loopin.separation_length)
+	_set_length_slider(sep.get_node("h_slider"), _loopin.separation_length)
+	_set_length_label("fedeout_length", _loopin.fedeout_length)
+	_set_length_slider(fed.get_node("h_slider"), _loopin.fedeout_length)
+	_set_length_label("afterfinal_length", _loopin.afterfinal_length)
+	_set_length_slider(aft.get_node("h_slider"), _loopin.afterfinal_length)
+	
+	var _r2 = sep.get_node("h_slider").connect("value_changed", self, "_on_separation_length_value_changed")
+	var _r3 = fed.get_node("h_slider").connect("value_changed", self, "_on_fedeout_length_value_changed")
+	var _r4 = aft.get_node("h_slider").connect("value_changed", self, "_on_afterfinal_length_value_changed")
 	
 	return { valid = true }
+
+func _get_setting(setting_name: String):
+	var path = "h_split_container/v_split_container/panel_container/panel/divisions/%s" % setting_name
+	return get_node(path)
 
 func get_module_name() -> String:
 	return "loopin"
@@ -123,18 +136,20 @@ func stop():
 
 func _on_separation_length_value_changed(value):
 	_loopin.set_separation_length(value)
-	_set_length_label($divisions/separation_length/value, value)
+	_set_length_label("separation_length", value)
 	
 func _on_fedeout_length_value_changed(value):
 	_loopin.set_fedeout_length(value)
-	_set_length_label($divisions/fedeout_length/value, value)
+	_set_length_label("fedeout_length", value)
 	
 func _on_afterfinal_length_value_changed(value):
 	_loopin.set_afterfinal_length(value)
-	_set_length_label($divisions/afterfinal_length/value, value)
+	_set_length_label("afterfinal_length", value)
 
 func _set_length_slider(slider, value):
 	slider.value = value
 
-func _set_length_label(label, value):
+func _set_length_label(setting_name: String, value):
+	var setting = _get_setting(setting_name)
+	var label = setting.get_node("value")
 	label.text = "%1.1f" % value
