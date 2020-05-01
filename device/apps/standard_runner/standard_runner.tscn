@@ -9,10 +9,12 @@
 [ext_resource path="res://tools/theming/theme_switcher.tscn" type="PackedScene" id=7]
 [ext_resource path="res://tools/modular/modular.tscn" type="PackedScene" id=8]
 [ext_resource path="res://tools/loopin/player/loopin_module.tscn" type="PackedScene" id=9]
-[ext_resource path="res://tools/grog/newcore/server.tscn" type="PackedScene" id=10]
+[ext_resource path="res://tools/grog/core/server.tscn" type="PackedScene" id=10]
 [ext_resource path="res://themes/handy_george/handy_george.tres" type="Theme" id=11]
 [ext_resource path="res://themes/pixel/pixel.tres" type="Theme" id=12]
 [ext_resource path="res://themes/pointfree/pointfree.tres" type="Theme" id=13]
+
+
 
 [node name="standard_runner" instance=ExtResource( 8 )]
 start_mode = 1

@@ -1,4 +1,4 @@
-extends "res://tools/grog/newcore/game_script.gd"
+extends "res://tools/grog/core/game_script.gd"
 
 class_name SimpleGameScript
 

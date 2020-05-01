@@ -1,7 +1,7 @@
 class_name GameServer
 
 # server to client signals
-signal game_server_event
+signal game_event
 
 var options = {
 	default_color = Color.gray
@@ -1083,7 +1083,7 @@ func _runner_over(status):
 	
 func _server_event(event_name: String, args: Array = []):
 	#print("SERVER EVENT '%s'" % event_name)
-	emit_signal("game_server_event", event_name, args)
+	emit_signal("game_event", event_name, args)
 
 func _wait_coroutine(delay_seconds: float, and_then = null):
 	var elapsed = 0.0

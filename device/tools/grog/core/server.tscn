@@ -1,12 +1,12 @@
 [gd_scene load_steps=3 format=2]
 
+[ext_resource path="res://tools/grog/core/server.gd" type="Script" id=1]
 [ext_resource path="res://tools/grog/lang/compiler.gd" type="Script" id=2]
-[ext_resource path="res://tools/grog/newcore/server.gd" type="Script" id=3]
 
 [node name="grog_server" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 3 )
+script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

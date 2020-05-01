@@ -154,4 +154,4 @@ func _start_game():
 	assert(not game_instance)
 	
 	game_instance = server.new_game()
-	game_instance.connect("game_server_event", self, "on_server_event")
+	game_instance.connect("game_event", self, "on_server_event")

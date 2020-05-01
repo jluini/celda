@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=5 format=2]
 
-[ext_resource path="res://tools/grog/newcore/simple_game_script.gd" type="Script" id=1]
+[ext_resource path="res://tools/grog/core/simple_game_script.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/celda/celda_room.tres" type="Resource" id=2]
 [ext_resource path="res://games/demo_game/actors/guybrush/guybrush.tres" type="Resource" id=3]
 [ext_resource path="res://games/celda_escape/inventory.tscn" type="PackedScene" id=4]

@@ -55,10 +55,10 @@ func new_game():
 	
 	assert(not game_instance)
 	
-	#server = load("res://tools/grog/newcore/server.gd").new()
+	#game_instance = load("res://tools/grog/core/game_server.gd").new()
+	game_instance = load("res://tools/grog/core/game_instance.gd").new()
 	#add_child(server)
 	
-	game_instance = load("res://tools/grog/core/game_server.gd").new()
 	game_instance.init(self, game_script)
 	
 	return game_instance

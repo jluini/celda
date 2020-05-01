@@ -7,8 +7,10 @@
 [ext_resource path="res://tools/modular/example_module.tscn" type="PackedScene" id=5]
 [ext_resource path="res://tools/loopin/player/loopin_module.tscn" type="PackedScene" id=6]
 [ext_resource path="res://tools/modular/example_app.tscn" type="PackedScene" id=8]
-[ext_resource path="res://tools/grog/newcore/server.tscn" type="PackedScene" id=9]
+[ext_resource path="res://tools/grog/core/server.tscn" type="PackedScene" id=9]
 [ext_resource path="res://games/celda_escape/new_game_data.tres" type="Resource" id=10]
+
+
 
 [node name="modular_example" instance=ExtResource( 1 )]
 

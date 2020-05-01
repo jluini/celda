@@ -41,7 +41,7 @@ func _ready():
 	pattern_regex = build_regex(pattern_regex_pattern)
 
 
-func compile(code: String, level: int): # -> CompiledScript:
+func compile(code: String, level: int) -> CompiledScript:
 	var ret = CompiledScript.new()
 	
 	if level < 1:
