@@ -1,0 +1,11 @@
+[gd_resource type="Theme" load_steps=4 format=2]
+
+[ext_resource path="res://themes/pointfree/huge.tres" type="DynamicFont" id=1]
+[ext_resource path="res://themes/pointfree/big.tres" type="DynamicFont" id=2]
+[ext_resource path="res://themes/pointfree/normal.tres" type="DynamicFont" id=3]
+
+[resource]
+resource_name = "pointfree"
+default_font = ExtResource( 3 )
+Label/fonts/big = ExtResource( 2 )
+Label/fonts/huge = ExtResource( 1 )

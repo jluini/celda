@@ -1,0 +1,11 @@
+[gd_resource type="Theme" load_steps=4 format=2]
+
+[ext_resource path="res://themes/handy_george/normal.tres" type="DynamicFont" id=1]
+[ext_resource path="res://themes/handy_george/huge.tres" type="DynamicFont" id=2]
+[ext_resource path="res://themes/handy_george/big.tres" type="DynamicFont" id=3]
+
+[resource]
+resource_name = "george"
+default_font = ExtResource( 1 )
+Label/fonts/big = ExtResource( 3 )
+Label/fonts/huge = ExtResource( 2 )

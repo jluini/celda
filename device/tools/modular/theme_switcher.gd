@@ -6,6 +6,8 @@ export (int) var current_theme_index
 
 onready var _theme_list = $theme_list
 
+var _theme_views: Array
+
 func _on_initialize() -> Dictionary:
 	if not themes:
 		return { valid = false, message = "no themes"}
@@ -19,6 +21,8 @@ func _on_initialize() -> Dictionary:
 		_log("setting theme '%s' at start" % t.get_name())
 		_modular.set_theme(t)
 	
+	_theme_views = []
+	
 	# delete theme_view examples
 	while _theme_list.get_child_count() > 0:
 		var c = _theme_list.get_child(0)
@@ -29,9 +33,13 @@ func _on_initialize() -> Dictionary:
 		var theme = themes[index]
 		var theme_view = preload("res://tools/theming/theme_selector.tscn").instance()
 		theme_view.init_with_theme(theme)
-		theme_view.connect("theme_selected", self, "_on_theme_selected")
+		theme_view.connect("theme_selected", self, "_on_theme_selected", [index])
+		
+		if index == current_theme_index:
+			theme_view.select()
 		
 		_theme_list.add_child(theme_view)
+		_theme_views.append(theme_view)
 		
 	
 	return { valid = true }
@@ -45,5 +53,8 @@ func get_module_name() -> String:
 func get_signals() -> Array:
 	return []
 
-func _on_theme_selected(new_theme: Theme):
+func _on_theme_selected(new_theme: Theme, index: int):
+	_theme_views[current_theme_index].unselect()
+	_theme_views[index].select()
 	_modular.change_theme(new_theme)
+	current_theme_index = index

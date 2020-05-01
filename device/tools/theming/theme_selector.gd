@@ -4,6 +4,9 @@ signal theme_selected
 
 var _theme: Theme
 
+var selected_alpha = 0.2
+var unselected_alpha = 0.0
+
 func init_with_theme(theme_to_show: Theme):
 	_theme = theme_to_show
 	
@@ -19,3 +22,9 @@ func _gui_input(event):
 	if event is InputEventMouseButton and event.pressed:
 		accept_event()
 		emit_signal("theme_selected", _theme)
+
+func select():
+	$background.color.a = selected_alpha
+	
+func unselect():
+	$background.color.a = unselected_alpha
