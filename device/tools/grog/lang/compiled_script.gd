@@ -4,18 +4,10 @@ class_name CompiledScript
 
 export (int) var levels = 2
 
-#var is_valid setget , _is_valid
-
-# TODO remove this... it's for compatibility with old compiler code
-#var is_valid setget, is_valid
-
 var _valid: bool
 var _initialized: bool
 
-#var _dict: Dictionary
-#var _sections: Array
 var _data: Dictionary
-
 var _errors: Array
 
 func _init():

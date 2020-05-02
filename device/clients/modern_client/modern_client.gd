@@ -4,12 +4,8 @@ signal item_selected # (item)
 signal item_deselected # (item)
 
 onready var _room_parent = $viewport_container/viewport
-onready var _preload = $preload
-#onready var _ui = $ui
-
 onready var _side_menu = $ui/menu/side_menu
 onready var _curtain = $ui/curtain_animation
-#onready var _item_menu = $ui/item_menu
 onready var _inventory_base = $ui/inventory_base
 onready var _inventory = $ui/inventory_base/inventory
 
@@ -26,30 +22,15 @@ onready var _back_button = $ui/menu/back_button
 
 var _pressed_button = null
 
-#onready var _tool: Control = $ui/tool
-
 var _current_item = null
 
-#var _tool_item = null
-#var _tool_verb 
-
 var _initial_drag_position: Vector2
-var _dy
 
 enum DragState {
 	None,
 	Dragging
 }
 var _drag_state = DragState.None
-
-
-func _pre_init():
-	#_ui.hide()
-	_preload.show()
-
-# it's a pre-error
-func show_error(error_message: String):
-	$preload/label.text = error_message
 
 func _on_init():
 	var saved_game = null
@@ -60,9 +41,6 @@ func _on_init():
 	_back_button.hide()
 	
 	_tabs.show_named("title")
-	
-	_preload.hide()
-	#_ui.show()
 	
 	if not saved_game:
 		_hide_group("only_if_saved")
@@ -256,7 +234,6 @@ func _on_ui_start_drag(position: Vector2):
 	
 	_initial_drag_position = position
 	_drag_state = DragState.Dragging
-	_dy = 0
 
 func _on_ui_drag(position: Vector2):
 	if _drag_state != DragState.Dragging:
@@ -349,14 +326,9 @@ func _on_load_game_pressed():
 	_tabs.show_named("game_list")
 
 func _on_options_pressed():
-	if _pressed_button == _options_button:
-		return
-	
+	#if _pressed_button == _options_button:
+	#	return
 	_close_all()
-	
-	#_options_button.set_pressed(true)
-	#_pressed_button = _options_button
-	
 	_modular.show_modules()
 
 func _close_all():

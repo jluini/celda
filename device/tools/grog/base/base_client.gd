@@ -26,9 +26,6 @@ func get_module_name() -> String:
 func get_signals() -> Array:
 	return []
 	
-func show_error(_msg: String):
-	print("Override show_error")
-
 func _end_game():
 	_on_end()
 	

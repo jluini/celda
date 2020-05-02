@@ -92,7 +92,7 @@ var _input_enabled = false
 
 
 #func init_game(p_compiler, game_data: Resource, p_game_start_mode, p_game_start_param) -> bool:
-func init(env, game_data: Resource):
+func init(env, game_data: Resource) -> bool:
 	if _server_state != ServerState.None:
 		push_error("Invalid call to init_game")
 		return false
@@ -100,53 +100,6 @@ func init(env, game_data: Resource):
 	#compiler = p_compiler
 	environment = env
 	data = game_data
-	
-#	var scripts = game_data.get_all_scripts()
-#	var number_of_scripts = scripts.size()
-#
-#	if number_of_scripts == 0:
-#		print("No scripts")
-#		_compiled_scripts.append(CompiledGrogScript.new())
-#
-#	for i in range(number_of_scripts):
-#		var compiled = compiler.compile_text(scripts[i].get_code())
-#		if not compiled.is_valid:
-#			print("Starting script %s is invalid" % i)
-#			compiled.print_errors()
-#			compiled = CompiledGrogScript.new() # replaces it by an empty script
-#
-#		_compiled_scripts.append(compiled)
-#	
-##	if number_of_scripts > 0:
-##		default_script = compiler.compile_text(game_data.get_all_scripts()[0].get_code())
-##		if not default_script.is_valid:
-##			print("Default script is invalid")
-##			default_script.print_errors()
-##			default_script = CompiledGrogScript.new()
-#	
-#	_game_start_mode = p_game_start_mode
-#	_game_start_param = p_game_start_param
-#
-#	match _game_start_mode:
-#		StartMode.Default:
-#			if typeof(_game_start_param) != TYPE_INT or _game_start_param < 0:
-#				print("Expected non-negative int as param")
-#				return false
-#			elif _game_start_param >= number_of_scripts:
-#				print("Starting script %s out of bounds" % _game_start_param)
-#				return false
-#
-#			#_game_start_param = game_data.get_all_scripts()[_game_start_param]
-#
-##		StartMode.FromRoom:
-##			var compiled_script = CompiledGrogScript.new()
-##			var start_sequence = build_start_sequence(_game_start_param)
-##
-##			compiled_script.add_sequence("start", start_sequence)
-##			_game_start_param = compiled_script
-#		_:
-#			print("Grog error: start mode %s not implemented" % StartMode.keys()[_game_start_mode])
-#			return false
 	
 	_server_state = ServerState.Prepared
 	

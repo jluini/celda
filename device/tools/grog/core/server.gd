@@ -59,7 +59,7 @@ func new_game():
 	game_instance = load("res://tools/grog/core/game_instance.gd").new()
 	#add_child(server)
 	
-	game_instance.init(self, game_script)
+	var ok = game_instance.init(self, game_script)
 	
 	return game_instance
 
