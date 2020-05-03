@@ -40,55 +40,52 @@ func _ready():
 	standard_token_character_regex = build_regex(standard_token_character_pattern)
 	pattern_regex = build_regex(pattern_regex_pattern)
 
-
-func compile(code: String, level: int) -> CompiledScript:
-	var ret = CompiledScript.new()
+func compile(code: String, number_of_section_levels: int) -> CompiledScript:
+	var cs = CompiledScript.new()
 	
-	if level < 1:
-		ret.add_error("Invalid level %s" % level)
-		return ret
+	if number_of_section_levels < 1:
+		cs.add_error("Invalid number of section levels (%s)" % number_of_section_levels)
+		return cs
 	
+	# stage 1: sanitization and splitting
 	var raw_lines: Array = _get_lines(code)
 	
-	var lines = []
+	# stage 2: tokenizing (reading indentation and tokens)
+	var lines = _tokenize_lines(cs, raw_lines)
+	if not cs.is_valid():
+		return cs
 	
+	# stage 3: parsing (creating a tree whose nodes are described below)
+	#     - root at level zero
+	#     - sections at every (0 < level < number_of_section_levels) (currently using exactly one level of this kind)
+	#     - sequences at level=number_of_section_levels (currently = 2); these are actually a (special?) case of 'sections'
+	#     - statements at every level > number_of_section_levels1
+	var root = _parse_lines(cs, lines, number_of_section_levels)
+	if not cs.is_valid():
+		return cs
+	
+	# stage 4: "compiling"
+	_compile_tree(cs, root, number_of_section_levels)
+	
+	# returning either a valid or an invalid compiled script
+	return cs
+	
+# Tokenizing
+
+func _tokenize_lines(cs: CompiledScript, raw_lines: Array) -> Array:
+	var ret = []
 	for i in range(raw_lines.size()):
 		var line_data = { raw = raw_lines[i], line_number = i + 1 }
 		
-		tokenize_line(ret, line_data) # sets 'blank', 'indent_level' and 'tokens' in line_data
+		tokenize_line(cs, line_data) # sets 'raw_content', 'blank', 'indent_level' and 'tokens' in line_data
 		
-		if not ret.is_valid():
-			return ret
+		if not cs.is_valid():
+			return []
 		
 		if not line_data.blank:
-			lines.append(line_data)
-	
-	_compile_lines(ret, lines, level)
+			ret.append(line_data)
 	
 	return ret
-
-# TODO remove
-#func compile_text(code: String) -> CompiledGrogScript:
-#	var compiled_script = CompiledGrogScript.new()
-#
-#	var raw_lines: Array = _get_lines(code) # code.split("\n")
-#
-#	var lines = []
-#
-#	for i in range(raw_lines.size()):
-#		var line_data = { raw = raw_lines[i], line_number = i + 1 }
-#
-#		tokenize_line(compiled_script, line_data) # sets 'blank', 'indent_level' and 'tokens' in line_data
-#
-#		if not compiled_script.is_valid():
-#			return compiled_script
-#
-#		if not line_data.blank:
-#			lines.append(line_data)
-#
-#	_compile_lines(compiled_script, lines)
-#
-#	return compiled_script
 
 func tokenize_line(compiled_script, line: Dictionary) -> void: 
 	line.indent_level = number_of_leading_tabs(line.raw)
@@ -96,9 +93,6 @@ func tokenize_line(compiled_script, line: Dictionary) -> void:
 	
 	if line.raw_content.length() == 0:
 		line.blank = true
-	#elif line.raw_content.find("\t") != -1:
-	#	compiled_script.add_error("(%s:%s) tabs can only be at the start of the line" % [line.line_number, line.indent_level + line.raw_content.find("\t") + 1])
-	#	return
 	elif line.raw_content.begins_with(" "):
 		compiled_script.add_error("(%s:%s) line can't start with spaces" % [line.line_number, line.indent_level + 1])
 		return
@@ -110,8 +104,6 @@ func tokenize_line(compiled_script, line: Dictionary) -> void:
 			return
 			
 		line.blank = line.tokens.size() == 0
-
-# Tokenizing
 
 func get_tokens(compiled_script, line: Dictionary) -> Array:
 	var tokens = []
@@ -307,13 +299,16 @@ func recognize_token(content: String, parse_as_number: bool) -> Dictionary:
 				return { valid = false, msg = "invalid identifier or pattern" }
 		
 		return ret
-	
+
 # Compiling
 
-func _compile_lines(compiled_script, lines: Array, code_levels = 1):
+# returns a dict representing the parse tree root (if no errors)
+func _parse_lines(compiled_script, lines: Array, code_levels = 1): # -> Dictionary:
 	var num_lines = lines.size()
 	
-	var statements = []
+	# TODO track current node (root here) instead of current node's children
+	var children = []
+	
 	var stack = []
 	var level = 0
 	var i = 0
@@ -353,12 +348,12 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 				
 				if current_block.type == "section":
 					assert(level < code_levels - 1)
-					current_block.sections = statements
+					current_block.sections = children
 					
 				elif current_block.type == "sequence":
 					assert(level == code_levels - 1)
 				
-					current_block.instructions = statements
+					current_block.instructions = children
 					
 				elif current_block.type == "if":
 					assert(level >= code_levels)
@@ -369,22 +364,22 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 						
 						current_block.main_branches.append({
 							condition = current_block.condition,
-							statements = statements
+							statements = children
 						})
 					else:
 						assert(not current_block.has("else_branch"))
-						current_block.else_branch = statements
+						current_block.else_branch = children
 				elif current_block.type == "loop":
 					assert(level >= code_levels)
 					
 					assert(not current_block.has("statements"))
-					current_block.statements = statements
+					current_block.statements = children
 					
 				else:
 					compiled_script.add_error("Grog error: unexpected line type '%s'" % current_block.type)
 					return
 					
-				statements = previous_level
+				children = previous_level
 				
 		assert(level == new_level)
 		assert(level == stack.size())
@@ -468,7 +463,7 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 					return
 			
 			if level == code_levels - 1:
-				statements.append({
+				children.append({
 					type = "sequence",
 					trigger_name = first_token.data.key,
 					telekinetic = is_telekinetic,
@@ -476,9 +471,10 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 					# waiting for instructions
 				})
 			else:
+				# TODO
 				if is_telekinetic:
 					print("Why telekinetic here?")
-				statements.append({
+				children.append({
 					type = "section",
 					trigger_name = first_token.data.key,
 					#telekinetic = is_telekinetic,
@@ -487,11 +483,11 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 					# waiting for sections
 				})
 			
-			stack.push_back(statements)
-			statements = []
+			stack.push_back(children)
+			children = []
 			level += 1
 		
-		else: # instruction (command or if/else opening)
+		else: # instruction (command or if/else/while opening statement)
 			match first_token.type:
 				Grog.TokenType.Command:
 					if first_token.data.indirection_level > 0:
@@ -537,9 +533,6 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 							return
 						
 						var actual_param = line.tokens[j + 1]
-						
-						#var ignore_param = false
-						#var param_value
 						
 						match param.type:
 							Grog.ParameterType.BooleanType:
@@ -685,7 +678,7 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 						final_params.append(options)
 					# end if
 					
-					statements.append({
+					children.append({
 						type = "command",
 						command = command_name,
 						params = final_params
@@ -713,22 +706,22 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 						compiled_script.add_error("Invalid if condition (%s) (line %s)" % [condition.message, line.line_number])
 						return
 					
-					statements.append({
+					children.append({
 						type = "if",
 						condition = condition.result,
-						# waiting for condition_branches/else_branch
+						# waiting for main_branches/else_branch
 					})
 					
-					stack.push_back(statements)
-					statements = []
+					stack.push_back(children)
+					children = []
 					level += 1
 				
 				Grog.TokenType.ElifKeyword:
-					if statements.size() == 0:
+					if children.size() == 0:
 						compiled_script.add_error("Unexpected 'elif' block (line %s)" % line.line_number)
 						return
 					
-					var previous_statement = statements.back()
+					var previous_statement = children.back()
 					if previous_statement.type != "if" or previous_statement.has("else_branch"):
 						compiled_script.add_error("Unexpected 'elif' block (line %s)" % line.line_number)
 						return
@@ -756,16 +749,16 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 					
 					previous_statement.condition = condition.result
 					
-					stack.push_back(statements)
-					statements = []
+					stack.push_back(children)
+					children = []
 					level += 1
 					
 				Grog.TokenType.ElseKeyword:
-					if statements.size() == 0:
+					if children.size() == 0:
 						compiled_script.add_error("Unexpected 'else' block (line %s)" % line.line_number)
 						return
 					
-					var previous_statement: Dictionary = statements.back()
+					var previous_statement: Dictionary = children.back()
 					if previous_statement.type != "if" or previous_statement.has("else_branch"):
 						compiled_script.add_error("Unexpected 'else' block (line %s)" % line.line_number)
 						return
@@ -786,8 +779,8 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 						compiled_script.add_error("End of line expected after 'else:' (line %s)" % line.line_number)
 						return
 					
-					stack.push_back(statements)
-					statements = []
+					stack.push_back(children)
+					children = []
 					level += 1
 				
 				Grog.TokenType.LoopKeyword:
@@ -804,13 +797,13 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 						compiled_script.add_error("End of line expected after 'loop:' (line %s)" % line.line_number)
 						return
 					
-					statements.append({
+					children.append({
 						type = "loop",
 						# waiting for statements
 					})
 					
-					stack.push_back(statements)
-					statements = []
+					stack.push_back(children)
+					children = []
 					level += 1
 				
 				Grog.TokenType.BreakKeyword:
@@ -818,7 +811,7 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 						compiled_script.add_error("End of line expected after 'break' (line %s)" % line.line_number)
 						return
 					
-					statements.append({
+					children.append({
 						type = "break"
 					})
 					
@@ -832,15 +825,25 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 		
 	# end while true
 	
+	# Compiling is done; now stack should be empty, and the
+	# 'children' Array contains the whole parse tree.
+	
 	assert(stack.size() == 0)
 	assert(level == 0)
 	
-	
+	return {
+		type = "root", # TODO save some extra info in root? e.g. filename??
+		children = children
+	}
+
+func _compile_tree(cs, root, number_of_section_levels):
+	# current 'breadcrumb'
 	var header_chain = []
-	var data = {}
 	
-	var current_items = statements
-	var index = 0
+	# per-level state
+	var current_data = {}
+	var current_items = root.children
+	var current_index = 0
 	
 	var done = false
 	
@@ -848,89 +851,82 @@ func _compile_lines(compiled_script, lines: Array, code_levels = 1):
 		assert(level == stack.size())
 		assert(level <= code_levels - 1)
 		
-		while index >= current_items.size():
+		while current_index >= current_items.size():
+			# current block is over
 			if level == 0:
+				# root block is over
 				done = true
 				break
 			else:
+				# inner block is over
 				level -= 1
 				header_chain.pop_back()
 				
 				var previous_level = stack.pop_back()
 				
-				data = previous_level.data
-				index = previous_level.index
+				current_data = previous_level.data
+				current_index = previous_level.index
 				current_items = previous_level.items
 		
 		if done:
 			break
 		
-		var next_element = current_items[index]
-		index += 1
+		var next_element = current_items[current_index]
+		current_index += 1
 		
 		if level < code_levels - 1:
+			# 'section' level (excluding sequences)
+			
 			assert(next_element.type == "section")
 			assert(next_element.has("trigger_name"))
 			assert(next_element.has("sections"))
 			
-			var new_header = next_element.trigger_name
-			var subsections = next_element.sections
-			header_chain.push_back(new_header)
+			var section_name = next_element.trigger_name
+			header_chain.push_back(section_name)
 			
-			if data.has(new_header):
+			if current_data.has(section_name):
 				print("Duplicated header 1 '%s'" % str(header_chain))
 				header_chain.pop_back()
 			else:
-				data[new_header] = {}
+				current_data[section_name] = {}
 				
 				stack.push_back({
-					data = data,
-					index = index,
+					data = current_data,
+					index = current_index,
 					items = current_items
 				})
 				
 				level += 1
-				data = data[new_header]
-				index = 0
-				current_items = subsections
-				
+				current_data = current_data[section_name]
+				current_index = 0
+				current_items = next_element.sections
+		
 		elif level == code_levels - 1:
+			# 'sequence' or 'trigger' level
+			
 			assert(next_element.type == "sequence")
 			assert(next_element.has("trigger_name"))
 			assert(next_element.has("instructions"))
 			
-			var new_header = next_element.trigger_name
-			#var instructions = next_element.instructions
-			header_chain.push_back(new_header)
+			var trigger_name = next_element.trigger_name
+			header_chain.push_back(trigger_name)
 			
-			if data.has(new_header):
+			if current_data.has(trigger_name):
 				print("Duplicated header 2 '%s'" % str(header_chain))
 			else:
-				data[new_header] = next_element
+				current_data[trigger_name] = next_element
 	
 			header_chain.pop_back()
+		else:
+			# instruction or subinstruction level
+			
+			pass
 		
 	assert(level == 0)
 	assert(stack.size() == 0)
 	assert(header_chain.size() == 0)
 	
-	compiled_script.initialize(code_levels, data)
-	
-	#compiled_script.initialize(code_levels, statements)
-	
-#	# TODO check here
-#
-#	for seq in statements:
-#		if seq.pattern:
-#			compiled_script.add_sequence_with_parameter(seq.trigger_name, seq.pattern, {
-#				statements = seq.instructions,
-#				telekinetic = seq.telekinetic,
-#			})
-#		else:
-#			compiled_script.add_sequence(seq.trigger_name, {
-#				statements = seq.instructions,
-#				telekinetic = seq.telekinetic
-#			})
+	cs.initialize(number_of_section_levels, current_data)
 
 func get_named_param(named_params: Array, name: String):
 	for np in named_params:
@@ -1043,7 +1039,7 @@ func node_to_expression(node):
 						return right
 					return { result = InverseNumberExpression.new(right.result) }
 				
-				return { result = false, message = "1unexpected binary operator %s" % node.token.content }
+				return { result = false, message = "unexpected binary operator %s" % node.token.content }
 			
 			var left = node_to_expression(node.left)
 			if not left.result:
@@ -1057,6 +1053,22 @@ func node_to_expression(node):
 		_:
 			return { result = false, message = "unexpected node %s" % Grog.TokenType.keys()[node.token.type] }
 	pass
+
+# Tokenizing
+
+func _get_lines(code: String) -> Array:
+	var sanitized_code = _sanitize(code)
+	return sanitized_code.split("\n")
+
+# Removes carriage returns and warns if they're present
+func _sanitize(code: String) -> String:
+	if code.find("\r") != -1:
+		print("Warning: unexpected carriage returns in code")
+		print("removing them...")
+		
+		return code.replace("\r", "")
+	else:
+		return code
 
 # Misc
 
@@ -1085,25 +1097,9 @@ func contains_pattern(a_string: String, pattern: RegEx) -> bool:
 func is_valid_number_str(a_string: String) -> bool:
 	return contains_pattern(a_string, float_regex)
 
-###
-
 func _token_is_straight_identifier(token):
 	return token.type == Grog.TokenType.Identifier and token.data.indirection_level == 0
 
 func _token_is_operator(token, operator: String):
 	return token.type == Grog.TokenType.Operator or token.content == operator
-
-func _get_lines(code: String) -> Array:
-	var sanitized_code = _sanitize(code)
-	return sanitized_code.split("\n")
-
-# Removes carriage returns and warns if they're present
-func _sanitize(code: String) -> String:
-	if code.find("\r") != -1:
-		print("Warning: unexpected carriage returns in code")
-		print("removing them...")
-		
-		return code.replace("\r", "")
-	else:
-		return code
 
