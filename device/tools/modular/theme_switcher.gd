@@ -8,6 +8,9 @@ onready var _theme_list = $theme_list
 
 var _theme_views: Array
 
+func _get_module_name():
+	return "theme-switcher"
+	
 func _on_initialize() -> Dictionary:
 	if not themes:
 		return { valid = false, message = "no themes"}
@@ -47,9 +50,6 @@ func _on_initialize() -> Dictionary:
 func _get_current_theme():
 	return themes[current_theme_index]
 
-func get_module_name() -> String:
-	return "theme-switcher"
-	
 func get_signals() -> Array:
 	return []
 

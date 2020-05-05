@@ -2,7 +2,7 @@ class_name InverseNumberExpression
 
 var content
 
-func _init(p_content):
+func _init(p_content = null):
 	content = p_content
 
 func evaluate(_game):

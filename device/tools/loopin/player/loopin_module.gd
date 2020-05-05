@@ -19,9 +19,9 @@ var _state_label
 var _state_color
 var _end_mode: MenuButton
 
-# Module methods
+func _get_module_name() -> String:
+	return "loopin"
 
-#func _ready():
 func _on_initialize() -> Dictionary:
 	_loopin = $loopin_server
 	_songs = loopin_set.songs if loopin_set else []
@@ -70,9 +70,6 @@ func _on_initialize() -> Dictionary:
 func _get_setting(setting_name: String):
 	var path = "h_split_container/v_split_container/panel_container/panel/divisions/%s" % setting_name
 	return get_node(path)
-
-func get_module_name() -> String:
-	return "loopin"
 
 func get_signals() -> Array:
 	return [{

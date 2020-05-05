@@ -1,10 +1,10 @@
 extends "res://tools/modular/module.gd"
 
+func _get_module_name():
+	return "example-module"
+
 func _on_initialize() -> Dictionary:
 	return { valid = true }
-
-func get_module_name() -> String:
-	return "example-module"
 
 func get_signals() -> Array:
 	return []

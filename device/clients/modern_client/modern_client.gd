@@ -54,23 +54,28 @@ func _hide_group(group_name: String):
 	
 func _start():
 	if _room_parent.get_child_count() > 0 :
-		print("Room place is not empty! Clearing it.")
+		#_log("Room place is not empty! Clearing it.")
 		make_empty(_room_parent)
 	
+	# TODO "open" word is confusing
 	_side_menu.open()
+	
 	_side_menu.fixed = false
 	_side_menu.end_enabled = true
+	
+	_text.text = ""
+
+	_curtain.play("closed")
+	
+	
+	# TODO wait until menu is fully closed
 	
 	var ret = game_instance.start_game_request(_room_parent)
 
 	if not ret:
-		print("Couldn't start game")
+		_log_error("Couldn't start game")
 		_end_game()
 	# else signal game_started was just received (or it will now)
-
-	_text.text = ""
-
-	_curtain.play("closed")
 
 	#_item_menu.hide()
 	#warning-ignore:return_value_discarded
@@ -80,11 +85,11 @@ func _start():
 	#_item_menu.init(self, data)
 
 func _on_start():
-	print("TODO game started")
+	_log_warning("TODO game started")
 	pass
 	
 func _on_end():
-	print("TODO game ended")
+	_log_warning("TODO game ended")
 	pass
 
 ####
@@ -93,16 +98,16 @@ func _on_end():
 #	@SERVER EVENTS
 
 func _on_server_input_enabled():
-	pass # print("_on_server_input_enabled")
+	_log_warning("TODO implement _on_server_input_enabled")
 	
 func _on_server_input_disabled():
-	pass # print("_on_server_input_disabled")
+	_log_warning("TODO implement _on_server_input_disabled")
 
 func _on_server_room_loaded(_room):
-	pass # print("_on_server_room_loaded")
+	_log_warning("TODO implement _on_server_room_loaded")
 
 func _on_item_enabled(_item):
-	pass
+	_log_warning("TODO implement _on_item_enabled")
 
 func _on_item_disabled(item):
 	if _current_item == item:
@@ -110,11 +115,11 @@ func _on_item_disabled(item):
 	
 
 func _on_server_wait_started(_duration: float, _skippable: bool):
-	pass # print("_on_server_wait_started")
+	_log_warning("TODO implement _on_server_wait_started")
 
 func _on_server_wait_ended():
 	_text.text = ""
-	pass # print("_on_server_wait_ended")
+	_log_warning("TODO implement _on_server_wait_ended")
 
 func _on_server_say(subject: Node, speech: String, _duration: float, _skippable: bool):
 	var color = subject.color if subject else server.options.default_color
@@ -223,13 +228,14 @@ func _on_ui_start_hold(position: Vector2):
 			_select_item(null)
 
 func _on_ui_lock_hold():
-	pass # print("_on_ui_lock_hold")
+	pass
+	
 func _on_ui_end_hold():
-	print("_on_ui_end_hold")
+	_log("_on_ui_end_hold")
 	
 func _on_ui_start_drag(position: Vector2):
 	if _drag_state != DragState.None:
-		print("Unexpected drag state '%s'" % DragState.keys()[_drag_state])
+		_log_warning("Unexpected drag state '%s'" % DragState.keys()[_drag_state])
 		return
 	
 	_initial_drag_position = position
@@ -242,8 +248,6 @@ func _on_ui_drag(position: Vector2):
 	#_update_tool_position(position)
 	
 	var delta = position - _initial_drag_position
-	
-	#print("drag %s" % delta)
 	
 	if abs(delta.x) > abs(delta.y):
 		delta.y = 0
@@ -301,7 +305,7 @@ func _on_continue_previous_pressed():
 
 func _on_new_game_pressed():
 	if game_instance:
-		print("Replay not implemented!")
+		_log_warning("Replay not implemented!")
 		return
 	
 	_start_game()

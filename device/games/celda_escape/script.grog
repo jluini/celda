@@ -2,10 +2,10 @@ main:
 	init:
 		# nothing
 		# TODO remove this when unnecessary
-		.set sarasas=false
+		.set bool1=false
 
 		# TODO set this from code?
-		.set stage = 0
+		.set bool2 = true
 	start:
 		.set door_seen=false
 		.set poster_was_taken=false

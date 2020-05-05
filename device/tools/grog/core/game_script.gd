@@ -32,30 +32,32 @@ func prepare(compiler) -> Dictionary:
 	_valid = ret.result
 	return ret
 	
-func has_sequence(headers: Array) -> bool:
+func has_routine(headers: Array) -> bool:
 	if not is_valid():
 		print("Not valid")
 		return false
 	
-	return _has_sequence(headers)
+	return _has_routine(headers)
+
+func get_routine(headers: Array):
+	if not is_valid():
+		print("Not valid")
+		return null
+	
+	return _get_routine(headers)
 
 func get_sequence_with_parameter(_headers: Array, _param):
 	print("Not implemented")
 	return null
 
-func get_sequence(headers: Array):
-	if not is_valid():
-		print("Not valid")
-		return null
-	
-	return _get_sequence(headers)
+# abstract methods
 
-func _get_sequence(_headers: Array):
-	print("Override _get_sequence")
+func _get_routine(_headers: Array):
+	print("Override _get_routine")
 	return null
 	
-func _has_sequence(_headers: Array) -> bool:
-	print("Override _has_sequence")
+func _has_routine(_headers: Array) -> bool:
+	print("Override _has_routine")
 	return false
 	
 func _prepare(_compiler) -> Dictionary:

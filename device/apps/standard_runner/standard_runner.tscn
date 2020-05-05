@@ -14,8 +14,6 @@
 [ext_resource path="res://themes/pixel/pixel.tres" type="Theme" id=12]
 [ext_resource path="res://themes/pointfree/pointfree.tres" type="Theme" id=13]
 
-
-
 [node name="standard_runner" instance=ExtResource( 8 )]
 start_mode = 1
 

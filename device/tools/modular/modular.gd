@@ -14,6 +14,7 @@ var _current = -1
 
 var _broadcast_listeners = {}
 
+
 func _ready():
 	_modules = _get_modules()
 	
@@ -24,7 +25,7 @@ func _ready():
 		var result = _initialize_module(module)
 		if not result.valid:
 			valid = false
-			_log_error("can't initialize '%s'" % module.get_module_name())
+			_log_error("can't initialize module '%s'" % module.get_module_name())
 			_log_error(result.message)
 			break
 		$ui/modules.set_tab_title(index + 1, module.get_module_name())
@@ -32,13 +33,15 @@ func _ready():
 
 	var _topbar = $ui/topbar
 	
+	# TODO fix duplicated code
+	
 	_apps = _get_apps()
 	for index in range(_apps.size()):
 		var app: Control = _apps[index]
 		var result = _initialize_module(app)
 		if not result.valid:
 			valid = false
-			_log_error("can't initialize '%s'" % app.get_module_name())
+			_log_error("can't initialize module '%s'" % app.get_module_name())
 			_log_error(result.message)
 			break
 		app.hide()
@@ -97,11 +100,10 @@ func open_app(index: int):
 func _initialize_module(module: Node) -> Dictionary:
 	var module_name = module.get_module_name()
 	
-	_log("initializing '%s'" % module_name)
-	
 	if modules.has(module_name):
 		return { valid = false, message = "duplicated module '%s'" % module_name}
 	
+	_log("initializing module '%s'" % module_name)
 	var result = module.initialize(self)
 	
 	if not result.valid:
@@ -143,15 +145,15 @@ enum Severity {
 	Warning,
 	Error
 }
-	
+
 func log_info(category: String, message: String, level = 0):
 	log_message(Severity.Info, category, message, level)
 func log_warning(category: String, message: String, level = 0):
 	log_message(Severity.Warning, category, message, level)
 func log_error(category: String, message: String, level = 0):
 	log_message(Severity.Error, category, message, level)
-	
-	
+
+
 func log_message(severity: int, category: String, message: String, _level = 0):
 	printt(_severity_str(severity), "%-10s" % category, message)
 
@@ -161,7 +163,7 @@ func _severity_str(severity: int) -> String:
 		return severities[severity]
 	else:
 		return "?%s?" % severity
-	
+
 
 func _get_modules():
 	var children = $ui/modules.get_children()

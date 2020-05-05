@@ -59,7 +59,7 @@ func compile(code: String, number_of_section_levels: int) -> CompiledScript:
 	#     - root at level zero
 	#     - sections at every (0 < level < number_of_section_levels) (currently using exactly one level of this kind)
 	#     - sequences at level=number_of_section_levels (currently = 2); these are actually a (special?) case of 'sections'
-	#     - statements at every level > number_of_section_levels1
+	#     - statements at every level > number_of_section_levels
 	var root = _parse_lines(cs, lines, number_of_section_levels)
 	if not cs.is_valid():
 		return cs
@@ -303,7 +303,7 @@ func recognize_token(content: String, parse_as_number: bool) -> Dictionary:
 # Compiling
 
 # returns a dict representing the parse tree root (if no errors)
-func _parse_lines(compiled_script, lines: Array, code_levels = 1): # -> Dictionary:
+func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): # -> Dictionary:
 	var num_lines = lines.size()
 	
 	# TODO track current node (root here) instead of current node's children
@@ -347,16 +347,16 @@ func _parse_lines(compiled_script, lines: Array, code_levels = 1): # -> Dictiona
 				assert(stack.size() == level)
 				
 				if current_block.type == "section":
-					assert(level < code_levels - 1)
+					assert(level < number_of_section_levels - 1)
 					current_block.sections = children
 					
 				elif current_block.type == "sequence":
-					assert(level == code_levels - 1)
+					assert(level == number_of_section_levels - 1)
 				
-					current_block.instructions = children
+					current_block.statements = children
 					
 				elif current_block.type == "if":
-					assert(level >= code_levels)
+					assert(level >= number_of_section_levels)
 					
 					if current_block.has("condition"):
 						if not current_block.has("main_branches"):
@@ -370,7 +370,7 @@ func _parse_lines(compiled_script, lines: Array, code_levels = 1): # -> Dictiona
 						assert(not current_block.has("else_branch"))
 						current_block.else_branch = children
 				elif current_block.type == "loop":
-					assert(level >= code_levels)
+					assert(level >= number_of_section_levels)
 					
 					assert(not current_block.has("statements"))
 					current_block.statements = children
@@ -391,7 +391,7 @@ func _parse_lines(compiled_script, lines: Array, code_levels = 1): # -> Dictiona
 		var k = 1
 		var num_tokens = line.tokens.size()
 		
-		if level < code_levels: # header
+		if level < number_of_section_levels: # header
 			if not _token_is_straight_identifier(first_token):
 				compiled_script.add_error("Invalid trigger name (line %s)" % line.line_number)
 				return
@@ -462,13 +462,13 @@ func _parse_lines(compiled_script, lines: Array, code_levels = 1): # -> Dictiona
 					compiled_script.add_error("Invalid sequence parameter (only TK allowed) (line %s)" % line.line_number)
 					return
 			
-			if level == code_levels - 1:
+			if level == number_of_section_levels - 1:
 				children.append({
 					type = "sequence",
 					trigger_name = first_token.data.key,
 					telekinetic = is_telekinetic,
 					pattern = pattern
-					# waiting for instructions
+					# waiting for statements
 				})
 			else:
 				# TODO
@@ -837,6 +837,9 @@ func _parse_lines(compiled_script, lines: Array, code_levels = 1): # -> Dictiona
 	}
 
 func _compile_tree(cs, root, number_of_section_levels):
+	var level = 0
+	var stack = []
+	
 	# current 'breadcrumb'
 	var header_chain = []
 	
@@ -849,7 +852,7 @@ func _compile_tree(cs, root, number_of_section_levels):
 	
 	while true:
 		assert(level == stack.size())
-		assert(level <= code_levels - 1)
+		assert(level <= number_of_section_levels - 1)
 		
 		while current_index >= current_items.size():
 			# current block is over
@@ -874,7 +877,7 @@ func _compile_tree(cs, root, number_of_section_levels):
 		var next_element = current_items[current_index]
 		current_index += 1
 		
-		if level < code_levels - 1:
+		if level < number_of_section_levels - 1:
 			# 'section' level (excluding sequences)
 			
 			assert(next_element.type == "section")
@@ -901,26 +904,27 @@ func _compile_tree(cs, root, number_of_section_levels):
 				current_index = 0
 				current_items = next_element.sections
 		
-		elif level == code_levels - 1:
+		else:
 			# 'sequence' or 'trigger' level
 			
+			assert(level == number_of_section_levels - 1)
 			assert(next_element.type == "sequence")
 			assert(next_element.has("trigger_name"))
-			assert(next_element.has("instructions"))
+			assert(next_element.has("statements"))
+			# TODO implement telekinetic / parameters
 			
 			var trigger_name = next_element.trigger_name
+			var statements = next_element.statements
+			
 			header_chain.push_back(trigger_name)
 			
 			if current_data.has(trigger_name):
 				print("Duplicated header 2 '%s'" % str(header_chain))
 			else:
-				current_data[trigger_name] = next_element
+				var new_routine = Routine.new(trigger_name, statements)
+				current_data[trigger_name] = new_routine
 	
 			header_chain.pop_back()
-		else:
-			# instruction or subinstruction level
-			
-			pass
 		
 	assert(level == 0)
 	assert(stack.size() == 0)
@@ -976,7 +980,6 @@ func parse_expression(tokens: Array) -> Dictionary:
 	r = p.finish()
 	if not r.result:
 		return r
-	
 	
 	var root = r.root
 	

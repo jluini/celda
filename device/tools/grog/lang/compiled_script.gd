@@ -4,16 +4,12 @@ class_name CompiledScript
 
 export (int) var levels = 2
 
-var _valid: bool
-var _initialized: bool
+var _valid: bool = true
+var _initialized: bool = false
 
-var _data: Dictionary
-var _errors: Array
+var _data: Dictionary = {}
+var _errors: Array = []
 
-func _init():
-	_valid = true
-	_initialized = false
-	_errors = []
 
 func initialize(num_levels: int, data: Dictionary) -> bool:
 	if _initialized:
@@ -49,7 +45,7 @@ func print_errors():
 func _print_error(err):
 	print(err)
 
-func has_sequence(headers: Array) -> bool:
+func has_routine(headers: Array) -> bool:
 	if levels < 0:
 		print("Bad configuration")
 		return false
@@ -80,7 +76,7 @@ func has_sequence(headers: Array) -> bool:
 	# unreachable
 	return false
 
-func get_sequence(headers: Array):
+func get_routine(headers: Array):
 	if levels < 0:
 		print("Bad configuration")
 		return null

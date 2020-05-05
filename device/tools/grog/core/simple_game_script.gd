@@ -4,7 +4,7 @@ class_name SimpleGameScript
 
 export (String, FILE, "*.grog") var script_path
 
-var _compiled_data
+var _compiled_script
 
 func _prepare(compiler) -> Dictionary:
 	if not script_path:
@@ -32,7 +32,7 @@ func _prepare(compiler) -> Dictionary:
 	var compiled = compiler.compile(content, 2)
 	
 	if compiled.is_valid():
-		_compiled_data = compiled
+		_compiled_script = compiled
 	
 		return { result = true }
 	
@@ -44,8 +44,8 @@ func _prepare(compiler) -> Dictionary:
 		return { result = false, message = message }
 
 # TODO up these to superclass game_script?
-func _has_sequence(headers: Array) -> bool:
-	return _compiled_data.has_sequence(headers)
+func _has_routine(headers: Array) -> bool:
+	return _compiled_script.has_routine(headers)
 
-func _get_sequence(headers: Array) -> bool:
-	return _compiled_data.get_sequence(headers)
+func _get_routine(headers: Array):
+	return _compiled_script.get_routine(headers)

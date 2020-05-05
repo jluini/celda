@@ -12,4 +12,4 @@ rooms = [ ExtResource( 2 ) ]
 actors = [ ExtResource( 3 ) ]
 inventory_items_scene = ExtResource( 4 )
 default_action = "walk_to"
-script_path = "res://games/celda_escape/script.grog"
+script_path = "res://games/celda_escape/mock_script.grog"

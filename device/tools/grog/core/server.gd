@@ -10,9 +10,12 @@ var _compiled_game = null
 
 var game_instance = null
 
+func _get_module_name():
+	return "grog-server"
+
 func _on_initialize() -> Dictionary:
 	if not game_script:
-		return { valid = false, message = "There's no game set" }
+		return { valid = false, message = "there's no game set" }
 	
 	var res = game_script.prepare(compiler)
 	
@@ -25,16 +28,13 @@ func _on_initialize() -> Dictionary:
 	var user_dir_result = dir.open("user://")
 	
 	if user_dir_result != OK:
-		return { valid = false, message = "Can't create files" }
+		return { valid = false, message = "can't create files" }
 	
 	if not dir.dir_exists(saved_games_path):
-		print("Folder 'saved_games' does not exist; creating it")
+		_log("folder 'saved_games' does not exist; creating it")
 		dir.make_dir(saved_games_path)
 	
 	return { valid = true }
-
-func get_module_name() -> String:
-	return "grog-server"
 
 func get_signals() -> Array:
 	return []
@@ -45,12 +45,12 @@ func _process(delta):
 
 func get_game_script():
 	if not game_script:
-		print("There's no game set")
+		_log("there's no game set")
 	return game_script
 
 func new_game():
 	if not game_script:
-		print("There's no game set")
+		_log("there's no game set")
 		return
 	
 	assert(not game_instance)
@@ -69,7 +69,7 @@ func get_saved_games():
 		
 	var saved_games_result = dir.open(saved_games_path)
 	if saved_games_result != OK:
-		return { result = false, message = "Can't open folder" }
+		return { result = false, message = "can't open folder '%s'" % saved_games_path }
 	
 	dir.list_dir_begin()
 	var file_name = dir.get_next()
@@ -86,7 +86,6 @@ func get_saved_games():
 			})
 		else:
 			pass # Ignoring dir
-			#print("Directory found %s" % file_name)
 			
 		file_name = dir.get_next()
 	
@@ -108,4 +107,5 @@ func _on_generate_fake_pressed():
 	file.open(saved_games_path + "/fake.grog", File.WRITE)
 	file.store_string("content")
 	file.close()
+
 

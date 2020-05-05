@@ -25,28 +25,6 @@ var enabled = true
 
 ##############################
 
-# TODO remove
-func init_item(compiler):
-	#add_to_group("item")
-
-	if code:
-		#_compiled_script = compiler.compile_text(code)
-		_compiled_script = compiler.compile(code, 1)
-
-		if not _compiled_script.is_valid():
-			print("Item '%s': script is invalid" % get_key())
-			_compiled_script.print_errors()
-
-func has_action(action_name: String) -> bool:
-	return _compiled_script != null and _compiled_script.has_sequence(action_name)
-	
-	
-func get_sequence(trigger_name: String) -> Dictionary:
-	return _compiled_script.get_sequence([trigger_name]) if _compiled_script else null
-
-func get_sequence_with_parameter(trigger_name: String, param):
-	return _compiled_script.get_sequence_with_parameter(trigger_name, param) if _compiled_script else null
-
 func is_enabled():
 	return enabled
 	

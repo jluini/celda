@@ -4,7 +4,7 @@ var left
 var operator
 var right
 
-func _init(p_left, p_operator, p_right):
+func _init(p_left = null, p_operator = null, p_right = null):
 	left = p_left
 	operator = p_operator
 	right = p_right

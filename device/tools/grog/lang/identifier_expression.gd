@@ -3,7 +3,7 @@ class_name IdentifierExpression
 var indirection_level: int
 var key: String
 
-func _init(p_indirection_level: int, p_key: String):
+func _init(p_indirection_level: int = 0, p_key: String = ""):
 	indirection_level = p_indirection_level
 	key = p_key
 
