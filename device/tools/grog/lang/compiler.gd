@@ -680,7 +680,7 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 					
 					children.append({
 						type = "command",
-						command = command_name,
+						command_name = command_name,
 						params = final_params
 					})
 				

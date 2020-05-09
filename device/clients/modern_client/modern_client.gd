@@ -70,6 +70,7 @@ func _start():
 	
 	# TODO wait until menu is fully closed
 	
+	# TODO talk with server? instead of directly to game instance
 	var ret = game_instance.start_game_request(_room_parent)
 
 	if not ret:
@@ -329,9 +330,14 @@ func _on_load_game_pressed():
 	_status.text = ""
 	_tabs.show_named("game_list")
 
+func _input(event):
+	if event is InputEventKey:
+		if event.pressed and event.scancode == KEY_ESCAPE:
+			if game_instance.skip_request():
+				get_tree().set_input_as_handled()
+	
+
 func _on_options_pressed():
-	#if _pressed_button == _options_button:
-	#	return
 	_close_all()
 	_modular.show_modules()
 

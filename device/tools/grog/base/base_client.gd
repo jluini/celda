@@ -5,9 +5,7 @@ signal music_changed
 signal game_ended
 
 var server
-#var server = null # TODO
 var game_instance = null
-#var data
 
 var _loaded_items = []
 

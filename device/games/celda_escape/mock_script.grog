@@ -1,8 +1,15 @@
 main:
 	init:
-		.set stage = 0
+		#.set stage = 0
+		
+		.say "hola 1"
+		.say "hola 2"
+		.say "hola 3"
+		.say "hola 4"
+
 	start:
 		.say "Había una vez..."
+
 celda/thing:
 	look_at:
 		you.say CELDA_ESCAPE_NICE_THING

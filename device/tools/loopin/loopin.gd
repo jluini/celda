@@ -57,7 +57,9 @@ func _ready():
 	
 	_player_pool.connect("player_finished", self, "_on_player_finished")
 	set_process(false)
-	
+
+
+# TODO don't process every frame (use timers/tweens)
 func _process(_delta):
 	var now: int = ticks_now()
 	

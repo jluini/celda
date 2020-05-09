@@ -8,7 +8,7 @@ onready var compiler = $compiler
 
 var _compiled_game = null
 
-var game_instance = null
+var game_instance: Node = null
 
 func _get_module_name():
 	return "grog-server"
@@ -39,10 +39,6 @@ func _on_initialize() -> Dictionary:
 func get_signals() -> Array:
 	return []
 
-func _process(delta):
-	if game_instance:
-		game_instance.update(delta)
-
 func get_game_script():
 	if not game_script:
 		_log("there's no game set")
@@ -55,11 +51,16 @@ func new_game():
 	
 	assert(not game_instance)
 	
-	#game_instance = load("res://tools/grog/core/game_server.gd").new()
 	game_instance = load("res://tools/grog/core/game_instance.gd").new()
-	#add_child(server)
 	
 	var ok = game_instance.init(self, game_script)
+	
+	if not ok:
+		_log("deleting game instance")
+		game_instance.queue_free()
+		return null
+	
+	add_child(game_instance)
 	
 	return game_instance
 
