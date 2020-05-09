@@ -112,7 +112,7 @@ func remove_alias(alias_name: String):
 
 # If there's a type mismatch, returns { type=false } (meaning invalid result)
 # If it's absent, returns the same if required=true or null if it's not required (meaning absent)
-func get_symbol_of_types(symbol_name:String, types: Array, required: bool):
+func get_symbol_of_types(symbol_name: String, types: Array, required: bool):
 	var symbol = get_symbol(symbol_name)
 	
 	if not symbol:

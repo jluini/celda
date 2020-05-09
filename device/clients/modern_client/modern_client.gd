@@ -123,7 +123,7 @@ func _on_server_wait_ended():
 	_log_warning("TODO implement _on_server_wait_ended")
 
 func _on_server_say(subject: Node, speech: String, _duration: float, _skippable: bool):
-	var color = subject.color if subject else server.options.default_color
+	var color = subject.color if subject else game_instance.get_default_color()
 	
 	_text.text = speech
 	_text.modulate = color

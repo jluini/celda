@@ -12,4 +12,5 @@ rooms = [ ExtResource( 2 ) ]
 actors = [ ExtResource( 3 ) ]
 inventory_items_scene = ExtResource( 4 )
 default_action = "walk_to"
+default_color = Color( 0.109804, 0.796078, 0.905882, 1 )
 script_path = "res://games/celda_escape/mock_script.grog"

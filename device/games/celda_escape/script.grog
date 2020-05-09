@@ -1,16 +1,15 @@
 main:
 	init:
 		# nothing
-		# TODO remove this when unnecessary
-		.set bool1=false
-
-		# TODO set this from code?
-		.set bool2 = true
-	start:
+	
+	#start:
+		
+		# celda setup
 		.set door_seen=false
 		.set poster_was_taken=false
-		
 		celda/exit.disable
+		
+		# office setup
 		.set bust_turn = false
 
 		if $stage = 0:

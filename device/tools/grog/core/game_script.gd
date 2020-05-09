@@ -10,10 +10,12 @@ export (Array, Resource) var actors
 export (Resource) var inventory_items_scene
 export (String) var default_action
 
+export (Color) var default_color = Color.whitesmoke
+
 var _valid = false
 
-func get_key():
-	return get_name()
+func get_short_name():
+	return get_name() # it returns the Resource name
 
 func get_rooms():
 	return rooms

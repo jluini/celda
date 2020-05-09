@@ -1,14 +1,21 @@
 main:
 	init:
-		#.set stage = 0
 		
-		.say "hola 1"
-		.say "hola 2"
-		.say "hola 3"
-		.say "hola 4"
+		.set door_seen=false
+		.set poster_was_taken=false
 
-	start:
-		.say "Había una vez..."
+		# celda setup
+		.set door_seen=false
+		.set poster_was_taken=false
+		celda/exit.disable
+		
+		# office setup
+		.set bust_turn = false
+
+		#if $stage = 0:
+		.load_room celda
+		.set music=sufre
+		.curtain_up
 
 celda/thing:
 	look_at:

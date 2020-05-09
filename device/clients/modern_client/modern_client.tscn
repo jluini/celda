@@ -15,10 +15,6 @@
 [ext_resource path="res://clients/modern_client/side_menu.gd" type="Script" id=20]
 [ext_resource path="res://clients/modern_client/menu_button.tscn" type="PackedScene" id=21]
 
-
-
-
-
 [sub_resource type="Animation" id=1]
 tracks/0/type = "value"
 tracks/0/path = NodePath("curtain:modulate")
@@ -219,6 +215,7 @@ __meta__ = {
 
 [node name="curtain" type="TextureRect" parent="ui"]
 modulate = Color( 0, 0, 0, 0 )
+self_modulate = Color( 1, 1, 1, 0.901961 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -306,6 +303,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource( 4 )
 text = "Celda"
+color = Color( 1, 1, 1, 1 )
 label_type = "big"
 
 [node name="game_list" type="Control" parent="ui/menu/tab_container/tabs"]
@@ -332,6 +330,9 @@ entry_model = ExtResource( 12 )
 margin_top = 301.0
 margin_right = 826.0
 margin_bottom = 451.0
+
+[node name="label" parent="ui/menu/tab_container/tabs/game_list/v_box_container/control" index="0"]
+color = Color( 1, 1, 1, 1 )
 
 [node name="side_menu" type="Control" parent="ui/menu"]
 anchor_right = 0.4
