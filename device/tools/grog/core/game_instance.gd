@@ -267,6 +267,11 @@ func _command_load_room(room_name: String) -> Dictionary:
 	
 	return _instant_termination
 
+func _command_curtain_up():
+	_game_event("curtain_up")
+	
+	return _instant_termination
+
 func _command_set(var_name: String, new_value_expression) -> Dictionary:
 	var new_value = new_value_expression.evaluate(self)
 	
@@ -379,12 +384,6 @@ func _command_disable(item_key: String) -> Dictionary:
 		_game_event("item_disabled", [item])
 
 	return _instant_termination
-
-func _command_curtain_up():
-	_game_event("curtain_up")
-	
-	return _instant_termination
-
 
 func _command_teleport(item_id: String, to_node_named: String, opts: Dictionary) -> Dictionary:
 	var item_symbol = symbols.get_symbol_of_types(item_id, ["player"], true)

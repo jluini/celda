@@ -36,6 +36,46 @@ Instructions can be:
 
 <!-- |                   |                                               | `                                                                                   ` | -->
 
+## load_room
+
+If there's a room loaded, lowers the curtain and unloads it. Then loads the new room.
+The command `curtain_up` is needed afterwards to raise the curtain again (the new room will not be visible otherwise).
+
+Not fully implemented yet.
+
+## curtain_up
+
+Raises the curtain. Needed after load_room.
+
+
+## set
+
+Sets a new value for a global variable.
+
+	.set number = 5
+	.set number = $number + 1
+	.set flag = $another_flag and ($number > 4)
+	.set text = "hello"
+	.set text = $text + ", world"
+
+## say
+
+The environment or an item says something. This needs to be revised and documented.
+
+	.say "Hello."     # the environment says "Hello."
+	you.say "Hello."  # the player says "Hello."
+	item1.say "Hello."  # the item 'item1' says "Hello."
+
+## enable & disable
+
+Enables/disables a scene item. If the item is loaded (it's in the current room) the client will be notified and the change will be
+noted immediately. Otherwise, it will be noted the next time a room with the item is loaded.
+
+A disabled item is hidden and can't receive interactions.
+
+	item1.enable  # enables a specific item (either loaded or not)
+	self.disable  # disables the current interacting item (for example when picking it up)
+
 
 ## teleport
 
