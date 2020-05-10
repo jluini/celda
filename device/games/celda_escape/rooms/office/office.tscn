@@ -8,8 +8,6 @@
 [ext_resource path="res://games/celda_escape/rooms/office/images/Armor-Of1.png" type="Texture" id=6]
 [ext_resource path="res://games/celda_escape/rooms/office/images/Busto-Of1.png" type="Texture" id=7]
 
-
-
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 380.204, 838.492, 1231.84, 680.592, 1405.11, 653.384, 1489.6, 667.704, 1522.53, 699.207, 1349.27, 573.194, 1178.86, 600.401, 613.231, 574.626, 802.251, 603.265, 759.292, 686.32, 1715.85, 700.639, 1720.39, 837.408 )
 polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 2, 1, 6 ), PoolIntArray( 7, 5, 6, 8 ), PoolIntArray( 7, 8, 9, 0 ), PoolIntArray( 10, 11, 0, 4 ), PoolIntArray( 9, 1, 0 ) ]
@@ -69,19 +67,12 @@ position = Vector2( 1736.08, 974.77 )
 position = Vector2( 170.901, 241.02 )
 script = ExtResource( 5 )
 item_key = "office/duct"
+instance_number = 0
+color = Color( 0, 0, 0, 1 )
 interact_angle = 200
-code = "
-walk_to:
-	if $stage < 3:
-		.load_room celda
-		.set music=sufre
-	else:
-		.load_room celda_open
-		.set music=uajari
-	
-	.curtain_up
-	you.teleport to=pos4 angle=150"
+walk_speed = 0.0
 radius = 75.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/duct"]
 position = Vector2( 226.821, 625.248 )
@@ -90,17 +81,12 @@ position = Vector2( 226.821, 625.248 )
 position = Vector2( 1571.01, 591.886 )
 script = ExtResource( 5 )
 item_key = "office/bust"
+instance_number = 0
 color = Color( 0.164706, 0.647059, 0.815686, 1 )
 interact_angle = 350
-code = "
-look_at:
-	you.say \"Es un busto.\"
-	.set bust_turn = not $bust_turn
-	if $bust_turn:
-		self.say \"Igualmente.\"
-	else:
-		self.say \"El busto es mío.\""
+walk_speed = 0.0
 radius = 70.0
+offset = Vector2( 0, 0 )
 
 [node name="interact_position" type="Position2D" parent="items/bust"]
 position = Vector2( -88.1641, 216.144 )
@@ -112,7 +98,9 @@ position = Vector2( 2.27527, -89.8704 )
 position = Vector2( 1799.96, 957.241 )
 script = ExtResource( 5 )
 item_key = "office/to_living"
-code = "walk_to:
-	.load_room living
-	.curtain_up"
+instance_number = 0
+color = Color( 0, 0, 0, 1 )
+interact_angle = 0
+walk_speed = 0.0
 radius = 150.0
+offset = Vector2( 0, 0 )

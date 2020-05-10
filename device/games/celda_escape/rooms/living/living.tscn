@@ -4,8 +4,6 @@
 [ext_resource path="res://tools/grog/twod/item2d.gd" type="Script" id=2]
 [ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
 
-
-
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 538.357, 586.75, 1395.79, 577.547, 1651.95, 835.237, 380.204, 838.492, 449.393, 652.707, 230.049, 651.173, 222.38, 833.704 )
 polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 4, 3, 6 ) ]
@@ -42,9 +40,9 @@ position = Vector2( 722.732, 774.828 )
 position = Vector2( 203.094, 920.269 )
 script = ExtResource( 2 )
 item_key = "living/to_office"
+instance_number = 0
+color = Color( 0, 0, 0, 1 )
 interact_angle = 180
-code = "walk_to:
-	.load_room office
-	you.teleport to=pos1 angle=135
-	.curtain_up"
+walk_speed = 0.0
 radius = 150.0
+offset = Vector2( 0, 0 )

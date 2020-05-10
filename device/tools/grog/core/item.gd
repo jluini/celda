@@ -7,8 +7,6 @@ export (Color) var color
 
 export (int) var interact_angle
 
-export (String, MULTILINE) var code
-
 export (float) var walk_speed
 
 var walking = false
@@ -18,9 +16,6 @@ signal start_walking
 signal stop_walking
 signal angle_changed
 
-
-var _compiled_script
-
 var enabled = true
 
 ##############################
@@ -29,7 +24,6 @@ func is_enabled():
 	return enabled
 	
 ##############################
-
 
 # abstract method
 func on_teleport(_target_pos):

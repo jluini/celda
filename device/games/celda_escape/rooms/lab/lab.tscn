@@ -85,9 +85,6 @@ item_key = "lab/exit"
 instance_number = 0
 color = Color( 0, 0, 0, 1 )
 interact_angle = 180
-code = "walk_to:
-	.load_room cellar
-	.curtain_up"
 walk_speed = 0.0
 radius = 150.0
 offset = Vector2( 0, 0 )
@@ -100,9 +97,6 @@ item_key = "lab/stretcher"
 instance_number = 0
 color = Color( 0, 0, 0, 1 )
 interact_angle = 45
-code = "
-look_at:
-	you.say \"Alta camilla.\""
 walk_speed = 0.0
 radius = 200.0
 offset = Vector2( 0, 0 )

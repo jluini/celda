@@ -103,21 +103,6 @@ item_key = "celda/poster"
 instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 0
-code = "
-pick_up:
-	inv_poster.add
-	self.disable
-	celda/exit.enable
-	if not $poster_was_taken:
-		you.say \"Mirá ese ventilete.\"
-		you.say \"Debe ser la salida.\"
-		.set poster_was_taken=true
-
-look_at:
-	you.say \"Lindo póster.\"
-	you.say \"Es un dibujo de Bubba.\"
-
-"
 walk_speed = 0.0
 radius = 70.0
 offset = Vector2( 0, 0 )
@@ -136,27 +121,6 @@ item_key = "celda/exit"
 instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 0
-code = "
-look_at:
-	you.say \"Cómo olvidar ese ventilete.\"
-
-open:
-	you.say \"Ya está abierto.\"
-
-use_with(inv_poster):
-	self.disable
-	celda/poster.enable
-	tool.remove
-
-use_with(inv_thing):
-	you.say \"Ya está abierto.\"
-
-walk_to:
-	.load_room office
-	.set music=office
-	.curtain_up
-
-"
 walk_speed = 0.0
 radius = 70.0
 offset = Vector2( 0, 0 )
@@ -179,19 +143,6 @@ item_key = "celda/door"
 instance_number = 0
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
 interact_angle = 180
-code = "
-look_at:
-	if $door_seen:
-		you.say \"Ya te dije que es alta puerta.\"
-	else:
-		you.say \"Es alta puerta.\"
-		.set door_seen=true
-
-open:
-	you.say \"No llego.\"
-
-close: TK
-	you.say \"Ya está cerrada.\""
 walk_speed = 0.0
 radius = 200.0
 offset = Vector2( 0, 0 )
@@ -206,12 +157,6 @@ item_key = "celda/gate"
 instance_number = 0
 color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
 interact_angle = 180
-code = "walk_to:
-	.load_room cellar
-	.set music=lab
-	
-	you.teleport to=pos1 angle=45
-	.curtain_up"
 walk_speed = 0.0
 radius = 200.0
 offset = Vector2( 0, 0 )
@@ -227,32 +172,6 @@ item_key = "celda/bed"
 instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 270
-code = "
-look_at:
-	you.say \"Menuda cama.\"
-
-#talk_to: TK
-#	.load_room 
-#	you.teleport to=pos1
-#	.curtain_up
-#	you.walk to=pos2
-
-	
-
-#pick_up:
-#	if $inv_paper = 3:
-#		if $take_desc_attempts > 4:
-#			you.say \"Ya que insistís...\"
-#			inv_paper.add
-#		else:
-#			.set take_desc_attempts=$take_desc_attempts + 1
-#			you.say \"Creo que ya tengo demasiadas.\"
-#	else:
-#		inv_paper.add
-#	
-#
-#use:
-#	self.set_tool use_with"
 walk_speed = 0.0
 radius = 150.0
 offset = Vector2( 0, 0 )
@@ -272,18 +191,6 @@ item_key = "celda/toilet"
 instance_number = 0
 color = Color( 1, 1, 1, 1 )
 interact_angle = 0
-code = "look_at:
-	you.say \"Alto inodoro.\"
-	you.say \"Tal vez me pueda ecapar por el desagüe del mismo.\"
-	you.say \"Mentira.\"
-
-
-use:
-	.curtain_down
-	.say \"10 minutos despues...\" duration=2
-	.wait 1
-	.curtain_up
-"
 walk_speed = 0.0
 radius = 100.0
 offset = Vector2( 0, 0 )

@@ -60,14 +60,6 @@ const commands = {
 			{ name = "room_name", type = ParameterType.Identifier }
 		]
 	},
-	enable_input = {
-		subject = SubjectType.None,
-		required_params = []
-	},
-	disable_input = {
-		subject = SubjectType.None,
-		required_params = []
-	},
 	wait = {
 		subject = SubjectType.None,
 		required_params = [
