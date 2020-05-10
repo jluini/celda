@@ -4,9 +4,8 @@ class_name GameScript
 
 export (Array, Resource) var rooms
 
-# TODO check these fields
+export (Resource) var player
 
-export (Array, Resource) var actors
 export (Resource) var inventory_items_scene
 export (String) var default_action
 
@@ -19,9 +18,6 @@ func get_short_name():
 
 func get_rooms():
 	return rooms
-
-func get_actors():
-	return actors
 
 func is_valid():
 	return _valid

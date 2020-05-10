@@ -433,7 +433,9 @@ func start_game_request(room_parent: Node) -> bool:
 
 	_room_parent = room_parent
 	
-	current_player = null # TODO player
+	var player_resource = _game_script.player
+	current_player = player_resource.get_target().instance()
+	symbols.add_symbol("you", "player", current_player)
 	
 	var init_routine = _get_routine(["main", "init"])
 	
