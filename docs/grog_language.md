@@ -22,7 +22,7 @@ Instructions can be:
 | **wait**          | Waits `delay` seconds.                        | `            .wait         <delay> [skippable=true\|false]                          ` |
 | **say**           | The environment or an item says something.    | ` [<subject>].say          <speech> [skippable=true\|false]  [duration=<delay>]     ` |
 | **walk**          | Player or item walks to position.             | `   <subject>.walk         to=<target_name>                                         ` |
-| **teleport**      | Moves the player or item.                     | `   <subject>.teleport     to=<target_name>                                         ` |
+| **teleport**      | Moves the player or item.                     | `   <subject>.teleport     to=<target_name>   [angle=<int>]                         ` |
 | **set**           | Sets the value of a global variable.          | `            .set          <var_name>=<expression...>                               ` |
 | **enable**        | Enable a scene item (loaded or not).          | `   <sc_item>.enable                                                                ` |
 | **disable**       | Disable a scene item (loaded or not).         | `   <sc_item>.disable                                                               ` |
@@ -37,10 +37,22 @@ Instructions can be:
 <!-- |                   |                                               | `                                                                                   ` | -->
 
 
-## set_tool
+## teleport
 
- - `<verb_name>`: it's the name of the verb
+Instantly teleports an item or actor to the position specified by `target_name`.
+The target must be either a (loaded and enabled) scene item or a plain node name.
 
-It can be used with inventory items (even if they are not in the inventory) and with **loaded** and **enabled** scene items.
+The item (or actor) angle can be set aswell. If the target is an item the angle used defaults to its interaction angle.
+In the case of plain nodes it remains unchanged when not specified.
+
+	you.teleport to=position1                            # teleports the player to a node 'position1' keeping the angle
+	you.teleport to=position1  angle=180                 # changes the player angle aswell
+
+	you.teleport to=room/item1                           # teleports the player to an item (using its interaction angle)
+	you.teleport to=room/item1  angle=90                 # overrides the item's interaction angle
+
+
+
+
 
 [<- back to index](index.md)

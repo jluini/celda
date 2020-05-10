@@ -42,8 +42,13 @@ func position_of_child_at(position_path: NodePath):
 		return position
 	
 # relative position
+# TODO rename to interaction_position?
 func get_interact_position():
 	return position_of_child_at("interact_position")
+
+# TODO rename to interaction_angle?
+func get_interact_angle():
+	return interact_angle
 
 func enable():
 	enabled = true

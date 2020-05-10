@@ -385,7 +385,79 @@ func _command_curtain_up():
 	
 	return _instant_termination
 
+
+func _command_teleport(item_id: String, to_node_named: String, opts: Dictionary) -> Dictionary:
+	var item_symbol = symbols.get_symbol_of_types(item_id, ["player"], true)
+	
+	if not item_symbol.type:
+		_game_warning("no actor '%s'" % item_id)
+		return _instant_termination
+	
+	# item to be teleported
+	var item = item_symbol.target
+	
+	var target_position: Vector2
+	var set_angle: bool = false
+	var target_angle: int
+	
+	if opts.has("angle"):
+		var angle_option = opts["angle"]
+		
+		if typeof(angle_option) != TYPE_INT:
+			_log_warning("angle is of type %s" % Grog._typestr(angle_option))
+			angle_option = int(angle_option)
+		
+		set_angle = true
+		target_angle = angle_option
+	
+	# tries to find a scene item first
+	var to_node_symbol = symbols.get_symbol_of_types(to_node_named, ["scene_item"], false)
+	
+	if to_node_symbol == null:
+		# absent; find a plain node then
+		if not current_room.has_node(to_node_named):
+			_game_warning("node '%s' not found" % to_node_named)
+			return _instant_termination
+		else:
+			# teleport to plain node
+			var plain_node: Node2D = current_room.get_node(to_node_named)
+			target_position = plain_node.position
+	
+	elif not to_node_symbol.type:
+		# type mismatch
+		_log_warning("can't teleport to an object of type '%s'" % symbols.get_symbol_type(to_node_named))
+		return _instant_termination
+	
+	else:
+		# scene item found
+		if not to_node_symbol.loaded:
+			_log_warning("teleport: item '%s' is not in current room" % to_node_named)
+			return _instant_termination
+		elif to_node_symbol.disabled:
+			_log_warning("teleport: item '%s' is disabled" % to_node_named)
+			return _instant_termination
+		else:
+			# teleport to scene item
+			var to_node = to_node_symbol.target
+			target_position = to_node.get_interact_position()
+			
+			if not set_angle:
+				# use interaction angle by default
+				set_angle = true
+				target_angle = to_node.get_interact_angle()
+	
+	_teleport(item, target_position, set_angle, target_angle)
+	
+	return _instant_termination
+
+
 ### command utils
+
+func _teleport(item: Node, target_position: Vector2, set_angle: bool, target_angle: int) -> void:
+	item.position = target_position
+	
+	if set_angle:
+		item.set_angle(target_angle)
 
 # Returns the symbol for a scene item (or builds it if not created yet)
 # Only returns null in case of type mismatch (symbol exists but its type doesn't match)

@@ -15,6 +15,9 @@ main:
 		#if $stage = 0:
 		.load_room celda
 		.set music=sufre
+
+		you.teleport to=celda/bed
+
 		.curtain_up
 
 celda/thing:

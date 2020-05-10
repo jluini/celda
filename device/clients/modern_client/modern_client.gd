@@ -334,6 +334,7 @@ func _input(event):
 	if event is InputEventKey:
 		if event.pressed and event.scancode == KEY_ESCAPE:
 			if game_instance.skip_request():
+				# TODO only handled in this case?
 				get_tree().set_input_as_handled()
 	
 
