@@ -96,45 +96,41 @@ func _advance() -> bool:
 	while(true):
 		_current_pointer += 1
 		
-		if _current_pointer < num_statements:
-			var next_statement: Dictionary = statements[_current_pointer]
+		if not _current_pointer < num_statements:
+			# routine is over
+			# TODO
+			return false
+		
+		# fetch next statement
+		var next_statement: Dictionary = statements[_current_pointer]
+		
+		if next_statement.type == "command":
+			var result = _run_command(next_statement)
 			
-			if next_statement.type == "command":
-				
-				var result = _run_command(next_statement)
-				
-				match result.termination:
-					"skip":
-						_skip_enabled = true
-						
-						return true
-						
-					"instant":
-						pass
-						
-					_:
-						assert(false) # TODO
-				
-			else:
-				assert(false) # TODO
+			match result.termination:
+				"skip":
+					_skip_enabled = true
+					
+					return true
+					
+				"instant":
+					pass
+					
+				_:
+					assert(false) # TODO
 			
 		else:
-			# routine is over
-			
-			# TODO
-			
-			return false
+			assert(false) # TODO
 	
 	# unreachable
 	assert(false)
 	return false
 
-func _run_command(command: Dictionary):
+func _run_command(command: Dictionary) -> Dictionary:
 	if not command.has("command_name") or not command.has("params"):
 		_log_error("invalid command %s" % _task_str(command))
-		assert(false) # TODO what to do after this error?
-		return
-		
+		return _instant_termination
+	
 	var cmd = command.command_name
 	var params = command.params
 	
@@ -147,6 +143,14 @@ func _run_command(command: Dictionary):
 		return _instant_termination
 	
 	var command_result = output.callv(method_name, params)
+	
+	if typeof(command_result) != TYPE_DICTIONARY:
+		_log_error("invalid command result type (%s)" % Grog._typestr(command_result))
+		return _instant_termination
+	
+	if not command_result.has("termination"):
+		_log_error("invalid command result (no termination)")
+		return _instant_termination
 	
 	return command_result
 
@@ -240,9 +244,7 @@ func _command_load_room(room_name: String) -> Dictionary:
 		
 		var item_symbol = _get_or_build_scene_item(item_key, "load")
 		
-		if not item_symbol:
-			# type mismatch
-			_game_error("scene item key '%s' was used as %s" % [item_key, symbols.get_symbol_type(item_key)])
+		if not item_symbol: # (type mismatch, error was logged already)
 			continue
 		
 		item_symbol.target = item
@@ -340,50 +342,10 @@ func _command_say(item_id: String, speech_token: Dictionary, opts: Dictionary) -
 	}
 
 func _command_enable(item_key: String) -> Dictionary:
-	var item_symbol = _get_or_build_scene_item(item_key, "enable")
-	
-	if not item_symbol:
-		return _instant_termination
-	
-	item_key = item_symbol.symbol_name
-	
-	if not item_symbol.disabled:
-		_game_warning("item '%s' is already enabled" % item_key)
-		return _instant_termination
-	
-	item_symbol.disabled = false
+	return _change_enabledness(item_key, true)
 
-	if item_symbol.loaded:
-		var item = item_symbol.target
-		assert(item == loaded_scene_items[item_key])
-
-		item.enable()
-		_game_event("item_enabled", [item])
-
-	return _instant_termination
-	
 func _command_disable(item_key: String) -> Dictionary:
-	var item_symbol = _get_or_build_scene_item(item_key, "disable")
-	
-	if not item_symbol:
-		return _instant_termination
-	
-	item_key = item_symbol.symbol_name
-	
-	if item_symbol.disabled:
-		_game_warning("item '%s' is already disabled" % item_key)
-		return _instant_termination
-	
-	item_symbol.disabled = true
-
-	if item_symbol.loaded:
-		var item = item_symbol.target
-		assert(item == loaded_scene_items[item_key])
-
-		item.disable()
-		_game_event("item_disabled", [item])
-
-	return _instant_termination
+	return _change_enabledness(item_key, false)
 
 func _command_teleport(item_id: String, to_node_named: String, opts: Dictionary) -> Dictionary:
 	var item_symbol = symbols.get_symbol_of_types(item_id, ["player"], true)
@@ -451,6 +413,39 @@ func _command_teleport(item_id: String, to_node_named: String, opts: Dictionary)
 
 
 ### command utils
+
+func _change_enabledness(item_key: String, new_enabledness: bool) -> Dictionary:
+	var verb = "enable" if new_enabledness else "disable"
+	
+	var item_symbol = _get_or_build_scene_item(item_key, verb)
+	
+	if not item_symbol: # (type mismatch, error was logged already)
+		return _instant_termination
+	
+	# original item_key could be an alias like 'self', so we update it here
+	# to match the actual key; otherwise this has no effect
+	item_key = item_symbol.symbol_name
+	
+	var new_disabledness = not new_enabledness
+	
+	if new_disabledness == item_symbol.disabled:
+		_game_warning("item '%s' is already %sd" % [item_key, verb])
+		return _instant_termination
+	
+	item_symbol.disabled = new_disabledness
+	
+	if item_symbol.loaded:
+		var item = item_symbol.target
+		assert(item == loaded_scene_items[item_key])
+		
+		if new_enabledness:
+			item.enable()
+			_game_event("item_enabled", [item])
+		else:
+			item.disable()
+			_game_event("item_disabled", [item])
+
+	return _instant_termination
 
 func _teleport(item: Node, target_position: Vector2, set_angle: bool, target_angle: int) -> void:
 	item.position = target_position
