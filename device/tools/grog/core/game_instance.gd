@@ -347,17 +347,40 @@ func _command_enable(item_key: String) -> Dictionary:
 func _command_disable(item_key: String) -> Dictionary:
 	return _change_enabledness(item_key, false)
 
-func _command_teleport(item_id: String, to_node_named: String, opts: Dictionary) -> Dictionary:
+func _command_teleport(item_id: String, target_node_name: String, opts: Dictionary) -> Dictionary:
+	var player = _get_player(item_id)
+	
+	if not player:
+		return _instant_termination
+	
+	var positioning = _get_target_positioning("teleport", target_node_name, opts)
+	
+	if positioning.valid:
+		_teleport(player, positioning)
+	# else error was logged already
+	
+	return _instant_termination
+
+### command utils
+
+# TODO this must be revised
+# currently always returns the player so doesn't make much sense
+func _get_player(item_id: String) -> Node:
 	var item_symbol = symbols.get_symbol_of_types(item_id, ["player"], true)
 	
 	if not item_symbol.type:
-		_game_warning("no actor '%s'" % item_id)
-		return _instant_termination
+		_game_warning("no player '%s'" % item_id)
+		return null
 	
-	# item to be teleported
-	var item = item_symbol.target
+	var ret = item_symbol.target
+
+	assert(not not ret)
+	assert(ret == current_player)
 	
-	var target_position: Vector2
+	return ret
+
+func _get_target_positioning(verb: String, target_node_name: String, opts: Dictionary) -> Dictionary:
+	var target_position: Vector2 # TODO this is coupled with two-dimensional geometry
 	var set_angle: bool = false
 	var target_angle: int
 	
@@ -372,33 +395,33 @@ func _command_teleport(item_id: String, to_node_named: String, opts: Dictionary)
 		target_angle = angle_option
 	
 	# tries to find a scene item first
-	var to_node_symbol = symbols.get_symbol_of_types(to_node_named, ["scene_item"], false)
+	var to_node_symbol = symbols.get_symbol_of_types(target_node_name, ["scene_item"], false)
 	
 	if to_node_symbol == null:
 		# absent; find a plain node then
-		if not current_room.has_node(to_node_named):
-			_game_warning("node '%s' not found" % to_node_named)
-			return _instant_termination
+		if not current_room.has_node(target_node_name):
+			_game_warning("node '%s' not found" % target_node_name)
+			return { valid = false }
 		else:
-			# teleport to plain node
-			var plain_node: Node2D = current_room.get_node(to_node_named)
+			# target is a plain node
+			var plain_node: Node2D = current_room.get_node(target_node_name)
 			target_position = plain_node.position
 	
 	elif not to_node_symbol.type:
 		# type mismatch
-		_log_warning("can't teleport to an object of type '%s'" % symbols.get_symbol_type(to_node_named))
-		return _instant_termination
+		_log_warning("can't %s to an object of type '%s'" % [verb, symbols.get_symbol_type(target_node_name)])
+		return { valid = false }
 	
 	else:
 		# scene item found
 		if not to_node_symbol.loaded:
-			_log_warning("teleport: item '%s' is not in current room" % to_node_named)
-			return _instant_termination
+			_log_warning("%s: item '%s' is not in current room" % [verb, target_node_name])
+			return { valid = false }
 		elif to_node_symbol.disabled:
-			_log_warning("teleport: item '%s' is disabled" % to_node_named)
-			return _instant_termination
+			_log_warning("%s: item '%s' is disabled" % [verb, target_node_name])
+			return { valid = false }
 		else:
-			# teleport to scene item
+			# target is a scene item
 			var to_node = to_node_symbol.target
 			target_position = to_node.get_interact_position()
 			
@@ -407,12 +430,12 @@ func _command_teleport(item_id: String, to_node_named: String, opts: Dictionary)
 				set_angle = true
 				target_angle = to_node.get_interact_angle()
 	
-	_teleport(item, target_position, set_angle, target_angle)
-	
-	return _instant_termination
-
-
-### command utils
+	return {
+		valid = true,
+		target_position = target_position,
+		set_angle = set_angle,
+		target_angle = target_angle
+	}
 
 func _change_enabledness(item_key: String, new_enabledness: bool) -> Dictionary:
 	var verb = "enable" if new_enabledness else "disable"
@@ -447,11 +470,11 @@ func _change_enabledness(item_key: String, new_enabledness: bool) -> Dictionary:
 
 	return _instant_termination
 
-func _teleport(item: Node, target_position: Vector2, set_angle: bool, target_angle: int) -> void:
-	item.position = target_position
+func _teleport(item: Node, positioning: Dictionary) -> void:
+	item.position = positioning.target_position
 	
-	if set_angle:
-		item.set_angle(target_angle)
+	if positioning.set_angle:
+		item.set_angle(positioning.target_angle)
 
 # Returns the symbol for a scene item (or builds it if not created yet)
 # Only returns null in case of type mismatch (symbol exists but its type doesn't match)
