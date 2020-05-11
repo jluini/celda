@@ -86,12 +86,10 @@ func _start():
 	#_item_menu.init(self, data)
 
 func _on_start():
-	_log_warning("TODO game started")
-	pass
+	pass # _log_warning("TODO game started")
 	
 func _on_end():
-	_log_warning("TODO game ended")
-	pass
+	pass # _log_warning("TODO game ended")
 
 ####
 
@@ -99,28 +97,27 @@ func _on_end():
 #	@SERVER EVENTS
 
 func _on_server_input_enabled():
-	_log_warning("TODO implement _on_server_input_enabled")
+	pass # _log_warning("TODO implement _on_server_input_enabled")
 	
 func _on_server_input_disabled():
-	_log_warning("TODO implement _on_server_input_disabled")
+	pass # _log_warning("TODO implement _on_server_input_disabled")
 
 func _on_server_room_loaded(_room):
-	_log_warning("TODO implement _on_server_room_loaded")
+	pass # _log_warning("TODO implement _on_server_room_loaded")
 
 func _on_item_enabled(_item):
-	_log_warning("TODO implement _on_item_enabled")
+	pass # _log_warning("TODO implement _on_item_enabled")
 
 func _on_item_disabled(item):
 	if _current_item == item:
 		_select_item(null)
-	
 
 func _on_server_wait_started(_duration: float, _skippable: bool):
-	_log_warning("TODO implement _on_server_wait_started")
+	pass # _log_warning("TODO implement _on_server_wait_started")
 
 func _on_server_wait_ended():
 	_text.text = ""
-	_log_warning("TODO implement _on_server_wait_ended")
+	pass # _log_warning("TODO implement _on_server_wait_ended")
 
 func _on_server_say(subject: Node, speech: String, _duration: float, _skippable: bool):
 	var color = subject.color if subject else game_instance.get_default_color()
@@ -333,7 +330,7 @@ func _on_load_game_pressed():
 func _input(event):
 	if event is InputEventKey:
 		if event.pressed and event.scancode == KEY_ESCAPE:
-			if game_instance.skip_request():
+			if game_instance and game_instance.skip_request():
 				# TODO only handled in this case?
 				get_tree().set_input_as_handled()
 	
