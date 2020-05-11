@@ -3,9 +3,6 @@ extends Node
 export (NodePath) var default_player_position_path
 export (NodePath) var navigation_path
 
-func start_room():
-	pass
-	
 func get_default_player_position():
 	var default_player_position_holder = get_node_if_present(default_player_position_path)
 	if default_player_position_holder:

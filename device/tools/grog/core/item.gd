@@ -7,7 +7,7 @@ export (Color) var color
 
 export (int) var interact_angle
 
-export (float) var walk_speed
+export (float) var walk_speed # game units per second
 
 var walking = false
 var angle = 0
@@ -63,8 +63,8 @@ func get_key():
 
 ### 
 
-func teleport(target_pos):
-	position = target_pos#set_position(target_pos)
+func teleport(target_pos: Vector2):
+	position = target_pos
 	on_teleport(target_pos)
 
 func get_angle():

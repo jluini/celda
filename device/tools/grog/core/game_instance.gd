@@ -25,8 +25,7 @@ var _game_script
 # Running routines
 
 var _current_routine = null
-
-var _current_pointer: int
+var _current_pointer: int = -2
 
 # Termination
 var _skip_enabled: bool = false
@@ -68,6 +67,9 @@ func init(server, game_script) -> bool:
 	
 	return true
 
+func _ready():
+	set_process(false)
+
 # private
 
 func _run_routine(routine):
@@ -87,7 +89,7 @@ func _run_routine(routine):
 # runs until...
 #    - routine is over (returning false)
 #    - a timed command started (returning true)
-func _advance() -> bool:
+func _advance(): # -> bool: # it returns a bool by I'm ignoring it currently
 	var statements: Array = _current_routine.statements
 	var num_statements = statements.size()
 	
@@ -98,7 +100,10 @@ func _advance() -> bool:
 		
 		if not _current_pointer < num_statements:
 			# routine is over
-			# TODO
+			
+			_current_routine = null
+			_current_pointer = -2
+			
 			return false
 		
 		# fetch next statement
@@ -110,9 +115,11 @@ func _advance() -> bool:
 			match result.termination:
 				"skip":
 					_skip_enabled = true
-					
 					return true
-					
+				
+				"custom":
+					return true
+				
 				"instant":
 					pass
 					
@@ -141,6 +148,8 @@ func _run_command(command: Dictionary) -> Dictionary:
 	if not output.has_method(method_name):
 		_log_error("execution target has no method '%s'" % method_name)
 		return _instant_termination
+	
+	# TODO check number of parameters
 	
 	var command_result = output.callv(method_name, params)
 	
@@ -208,8 +217,12 @@ func _command_load_room(room_name: String) -> Dictionary:
 			assert(item_symbol.loaded)
 			
 			if not item_symbol.disabled:
-				# then is loaded, so tell the client to disable it
+				# then it's loaded in the client, so tell him to disable it
 				_game_event("item_disabled", [item_symbol.target])
+				
+				# TODO care: this implies 'item_disabled' has a different
+				# meaning in the client and the server
+				# we are actually unloading it
 			
 			item_symbol.loaded = false
 		
@@ -361,7 +374,83 @@ func _command_teleport(item_id: String, target_node_name: String, opts: Dictiona
 	
 	return _instant_termination
 
+func _command_walk(item_id: String, target_node_name: String) -> Dictionary:
+	var player: Node2D = _get_player(item_id)
+	
+	if not player:
+		return _instant_termination
+	
+	var positioning = _get_target_positioning("walk", target_node_name, {})
+	
+	if not positioning.valid:
+		return _instant_termination
+	
+	var nav : Navigation2D = current_room.get_navigation()
+	
+	if not nav:
+		_game_warning("room has no navigation polygon")
+		return _instant_termination
+	
+	var origin_position = player.position
+	var target_position: Vector2 = nav.get_closest_point(positioning.target_position)
+	
+	# TODO don't walk if we are close enough to destination
+	
+	var path: PoolVector2Array = nav.get_simple_path(origin_position, target_position)
+	
+	if path.size() < 2:
+		_log_warning("path is too short (length = %s)" % path.size())
+		return _instant_termination
+	
+	_walking_time = 0.0
+	_walking_path = path
+	_walking_subject = player
+	set_process(true)
+	
+	return { termination = "custom" }
+
+var _walking_time: float # seconds
+var _walking_path: PoolVector2Array
+var _walking_subject: Node2D
+
+func _process(delta: float) -> void:
+	_walking_time += delta
+	
+	assert(_walking_path.size() >= 2)
+	
+	var origin: Vector2 = _walking_path[0]
+	var destination: Vector2 = _walking_path[1]
+	
+	var displacement = destination - origin
+	var distance2 = displacement.length_squared()
+	var direction = displacement.normalized()
+	var angle = _get_degrees(direction)
+	
+	# TODO care; walking even if final destination is reached this frame, and
+	# stop() will be called some lines below
+	_walking_subject.walk(angle)
+	
+	var step_distance: float = _walking_subject.walk_speed * _walking_time
+	var target_point: Vector2 = origin + step_distance * direction
+	
+	if pow(step_distance, 2) >= distance2:
+		# current destination reached
+		
+		_walking_subject.teleport(destination)
+		_walking_path.remove(0)
+		_walking_time = 0.0
+		
+		if _walking_path.size() < 2:
+			# final destination reached
+			set_process(false)
+			_walking_subject.stop()
+			_advance() # advance routine execution
+			
+	else:
+		_walking_subject.teleport(target_point)
+	
 ### command utils
+
 
 # TODO this must be revised
 # currently always returns the player so doesn't make much sense
@@ -471,7 +560,7 @@ func _change_enabledness(item_key: String, new_enabledness: bool) -> Dictionary:
 	return _instant_termination
 
 func _teleport(item: Node, positioning: Dictionary) -> void:
-	item.position = positioning.target_position
+	item.teleport(positioning.target_position)
 	
 	if positioning.set_angle:
 		item.set_angle(positioning.target_angle)
@@ -518,8 +607,6 @@ func start_game_request(room_parent: Node) -> bool:
 		return false
 	_game_state = GameState.Prepared
 	
-	_log("start_game_request(%s)" % room_parent)
-
 	_room_parent = room_parent
 	
 	var player_resource = _game_script.player
@@ -607,6 +694,17 @@ static func _interaction_state_str(interaction_state: int) -> String:
 		return "???"
 	
 	return keys[interaction_state]
+
+# Returns angle in degrees between 0 and 360
+static func _get_degrees(direction: Vector2) -> float:
+	var radians_angle = direction.angle()
+
+	var deg_angle = radians_angle * 180.0 / PI
+
+	if deg_angle < 0:
+		deg_angle += 360.0
+
+	return deg_angle
 
 
 # Local logging shortcuts
