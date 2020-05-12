@@ -12,11 +12,10 @@ enum GameState {
 var _game_state = GameState.NotInitialized
 
 enum InteractionState {
-	Nothing,
-	Running,
-	Walking
+	Ready,
+	Running
 }
-var _interaction_state = InteractionState.Nothing
+var _interaction_state = InteractionState.Ready
 
 var _server
 var _game_script
@@ -49,9 +48,17 @@ var current_room: Node = null
 var current_player: Node = null
 var loaded_scene_items = {}
 
+# walking state
+
+var _walking_time: float # seconds
+var _walking_path: PoolVector2Array
+var _walking_subject: Node2D
+
 # constants
 
 const _instant_termination = { termination = "instant" }
+
+###
 
 func init(server, game_script) -> bool:
 	if not _validate_game_state("init", GameState.NotInitialized):
@@ -70,10 +77,58 @@ func init(server, game_script) -> bool:
 func _ready():
 	set_process(false)
 
-# private
+func _process(delta: float) -> void:
+	# if _process is called the player is walking, either in response to a client
+	# request ("client walk") or by a routine statement ("auto walk")
+	
+	_walking_time += delta
+	
+	assert(_walking_path.size() >= 2)
+	
+	var origin: Vector2 = _walking_path[0]
+	var destination: Vector2 = _walking_path[1]
+	
+	var displacement = destination - origin
+	var distance2 = displacement.length_squared()
+	var direction = displacement.normalized()
+	var angle = _get_degrees(direction)
+	
+	# TODO care; walking even if final destination is reached this frame, and
+	# stop() will be called some lines below
+	_walking_subject.walk(angle)
+	
+	var step_distance: float = _walking_subject.walk_speed * _walking_time
+	var target_point: Vector2 = origin + step_distance * direction
+	
+	if pow(step_distance, 2) >= distance2:
+		# current destination reached
+		
+		_walking_subject.teleport(destination)
+		_walking_path.remove(0)
+		_walking_time = 0.0
+		
+		if _walking_path.size() < 2:
+			# final destination reached
+			set_process(false)
+			_walking_subject.stop()
+			
+			if _interaction_state == InteractionState.Ready:
+				# client walk
+				pass
+			
+			else:
+				# auto walk
+				_advance() # advance routine execution
+			
+	else:
+		_walking_subject.teleport(target_point)
+
+# running
 
 func _run_routine(routine):
-	if not _validate_interaction_state("_run_routine", InteractionState.Nothing):
+	if not _validate_game_state("_run_routine", GameState.Playing):
+		return false
+	if not _validate_interaction_state("_run_routine", InteractionState.Ready):
 		return false
 	
 	_interaction_state = InteractionState.Running
@@ -90,6 +145,11 @@ func _run_routine(routine):
 #    - routine is over (returning false)
 #    - a timed command started (returning true)
 func _advance(): # -> bool: # it returns a bool by I'm ignoring it currently
+	if not _validate_game_state("_advance", GameState.Playing):
+		return false
+	if not _validate_interaction_state("_advance", InteractionState.Running):
+		return false
+	
 	var statements: Array = _current_routine.statements
 	var num_statements = statements.size()
 	
@@ -103,6 +163,7 @@ func _advance(): # -> bool: # it returns a bool by I'm ignoring it currently
 			
 			_current_routine = null
 			_current_pointer = -2
+			_interaction_state = InteractionState.Ready
 			
 			return false
 		
@@ -162,19 +223,6 @@ func _run_command(command: Dictionary) -> Dictionary:
 		return _instant_termination
 	
 	return command_result
-
-# sends events to client
-func _game_event(event_name: String, args: Array = []):
-	#_log("SERVER EVENT '%s'" % event_name)
-	emit_signal("game_event", event_name, args)
-
-func _get_routine(headers: Array):
-	if _game_script.has_routine(headers):
-		return _game_script.get_routine(headers)
-	else:
-		# TODO warning or error?
-		_log_warning("routine '%s' not found" % str(headers))
-		return null
 
 ### commands
 
@@ -385,72 +433,13 @@ func _command_walk(item_id: String, target_node_name: String) -> Dictionary:
 	if not positioning.valid:
 		return _instant_termination
 	
-	var nav : Navigation2D = current_room.get_navigation()
-	
-	if not nav:
-		_game_warning("room has no navigation polygon")
+	if not _start_walking(player, positioning.target_position):
 		return _instant_termination
-	
-	var origin_position = player.position
-	var target_position: Vector2 = nav.get_closest_point(positioning.target_position)
-	
-	# TODO don't walk if we are close enough to destination
-	
-	var path: PoolVector2Array = nav.get_simple_path(origin_position, target_position)
-	
-	if path.size() < 2:
-		_log_warning("path is too short (length = %s)" % path.size())
-		return _instant_termination
-	
-	_walking_time = 0.0
-	_walking_path = path
-	_walking_subject = player
-	set_process(true)
 	
 	return { termination = "custom" }
 
-var _walking_time: float # seconds
-var _walking_path: PoolVector2Array
-var _walking_subject: Node2D
 
-func _process(delta: float) -> void:
-	_walking_time += delta
-	
-	assert(_walking_path.size() >= 2)
-	
-	var origin: Vector2 = _walking_path[0]
-	var destination: Vector2 = _walking_path[1]
-	
-	var displacement = destination - origin
-	var distance2 = displacement.length_squared()
-	var direction = displacement.normalized()
-	var angle = _get_degrees(direction)
-	
-	# TODO care; walking even if final destination is reached this frame, and
-	# stop() will be called some lines below
-	_walking_subject.walk(angle)
-	
-	var step_distance: float = _walking_subject.walk_speed * _walking_time
-	var target_point: Vector2 = origin + step_distance * direction
-	
-	if pow(step_distance, 2) >= distance2:
-		# current destination reached
-		
-		_walking_subject.teleport(destination)
-		_walking_path.remove(0)
-		_walking_time = 0.0
-		
-		if _walking_path.size() < 2:
-			# final destination reached
-			set_process(false)
-			_walking_subject.stop()
-			_advance() # advance routine execution
-			
-	else:
-		_walking_subject.teleport(target_point)
-	
 ### command utils
-
 
 # TODO this must be revised
 # currently always returns the player so doesn't make much sense
@@ -565,6 +554,32 @@ func _teleport(item: Node, positioning: Dictionary) -> void:
 	if positioning.set_angle:
 		item.set_angle(positioning.target_angle)
 
+# used for command 'walk' and for client requests (go_to/interact)
+func _start_walking(subject: Node2D, original_target_position: Vector2) -> bool:
+	var nav : Navigation2D = current_room.get_navigation()
+	
+	if not nav:
+		_game_warning("room has no navigation polygon")
+		return false
+	
+	var origin_position = subject.position
+	var target_position: Vector2 = nav.get_closest_point(original_target_position)
+	
+	# TODO don't walk if we are close enough to destination
+	
+	var path: PoolVector2Array = nav.get_simple_path(origin_position, target_position)
+	
+	if path.size() < 2:
+		_log_warning("path is too short (length = %s)" % path.size())
+		return false
+	
+	_walking_time = 0.0
+	_walking_path = path
+	_walking_subject = subject
+	set_process(true)
+	
+	return true
+
 # Returns the symbol for a scene item (or builds it if not created yet)
 # Only returns null in case of type mismatch (symbol exists but its type doesn't match)
 # Note that if item_id is 'self' or another alias you should correct it to match symbol.symbol_name
@@ -588,17 +603,6 @@ func _get_or_build_scene_item(item_key: String, debug_action_name: String):
 		# already present
 		return symbol
 
-func _get_room_resource(room_name):
-	return _get_resource_in(_game_script.get_rooms(), room_name)
-
-static func _get_resource_in(list, elem_name):
-	for i in range(list.size()):
-		var elem = list[i]
-		
-		if elem.get_name() == elem_name:
-			return elem
-	
-	return null
 
 ### client requests
 
@@ -619,13 +623,13 @@ func start_game_request(room_parent: Node) -> bool:
 		_log_error("init routine not found")
 		return false
 	
+	_game_state = GameState.Playing
+	
 	if not _run_routine(init_routine):
 		_log_error("can't run init routine")
 		return false
 	
 	_game_event("game_started", [current_player])
-	
-	_game_state = GameState.Playing
 	
 	return true
 
@@ -643,19 +647,61 @@ func skip_request() -> bool:
 		
 		return false
 
+func go_to_request(target_position: Vector2) -> bool:
+	if not _validate_game_state("go_to_request", GameState.Playing):
+		return false
+	if not _validate_interaction_state("go_to_request", InteractionState.Ready):
+		return false
+	
+	if not current_player:
+		_log_warning("go_to: no player")
+		return false
+	
+	if not _start_walking(current_player, target_position):
+		return false
+	
+	return true
+
 func interact_request(_item, _trigger_name: String):
 	_log_warning("TODO implement interact_request")
 	
 # client queries
 
 func is_navigable(_world_position) -> bool:
-	_log_warning("TODO implement is_navigable")
-	return false
+	#_log_warning("TODO implement is_navigable")
+	return true
 
 func get_default_color():
 	return _game_script.default_color
 
-# Validation
+# private misc
+
+# sends events to client
+func _game_event(event_name: String, args: Array = []):
+	#_log("SERVER EVENT '%s'" % event_name)
+	emit_signal("game_event", event_name, args)
+
+func _get_routine(headers: Array):
+	if _game_script.has_routine(headers):
+		return _game_script.get_routine(headers)
+	else:
+		# TODO warning or error?
+		_log_warning("routine '%s' not found" % str(headers))
+		return null
+
+func _get_room_resource(room_name):
+	return _get_resource_in(_game_script.get_rooms(), room_name)
+
+static func _get_resource_in(list, elem_name):
+	for i in range(list.size()):
+		var elem = list[i]
+		
+		if elem.get_name() == elem_name:
+			return elem
+	
+	return null
+
+# validation
 
 func _validate_game_state(func_name: String, _expected_state) -> bool:
 	var valid_state = _game_state == _expected_state
@@ -672,8 +718,6 @@ func _validate_interaction_state(func_name: String, _expected_state) -> bool:
 		_log_invalid_interaction_state(func_name)
 	
 	return valid_state
-
-
 
 # Static utils
 
