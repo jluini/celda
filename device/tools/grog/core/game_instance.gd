@@ -20,15 +20,11 @@ var _interaction_state = InteractionState.Ready
 var _server
 var _game_script
 
-
 # Running routines
 
 var _current_routine = null
-var _current_pointer: int = -2
-
-# Termination
+var _current_pointers: Array = []
 var _skip_enabled: bool = false
-
 
 # current room node is placed here;
 # players are placed inside current room
@@ -118,7 +114,7 @@ func _process(delta: float) -> void:
 			
 			else:
 				# auto walk
-				_advance() # advance routine execution
+				_advance() # resumes routine execution
 			
 	else:
 		_walking_subject.teleport(target_point)
@@ -132,11 +128,8 @@ func _run_routine(routine):
 		return false
 	
 	_interaction_state = InteractionState.Running
-	
 	_current_routine = routine
-	
-	_current_pointer = -1
-	
+	_current_pointers = [-1]
 	_advance()
 	
 	return true
@@ -150,25 +143,58 @@ func _advance(): # -> bool: # it returns a bool by I'm ignoring it currently
 	if not _validate_interaction_state("_advance", InteractionState.Running):
 		return false
 	
-	var statements: Array = _current_routine.statements
-	var num_statements = statements.size()
-	
-	assert(_current_pointer < num_statements)
-	
 	while(true):
-		_current_pointer += 1
+		assert(_current_pointers.size() > 0)
+		assert(_current_pointers.size() % 2 == 1)
 		
-		if not _current_pointer < num_statements:
-			# routine is over
+		var num_levels = (_current_pointers.size() - 1) / 2
+		
+		var statements: Array = _current_routine.statements
+		
+		for lvl in range(num_levels):
+			var lvl_pointer = _current_pointers[lvl * 2]
+			var branch_pointer = _current_pointers[lvl * 2 + 1]
 			
-			_current_routine = null
-			_current_pointer = -2
-			_interaction_state = InteractionState.Ready
+			assert(statements.size() > lvl_pointer)
 			
-			return false
+			var lvl_block = statements[lvl_pointer]
+			
+			assert(lvl_block.has("type"))
+			assert(lvl_block.type == "if")
+			assert(lvl_block.has("main_branches"))
+			assert(lvl_block.main_branches.size() > branch_pointer)
+			
+			var lvl_branch = lvl_block.main_branches[branch_pointer]
+			
+			assert(lvl_branch.has("statements"))
+			
+			statements = lvl_branch.statements
+		
+		assert(statements.size() > _current_pointers[-1])
+		
+		# advances to next statement
+		_current_pointers[-1] += 1
+		
+		if _current_pointers[-1] >= statements.size():
+			# this block is over
+			
+			if _current_pointers.size() == 1:
+				# whole routine is over
+				
+				_current_routine = null
+				_current_pointers = []
+				_interaction_state = InteractionState.Ready
+				
+				return false
+			else:
+				assert(_current_pointers.size() > 2)
+				_current_pointers.pop_back()
+				_current_pointers.pop_back()
+				
+				continue
 		
 		# fetch next statement
-		var next_statement: Dictionary = statements[_current_pointer]
+		var next_statement: Dictionary = statements[_current_pointers[-1]]
 		
 		if next_statement.type == "command":
 			var result = _run_command(next_statement)
@@ -185,10 +211,36 @@ func _advance(): # -> bool: # it returns a bool by I'm ignoring it currently
 					pass
 					
 				_:
-					assert(false) # TODO
+					_log_error("command '%s': invalid termination '%s'" % [next_statement.command_name, result.termination])
+		
+		elif next_statement.type == "if":
+			assert(next_statement.has("main_branches"))
+			
+			var conditional_branches = next_statement.main_branches
+			
+			assert(conditional_branches.size() > 0)
+			
+			var branch_to_execute: int = -1
+			var output = self # TODO
+			
+			for branch_index in range(conditional_branches.size()):
+				var branch: Dictionary = conditional_branches[branch_index]
+				var condition_result = branch.condition.evaluate(output)
+				
+				if typeof(condition_result) != TYPE_BOOL:
+					_game_warning("evaluating not-bool as condition (%s)" % Grog._typestr(condition_result))
+					condition_result = condition_result as bool
+				
+				if condition_result:
+					branch_to_execute = branch_index
+					break
+			
+			if branch_to_execute >= 0:
+				_current_pointers.push_back(branch_to_execute)
+				_current_pointers.push_back(-1)
 			
 		else:
-			assert(false) # TODO
+			_log_error("invalid statement type '%s'" % next_statement.type)
 	
 	# unreachable
 	assert(false)
