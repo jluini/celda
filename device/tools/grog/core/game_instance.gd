@@ -718,13 +718,10 @@ func _set_pausing(new_paused) -> bool:
 		_log_warning("already %s" % ("paused" if new_paused else "unpaused"))
 		return false
 	
-	if _interaction_state == InteractionState.Ready:
-		_is_paused = new_paused
-		get_tree().paused = new_paused
-		return true
-	else:
-		_log_warning("routine pausing not implemented yet")
-		return false
+	_is_paused = new_paused
+	get_tree().paused = new_paused
+	return true
+
 
 # client queries
 
