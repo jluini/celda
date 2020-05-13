@@ -357,18 +357,17 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 					
 				elif current_block.type == "if":
 					assert(level >= number_of_section_levels)
+					assert(current_block.has("current_condition"))
+					assert(current_block.has("has_else_branch"))
+					assert(current_block.has("branches"))
 					
-					if current_block.has("condition"):
-						if not current_block.has("main_branches"):
-							current_block.main_branches = []
-						
-						current_block.main_branches.append({
-							condition = current_block.condition,
-							statements = children
-						})
-					else:
-						assert(not current_block.has("else_branch"))
-						current_block.else_branch = children
+					current_block.branches.append({
+						condition = current_block.current_condition,
+						statements = children
+					})
+					
+					current_block.erase("current_condition")
+				
 				elif current_block.type == "loop":
 					assert(level >= number_of_section_levels)
 					
@@ -595,11 +594,11 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 								var expression_tokens = line.tokens.slice(j + 1, line.tokens.size() - 1)
 								var expression = parse_expression(expression_tokens)
 					
-								if not expression.result:
+								if not expression.valid:
 									compiled_script.add_error("Invalid expression (%s) (line %s)" % [expression.message, line.line_number])
 									return 
 								
-								final_params.append(expression.result)
+								final_params.append(expression.expression)
 								
 							_:
 								compiled_script.add_error("Grog error: unexpected parameter type %s" % Grog.ParameterType.keys()[param.type])
@@ -702,19 +701,22 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 					
 					var condition = parse_expression(condition_tokens)
 					
-					if not condition.result:
+					if not condition.valid:
 						compiled_script.add_error("Invalid if condition (%s) (line %s)" % [condition.message, line.line_number])
 						return
 					
 					children.append({
 						type = "if",
-						condition = condition.result,
-						# waiting for main_branches/else_branch
+						current_condition = condition.expression,
+						branches = [],
+						has_else_branch = false
+						
+						# waiting for 'branches' to be filled
 					})
-					
 					stack.push_back(children)
 					children = []
 					level += 1
+					
 				
 				Grog.TokenType.ElifKeyword:
 					if children.size() == 0:
@@ -722,9 +724,16 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 						return
 					
 					var previous_statement = children.back()
-					if previous_statement.type != "if" or previous_statement.has("else_branch"):
+					if previous_statement.type != "if":
 						compiled_script.add_error("Unexpected 'elif' block (line %s)" % line.line_number)
 						return
+					
+					if previous_statement.has_else_branch:
+						compiled_script.add_error("Unexpected 'elif' block after else (line %s)" % line.line_number)
+						return
+					
+					assert(previous_statement.branches.size() > 0)
+					assert(not previous_statement.has("current_condition"))
 					
 					if num_tokens < 2:
 						compiled_script.add_error("Elif condition expected (line %s)" % line.line_number)
@@ -743,11 +752,11 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 					
 					var condition = parse_expression(condition_tokens)
 					
-					if not condition.result:
+					if not condition.valid:
 						compiled_script.add_error("Invalid elif condition (%s) (line %s)" % [condition.message, line.line_number])
 						return
 					
-					previous_statement.condition = condition.result
+					previous_statement.current_condition = condition.expression
 					
 					stack.push_back(children)
 					children = []
@@ -759,12 +768,16 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 						return
 					
 					var previous_statement: Dictionary = children.back()
-					if previous_statement.type != "if" or previous_statement.has("else_branch"):
+					if previous_statement.type != "if":
 						compiled_script.add_error("Unexpected 'else' block (line %s)" % line.line_number)
 						return
 					
-					var _r = previous_statement.erase("condition")
-					assert(_r)
+					if previous_statement.has_else_branch:
+						compiled_script.add_error("Duplicated 'else' block (line %s)" % line.line_number)
+						return
+					
+					assert(previous_statement.branches.size() > 0)
+					assert(not previous_statement.has("current_condition"))
 					
 					if num_tokens < 2:
 						compiled_script.add_error("Colon expected after 'else' (line %s)" % line.line_number)
@@ -778,6 +791,10 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 					if num_tokens > 2:
 						compiled_script.add_error("End of line expected after 'else:' (line %s)" % line.line_number)
 						return
+					
+					# 'else' block has a trivially true condition
+					previous_statement.current_condition = FixedExpression.new(true)
+					previous_statement.has_else_branch = true
 					
 					stack.push_back(children)
 					children = []
@@ -946,39 +963,39 @@ func parse_expression(tokens: Array) -> Dictionary:
 	for token in tokens:
 		match token.type:
 			Grog.TokenType.Command, Grog.TokenType.Pattern:
-				return { result = false, message = "invalid token '%s'" % token.content}
+				return { valid = false, message = "invalid token '%s'" % token.content}
 			
 			Grog.TokenType.Identifier:
 				r = p.read_token(token, 100, false, false)
-				if not r.result:
+				if not r.valid:
 					return r
 				
 			Grog.TokenType.Integer, Grog.TokenType.Float, Grog.TokenType.FalseKeyword, Grog.TokenType.TrueKeyword, Grog.TokenType.Quote:
 				r = p.read_token(token, 100, false, false)
-				if not r.result:
+				if not r.valid:
 					return r
 				
 			Grog.TokenType.Operator, Grog.TokenType.AndKeyword,  Grog.TokenType.OrKeyword, Grog.TokenType.NotKeyword:
 				if token.content == "(":
 					r = p.open_parenthesis()
-					if not r.result:
+					if not r.valid:
 						return r
 				elif token.content == ")":
 					r = p.close_parenthesis()
-					if not r.result:
+					if not r.valid:
 						return r
 				elif not Grog.parser_operators.has(token.content):
-					return { result = false, message = "invalid operator '%s'" % token.content}
+					return { valid = false, message = "invalid operator '%s'" % token.content}
 				else:
 					r = p.read_token(token, Grog.parser_operators[token.content].precedence, token.type != Grog.TokenType.NotKeyword, true)
-					if not r.result:
+					if not r.valid:
 						return r
 			
 			_:
-				return { result = false, message = "invalid token '%s'" % token.content}
+				return { valid = false, message = "invalid token '%s'" % token.content}
 	
 	r = p.finish()
-	if not r.result:
+	if not r.valid:
 		return r
 	
 	var root = r.root
@@ -988,73 +1005,71 @@ func parse_expression(tokens: Array) -> Dictionary:
 	
 	var ret = node_to_expression(root.right)
 	
-	if not ret.result:
+	if not ret.valid:
 		return ret
 	
 	return ret
 
 func node_to_expression(node):
 	if not node.token.has("type"):
-		print("Caso muy raro")
-		print(node.token)
-		return { result = false, message = "rarisimo"}
+		return { valid = false, message = "unexpected error"}
 	
 	match node.token.type:
 		Grog.TokenType.Integer, Grog.TokenType.Float:
 			assert(not node.has("left"))
 			assert(not node.has("right"))
-			return { result = FixedExpression.new(node.token.data.number_value) }
+			return { valid = true, expression = FixedExpression.new(node.token.data.number_value) }
 		Grog.TokenType.TrueKeyword:
 			assert(not node.has("left"))
 			assert(not node.has("right"))
-			return { result = FixedExpression.new(true) }
+			return { valid = true, expression = FixedExpression.new(true) }
 		Grog.TokenType.FalseKeyword:
 			assert(not node.has("left"))
 			assert(not node.has("right"))
-			return { result = FixedExpression.new(false) }
+			return { valid = true, expression = FixedExpression.new(false) }
 		Grog.TokenType.Quote:
 			assert(not node.has("left"))
 			assert(not node.has("right"))
-			return { result = FixedExpression.new(node.token.content) }
+			return { valid = true, expression = FixedExpression.new(node.token.content) }
 		Grog.TokenType.Identifier:
 			assert(not node.has("left"))
 			assert(not node.has("right"))
-			return { result = IdentifierExpression.new(node.token.data.indirection_level, node.token.data.key) }
+			return { valid = true, expression = IdentifierExpression.new(node.token.data.indirection_level, node.token.data.key) }
 		
 		Grog.TokenType.NotKeyword:
 			assert(not node.has("left"))
 			assert(node.has("right"))
 			
 			var right = node_to_expression(node.right)
-			if not right.result:
+			if not right.valid:
 				return right
-			return { result = NegatedBoolExpression.new(right.result) }
+			return { valid = true, expression = NegatedBoolExpression.new(right.expression) }
 			
 		Grog.TokenType.AndKeyword, Grog.TokenType.OrKeyword, Grog.TokenType.Operator:
 			if not node.has("right"):
-				return { result = false, message = "missing second parameter for binary operator %s" % node.token.content }
+				return { valid = false, message = "missing second parameter for binary operator %s" % node.token.content }
 			
 			if not node.has("left"):
 				if node.token.content == "-":
 					# unary - operator
 					var right = node_to_expression(node.right)
-					if not right.result:
+					if not right.valid:
 						return right
-					return { result = InverseNumberExpression.new(right.result) }
+					return { valid = true, expression = InverseNumberExpression.new(right.expression) }
 				
-				return { result = false, message = "unexpected binary operator %s" % node.token.content }
+				return { valid = false, message = "unexpected binary operator %s" % node.token.content }
 			
 			var left = node_to_expression(node.left)
-			if not left.result:
+			if not left.valid:
 				return left
 			
 			var right = node_to_expression(node.right)
-			if not right.result:
+			if not right.valid:
 				return right
 			
-			return { result = OperationExpression.new(left.result, node.token.content, right.result) }
+			return { valid = true, expression = OperationExpression.new(left.expression, node.token.content, right.expression) }
 		_:
-			return { result = false, message = "unexpected node %s" % Grog.TokenType.keys()[node.token.type] }
+			return { valid = false, message = "unexpected node %s" % Grog.TokenType.keys()[node.token.type] }
 	pass
 
 # Tokenizing

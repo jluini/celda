@@ -20,14 +20,14 @@ func open_parenthesis():
 	assert(current.precedence == 200)
 	current.precedence = 1
 	
-	return { result = true }
+	return { valid = true }
 	
 func close_parenthesis():
 	while current.precedence > 1:
 		current = current.parent
 
 	if current.precedence < 1:
-		return { result = false, message = "no matching pharentesis" }
+		return { valid = false, message = "no matching pharentesis" }
 	
 	assert(current.has("right")) 
 	assert(current.right.has("parent")) 
@@ -46,7 +46,7 @@ func close_parenthesis():
 	
 	current = current.parent
 	
-	return { result = true }
+	return { valid = true }
 	
 	
 func read_token(token: Dictionary, precedence: int, enable_left: bool, enable_right: bool): #, right_associate = false):
@@ -71,11 +71,11 @@ func read_token(token: Dictionary, precedence: int, enable_left: bool, enable_ri
 	}
 	
 	if not current.enable_right:
-		return { result = false, message = "token '%s' can't have right child; reading %s" % [current.token.content, token.content] }
+		return { valid = false, message = "token '%s' can't have right child; reading %s" % [current.token.content, token.content] }
 	
 	if current.has("right"):
 		if not enable_left:
-			return { result = false, message = "token '%s' can't have left child" % [token.content] }
+			return { valid = false, message = "token '%s' can't have left child" % [token.content] }
 		new_node.left = current.right
 		assert(new_node.left.right_child)
 		new_node.left.right_child = false
@@ -84,14 +84,14 @@ func read_token(token: Dictionary, precedence: int, enable_left: bool, enable_ri
 	current.right = new_node
 	current = new_node
 	
-	return { result = true }
+	return { valid = true }
 	
 func finish() -> Dictionary:
 	while current.precedence > 1:
 		current = current.parent
 	
 	if current.precedence == 1:
-		return { result = false, message = "unclosed pharentesis" }
+		return { valid = false, message = "unclosed pharentesis" }
 	
-	return { result = true, root = root}
+	return { valid = true, root = root}
 	

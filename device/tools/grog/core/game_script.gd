@@ -24,10 +24,10 @@ func is_valid():
 
 func prepare(compiler) -> Dictionary:
 	if _valid:
-		return { result = false, message = "Already prepared" }
+		return { valid = false, message = "Already prepared" }
 	
 	var ret = _prepare(compiler)
-	_valid = ret.result
+	_valid = ret.valid
 	return ret
 	
 func has_routine(headers: Array) -> bool:
@@ -59,4 +59,4 @@ func _has_routine(_headers: Array) -> bool:
 	return false
 	
 func _prepare(_compiler) -> Dictionary:
-	return { result = false, message = "Override _prepare" }
+	return { valid = false, message = "Override _prepare" }

@@ -19,7 +19,7 @@ func _on_initialize() -> Dictionary:
 	
 	var res = game_script.prepare(compiler)
 	
-	if not res.result:
+	if not res.valid:
 		# invalid game
 		return res
 	
@@ -70,7 +70,7 @@ func get_saved_games():
 		
 	var saved_games_result = dir.open(saved_games_path)
 	if saved_games_result != OK:
-		return { result = false, message = "can't open folder '%s'" % saved_games_path }
+		return { valid = false, message = "can't open folder '%s'" % saved_games_path }
 	
 	dir.list_dir_begin()
 	var file_name = dir.get_next()

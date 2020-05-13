@@ -109,9 +109,9 @@ func get_routine(headers: Array):
 
 #func add_sequence(headers: Array, sequence) -> Dictionary:
 #	if levels < 0:
-#		return { result = false, message = "Bad configuration" }
+#		return { valid = false, message = "Bad configuration" }
 #	if headers.size() != levels:
-#		return { result = false, message = "Expecting %s headers (%s given)" % [levels, headers.size()] }
+#		return { valid = false, message = "Expecting %s headers (%s given)" % [levels, headers.size()] }
 #
 #	print("Adding sequence for %s" % str(headers))
 #
@@ -132,7 +132,7 @@ func get_routine(headers: Array):
 #		level += 1
 #
 #	if current_dict.has(current_key):
-#		return { result = false, message = "Duplicated sequence for '%s'" % str(headers) }
+#		return { valid = false, message = "Duplicated sequence for '%s'" % str(headers) }
 #
 #	print("Creating sequence for '%s' at level %s" % [current_key, level])
 #
@@ -140,7 +140,7 @@ func get_routine(headers: Array):
 #
 #	# TODO validate sequence?
 #
-#	return { result = true }
+#	return { valid = true }
 
 func is_valid():
 	return _valid

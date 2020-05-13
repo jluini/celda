@@ -147,7 +147,8 @@ func _advance(): # -> bool: # it returns a bool by I'm ignoring it currently
 		assert(_current_pointers.size() > 0)
 		assert(_current_pointers.size() % 2 == 1)
 		
-		var num_levels = (_current_pointers.size() - 1) / 2
+		# warning-ignore:integer_division
+		var num_levels: int = (_current_pointers.size() - 1) / 2
 		
 		var statements: Array = _current_routine.statements
 		
@@ -161,10 +162,10 @@ func _advance(): # -> bool: # it returns a bool by I'm ignoring it currently
 			
 			assert(lvl_block.has("type"))
 			assert(lvl_block.type == "if")
-			assert(lvl_block.has("main_branches"))
-			assert(lvl_block.main_branches.size() > branch_pointer)
+			assert(lvl_block.has("branches"))
+			assert(lvl_block.branches.size() > branch_pointer)
 			
-			var lvl_branch = lvl_block.main_branches[branch_pointer]
+			var lvl_branch = lvl_block.branches[branch_pointer]
 			
 			assert(lvl_branch.has("statements"))
 			
@@ -214,17 +215,15 @@ func _advance(): # -> bool: # it returns a bool by I'm ignoring it currently
 					_log_error("command '%s': invalid termination '%s'" % [next_statement.command_name, result.termination])
 		
 		elif next_statement.type == "if":
-			assert(next_statement.has("main_branches"))
-			
-			var conditional_branches = next_statement.main_branches
-			
-			assert(conditional_branches.size() > 0)
+			assert(next_statement.has("branches"))
+			var branches = next_statement.branches
+			assert(branches.size() > 0)
 			
 			var branch_to_execute: int = -1
 			var output = self # TODO
 			
-			for branch_index in range(conditional_branches.size()):
-				var branch: Dictionary = conditional_branches[branch_index]
+			for branch_index in range(branches.size()):
+				var branch: Dictionary = branches[branch_index]
 				var condition_result = branch.condition.evaluate(output)
 				
 				if typeof(condition_result) != TYPE_BOOL:
