@@ -77,11 +77,7 @@ func _gui_input(event):
 			_set_input_state(InputState.Dragging, mouse_position)
 		elif _input_state == InputState.Dragging:
 			emit_signal("drag", mouse_position)
-		#else: # _input_state == InputState.None
-	
-	else:
-		print("UNHANDLED %s" % event.get_class())
-	
+
 ###
 
 func _set_input_state(_new_state, _mouse_pos):

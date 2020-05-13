@@ -21,7 +21,7 @@ func _on_initialize() -> Dictionary:
 	var t = _get_current_theme()
 	
 	if t != _modular.get_theme():
-		_log("setting theme '%s' at start" % t.get_name())
+		_log_warning("setting theme '%s' at start" % t.get_name())
 		_modular.set_theme(t)
 	
 	_theme_views = []

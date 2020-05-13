@@ -1,5 +1,14 @@
 extends Control
 
+enum Severity {
+	Debug,
+	Info,
+	Warning,
+	Error,
+}
+
+export (Severity) var minimum_severity = Severity.Debug
+
 enum StartMode {
 	Welcome,
 	FirstApp
@@ -65,17 +74,17 @@ func _ready():
 	var total = _modules.size() + _apps.size()
 	
 	if total == 0:
-		_log("No modules")
+		_log_warning("No modules")
 	else:
 		if valid:
-			_log("%s modules initialized successfully (%s + %s)" % [total, _apps.size(), _modules.size()])
+			_log_debug("%s modules initialized successfully (%s + %s)" % [total, _apps.size(), _modules.size()])
 
 func get_module(module_name: String):
 	return modules.get(module_name, null)
 
 func show_modules():
 	if _current == -1:
-		_log("already in modules")
+		_log_warning("already in modules")
 		return true
 	
 	_apps[_current].hide()
@@ -88,7 +97,7 @@ func open_app(index: int):
 		return false
 	
 	if _current == index:
-		_log("already in app %s" % [index])
+		_log_warning("already in app %s" % [index])
 		return true
 	
 	$ui.hide()
@@ -103,7 +112,7 @@ func _initialize_module(module: Node) -> Dictionary:
 	if modules.has(module_name):
 		return { valid = false, message = "duplicated module '%s'" % module_name}
 	
-	_log("initializing module '%s'" % module_name)
+	_log_info("initializing module '%s'" % module_name)
 	var result = module.initialize(self)
 	
 	if not result.valid:
@@ -132,20 +141,20 @@ func change_theme(new_theme: Theme):
 
 # Local logging shortcuts
 
-func _log(message: String, level = 0):
+func _log_debug(message: String, level = 0):
+	log_debug("modular", message, level)
+func _log_info(message: String, level = 0):
 	log_info("modular", message, level)
+func _log_warning(message: String, level = 0):
+	log_warning("modular", message, level)
 func _log_error(message: String, level = 0):
 	log_error("modular", message, level)
 
 
 # General logging
 
-enum Severity {
-	Info,
-	Warning,
-	Error
-}
-
+func log_debug(category: String, message: String, level = 0):
+	log_message(Severity.Debug, category, message, level)
 func log_info(category: String, message: String, level = 0):
 	log_message(Severity.Info, category, message, level)
 func log_warning(category: String, message: String, level = 0):
@@ -155,7 +164,8 @@ func log_error(category: String, message: String, level = 0):
 
 
 func log_message(severity: int, category: String, message: String, _level = 0):
-	printt(_severity_str(severity), "%-10s" % category, message)
+	if severity >= minimum_severity:
+		printt(_severity_str(severity), "%-10s" % category, message)
 
 func _severity_str(severity: int) -> String:
 	var severities = Severity.keys()

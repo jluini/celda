@@ -31,7 +31,7 @@ func _on_initialize() -> Dictionary:
 		return { valid = false, message = "can't create files" }
 	
 	if not dir.dir_exists(saved_games_path):
-		_log("folder 'saved_games' does not exist; creating it")
+		_log_info("folder '%s' does not exist; creating it" % saved_games_path)
 		dir.make_dir(saved_games_path)
 	
 	return { valid = true }
@@ -41,12 +41,12 @@ func get_signals() -> Array:
 
 func get_game_script():
 	if not game_script:
-		_log("there's no game set")
+		_log_warning("there's no game set")
 	return game_script
 
 func new_game():
 	if not game_script:
-		_log("there's no game set")
+		_log_warning("there's no game set")
 		return
 	
 	assert(not game_instance)
@@ -56,7 +56,7 @@ func new_game():
 	var ok = game_instance.init(self, game_script)
 	
 	if not ok:
-		_log("deleting game instance")
+		_log_debug("deleting game instance")
 		game_instance.queue_free()
 		return null
 	

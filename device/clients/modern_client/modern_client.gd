@@ -54,7 +54,6 @@ func _hide_group(group_name: String):
 	
 func _start():
 	if _room_parent.get_child_count() > 0 :
-		#_log("Room place is not empty! Clearing it.")
 		make_empty(_room_parent)
 	
 	# TODO "open" word is confusing
@@ -229,7 +228,7 @@ func _on_ui_lock_hold():
 	pass
 	
 func _on_ui_end_hold():
-	_log("_on_ui_end_hold")
+	pass
 	
 func _on_ui_start_drag(position: Vector2):
 	if _drag_state != DragState.None:

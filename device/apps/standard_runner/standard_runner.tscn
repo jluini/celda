@@ -15,6 +15,7 @@
 [ext_resource path="res://themes/pointfree/pointfree.tres" type="Theme" id=13]
 
 [node name="standard_runner" instance=ExtResource( 8 )]
+minimum_severity = 2
 start_mode = 1
 
 [node name="theme_switcher" parent="ui/modules" index="1" instance=ExtResource( 7 )]

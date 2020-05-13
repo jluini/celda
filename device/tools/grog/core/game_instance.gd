@@ -155,19 +155,8 @@ func _advance(): # -> bool: # it returns a bool by I'm ignoring it currently
 		for lvl in range(num_levels):
 			var lvl_pointer = _current_pointers[lvl * 2]
 			var branch_pointer = _current_pointers[lvl * 2 + 1]
-			
-			assert(statements.size() > lvl_pointer)
-			
 			var lvl_block = statements[lvl_pointer]
-			
-			assert(lvl_block.has("type"))
-			assert(lvl_block.type == "if")
-			assert(lvl_block.has("branches"))
-			assert(lvl_block.branches.size() > branch_pointer)
-			
 			var lvl_branch = lvl_block.branches[branch_pointer]
-			
-			assert(lvl_branch.has("statements"))
 			
 			statements = lvl_branch.statements
 		
@@ -215,10 +204,7 @@ func _advance(): # -> bool: # it returns a bool by I'm ignoring it currently
 					_log_error("command '%s': invalid termination '%s'" % [next_statement.command_name, result.termination])
 		
 		elif next_statement.type == "if":
-			assert(next_statement.has("branches"))
 			var branches = next_statement.branches
-			assert(branches.size() > 0)
-			
 			var branch_to_execute: int = -1
 			var output = self # TODO
 			
@@ -389,7 +375,7 @@ func _command_curtain_up():
 func _command_set(var_name: String, new_value_expression) -> Dictionary:
 	var new_value = new_value_expression.evaluate(self)
 	
-	_log("setting global '%s' to '%s' (type %s, class %s)" % [var_name, new_value, Grog._typestr(new_value), new_value.get_class() if typeof(new_value) == TYPE_OBJECT else "-"])
+	_log_debug("setting global '%s' to '%s' (type %s, class %s)" % [var_name, new_value, Grog._typestr(new_value), new_value.get_class() if typeof(new_value) == TYPE_OBJECT else "-"])
 	
 	var symbol = symbols.get_symbol_of_types(var_name, ["global_variable"], false)
 	
@@ -686,7 +672,7 @@ func start_game_request(room_parent: Node) -> bool:
 
 func skip_request() -> bool:
 	if _skip_enabled: # and not _skip_requested:
-		_log("skip accepted")
+		_log_debug("skip accepted")
 		#_skip_requested = true
 		_skip_enabled = false
 		
@@ -729,7 +715,7 @@ func get_default_color():
 
 # sends events to client
 func _game_event(event_name: String, args: Array = []):
-	#_log("SERVER EVENT '%s'" % event_name)
+	#_log_debug("SERVER EVENT '%s'" % event_name)
 	emit_signal("game_event", event_name, args)
 
 func _get_routine(headers: Array):
@@ -809,8 +795,10 @@ func _log_invalid_game_state(func_name: String):
 func _log_invalid_interaction_state(func_name: String):
 	_log_error("can't call '%s' while interaction state is %s" % [func_name, _interaction_state_str(_interaction_state)])
 
-func _log(message: String, level = 0):
-	_server._log(message, "game-instance", level)
+func _log_debug(message: String, level = 0):
+	_server._log_debug(message, "game-instance", level)
+func _log_info(message: String, level = 0):
+	_server._log_info(message, "game-instance", level)
 func _log_warning(message: String, level = 0):
 	_server._log_warning(message, "game-instance", level)
 func _log_error(message: String, level = 0):

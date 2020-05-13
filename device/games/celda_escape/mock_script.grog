@@ -20,6 +20,10 @@ main:
 
 		.curtain_up
 
+		
+
+
+
 celda/thing:
 	look_at:
 		you.say CELDA_ESCAPE_NICE_THING

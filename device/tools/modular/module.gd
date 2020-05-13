@@ -19,7 +19,9 @@ func _get_module_name():
 
 # Logging utils
 
-func _log(message: String, subcategory = "", level = 0):
+func _log_debug(message: String, subcategory = "", level = 0):
+	_modular.log_debug(get_module_name(subcategory), message, level)
+func _log_info(message: String, subcategory = "", level = 0):
 	_modular.log_info(get_module_name(subcategory), message, level)
 func _log_warning(message: String, subcategory = "", level = 0):
 	_modular.log_warning(get_module_name(subcategory), message, level)
