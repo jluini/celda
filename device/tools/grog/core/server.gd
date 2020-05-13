@@ -52,6 +52,10 @@ func new_game():
 	assert(not game_instance)
 	
 	game_instance = load("res://tools/grog/core/game_instance.gd").new()
+	game_instance.name = "game_instance"
+	
+	# make game pausable
+	game_instance.pause_mode = PAUSE_MODE_STOP
 	
 	var ok = game_instance.init(self, game_script)
 	

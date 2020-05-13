@@ -66,7 +66,6 @@ func _start():
 
 	_curtain.play("closed")
 	
-	
 	# TODO wait until menu is fully closed
 	
 	# TODO talk with server? instead of directly to game instance
@@ -262,8 +261,15 @@ func _on_ui_drag(position: Vector2):
 #	if not menu_is_open:
 #		_inventory_base.slide(delta)
 
-	var _m1 = _side_menu.slide(delta)
-	var _m2 = _inventory_base.slide(delta)
+	var should_be_paused = _side_menu.slide(delta)
+	var _inventory_is_open = _inventory_base.slide(delta)
+	
+	if game_instance and should_be_paused != game_instance.is_paused():
+		if should_be_paused:
+			game_instance.pause_request()
+		else:
+			game_instance.unpause_request()
+	
 	
 func _on_ui_end_drag(_position: Vector2):
 	if _drag_state != DragState.Dragging:

@@ -20,6 +20,8 @@ var _interaction_state = InteractionState.Ready
 var _server
 var _game_script
 
+var _is_paused: bool = false
+
 # Running routines
 
 var _current_routine = null
@@ -276,6 +278,9 @@ func _command_load_room(room_name: String) -> Dictionary:
 	#	return _instant_termination
 	
 	var room = room_resource.get_target().instance()
+	
+	# make room pausable
+	room.pause_mode = PAUSE_MODE_STOP
 	
 	if not room:
 		_log_error("couldn't load room '%s'" % room_name)
@@ -701,8 +706,30 @@ func go_to_request(target_position: Vector2) -> bool:
 
 func interact_request(_item, _trigger_name: String):
 	_log_warning("TODO implement interact_request")
+
+func pause_request() -> bool:
+	return _set_pausing(true)
 	
+func unpause_request() -> bool:
+	return _set_pausing(false)
+
+func _set_pausing(new_paused) -> bool:
+	if _is_paused == new_paused:
+		_log_warning("already %s" % ("paused" if new_paused else "unpaused"))
+		return false
+	
+	if _interaction_state == InteractionState.Ready:
+		_is_paused = new_paused
+		get_tree().paused = new_paused
+		return true
+	else:
+		_log_warning("routine pausing not implemented yet")
+		return false
+
 # client queries
+
+func is_paused() -> bool:
+	return _is_paused
 
 func is_navigable(_world_position) -> bool:
 	#_log_warning("TODO implement is_navigable")
