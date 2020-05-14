@@ -1,14 +1,16 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://games/celda_escape/rooms/living/images/background.jpg" type="Texture" id=1]
 [ext_resource path="res://tools/grog/twod/item2d.gd" type="Script" id=2]
 [ext_resource path="res://games/celda_escape/rooms/living/images/LV-Front.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
+[ext_resource path="res://games/celda_escape/rooms/living/images/Objetos/Oso.png" type="Texture" id=5]
+[ext_resource path="res://games/celda_escape/rooms/living/images/Objetos/Cuadro.png" type="Texture" id=6]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1682.23, 672.848, 1715.1, 840.177, 380.204, 838.492, 1526.86, 687.788, 538.357, 586.75, 1395.79, 577.547, 449.393, 652.707, 230.049, 651.173, 222.38, 833.704 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 3, 2, 6 ), PoolIntArray( 7, 6, 2, 8 ) ]
-outlines = [ PoolVector2Array( 1715.1, 840.177, 1682.23, 672.848, 1526.86, 687.788, 1395.79, 577.547, 538.357, 586.75, 449.393, 652.707, 230.049, 651.173, 222.38, 833.704, 380.204, 838.492 ) ]
+vertices = PoolVector2Array( 1127.5, 501.882, 1474.82, 509.378, 1524.79, 554.354, 1402.36, 573.095, 1126.25, 553.105, 1682.23, 672.848, 1702.2, 842.955, 380.204, 838.492, 1506.05, 674.292, 545.303, 545.609, 427.864, 625.567, 226.719, 609.326, 222.38, 833.704 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 6, 7, 8 ), PoolIntArray( 9, 4, 3, 8, 7, 10 ), PoolIntArray( 11, 10, 7, 12 ) ]
+outlines = [ PoolVector2Array( 1702.2, 842.955, 1682.23, 672.848, 1506.05, 674.292, 1402.36, 573.095, 1524.79, 554.354, 1474.82, 509.378, 1127.5, 501.882, 1126.25, 553.105, 545.303, 545.609, 427.864, 625.567, 226.719, 609.326, 222.38, 833.704, 380.204, 838.492 ) ]
 
 [node name="living" type="Node2D"]
 script = ExtResource( 4 )
@@ -17,13 +19,24 @@ navigation_path = NodePath("Navigation2D")
 
 [node name="background" type="Node2D" parent="."]
 
-[node name="Sprite" type="Sprite" parent="background"]
-position = Vector2( 979.053, 546.448 )
+[node name="Front" type="Sprite" parent="background"]
+position = Vector2( 957.528, 551.231 )
+z_index = 7
 texture = ExtResource( 3 )
 
 [node name="background" type="Sprite" parent="background"]
 z_index = -4096
 texture = ExtResource( 1 )
+centered = false
+
+[node name="Osos" type="Sprite" parent="background"]
+z_index = -4096
+texture = ExtResource( 5 )
+centered = false
+
+[node name="Sprite" type="Sprite" parent="background"]
+z_index = 2
+normal_map = ExtResource( 6 )
 centered = false
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
@@ -45,13 +58,9 @@ position = Vector2( 722.732, 774.828 )
 position = Vector2( 203.094, 920.269 )
 script = ExtResource( 2 )
 item_key = "living/to_office"
-instance_number = 0
-color = Color( 0, 0, 0, 1 )
 interact_angle = 180
 code = "walk_to:
 	.load_room office
 	you.teleport to=pos1 angle=135
 	.curtain_up"
-walk_speed = 0.0
 radius = 150.0
-offset = Vector2( 0, 0 )

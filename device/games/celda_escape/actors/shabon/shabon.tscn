@@ -393,13 +393,14 @@ tracks/0/keys = {
 }
 
 [node name="shabon" type="Node2D"]
+z_index = 1
 script = ExtResource( 66 )
 color = Color( 0.905882, 0.905882, 0.905882, 1 )
 walk_speed = 310.0
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 46 )
-frame = 43
+frame = 2
 offset = Vector2( 0, -180 )
 
 [node name="animation" type="AnimationPlayer" parent="."]
@@ -416,6 +417,9 @@ anims/walk_up = SubResource( 56 )
 
 [node name="speech_position" type="Position2D" parent="."]
 position = Vector2( 0, -350 )
+__meta__ = {
+"_gizmo_extents_": 8.0
+}
 
 [node name="ndirections" type="Node" parent="."]
 script = ExtResource( 67 )

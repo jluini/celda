@@ -1,13 +1,18 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=10 format=2]
 
-[ext_resource path="res://games/celda_escape/rooms/cellar/images/background.jpg" type="Texture" id=1]
+[ext_resource path="res://games/celda_escape/rooms/cellar/images/background.png" type="Texture" id=1]
 [ext_resource path="res://tools/grog/twod/item2d.gd" type="Script" id=2]
+[ext_resource path="res://games/celda_escape/rooms/cellar/images/Cata-Front.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
+[ext_resource path="res://games/celda_escape/rooms/cellar/images/Cata-BackBack.png" type="Texture" id=5]
+[ext_resource path="res://games/celda_escape/rooms/cellar/images/Cata-Front2.png" type="Texture" id=6]
+[ext_resource path="res://games/celda_escape/rooms/cellar/images/Cata-WallCeldas.png" type="Texture" id=7]
+[ext_resource path="res://games/celda_escape/rooms/cellar/images/Objetos/Cata-Camas.png" type="Texture" id=8]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 311.025, 821.434, 560.797, 593.467, 1409.23, 589.502, 1663.24, 815.123 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
-outlines = [ PoolVector2Array( 1663.24, 815.123, 1409.23, 589.502, 560.797, 593.467, 311.025, 821.434 ) ]
+vertices = PoolVector2Array( 1409.23, 589.502, 1663.24, 815.123, 311.025, 821.434, 1289.23, 591.285, 1323.13, 478.263, 1394.18, 563.837, 1281.15, 567.066, 1186.17, 502.362, 1038.96, 594.514, 1034.12, 568.681, 979.221, 562.222, 979.221, 536.388, 560.797, 593.467 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7 ), PoolIntArray( 6, 3, 2, 8 ), PoolIntArray( 9, 10, 11, 7 ), PoolIntArray( 8, 9, 7, 6 ), PoolIntArray( 8, 2, 12 ) ]
+outlines = [ PoolVector2Array( 1663.24, 815.123, 1409.23, 589.502, 1289.23, 591.285, 1281.15, 567.066, 1394.18, 563.837, 1323.13, 478.263, 1186.17, 502.362, 979.221, 536.388, 979.221, 562.222, 1034.12, 568.681, 1038.96, 594.514, 560.797, 593.467, 311.025, 821.434 ) ]
 
 [node name="cellar" type="Node2D"]
 script = ExtResource( 4 )
@@ -16,11 +21,37 @@ navigation_path = NodePath("Navigation2D")
 
 [node name="background" type="Node2D" parent="."]
 
+[node name="BackBack" type="Sprite" parent="background"]
+z_index = -4096
+texture = ExtResource( 5 )
+centered = false
+
 [node name="background" type="Sprite" parent="background"]
 modulate = Color( 0.607843, 0.607843, 0.607843, 1 )
 self_modulate = Color( 0.564706, 0.564706, 0.564706, 1 )
 z_index = -4096
 texture = ExtResource( 1 )
+centered = false
+
+[node name="Gates" type="Sprite" parent="background"]
+z_index = 2
+texture = ExtResource( 6 )
+centered = false
+
+[node name="Front" type="Sprite" parent="background"]
+position = Vector2( 955.371, 538.094 )
+z_index = 7
+z_as_relative = false
+texture = ExtResource( 3 )
+
+[node name="WallCell" type="Sprite" parent="background"]
+z_index = -4094
+texture = ExtResource( 7 )
+centered = false
+
+[node name="Camas" type="Sprite" parent="background"]
+z_index = -4095
+texture = ExtResource( 8 )
 centered = false
 
 [node name="Navigation2D" type="Navigation2D" parent="."]
@@ -31,10 +62,10 @@ scale = Vector2( 1.27, 1.27 )
 navpoly = SubResource( 1 )
 
 [node name="default_player_position" type="Position2D" parent="."]
-position = Vector2( 1580.36, 854.359 )
+position = Vector2( 1580.35, 854.359 )
 
 [node name="pos1" type="Position2D" parent="."]
-position = Vector2( 361.864, 854.359 )
+position = Vector2( 499.251, 821.55 )
 
 [node name="test_position" type="Position2D" parent="."]
 position = Vector2( 722.732, 774.828 )
@@ -42,32 +73,23 @@ position = Vector2( 722.732, 774.828 )
 [node name="items" type="Node2D" parent="."]
 
 [node name="exit1" type="Node2D" parent="items"]
-position = Vector2( 281.965, 767.852 )
+position = Vector2( 392.695, 823.217 )
 script = ExtResource( 2 )
 item_key = "cellar/exit1"
-instance_number = 0
-color = Color( 0, 0, 0, 1 )
 interact_angle = 180
 code = "walk_to:
 	.load_room celda_open
 	you.teleport to=pos5 angle=45
 	.curtain_up
 	.set music=uajari"
-walk_speed = 0.0
 radius = 150.0
-offset = Vector2( 0, 0 )
 
 [node name="exit2" type="Node2D" parent="items"]
 position = Vector2( 1633.89, 825.756 )
 script = ExtResource( 2 )
 item_key = "cellar/exit2"
-instance_number = 0
-color = Color( 0, 0, 0, 1 )
-interact_angle = 0
 code = "walk_to:
 	.load_room lab
 	.curtain_up
 "
-walk_speed = 0.0
 radius = 150.0
-offset = Vector2( 0, 0 )

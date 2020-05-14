@@ -28,9 +28,9 @@ tracks/0/keys = {
 }
 
 [sub_resource type="NavigationPolygon" id=2]
-vertices = PoolVector2Array( 476.587, 678.06, 286.208, 674.684, 390.174, 567.343, 595.405, 570.719, 1639.11, 649.706, 1696.16, 712.084, 1693.4, 815.863, 1377.71, 746.127, 1447.38, 649.706, 1319.69, 626.773, 1258.92, 430.478, 855.995, 429.622, 871.282, 627.602, 852.619, 474.854, 797.936, 504.559, 346.504, 815.123, 830.668, 746.956, 663.979, 498.884 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7, 8 ), PoolIntArray( 8, 7, 9, 10 ), PoolIntArray( 11, 10, 9, 12, 13 ), PoolIntArray( 14, 13, 12 ), PoolIntArray( 7, 6, 15, 16 ), PoolIntArray( 12, 16, 15, 0, 3, 14 ), PoolIntArray( 14, 3, 17 ) ]
-outlines = [ PoolVector2Array( 1693.4, 815.863, 1696.16, 712.084, 1639.11, 649.706, 1447.38, 649.706, 1258.92, 430.478, 855.995, 429.622, 852.619, 474.854, 797.936, 504.559, 663.979, 498.884, 595.405, 570.719, 390.174, 567.343, 286.208, 674.684, 476.587, 678.06, 346.504, 815.123 ), PoolVector2Array( 871.282, 627.602, 830.668, 746.956, 1377.71, 746.127, 1319.69, 626.773 ) ]
+vertices = PoolVector2Array( 476.587, 678.06, 286.208, 674.684, 390.174, 567.343, 595.861, 553.828, 1572.68, 641.491, 1610.25, 729.154, 1386.62, 695.162, 1476.07, 639.702, 1338.31, 578.874, 1282.85, 408.916, 819.491, 410.705, 998.394, 571.718, 823.069, 475.11, 899.997, 704.107, 772.976, 493.001, 1610.25, 732.732, 438.425, 755.989, 649.532, 478.688 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7 ), PoolIntArray( 7, 6, 8, 9 ), PoolIntArray( 10, 9, 8, 11, 12 ), PoolIntArray( 12, 11, 13, 14 ), PoolIntArray( 6, 5, 15, 16, 13 ), PoolIntArray( 13, 16, 0, 3, 14 ), PoolIntArray( 14, 3, 17 ) ]
+outlines = [ PoolVector2Array( 1610.25, 732.732, 1610.25, 729.154, 1572.68, 641.491, 1476.07, 639.702, 1282.85, 408.916, 819.491, 410.705, 823.069, 475.11, 772.976, 493.001, 649.532, 478.688, 595.861, 553.828, 390.174, 567.343, 286.208, 674.684, 476.587, 678.06, 438.425, 755.989 ), PoolVector2Array( 998.394, 571.718, 899.997, 704.107, 1386.62, 695.162, 1338.31, 578.874 ) ]
 
 [node name="lab" type="Node2D"]
 script = ExtResource( 4 )
@@ -88,33 +88,25 @@ position = Vector2( 1445.92, 864.58 )
 position = Vector2( 180.308, 707.462 )
 script = ExtResource( 2 )
 item_key = "lab/exit"
-instance_number = 0
-color = Color( 0, 0, 0, 1 )
 interact_angle = 180
 code = "walk_to:
 	.load_room cellar
 	.curtain_up"
-walk_speed = 0.0
 radius = 150.0
-offset = Vector2( 0, 0 )
 
 [node name="stretcher" type="Node2D" parent="items"]
 position = Vector2( 1121, 771 )
 z_index = -215
 script = ExtResource( 2 )
 item_key = "lab/stretcher"
-instance_number = 0
-color = Color( 0, 0, 0, 1 )
 interact_angle = 45
 code = "
 look_at:
 	you.say \"Alta camilla.\""
-walk_speed = 0.0
 radius = 200.0
-offset = Vector2( 0, 0 )
 
 [node name="Sprite" type="Sprite" parent="items/stretcher"]
-position = Vector2( 55.3104, -71.5781 )
+position = Vector2( -44.661, -162.461 )
 texture = ExtResource( 8 )
 
 [node name="interact_position" type="Position2D" parent="items/stretcher"]

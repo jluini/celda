@@ -10,8 +10,6 @@
 [ext_resource path="res://games/celda_escape/rooms/celda/images/background.jpg" type="Texture" id=11]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/toilet.png" type="Texture" id=12]
 
-
-
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 670.651, 625.289, 785.887, 712.824, 695.027, 712.824, 345.995, 621.965, 194.266, 888.625, -979.802, 887.463, -782.63, 723.398, -996.986, 655.482, -913.931, 573.859, -692.712, 648.578, -596.032, 568.131, -57.404, 778.434, 184.744, 694.091, 153.455, 639.675, 122.171, 572.103, 288.377, 575.427, 867.881, 782.631, 909.987, 820.304, 912.203, 898.975, 306.105, 895.651, 722.728, 781.523, 680.623, 746.065, 94.9586, 692.73, 90.8775, 639.675, 56.9514, 579.587, -81.8909, 719.938, 122.166, 747.145 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6 ), PoolIntArray( 6, 7, 8, 9 ), PoolIntArray( 4, 6, 9 ), PoolIntArray( 4, 9, 10, 11 ), PoolIntArray( 12, 13, 14, 15, 3 ), PoolIntArray( 16, 17, 18, 19, 20 ), PoolIntArray( 21, 20, 19, 12, 3 ), PoolIntArray( 3, 2, 21 ), PoolIntArray( 13, 12, 22, 23 ), PoolIntArray( 24, 23, 22, 25, 10 ), PoolIntArray( 11, 26, 4 ), PoolIntArray( 10, 25, 11 ) ]
