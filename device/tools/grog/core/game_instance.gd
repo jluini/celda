@@ -420,7 +420,6 @@ func _command_say(item_id: String, speech_token: Dictionary, opts: Dictionary) -
 			return _instant_termination
 		
 		# updates item_id (maybe it was 'self' or another alias)
-		assert("symbol_name" in item_symbol)
 		item_id = item_symbol.symbol_name
 		
 		if item_symbol.type == "scene_item":
