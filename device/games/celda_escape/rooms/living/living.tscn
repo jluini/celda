@@ -1,15 +1,14 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://games/celda_escape/rooms/living/images/background.jpg" type="Texture" id=1]
 [ext_resource path="res://tools/grog/twod/item2d.gd" type="Script" id=2]
+[ext_resource path="res://games/celda_escape/rooms/living/images/LV-Front.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
 
-
-
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 538.357, 586.75, 1395.79, 577.547, 1651.95, 835.237, 380.204, 838.492, 449.393, 652.707, 230.049, 651.173, 222.38, 833.704 )
-polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 4, 3, 6 ) ]
-outlines = [ PoolVector2Array( 1651.95, 835.237, 1395.79, 577.547, 538.357, 586.75, 449.393, 652.707, 230.049, 651.173, 222.38, 833.704, 380.204, 838.492 ) ]
+vertices = PoolVector2Array( 1682.23, 672.848, 1715.1, 840.177, 380.204, 838.492, 1526.86, 687.788, 538.357, 586.75, 1395.79, 577.547, 449.393, 652.707, 230.049, 651.173, 222.38, 833.704 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 3, 2, 6 ), PoolIntArray( 7, 6, 2, 8 ) ]
+outlines = [ PoolVector2Array( 1715.1, 840.177, 1682.23, 672.848, 1526.86, 687.788, 1395.79, 577.547, 538.357, 586.75, 449.393, 652.707, 230.049, 651.173, 222.38, 833.704, 380.204, 838.492 ) ]
 
 [node name="living" type="Node2D"]
 script = ExtResource( 4 )
@@ -17,6 +16,10 @@ default_player_position_path = NodePath("default_player_position")
 navigation_path = NodePath("Navigation2D")
 
 [node name="background" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="background"]
+position = Vector2( 979.053, 546.448 )
+texture = ExtResource( 3 )
 
 [node name="background" type="Sprite" parent="background"]
 z_index = -4096
@@ -42,9 +45,13 @@ position = Vector2( 722.732, 774.828 )
 position = Vector2( 203.094, 920.269 )
 script = ExtResource( 2 )
 item_key = "living/to_office"
+instance_number = 0
+color = Color( 0, 0, 0, 1 )
 interact_angle = 180
 code = "walk_to:
 	.load_room office
 	you.teleport to=pos1 angle=135
 	.curtain_up"
+walk_speed = 0.0
 radius = 150.0
+offset = Vector2( 0, 0 )

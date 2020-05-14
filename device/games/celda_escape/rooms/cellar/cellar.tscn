@@ -4,8 +4,6 @@
 [ext_resource path="res://tools/grog/twod/item2d.gd" type="Script" id=2]
 [ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
 
-
-
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 311.025, 821.434, 560.797, 593.467, 1409.23, 589.502, 1663.24, 815.123 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
@@ -19,6 +17,8 @@ navigation_path = NodePath("Navigation2D")
 [node name="background" type="Node2D" parent="."]
 
 [node name="background" type="Sprite" parent="background"]
+modulate = Color( 0.607843, 0.607843, 0.607843, 1 )
+self_modulate = Color( 0.564706, 0.564706, 0.564706, 1 )
 z_index = -4096
 texture = ExtResource( 1 )
 centered = false
@@ -45,20 +45,29 @@ position = Vector2( 722.732, 774.828 )
 position = Vector2( 281.965, 767.852 )
 script = ExtResource( 2 )
 item_key = "cellar/exit1"
+instance_number = 0
+color = Color( 0, 0, 0, 1 )
 interact_angle = 180
 code = "walk_to:
 	.load_room celda_open
 	you.teleport to=pos5 angle=45
 	.curtain_up
 	.set music=uajari"
+walk_speed = 0.0
 radius = 150.0
+offset = Vector2( 0, 0 )
 
 [node name="exit2" type="Node2D" parent="items"]
 position = Vector2( 1633.89, 825.756 )
 script = ExtResource( 2 )
 item_key = "cellar/exit2"
+instance_number = 0
+color = Color( 0, 0, 0, 1 )
+interact_angle = 0
 code = "walk_to:
 	.load_room lab
 	.curtain_up
 "
+walk_speed = 0.0
 radius = 150.0
+offset = Vector2( 0, 0 )
