@@ -1,6 +1,8 @@
 extends "res://tools/modular/module.gd"
 
-export (String) var saved_games_path = "user://saved_games"
+export (String) var root_path = "user://"
+export (String) var saved_games_path = "saved_games"
+export (String) var quick_save_path = "quicksave.tres"
 
 export (Resource) var game_script
 
@@ -23,16 +25,12 @@ func _on_initialize() -> Dictionary:
 		# invalid game
 		return res
 	
-	var dir = Directory.new()
+	var _save_folder_result: Dictionary = _get_or_create_save_folder()
 	
-	var user_dir_result = dir.open("user://")
-	
-	if user_dir_result != OK:
-		return { valid = false, message = "can't create files" }
-	
-	if not dir.dir_exists(saved_games_path):
-		_log_info("folder '%s' does not exist; creating it" % saved_games_path)
-		dir.make_dir(saved_games_path)
+	if _save_folder_result.valid:
+		_log_debug("save folder successfully opened")
+	else:
+		_log_warning("save folder couldn't be opened")
 	
 	return { valid = true }
 
@@ -96,6 +94,44 @@ func get_saved_games():
 	
 	return ret
 
+# tries to save current game instance in default file
+func save_game() -> Dictionary:
+	if not game_instance:
+		var message = "can't save: no game" 
+		_log_warning(message)
+		return { valid = false, message = message }
+	
+	if not game_instance.is_paused():
+		var message = "can't save: game is not paused"
+		_log_warning(message)
+		return { valid = false, message = message }
+	
+	var save_folder_result: Dictionary = _get_or_create_save_folder()
+	
+	if not save_folder_result.valid:
+		return save_folder_result
+	
+	var save_folder: Directory = save_folder_result.folder
+	
+	var full_path := "%s%s/%s" % [root_path, saved_games_path, quick_save_path]
+	
+	_log_debug("trying to save game in '%s'" % full_path)
+	
+	var file := File.new()
+	var file_result = file.open(full_path, File.WRITE)
+	
+	if file_result != OK:
+		var message = "couldn't open '%s' for writing" % full_path
+		_log_error(message)
+		return { valid = false, message = message }
+	
+	file.store_string("la vida")
+	file.store_string(" ")
+	file.store_string("loca")
+	
+	file.close()
+	
+	return { valid = true }
 
 func _on_list_saved_games_pressed():
 	_modular.make_empty($control/saved_games)
@@ -113,4 +149,32 @@ func _on_generate_fake_pressed():
 	file.store_string("content")
 	file.close()
 
-
+func _get_or_create_save_folder() -> Dictionary:
+	var dir := Directory.new()
+	
+	var user_dir_result = dir.open(root_path)
+	
+	if user_dir_result != OK:
+		var message = "can't open user dir"
+		_log_error(message)
+		return { valid = false, message = message }
+	
+	if not dir.dir_exists(saved_games_path):
+		_log_info("folder '%s/%s' does not exist; creating it" % [root_path, saved_games_path])
+		
+		var save_dir_result = dir.make_dir(saved_games_path)
+		
+		if save_dir_result != OK:
+			var message = "can't create '%s' folder" % saved_games_path
+			_log_error(message)
+			return { valid = false, message = message }
+	
+	var save_dir_result = dir.change_dir(saved_games_path)
+	
+	if save_dir_result != OK:
+		var message = "can't open '%s' folder" % saved_games_path
+		_log_error(message)
+		return { valid = false, message = message }
+	
+	return { valid = true, folder = dir }
+	

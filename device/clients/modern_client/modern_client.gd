@@ -333,11 +333,23 @@ func _on_load_game_pressed():
 	_tabs.show_named("game_list")
 
 func _input(event):
-	if event is InputEventKey:
-		if event.pressed and event.scancode == KEY_ESCAPE:
-			if game_instance and game_instance.skip_request():
-				# TODO only handled in this case?
-				get_tree().set_input_as_handled()
+	if event is InputEventKey and event.pressed:
+		match event.scancode:
+			KEY_ESCAPE:
+				if game_instance and game_instance.skip_request():
+					# TODO only handled in this case?
+					get_tree().set_input_as_handled()
+			
+			KEY_S:
+				var save_result = server.save_game()
+				
+				if save_result.valid:
+					_log_debug("game saved!")
+				else:
+					_log_error("couldn't save")
+			
+			KEY_D:
+				pass
 	
 
 func _on_options_pressed():
