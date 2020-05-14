@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://tools/modular/modular.gd" type="Script" id=1]
 [ext_resource path="res://tools/modular/top_button.tscn" type="PackedScene" id=2]
+[ext_resource path="res://tools/modular/console_font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://themes/mortified/mortified.tres" type="Theme" id=4]
 
 [node name="modular" type="Control"]
@@ -42,7 +43,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="welcome" type="Control" parent="ui/modules"]
+[node name="logs" type="Control" parent="ui/modules"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
@@ -50,12 +51,19 @@ margin_top = 65.0
 margin_right = -4.0
 margin_bottom = -4.0
 
-[node name="label" type="Label" parent="ui/modules/welcome"]
+[node name="margin_container" type="MarginContainer" parent="ui/modules/logs"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-text = "Welcome to modular"
-align = 1
-valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="console" type="TextEdit" parent="ui/modules/logs/margin_container"]
+margin_right = 1912.0
+margin_bottom = 795.0
+custom_fonts/font = ExtResource( 3 )
+readonly = true
+show_line_numbers = true
 __meta__ = {
 "_edit_use_anchors_": false
 }

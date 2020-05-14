@@ -15,6 +15,9 @@ var game_instance: Node = null
 func _get_module_name():
 	return "grog-server"
 
+func _get_abbreviated_name():
+	return "gs"
+
 func _on_initialize() -> Dictionary:
 	if not game_script:
 		return { valid = false, message = "there's no game set" }
@@ -111,9 +114,10 @@ func save_game() -> Dictionary:
 	if not save_folder_result.valid:
 		return save_folder_result
 	
-	var save_folder: Directory = save_folder_result.folder
-	
-	var full_path := "%s%s/%s" % [root_path, saved_games_path, quick_save_path]
+	return _save_game_in(quick_save_path)
+
+func _save_game_in(path: String):
+	var full_path := "%s%s/%s" % [root_path, saved_games_path, path]
 	
 	_log_debug("trying to save game in '%s'" % full_path)
 	

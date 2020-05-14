@@ -819,13 +819,13 @@ func _log_invalid_interaction_state(func_name: String):
 	_log_error("can't call '%s' while interaction state is %s" % [func_name, _interaction_state_str(_interaction_state)])
 
 func _log_debug(message: String, level = 0):
-	_server._log_debug(message, "game-instance", level)
+	_server._log_debug(message, "game", level)
 func _log_info(message: String, level = 0):
-	_server._log_info(message, "game-instance", level)
+	_server._log_info(message, "game", level)
 func _log_warning(message: String, level = 0):
-	_server._log_warning(message, "game-instance", level)
+	_server._log_warning(message, "game", level)
 func _log_error(message: String, level = 0):
-	_server._log_error(message, "game-instance", level)
+	_server._log_error(message, "game", level)
 
 func _game_warning(message: String, level = 0):
 	_server._log_warning(message, _game_script.get_short_name(), level)

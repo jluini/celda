@@ -7,7 +7,8 @@ enum Severity {
 	Error,
 }
 
-export (Severity) var minimum_severity = Severity.Debug
+export (Severity) var minimum_console_severity = Severity.Debug
+export (Severity) var minimum_modular_severity = Severity.Debug
 
 enum StartMode {
 	Welcome,
@@ -23,6 +24,7 @@ var _current = -1
 
 var _broadcast_listeners = {}
 
+onready var _console = $ui/modules/logs/margin_container/console
 
 func _ready():
 	_modules = _get_modules()
@@ -164,8 +166,14 @@ func log_error(category: String, message: String, level = 0):
 
 
 func log_message(severity: int, category: String, message: String, _level = 0):
-	if severity >= minimum_severity:
-		printt(_severity_str(severity), "%-10s" % category, message)
+	var msg = "%-7s %-15s %s" % [_severity_str(severity), category, message]
+	
+	if severity >= minimum_console_severity:
+		print(msg)
+	if severity >= minimum_modular_severity:
+		_console.text += msg + "\n"
+		var numlines = _console.get_line_count()
+		_console.cursor_set_line(numlines - 1)
 
 func _severity_str(severity: int) -> String:
 	var severities = Severity.keys()

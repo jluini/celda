@@ -3,6 +3,7 @@ extends Control
 var _modular = null
 
 var module_name = _get_module_name()
+var abbreviated_name = _get_abbreviated_name()
 
 func initialize(p_modular) -> Dictionary:
 	_modular = p_modular
@@ -12,10 +13,13 @@ func get_module_name(subcategory = ""):
 	if not subcategory:
 		return module_name
 	else:
-		return "%s/%s" % [module_name, subcategory]
+		return "%s/%s" % [abbreviated_name, subcategory]
 
 func _get_module_name():
-	return "no-name-yet"
+	return "??????????"
+
+func _get_abbreviated_name():
+	return "??"
 
 # Logging utils
 
