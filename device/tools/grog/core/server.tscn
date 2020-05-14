@@ -17,6 +17,9 @@ script = ExtResource( 2 )
 [node name="control" type="Control" parent="."]
 anchor_right = 0.333
 anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="list_saved_games" type="Button" parent="control"]
 anchor_right = 1.0
@@ -42,12 +45,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="generate_fake" type="Button" parent="control2"]
+[node name="save_button" type="Button" parent="control2"]
 anchor_right = 1.0
-anchor_bottom = 0.2
-text = "Generate fake"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+margin_left = 88.0
+margin_top = 46.0
+margin_right = -29.28
+margin_bottom = 186.0
+text = "Save"
 [connection signal="pressed" from="control/list_saved_games" to="." method="_on_list_saved_games_pressed"]
-[connection signal="pressed" from="control2/generate_fake" to="." method="_on_generate_fake_pressed"]
+[connection signal="pressed" from="control2/save_button" to="." method="_on_save_button_pressed"]

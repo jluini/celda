@@ -7,12 +7,14 @@ func _ready():
 
 func init(server):
 	while get_child_count() > 1:
-		print("Removing")
 		var c = get_child(1)
 		remove_child(c)
 		c.queue_free()
 	
-	var saved_games = server.get_saved_games()
+	var saved_games_result = server.get_saved_games()
+	var saved_games: Array = saved_games_result.saved_games
+	
+	# TODO check saved_games_result.valid and show message if there's error
 	
 	if saved_games:
 		get_child(0).hide()
@@ -22,7 +24,6 @@ func init(server):
 		get_child(0).show()
 
 func add_entry(saved_game):
-	
 	if not entry_model:
 		print("No model")
 		return null

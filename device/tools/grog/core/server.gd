@@ -69,13 +69,15 @@ func new_game():
 	
 	return game_instance
 
-func get_saved_games():
-	var ret = []
-	var dir = Directory.new()
-		
-	var saved_games_result = dir.open(saved_games_path)
-	if saved_games_result != OK:
-		return { valid = false, message = "can't open folder '%s'" % saved_games_path }
+func get_saved_games() -> Dictionary:
+	var save_folder_result: Dictionary = _get_or_create_save_folder()
+	
+	if not save_folder_result.valid:
+		save_folder_result.saved_games = []
+		return save_folder_result
+	
+	var dir: Directory = save_folder_result.folder
+	var saved_games := []
 	
 	dir.list_dir_begin()
 	var file_name = dir.get_next()
@@ -86,7 +88,7 @@ func get_saved_games():
 			
 			var name = file_name
 			
-			ret.append({
+			saved_games.append({
 				filename = file_name,
 				name = name
 			})
@@ -95,7 +97,10 @@ func get_saved_games():
 			
 		file_name = dir.get_next()
 	
-	return ret
+	return {
+		valid = true,
+		saved_games = saved_games
+	}
 
 # tries to save current game instance in default file
 func save_game() -> Dictionary:
@@ -135,18 +140,15 @@ func _save_game_in(path: String):
 func _on_list_saved_games_pressed():
 	_modular.make_empty($control/saved_games)
 	
-	var sgs = get_saved_games()
-	for sg in sgs:
+	var saved_games_result = get_saved_games()
+	var saved_games: Array = saved_games_result.saved_games
+	
+	# TODO check saved_games_result.valid and show message if there's error
+	
+	for sg in saved_games:
 		var new_label = Label.new()
 		new_label.text = sg.filename
 		$control/saved_games.add_child(new_label)
-
-
-func _on_generate_fake_pressed():
-	var file = File.new()
-	file.open(saved_games_path + "/fake.grog", File.WRITE)
-	file.store_string("content")
-	file.close()
 
 func _get_or_create_save_folder() -> Dictionary:
 	var dir := Directory.new()
@@ -177,3 +179,10 @@ func _get_or_create_save_folder() -> Dictionary:
 	
 	return { valid = true, folder = dir }
 	
+func _on_save_button_pressed():
+	var save_result = save_game()
+	
+	if save_result.valid:
+		_log_debug("game saved!")
+	else:
+		_log_error("couldn't save")
