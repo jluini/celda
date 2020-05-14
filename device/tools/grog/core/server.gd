@@ -121,19 +121,14 @@ func _save_game_in(path: String):
 	
 	_log_debug("trying to save game in '%s'" % full_path)
 	
-	var file := File.new()
-	var file_result = file.open(full_path, File.WRITE)
+	var saved_game := SavedGame.new()
+	saved_game.read_from(game_instance)
+	var save_result = ResourceSaver.save(full_path, saved_game, ResourceSaver.FLAG_CHANGE_PATH)
 	
-	if file_result != OK:
-		var message = "couldn't open '%s' for writing" % full_path
+	if save_result != OK:
+		var message = "couldn't save to '%s' (error %s)" % [full_path, save_result]
 		_log_error(message)
 		return { valid = false, message = message }
-	
-	file.store_string("la vida")
-	file.store_string(" ")
-	file.store_string("loca")
-	
-	file.close()
 	
 	return { valid = true }
 

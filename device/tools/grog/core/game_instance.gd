@@ -24,6 +24,7 @@ var _is_paused: bool = false
 
 # Running routines
 
+var _current_routine_headers: Array
 var _current_routine = null
 var _current_pointers: Array = []
 var _skip_enabled: bool = false
@@ -43,7 +44,8 @@ var symbols = SymbolTable.new([
 ])
 
 var current_room: Node = null
-var current_player: Node = null
+var _current_room_name: String = ""
+var current_player: Node2D = null
 var loaded_scene_items = {}
 
 # walking state
@@ -123,13 +125,19 @@ func _process(delta: float) -> void:
 
 # running
 
-func _run_routine(routine):
+func _run_routine(routine_headers: Array) -> bool:
 	if not _validate_game_state("_run_routine", GameState.Playing):
 		return false
 	if not _validate_interaction_state("_run_routine", InteractionState.Ready):
 		return false
 	
+	var routine = _get_routine(routine_headers)
+
+	if not routine:
+		return false
+	
 	_interaction_state = InteractionState.Running
+	_current_routine_headers = routine_headers
 	_current_routine = routine
 	_current_pointers = [-1]
 	_advance()
@@ -322,6 +330,7 @@ func _command_load_room(room_name: String) -> Dictionary:
 		current_room.queue_free()
 		current_room = null
 	
+	_current_room_name = room_name
 	current_room = room
 	
 	if current_player:
@@ -658,16 +667,10 @@ func start_game_request(room_parent: Node) -> bool:
 	current_player = player_resource.get_target().instance()
 	symbols.add_symbol("you", "player", current_player)
 	
-	var init_routine = _get_routine(["main", "init"])
-	
-	if not init_routine:
-		_log_error("init routine not found")
-		return false
-	
 	_game_state = GameState.Playing
 	
-	if not _run_routine(init_routine):
-		_log_error("can't run init routine")
+	if not _run_routine(["main", "init"]):
+		_log_error("can't run initial routine")
 		return false
 	
 	_game_event("game_started", [current_player])
@@ -727,6 +730,79 @@ func _set_pausing(new_paused) -> bool:
 func is_paused() -> bool:
 	return _is_paused
 
+func is_ready() -> bool:
+	return _interaction_state == InteractionState.Ready
+
+func get_current_headers() -> Array:
+	if is_ready():
+		if _current_routine_headers:
+			_log_warning("there shouldn't be a routine")
+		else:
+			_log_warning("there's no current routine")
+		
+		return []
+	
+	return _current_routine_headers
+
+func get_current_stack() -> Array:
+	if is_ready():
+		if _current_pointers:
+			_log_warning("there shouldn't be a stack")
+		else:
+			_log_warning("there's no current routine")
+		
+		return []
+	
+	return _current_pointers
+
+func get_current_room_name() -> String:
+	return _current_room_name
+
+func get_player_position() -> Vector2:
+	if current_player:
+		return current_player.position
+	else:
+		_log_warning("there's no player")
+		return Vector2()
+
+func get_global_variables() -> Array:
+	var ret = []
+	
+	var variable_pack = symbols._get_pack("global_variable")
+	
+	var variable_list: Array = variable_pack.list
+	
+	for global_variable in variable_list:
+		var variable_name: String = global_variable.symbol_name
+		var variable_value = global_variable.target
+		
+		ret.append({
+			name = variable_name,
+			value = variable_value
+		})
+	
+	return ret
+
+func get_scene_items() -> Array:
+	var ret = []
+	
+	var scene_items_pack = symbols._get_pack("scene_item")
+	
+	var scene_items_list: Array = scene_items_pack.list
+	
+	for scene_item in scene_items_list:
+		var item_key: String = scene_item.symbol_name
+		var is_disabled: bool = scene_item.disabled
+		var animation_state: String = scene_item.animation
+		
+		ret.append({
+			key = item_key,
+			disabled = is_disabled,
+			state = animation_state
+		})
+		
+	return ret
+
 func is_navigable(_world_position) -> bool:
 	#_log_warning("TODO implement is_navigable")
 	return true
@@ -745,8 +821,7 @@ func _get_routine(headers: Array):
 	if _game_script.has_routine(headers):
 		return _game_script.get_routine(headers)
 	else:
-		# TODO warning or error?
-		_log_warning("routine '%s' not found" % str(headers))
+		_log_error("routine '%s' not found" % str(headers))
 		return null
 
 func _get_room_resource(room_name):
