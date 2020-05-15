@@ -199,12 +199,7 @@ func _on_ui_click(position: Vector2):
 		if inventory_item != null:
 			_select_inventory_item(inventory_item)
 		else:
-			#if _inventory_visible:
-			#	_hide_inventory()
-			if game_instance.is_navigable(world_position):
-				#$cursor.position = world_position
-				#$cursor/animation.play("default")
-				#$cursor/animation.play("go")
+			if game_instance.is_ready():
 				game_instance.go_to_request(world_position)
 	
 func _on_ui_start_hold(position: Vector2):

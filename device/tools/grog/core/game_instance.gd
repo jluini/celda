@@ -803,10 +803,6 @@ func get_scene_items() -> Array:
 		
 	return ret
 
-func is_navigable(_world_position) -> bool:
-	#_log_warning("TODO implement is_navigable")
-	return true
-
 func get_default_color():
 	return _game_script.default_color
 
