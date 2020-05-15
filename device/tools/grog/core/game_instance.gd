@@ -21,6 +21,7 @@ var _server # grog server node
 var _game_script # GameScript resource
 
 var _starting_from_saved_game: bool
+var _saved_player_position: Vector2
 
 var _is_paused: bool = false
 
@@ -351,6 +352,7 @@ func _command_load_room(room_name: String) -> Dictionary:
 	
 	if current_player:
 		room.add_child(current_player)
+		# TODO check this
 		current_player.teleport(room.get_default_player_position())
 	else:
 		_log_warning("playing with no player")
@@ -680,11 +682,36 @@ func start_game_request(room_parent: Node) -> bool:
 	
 	_game_state = GameState.Playing
 	
-	if not _run_routine(["main", "init"]):
-		_log_error("can't run initial routine")
-		return false
+	if _starting_from_saved_game:
+		if _current_room_name:
+			# TODO use another function name for this
+			_command_load_room(_current_room_name)
 	
+			if not current_room:
+				_log_error("loading saved '%s' room failed" % _current_room_name)
+				return false
+			
+			if current_player:
+				current_player.teleport(_saved_player_position)
+				# TODO player orientation
+			else:
+				_log_warning("loading game but no current player")
+		else:
+			_log_warning("loading game with no current room")
+		
+	else:
+		if not _run_routine(["main", "init"]):
+			_log_error("can't run initial routine")
+			return false
+	
+	# this doesn't do anything yet
 	_game_event("game_started", [current_player])
+	
+	# TODO this should be saved instead
+	if _starting_from_saved_game:
+		_game_event("curtain_up")
+		
+		# TODO save and recover last saying and timer
 	
 	return true
 
@@ -820,7 +847,58 @@ func get_default_color():
 # load game
 
 func _read_saved_game(saved_game: Resource) -> Dictionary:
-	_log_debug("TODO: implement load game")
+	# TODO check game, version, etc...
+	
+	for global_variable in saved_game.global_variables:
+		var var_name = global_variable.name
+		var var_value = global_variable.value
+		
+		if symbols.has_symbol(var_name):
+			return { valid = false, message = "duplicated global variable symbol '%s'" % var_name }
+		
+		symbols.add_symbol(var_name, "global_variable", var_value)
+	
+	for scene_item in saved_game.scene_items:
+		var key = scene_item.key
+		
+		if symbols.has_symbol(key):
+			return { valid = false, message = "duplicated scene item symbol '%s'" % key }
+		
+		var new_symbol = symbols.add_symbol(key, "scene_item", null)
+		new_symbol.loaded = false
+		new_symbol.disabled = scene_item.disabled
+		new_symbol.animation = scene_item.state
+	
+	#var current_room_name: String = saved_game.current_room
+	_current_room_name = saved_game.current_room
+	_saved_player_position = saved_game.player_position
+	# TODO player orientation aswell
+	
+	if saved_game.is_ready:
+		_interaction_state = InteractionState.Ready
+	else:
+		_interaction_state = InteractionState.Running
+		
+		var routine_headers = saved_game.routine_headers
+		var routine = _get_routine(routine_headers)
+		
+		if not routine:
+			return { valid = false, message = "couldn't find saved routine '%s'" % str(routine_headers) }
+		
+		_current_routine_headers = routine_headers
+		_current_routine = routine
+		_current_pointers = saved_game.routine_stack
+		
+		# TODO fix this
+		_skip_enabled = true
+		
+		# TODO what if saved while autowalking?
+		# (must call _start_walking)
+	
+	# TODO inventory items
+	# TODO aliases?
+	
+	# TODO curtain state
 	
 	return { valid = true }
 
