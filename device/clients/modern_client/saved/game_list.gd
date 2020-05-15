@@ -2,19 +2,18 @@ extends Control
 
 export (PackedScene) var entry_model
 
+var _client: Node
+
 func _ready():
 	pass
 
-func init(server):
+func init(client, saved_games: Array):
+	_client = client
+	
 	while get_child_count() > 1:
 		var c = get_child(1)
 		remove_child(c)
 		c.queue_free()
-	
-	var saved_games_result = server.get_saved_games()
-	var saved_games: Array = saved_games_result.saved_games
-	
-	# TODO check saved_games_result.valid and show message if there's error
 	
 	if saved_games:
 		get_child(0).hide()
@@ -27,9 +26,12 @@ func add_entry(saved_game):
 	if not entry_model:
 		print("No model")
 		return null
-	var new_entry = entry_model.instance()
+	var new_entry: Node = entry_model.instance()
 	
 	new_entry.set_target(saved_game)
+	
+	# warning-ignore:return_value_discarded
+	new_entry.connect("load_game_requested", _client, "on_load_game_requested")
 	
 	add_child(new_entry)
 	

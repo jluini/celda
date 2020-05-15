@@ -144,10 +144,13 @@ func _on_item_disabled(_item):
 	print("Override _on_item_disabled()")
 
 
-
-
-func _start_game():
+func _start_game_from(filename: String) -> Dictionary:
 	assert(not game_instance)
 	
-	game_instance = server.new_game()
-	game_instance.connect("game_event", self, "on_server_event")
+	var new_game_result: Dictionary = server.new_game_from(filename)
+	
+	if new_game_result.valid:
+		game_instance = new_game_result.game_instance
+		game_instance.connect("game_event", self, "on_server_event")
+	
+	return new_game_result

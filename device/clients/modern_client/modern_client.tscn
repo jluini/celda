@@ -332,7 +332,7 @@ margin_right = 826.0
 margin_bottom = 451.0
 
 [node name="label" parent="ui/menu/tab_container/tabs/game_list/v_box_container/control" index="0"]
-color = Color( 1, 1, 1, 1 )
+text = "(no games)"
 
 [node name="side_menu" type="Control" parent="ui/menu"]
 anchor_right = 0.4

@@ -6,7 +6,7 @@
 	Copyright 2020, jluini
 """
 
-extends Node
+extends Control
 
 var target = null # setget set_target, get_target
 

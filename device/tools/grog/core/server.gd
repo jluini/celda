@@ -45,10 +45,11 @@ func get_game_script():
 		_log_warning("there's no game set")
 	return game_script
 
-func new_game():
+func new_game_from(filename: String) -> Dictionary:
 	if not game_script:
-		_log_warning("there's no game set")
-		return
+		var message = "there's no game set"
+		_log_warning(message)
+		return { valid = false, message = message }
 	
 	assert(not game_instance)
 	
@@ -58,16 +59,25 @@ func new_game():
 	# make game pausable
 	game_instance.pause_mode = PAUSE_MODE_STOP
 	
-	var ok = game_instance.init(self, game_script)
+	var saved_game: Resource = null
 	
-	if not ok:
+	if filename != "":
+		var full_path: String = _save_game_path(filename)
+		saved_game = load(full_path)
+		
+		if saved_game == null:
+			_log_warning("couldn't read saved game '%s', playing from start" % filename)
+	
+	var init_game_result: Dictionary = game_instance.init_game(self, game_script, saved_game)
+	
+	if not init_game_result.valid:
 		_log_debug("deleting game instance")
 		game_instance.queue_free()
-		return null
+		return init_game_result
 	
 	add_child(game_instance)
 	
-	return game_instance
+	return { valid = true, game_instance = game_instance }
 
 func get_saved_games() -> Dictionary:
 	var save_folder_result: Dictionary = _get_or_create_save_folder()
@@ -79,7 +89,13 @@ func get_saved_games() -> Dictionary:
 	var dir: Directory = save_folder_result.folder
 	var saved_games := []
 	
-	dir.list_dir_begin()
+	if dir.list_dir_begin() != OK:
+		return {
+			valid = false,
+			message = "can't iterate savegame directory",
+			saved_games = []
+		}
+	
 	var file_name = dir.get_next()
 	
 	while file_name != "":
@@ -96,6 +112,8 @@ func get_saved_games() -> Dictionary:
 			pass # Ignoring dir
 			
 		file_name = dir.get_next()
+	
+	dir.list_dir_end()
 	
 	return {
 		valid = true,
@@ -122,7 +140,7 @@ func save_game() -> Dictionary:
 	return _save_game_in(quick_save_path)
 
 func _save_game_in(path: String):
-	var full_path := "%s%s/%s" % [root_path, saved_games_path, path]
+	var full_path := _save_game_path(path)
 	
 	_log_debug("trying to save game in '%s'" % full_path)
 	
@@ -136,6 +154,9 @@ func _save_game_in(path: String):
 		return { valid = false, message = message }
 	
 	return { valid = true }
+
+func _save_game_path(saved_game_name: String) -> String:
+	return "%s%s/%s" % [root_path, saved_games_path, saved_game_name]
 
 func _on_list_saved_games_pressed():
 	_modular.make_empty($control/saved_games)
@@ -178,7 +199,8 @@ func _get_or_create_save_folder() -> Dictionary:
 		return { valid = false, message = message }
 	
 	return { valid = true, folder = dir }
-	
+
+# TODO revise this
 func _on_save_button_pressed():
 	var save_result = save_game()
 	
@@ -186,3 +208,4 @@ func _on_save_button_pressed():
 		_log_debug("game saved!")
 	else:
 		_log_error("couldn't save")
+

@@ -17,8 +17,10 @@ enum InteractionState {
 }
 var _interaction_state = InteractionState.Ready
 
-var _server
-var _game_script
+var _server # grog server node
+var _game_script # GameScript resource
+
+var _starting_from_saved_game: bool
 
 var _is_paused: bool = false
 
@@ -60,9 +62,9 @@ const _instant_termination = { termination = "instant" }
 
 ###
 
-func init(server, game_script) -> bool:
-	if not _validate_game_state("init", GameState.NotInitialized):
-		return false
+func init_game(server, game_script, saved_game: Resource) -> Dictionary:
+	if not _validate_game_state("init_game", GameState.NotInitialized):
+		return { valid = false, message = "invalid state" }
 	
 	_server = server
 	_game_script = game_script
@@ -70,9 +72,23 @@ func init(server, game_script) -> bool:
 	# TODO improve
 	assert(_game_script.is_valid())
 	
+	var player_resource = _game_script.player
+	current_player = player_resource.get_target().instance()
+	symbols.add_symbol("you", "player", current_player)
+	
+	if saved_game != null:
+		_starting_from_saved_game = true
+		var read_result = _read_saved_game(saved_game)
+		
+		if not read_result.valid:
+			return read_result
+		
+	else:
+		_starting_from_saved_game = false
+	
 	_game_state = GameState.Prepared
 	
-	return true
+	return { valid = true }
 
 func _ready():
 	set_process(false)
@@ -659,13 +675,8 @@ func _get_or_build_scene_item(item_key: String, debug_action_name: String):
 func start_game_request(room_parent: Node) -> bool:
 	if not _validate_game_state("start_game_request", GameState.Prepared):
 		return false
-	_game_state = GameState.Prepared
 	
 	_room_parent = room_parent
-	
-	var player_resource = _game_script.player
-	current_player = player_resource.get_target().instance()
-	symbols.add_symbol("you", "player", current_player)
 	
 	_game_state = GameState.Playing
 	
@@ -806,6 +817,13 @@ func get_scene_items() -> Array:
 func get_default_color():
 	return _game_script.default_color
 
+# load game
+
+func _read_saved_game(saved_game: Resource) -> Dictionary:
+	_log_debug("TODO: implement load game")
+	
+	return { valid = true }
+
 # private misc
 
 # sends events to client
@@ -835,7 +853,7 @@ static func _get_resource_in(list, elem_name):
 # validation
 
 func _validate_game_state(func_name: String, _expected_state) -> bool:
-	var valid_state = _game_state == _expected_state
+	var valid_state: bool = _game_state == _expected_state
 	
 	if not valid_state:
 		_log_invalid_game_state(func_name)

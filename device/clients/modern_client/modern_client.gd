@@ -72,7 +72,7 @@ func _start():
 	var ret = game_instance.start_game_request(_room_parent)
 
 	if not ret:
-		_log_error("Couldn't start game")
+		_log_error("couldn't start playing game")
 		_end_game()
 	# else signal game_started was just received (or it will now)
 
@@ -301,14 +301,24 @@ func _on_save_game_pressed():
 func _on_continue_previous_pressed():
 	pass # Replace with function body.
 
+func on_load_game_requested(filename: String):
+	_new_game_from(filename)
+
 func _on_new_game_pressed():
+	_new_game_from("")
+
+func _new_game_from(filename: String):
 	if game_instance:
 		_log_warning("Replay not implemented!")
 		return
 	
-	_start_game()
+	var start_game_result = _start_game_from(filename)
 	
-	_start()
+	if start_game_result.valid:
+		_start()
+	else:
+		_log_error("couldn't start game")
+		_log_error(start_game_result.message)
 	
 
 func _on_load_game_pressed():
@@ -320,11 +330,16 @@ func _on_load_game_pressed():
 	_load_button.set_pressed(true)
 	_pressed_button = _load_button
 	
+	var saved_games_result = server.get_saved_games()
+	var saved_games: Array = saved_games_result.saved_games
+	
+	# TODO check saved_games_result.valid and show message if there's error
+	
 	_back_button.show()
-	_status.text = "loading..."
-	_game_list.init(server)
+	#_status.text = "loading..."
+	_game_list.init(self, saved_games)
 	_game_list.show()
-	_status.text = ""
+	#_status.text = ""
 	_tabs.show_named("game_list")
 
 func _input(event):
