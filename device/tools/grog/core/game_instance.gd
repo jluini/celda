@@ -685,8 +685,9 @@ func start_game_request(room_parent: Node) -> bool:
 	if _starting_from_saved_game:
 		if _current_room_name:
 			# TODO use another function name for this
+			# warning-ignore:return_value_discarded
 			_command_load_room(_current_room_name)
-	
+			
 			if not current_room:
 				_log_error("loading saved '%s' room failed" % _current_room_name)
 				return false

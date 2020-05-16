@@ -1,7 +1,5 @@
 extends "res://tools/modular/module.gd"
 
-#signal music_changed
-
 signal game_ended
 
 var server
@@ -60,12 +58,6 @@ func _on_server_item_disabled(item):
 	_loaded_items.erase(item)
 	_on_item_disabled(item)
 
-func _on_server_wait_started(_duration: float, _skippable: bool):
-	print("Override _on_server_wait_started()")
-
-func _on_server_wait_ended():
-	print("Override _on_server_wait_ended()")
-
 func _on_server_say(_subject: Node, _speech: String, _duration: float, _skippable: bool):
 	print("Override _on_server_say()")
 
@@ -83,7 +75,6 @@ func _on_server_curtain_down():
 
 func _on_server_variable_set(var_name: String, new_value):
 	if var_name == "music":
-		#emit_signal("music_changed", new_value)
 		_modular.broadcast("music", "start", [new_value])
 
 ###

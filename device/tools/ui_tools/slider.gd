@@ -90,20 +90,20 @@ func slide(delta: Vector2) -> bool:
 	
 	return not _position_is_initial if _position_is_changed else _position_is_initial
 
-func drop():
-	if not _moving:
-		return
+func drop() -> bool:
+	if _moving:
+		_moving = false
+		
+		if _position_is_changed:
+			_position_is_initial = not _position_is_initial
+			_position_is_changed = false
+		
+		if _position_is_initial:
+			_interpolate_position(0.0)
+		else:
+			_interpolate_position(1.0)
 	
-	_moving = false
-	
-	if _position_is_changed:
-		_position_is_initial = not _position_is_initial
-		_position_is_changed = false
-	
-	if _position_is_initial:
-		_interpolate_position(0.0)
-	else:
-		_interpolate_position(1.0)
+	return _position_is_initial
 
 func _interpolate_position(final_value: float):
 	var time_scale = abs(final_value - _current_level)
@@ -133,23 +133,13 @@ func _ease(value: float) -> float:
 	else:
 		return value
 
-func close():
-	_set_state(true)
-	
-func open():
-	_set_state(false)
-	
 func toggle():
 	if _moving:
 		return
 	
-	if _position_is_initial:
-		open()
-	else:
-		close()
-	
+	set_state(not _position_is_initial)
 
-func _set_state(new_value):
+func set_state(new_value: bool):
 	if _moving:
 		return
 	
@@ -158,4 +148,3 @@ func _set_state(new_value):
 	
 	_position_is_initial = new_value
 	_interpolate_position(0.0 if _position_is_initial else 1.0)
-

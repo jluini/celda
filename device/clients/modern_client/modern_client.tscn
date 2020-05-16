@@ -325,7 +325,7 @@ delay = 2.0
 end_enabled = false
 overlay_path = NodePath("../../menu")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ui/menu/side_menu"]
+[node name="menu_buttons" type="VBoxContainer" parent="ui/menu/side_menu"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 alignment = 1
@@ -333,45 +333,40 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="continue" parent="ui/menu/side_menu/VBoxContainer" groups=[
+[node name="continue" parent="ui/menu/side_menu/menu_buttons" groups=[
 "only_if_playing",
 ] instance=ExtResource( 21 )]
-margin_top = 3.0
-margin_bottom = 153.0
+visible = false
+margin_top = 80.0
+margin_bottom = 230.0
 caption = "Continue"
 
-[node name="save_game" parent="ui/menu/side_menu/VBoxContainer" groups=[
+[node name="save_game" parent="ui/menu/side_menu/menu_buttons" groups=[
 "only_if_playing",
 ] instance=ExtResource( 21 )]
+visible = false
 margin_top = 157.0
 margin_bottom = 307.0
 caption = "Save game"
 
-[node name="continue_previous" parent="ui/menu/side_menu/VBoxContainer" groups=[
-"only_if_saved",
-] instance=ExtResource( 21 )]
-margin_top = 311.0
-margin_bottom = 461.0
-caption = "Continue play"
-
-[node name="new_game" parent="ui/menu/side_menu/VBoxContainer" instance=ExtResource( 21 )]
-margin_top = 465.0
-margin_bottom = 615.0
+[node name="new_game" parent="ui/menu/side_menu/menu_buttons" instance=ExtResource( 21 )]
+margin_top = 234.0
+margin_bottom = 384.0
 caption = "New game"
 
-[node name="load_game" parent="ui/menu/side_menu/VBoxContainer" instance=ExtResource( 21 )]
-margin_top = 619.0
-margin_bottom = 769.0
+[node name="load_game" parent="ui/menu/side_menu/menu_buttons" instance=ExtResource( 21 )]
+margin_top = 388.0
+margin_bottom = 538.0
 caption = "Load game"
 
-[node name="options" parent="ui/menu/side_menu/VBoxContainer" instance=ExtResource( 21 )]
-margin_top = 773.0
-margin_bottom = 923.0
+[node name="options" parent="ui/menu/side_menu/menu_buttons" instance=ExtResource( 21 )]
+margin_top = 542.0
+margin_bottom = 692.0
 caption = "Options"
 
-[node name="quit" parent="ui/menu/side_menu/VBoxContainer" instance=ExtResource( 21 )]
-margin_top = 927.0
-margin_bottom = 1077.0
+[node name="quit" parent="ui/menu/side_menu/menu_buttons" instance=ExtResource( 21 )]
+margin_top = 696.0
+margin_bottom = 846.0
 caption = "Quit"
 
 [node name="tween" type="Tween" parent="ui/menu/side_menu"]
@@ -390,13 +385,12 @@ text = "Cancel"
 [connection signal="start_drag" from="ui" to="." method="_on_ui_start_drag"]
 [connection signal="start_hold" from="ui" to="." method="_on_ui_start_hold"]
 [connection signal="timeout" from="ui/timer" to="ui" method="_on_timer_timeout"]
-[connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/continue" to="." method="_on_continue_pressed"]
-[connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/save_game" to="." method="_on_save_game_pressed"]
-[connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/continue_previous" to="." method="_on_continue_previous_pressed"]
-[connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/new_game" to="." method="_on_new_game_pressed"]
-[connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/load_game" to="." method="_on_load_game_pressed"]
-[connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/options" to="." method="_on_options_pressed"]
-[connection signal="pressed" from="ui/menu/side_menu/VBoxContainer/quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="ui/menu/side_menu/menu_buttons/continue" to="." method="_on_continue_pressed"]
+[connection signal="pressed" from="ui/menu/side_menu/menu_buttons/save_game" to="." method="_on_save_game_pressed"]
+[connection signal="pressed" from="ui/menu/side_menu/menu_buttons/new_game" to="." method="_on_new_game_pressed"]
+[connection signal="pressed" from="ui/menu/side_menu/menu_buttons/load_game" to="." method="_on_load_game_pressed"]
+[connection signal="pressed" from="ui/menu/side_menu/menu_buttons/options" to="." method="_on_options_pressed"]
+[connection signal="pressed" from="ui/menu/side_menu/menu_buttons/quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="ui/menu/back_button" to="." method="_on_back_button_pressed"]
 
 [editable path="ui/menu/tab_container/tabs/game_list/v_box_container/control"]

@@ -16,10 +16,8 @@ export (float) var on_value = 0.5
 func _ready():
 	$label.text = caption
 
-func _gui_input(event):
-	if event is InputEventMouseButton and event.button_index == BUTTON_LEFT and event.pressed:
-		accept_event()
-		emit_signal("pressed")
+func click():
+	emit_signal("pressed")
 
 func set_pressed(new_pressed: bool):
 	if is_pressed == new_pressed:

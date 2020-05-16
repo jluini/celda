@@ -4,13 +4,12 @@
 [ext_resource path="res://clients/modern_client/images/border.png" type="Texture" id=2]
 [ext_resource path="res://tools/theming/custom_label.gd" type="Script" id=3]
 
-
-
 [node name="button" type="TextureRect"]
 self_modulate = Color( 1, 1, 1, 0 )
 margin_right = 767.0
 margin_bottom = 150.0
 rect_min_size = Vector2( 0, 150 )
+mouse_filter = 2
 mouse_default_cursor_shape = 2
 texture = ExtResource( 2 )
 expand = true
@@ -26,6 +25,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource( 3 )
 text = "...text..."
+color = Color( 1, 1, 1, 1 )
 label_type = "huge"
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
