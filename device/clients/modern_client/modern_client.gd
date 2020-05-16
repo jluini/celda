@@ -214,8 +214,6 @@ func _on_ui_drag(position: Vector2):
 	if _drag_state != DragState.Dragging:
 		return
 	
-	#_update_tool_position(position)
-	
 	var delta = position - _initial_drag_position
 	
 	if abs(delta.x) > abs(delta.y):

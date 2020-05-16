@@ -97,16 +97,7 @@ size_override_stretch = true
 handle_input_locally = false
 usage = 0
 render_target_update_mode = 3
-
-[node name="empty_room" type="ColorRect" parent="viewport_container/viewport"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-color = Color( 0, 0, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+gui_disable_input = true
 
 [node name="texture_rect" type="TextureRect" parent="viewport_container/viewport"]
 anchor_right = 1.0
@@ -214,7 +205,7 @@ __meta__ = {
 [node name="tween" type="Tween" parent="ui/inventory_base"]
 
 [node name="curtain" type="TextureRect" parent="ui"]
-modulate = Color( 0, 0, 0, 0 )
+modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -242,13 +233,6 @@ anims/up = SubResource( 4 )
 [node name="timer" type="Timer" parent="ui"]
 one_shot = true
 
-[node name="tool" type="TextureRect" parent="ui"]
-visible = false
-margin_right = 100.0
-margin_bottom = 100.0
-expand = true
-stretch_mode = 6
-
 [node name="menu" type="ColorRect" parent="ui"]
 self_modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
@@ -270,13 +254,6 @@ mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="background" type="ColorRect" parent="ui/menu/tab_container"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-color = Color( 0.490196, 0.490196, 0.490196, 0.160784 )
 
 [node name="tabs" type="Control" parent="ui/menu/tab_container"]
 anchor_right = 1.0
