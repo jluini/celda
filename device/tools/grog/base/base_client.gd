@@ -49,12 +49,6 @@ func _on_server_game_started(_player):
 func _on_server_game_ended():
 	_end_game()
 
-func _on_server_input_enabled():
-	print("Override _on_server_input_enabled()")
-	
-func _on_server_input_disabled():
-	print("Override _on_server_input_disabled()")
-
 func _on_server_room_loaded(_room):
 	print("Override _on_server_room_loaded()")
 
@@ -81,9 +75,6 @@ func _on_server_item_added(_item):
 func _on_server_item_removed(_item: Node):
 	print("Override _on_server_item_removed()")
 	
-func _on_server_tool_set(_new_tool, _verb_name: String):
-	print("Override _on_server_tool_set()")
-
 func _on_server_curtain_up():
 	print("Override _on_server_curtain_up()")
 	

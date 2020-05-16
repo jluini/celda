@@ -11,8 +11,6 @@ onready var _inventory = $ui/inventory_base/inventory
 
 onready var _text: Label = $ui/text
 
-onready var _status: Label = $ui/status
-
 onready var _tabs = $ui/menu/tab_container/tabs
 onready var _game_list = $ui/menu/tab_container/tabs/game_list/v_box_container
 onready var _load_button = $ui/menu/side_menu/VBoxContainer/load_game
@@ -35,8 +33,6 @@ var _drag_state = DragState.None
 func _on_init():
 	var saved_game = null
 	assert(not not server)
-	
-	_status.text = ""
 	
 	_back_button.hide()
 	
@@ -74,37 +70,23 @@ func _start():
 	if not ret:
 		_log_error("couldn't start playing game")
 		_end_game()
-	# else signal game_started was just received (or it will now)
-
-	#_item_menu.hide()
-	#warning-ignore:return_value_discarded
-	#self.connect("item_selected", _item_menu, "_on_item_selected")
-	#warning-ignore:return_value_discarded
-	#self.connect("item_deselected", _item_menu, "_on_item_deselected")
-	#_item_menu.init(self, data)
 
 func _on_start():
-	pass # _log_warning("TODO game started")
+	pass
 	
 func _on_end():
-	pass # _log_warning("TODO game ended")
+	pass
 
 ####
 
 
 #	@SERVER EVENTS
 
-func _on_server_input_enabled():
-	pass # _log_warning("TODO implement _on_server_input_enabled")
-	
-func _on_server_input_disabled():
-	pass # _log_warning("TODO implement _on_server_input_disabled")
-
 func _on_server_room_loaded(_room):
-	pass # _log_warning("TODO implement _on_server_room_loaded")
+	pass
 
 func _on_item_enabled(_item):
-	pass # _log_warning("TODO implement _on_item_enabled")
+	pass
 
 func _on_item_disabled(item):
 	if _current_item == item:
@@ -132,9 +114,6 @@ func _on_server_item_removed(item: Node):
 	if _current_item == item:
 		_select_item(null)
 
-func _on_server_tool_set(_new_tool, _verb_name: String):
-	pass
-
 func _on_server_curtain_up():
 	_curtain.play("up")
 	
@@ -158,7 +137,6 @@ func _select_item(_new_item, position = Vector2(960, 540)): #is_inventory = fals
 	
 	if _current_item:
 		emit_signal("item_deselected", _current_item)
-		#_current_item.modulate = Color.white
 	
 	_current_item = _new_item
 	if _new_item:
@@ -336,10 +314,8 @@ func _on_load_game_pressed():
 	# TODO check saved_games_result.valid and show message if there's error
 	
 	_back_button.show()
-	#_status.text = "loading..."
 	_game_list.init(self, saved_games)
 	_game_list.show()
-	#_status.text = ""
 	_tabs.show_named("game_list")
 
 func _input(event):

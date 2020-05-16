@@ -215,7 +215,6 @@ __meta__ = {
 
 [node name="curtain" type="TextureRect" parent="ui"]
 modulate = Color( 0, 0, 0, 0 )
-self_modulate = Color( 1, 1, 1, 0.901961 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -406,51 +405,6 @@ margin_top = 927.002
 margin_right = 1609.05
 margin_bottom = 1049.0
 text = "Cancel"
-
-[node name="status" type="Label" parent="ui"]
-margin_left = 645.989
-margin_top = 927.257
-margin_right = 1810.99
-margin_bottom = 1043.26
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="preload" type="Control" parent="."]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="color_rect" type="ColorRect" parent="preload"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0, 0, 0, 0.796078 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="label" type="Label" parent="preload"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_bottom = -289.0
-text = "Trying to load the game..."
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="button" type="Button" parent="preload"]
-margin_left = 621.313
-margin_top = 773.053
-margin_right = 1283.31
-margin_bottom = 936.053
-text = "Quit"
 [connection signal="click" from="ui" to="." method="_on_ui_click"]
 [connection signal="drag" from="ui" to="." method="_on_ui_drag"]
 [connection signal="end_drag" from="ui" to="." method="_on_ui_end_drag"]
