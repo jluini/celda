@@ -45,6 +45,7 @@ func _ready():
 	
 	_set_level(_current_level)
 	
+	# warning-ignore:return_value_discarded
 	$tween.connect("tween_all_completed", self, "_on_completed")
 
 func _on_completed():
