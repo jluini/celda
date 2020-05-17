@@ -15,6 +15,18 @@ onready var _quit_button = $ui/menu/side_menu/menu_buttons/quit
 onready var _options_button = $ui/menu/side_menu/menu_buttons/options
 onready var _back_button = $ui/menu/back_button
 
+enum ClientState {
+	# no game yet (menu is open)
+	NoGame,
+	
+	# game is starting (menu is closing and the user can't move it)
+	Starting,
+	
+	# a game is being played, either running (menu closed) or paused (menu open)
+	# the user can freely move the menu (pausing/unpausing the game)
+	Playing
+}
+var _client_state: int = ClientState.NoGame
 var _menu_is_open := true
 
 var _pressed_button = null
@@ -27,6 +39,7 @@ enum DragState {
 }
 var _drag_state = DragState.None
 
+
 func _on_init():
 	_back_button.hide()
 
@@ -35,28 +48,43 @@ func _on_init():
 	_hide_group("only_if_playing")
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+	
+	_side_menu.connect("completed", self, "_on_menu_completed")
 
+func _on_menu_completed():
+	match _client_state:
+		ClientState.Starting:
+			# menu is fully closed
+			# start the game and free the menu for manipulation
+			
+			_client_state = ClientState.Playing
+			
+			_menu_is_open = false
+			
+			var ret = game_instance.start_game_request(_room_parent)
+		
+			if not ret:
+				_log_error("couldn't start playing game")
+				
+				# TODO try loading an invalid game and recover from that
 
 func _start():
+	if _client_state != ClientState.NoGame:
+		_log_warning("unexpected state %s" % _client_state_str())
+		return
+	
 	if _room_parent.get_child_count() > 0 :
 		make_empty(_room_parent)
 	
-	_menu_is_open = false
-	_side_menu.set_state(false)
-	_side_menu.fixed = false
-	_side_menu.end_enabled = true
-
 	_text.text = ""
-
-	_curtain.play("closed")
-
-	# TODO wait until menu is fully closed
-
-	var ret = game_instance.start_game_request(_room_parent)
-
-	if not ret:
-		_log_error("couldn't start playing game")
-		_end_game()
+	_curtain.play("closed") # just in case
+	
+	_client_state = ClientState.Starting
+	
+	_side_menu.end_enabled = true
+	_side_menu.set_state(false)
+	
+	# game will actually start when menu completes closing
 
 func _on_start():
 	pass
@@ -75,7 +103,7 @@ func _on_server_room_loaded(_room):
 func _on_item_enabled(_item):
 	pass
 
-func _on_item_disabled(item):
+func _on_item_disabled(_item):
 	pass
 
 func _on_server_say(subject: Node, speech: String, _duration: float, _skippable: bool):
@@ -102,6 +130,9 @@ func _on_server_curtain_down():
 ### Clicking ui events
 
 func _on_ui_click(position: Vector2):
+	if _client_state == ClientState.Starting:
+		return
+	
 	if _menu_is_open:
 		var clicked_button: Control = _get_menu_button_at(position)
 		
@@ -114,7 +145,7 @@ func _on_ui_click(position: Vector2):
 		if game_instance.is_ready():
 			game_instance.go_to_request(position)
 
-func _on_ui_start_hold(position: Vector2):
+func _on_ui_start_hold(_position: Vector2):
 	pass
 
 func _on_ui_lock_hold():
@@ -134,7 +165,7 @@ func _on_ui_start_drag(position: Vector2):
 func _on_ui_drag(position: Vector2):
 	if _drag_state != DragState.Dragging:
 		return
-
+	
 	var delta = position - _initial_drag_position
 
 	if abs(delta.x) > abs(delta.y):
@@ -143,16 +174,22 @@ func _on_ui_drag(position: Vector2):
 	else:
 		delta.x = 0
 		_initial_drag_position.x = position.x
-
+	
+	# don't allow sliding while Starting
+	if _client_state == ClientState.Starting:
+		return
+	
 	var should_be_paused = _side_menu.slide(delta)
-	var _inventory_is_open = _inventory_base.slide(delta)
-
-	if game_instance and should_be_paused != game_instance.is_paused():
-		if should_be_paused:
-			game_instance.pause_request()
-		else:
-			game_instance.unpause_request()
-
+	
+	if _client_state == ClientState.Playing:
+		assert(game_instance)
+		if should_be_paused != game_instance.is_paused():
+			if should_be_paused:
+				game_instance.pause_request()
+			else:
+				game_instance.unpause_request()
+	
+	#var _inventory_is_open = _inventory_base.slide(delta)
 
 func _on_ui_end_drag(_position: Vector2):
 	if _drag_state != DragState.Dragging:
@@ -182,7 +219,7 @@ func _on_new_game_pressed():
 
 func _new_game_from(filename: String):
 	if game_instance:
-		_log_warning("Replay not implemented!")
+		_log_warning("replay not implemented!")
 		return
 
 	var start_game_result = _start_game_from(filename)
@@ -279,3 +316,8 @@ func _get_menu_button_at(position: Vector2) -> Control:
 func _hide_group(group_name: String):
 	for n in get_tree().get_nodes_in_group(group_name):
 		n.hide()
+
+func _client_state_str(state: int = -1):
+	if state == -1:
+		state = _client_state
+	return ClientState.keys()[state]

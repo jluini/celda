@@ -12,10 +12,11 @@ enum GameState {
 var _game_state = GameState.NotInitialized
 
 enum InteractionState {
+	None,
 	Ready,
 	Running
 }
-var _interaction_state = InteractionState.Ready
+var _interaction_state = InteractionState.None
 
 var _server # grog server node
 var _game_script # GameScript resource
@@ -677,10 +678,13 @@ func _get_or_build_scene_item(item_key: String, debug_action_name: String):
 func start_game_request(room_parent: Node) -> bool:
 	if not _validate_game_state("start_game_request", GameState.Prepared):
 		return false
+	if not _validate_interaction_state("start_game_request", InteractionState.None):
+		return false
 	
 	_room_parent = room_parent
 	
 	_game_state = GameState.Playing
+	_interaction_state = InteractionState.Ready
 	
 	if _starting_from_saved_game:
 		if _current_room_name:

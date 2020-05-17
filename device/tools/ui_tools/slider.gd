@@ -1,5 +1,7 @@
 extends Control
 
+signal completed
+
 enum SlideMode {
 	Horizontal,
 	Vertical
@@ -42,12 +44,16 @@ func _ready():
 	_moving = false
 	
 	_set_level(_current_level)
+	
+	$tween.connect("tween_all_completed", self, "_on_completed")
+
+func _on_completed():
+	emit_signal("completed")
 
 func _set_level(new_level: float):
 	_current_level = new_level
 	var init_pos = start_position + new_level * (end_position - start_position)
 	rect_position = init_pos
-	#print("_set_level(%s, %s, %s, %s)" % [new_level, from_tween, get_name(), init_pos])
 	_on_level_set(new_level)
 
 func _on_level_set(_new_level: float):
@@ -58,7 +64,7 @@ func slide(delta: Vector2) -> bool:
 		return _position_is_initial
 	
 	# TODO check this
-	$tween.stop_all() # self, "_set_level"
+	$tween.stop_all()
 	
 	_moving = true
 	
@@ -134,9 +140,6 @@ func _ease(value: float) -> float:
 		return value
 
 func toggle():
-	if _moving:
-		return
-	
 	set_state(not _position_is_initial)
 
 func set_state(new_value: bool):
