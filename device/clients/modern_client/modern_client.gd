@@ -67,6 +67,8 @@ func _on_menu_completed():
 				_log_error("couldn't start playing game")
 				
 				# TODO try loading an invalid game and recover from that
+			
+			_show_group("only_if_playing")
 
 func _start():
 	if _client_state != ClientState.NoGame:
@@ -137,7 +139,39 @@ func _on_ui_click(position: Vector2):
 		var clicked_button: Control = _get_menu_button_at(position)
 		
 		if clicked_button:
-			clicked_button.click()
+			match clicked_button.name:
+				"continue":
+					if _client_state != ClientState.Playing:
+						_log_warning("unexpected 'continue' click")
+						return
+					
+					game_instance.unpause_request()
+					_menu_is_open = false
+					_side_menu.set_state(false)
+					
+				"save_game":
+					var save_result = server.save_game()
+					
+					if save_result.valid:
+						_log_debug("game saved!")
+					else:
+						_log_error("couldn't save")
+				
+				"new_game":
+					_new_game_from("")
+					
+				"load_game":
+					_on_load_game_pressed()
+					
+				"options":
+					_close_all()
+					_modular.show_modules()
+				
+				"quit":
+					_on_quit_pressed()
+					
+				_:
+					_log_warning("unknown button '%s' clicked" % clicked_button.name)
 	
 	else:
 		assert(game_instance)
@@ -270,10 +304,6 @@ func _input(event):
 				pass
 
 
-func _on_options_pressed():
-	_close_all()
-	_modular.show_modules()
-
 func _close_all():
 	if _pressed_button:
 		_pressed_button.set_pressed(false)
@@ -316,6 +346,10 @@ func _get_menu_button_at(position: Vector2) -> Control:
 func _hide_group(group_name: String):
 	for n in get_tree().get_nodes_in_group(group_name):
 		n.hide()
+
+func _show_group(group_name: String):
+	for n in get_tree().get_nodes_in_group(group_name):
+		n.show()
 
 func _client_state_str(state: int = -1):
 	if state == -1:

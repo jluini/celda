@@ -678,13 +678,9 @@ func _get_or_build_scene_item(item_key: String, debug_action_name: String):
 func start_game_request(room_parent: Node) -> bool:
 	if not _validate_game_state("start_game_request", GameState.Prepared):
 		return false
-	if not _validate_interaction_state("start_game_request", InteractionState.None):
-		return false
 	
 	_room_parent = room_parent
-	
 	_game_state = GameState.Playing
-	_interaction_state = InteractionState.Ready
 	
 	if _starting_from_saved_game:
 		if _current_room_name:
@@ -705,6 +701,11 @@ func start_game_request(room_parent: Node) -> bool:
 			_log_warning("loading game with no current room")
 		
 	else:
+		if not _validate_interaction_state("start_game_request", InteractionState.None):
+			return false
+		
+		_interaction_state = InteractionState.Ready
+		
 		if not _run_routine(["main", "init"]):
 			_log_error("can't run initial routine")
 			return false
