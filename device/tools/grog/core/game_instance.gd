@@ -92,6 +92,44 @@ func init_game(server, game_script, saved_game: Resource) -> Dictionary:
 	
 	return { valid = true }
 
+func release():
+	_log_debug("releasing game")
+	
+	if symbols:
+		symbols.free()
+	else:
+		_log_warning("symbols not initialized")
+	
+	if current_player:
+		_log_debug("deleting player")
+		
+		if current_player.is_inside_tree():
+			if not current_room:
+				_log_warning("player is in scene but no room")
+			elif current_room != current_player.get_parent():
+				_log_warning("player is in scene but outside current room")
+				
+			current_player.get_parent().remove_child(current_player)
+		else:
+			_log_debug("deleting player outside of scene tree")
+		
+		current_player.queue_free()
+	
+	if current_room:
+		_log_debug("deleting room")
+		
+		if current_room.is_inside_tree():
+			current_room.get_parent().remove_child(current_room)
+		else:
+			_log_warning("deleting room outside of scene tree")
+		
+		current_room.queue_free()
+	
+	# TODO manage tree from here??
+	get_tree().paused = false
+	
+	_log_debug("game release finished")
+
 func _ready():
 	set_process(false)
 
@@ -765,6 +803,7 @@ func _set_pausing(new_paused) -> bool:
 		return false
 	
 	_is_paused = new_paused
+	# TODO manage tree from here??
 	get_tree().paused = new_paused
 	return true
 

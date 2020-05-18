@@ -1,3 +1,5 @@
+extends Object
+
 class_name SymbolTable
 
 var _types: Array # array of strings

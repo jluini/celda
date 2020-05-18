@@ -51,7 +51,10 @@ func new_game_from(filename: String) -> Dictionary:
 		_log_warning(message)
 		return { valid = false, message = message }
 	
-	assert(not game_instance)
+	if game_instance:
+		var message = "there's still another game"
+		_log_warning(message)
+		return { valid = false, message = message }
 	
 	game_instance = load("res://tools/grog/core/game_instance.gd").new()
 	game_instance.name = "game_instance"
@@ -78,6 +81,17 @@ func new_game_from(filename: String) -> Dictionary:
 	add_child(game_instance)
 	
 	return { valid = true, game_instance = game_instance }
+
+func delete_game() -> Dictionary:
+	if not game_instance:
+		return { valid = false, message = "no game to delete" }
+	
+	game_instance.release()
+	game_instance.free()
+	
+	game_instance = null
+	
+	return { valid = true }
 
 func get_saved_games() -> Dictionary:
 	var save_folder_result: Dictionary = _get_or_create_save_folder()

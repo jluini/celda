@@ -127,7 +127,15 @@ func _on_item_disabled(_item):
 
 
 func _start_game_from(filename: String) -> Dictionary:
-	assert(not game_instance)
+	if game_instance:
+		_log_debug("deleting old game")
+		var delete_game_result: Dictionary = server.delete_game()
+
+		if not delete_game_result.valid:
+			_log_debug("couldn't delete old game")
+			return delete_game_result
+		
+		game_instance = null
 	
 	var new_game_result: Dictionary = server.new_game_from(filename)
 	

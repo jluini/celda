@@ -71,11 +71,12 @@ func _on_menu_completed():
 			_show_group("only_if_playing")
 
 func _start():
-	if _client_state != ClientState.NoGame:
-		_log_warning("unexpected state %s" % _client_state_str())
-		return
+#	if _client_state != ClientState.NoGame:
+#		_log_warning("unexpected state %s" % _client_state_str())
+#		return
 	
-	if _room_parent.get_child_count() > 0 :
+	if _room_parent.get_child_count() > 0:
+		_log_debug("deleting %s nodes from viewport" % _room_parent.get_child_count())
 		make_empty(_room_parent)
 	
 	_text.text = ""
@@ -252,9 +253,9 @@ func _on_new_game_pressed():
 	_new_game_from("")
 
 func _new_game_from(filename: String):
-	if game_instance:
-		_log_warning("replay not implemented!")
-		return
+#	if game_instance:
+#		_log_warning("replay not implemented!")
+#		return
 
 	var start_game_result = _start_game_from(filename)
 

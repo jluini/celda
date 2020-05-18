@@ -321,7 +321,7 @@ __meta__ = {
 }
 slide_mode = 0
 end_position = Vector2( -770, 0 )
-delay = 1.0
+delay = 2.0
 end_enabled = false
 overlay_path = NodePath("../../menu")
 
@@ -336,7 +336,6 @@ __meta__ = {
 [node name="continue" parent="ui/menu/side_menu/menu_buttons" groups=[
 "only_if_playing",
 ] instance=ExtResource( 21 )]
-visible = false
 margin_top = 80.0
 margin_bottom = 230.0
 caption = "Continue"
@@ -344,29 +343,28 @@ caption = "Continue"
 [node name="save_game" parent="ui/menu/side_menu/menu_buttons" groups=[
 "only_if_playing",
 ] instance=ExtResource( 21 )]
-visible = false
-margin_top = 157.0
-margin_bottom = 307.0
+margin_top = 234.0
+margin_bottom = 384.0
 caption = "Save game"
 
 [node name="new_game" parent="ui/menu/side_menu/menu_buttons" instance=ExtResource( 21 )]
-margin_top = 234.0
-margin_bottom = 384.0
+margin_top = 388.0
+margin_bottom = 538.0
 caption = "New game"
 
 [node name="load_game" parent="ui/menu/side_menu/menu_buttons" instance=ExtResource( 21 )]
-margin_top = 388.0
-margin_bottom = 538.0
+margin_top = 542.0
+margin_bottom = 692.0
 caption = "Load game"
 
 [node name="options" parent="ui/menu/side_menu/menu_buttons" instance=ExtResource( 21 )]
-margin_top = 542.0
-margin_bottom = 692.0
+margin_top = 696.0
+margin_bottom = 846.0
 caption = "Options"
 
 [node name="quit" parent="ui/menu/side_menu/menu_buttons" instance=ExtResource( 21 )]
-margin_top = 696.0
-margin_bottom = 846.0
+margin_top = 850.0
+margin_bottom = 1000.0
 caption = "Quit"
 
 [node name="tween" type="Tween" parent="ui/menu/side_menu"]
