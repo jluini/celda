@@ -13,10 +13,10 @@ main:
 		.set bust_turn = false
 
 		#if $stage = 0:
-		.load_room celda
+		#.load_room celda
 		.set music=sufre
 
-		you.teleport to=celda/bed
+		#you.teleport to=celda/bed
 
 		.curtain_up
 

@@ -1,4 +1,4 @@
-extends NamedResource
+extends Resource
 
 class_name SetResource
 

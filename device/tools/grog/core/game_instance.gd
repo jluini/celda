@@ -75,7 +75,7 @@ func init_game(server, game_script, saved_game: Resource) -> Dictionary:
 	assert(_game_script.is_valid())
 	
 	var player_resource = _game_script.player
-	current_player = player_resource.get_target().instance()
+	current_player = player_resource.instance()
 	symbols.add_symbol("you", "player", current_player)
 	
 	if saved_game != null:

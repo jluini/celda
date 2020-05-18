@@ -2,7 +2,7 @@ extends Resource
 
 class_name GameScript
 
-export (Array, Resource) var rooms
+export (Dictionary) var rooms
 
 export (Resource) var player
 

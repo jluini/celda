@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://games/celda_escape/music_set.tres" type="Resource" id=1]
-[ext_resource path="res://games/celda_escape/new_game_data.tres" type="Resource" id=2]
+[ext_resource path="res://games/celda_escape/celda_script.tres" type="Resource" id=2]
 [ext_resource path="res://themes/subtlety/subtlety.tres" type="Theme" id=3]
 [ext_resource path="res://themes/mortified/mortified.tres" type="Theme" id=4]
 [ext_resource path="res://clients/modern_client/modern_client.tscn" type="PackedScene" id=5]

@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://tools/modular/theme_switcher.gd" type="Script" id=3]
+[ext_resource path="res://tools/theming/theme_switcher.gd" type="Script" id=3]
 [ext_resource path="res://tools/theming/theme_selector.tscn" type="PackedScene" id=4]
+
 
 [node name="theme_switcher" type="Control"]
 anchor_right = 1.0

@@ -1,9 +1,0 @@
-[gd_resource type="Resource" load_steps=3 format=2]
-
-[ext_resource path="res://games/celda_escape/rooms/living/living.tscn" type="PackedScene" id=1]
-[ext_resource path="res://tools/grog/core/room_resource.gd" type="Script" id=2]
-
-[resource]
-resource_name = "living"
-script = ExtResource( 2 )
-room_scene = ExtResource( 1 )

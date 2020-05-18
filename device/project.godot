@@ -30,11 +30,6 @@ _global_script_classes=[ {
 "path": "res://tools/grog/core/game_script.gd"
 }, {
 "base": "Reference",
-"class": "GameServer",
-"language": "GDScript",
-"path": "res://tools/grog/core/old_server.gd"
-}, {
-"base": "Reference",
 "class": "Grog",
 "language": "GDScript",
 "path": "res://tools/grog/lang/grog.gd"
@@ -58,16 +53,6 @@ _global_script_classes=[ {
 "class": "LoopinStreamPlayer",
 "language": "GDScript",
 "path": "res://tools/loopin/loopin_stream_player.gd"
-}, {
-"base": "Resource",
-"class": "NamedResource",
-"language": "GDScript",
-"path": "res://tools/model/named_resource.gd"
-}, {
-"base": "Resource",
-"class": "NamedScene",
-"language": "GDScript",
-"path": "res://tools/grog/core/named_scene.gd"
 }, {
 "base": "Reference",
 "class": "NegatedBoolExpression",
@@ -94,17 +79,12 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/grog/lang/routine.gd"
 }, {
-"base": "Reference",
-"class": "Runner",
-"language": "GDScript",
-"path": "res://tools/misc/runner.gd"
-}, {
 "base": "Resource",
 "class": "SavedGame",
 "language": "GDScript",
 "path": "res://tools/grog/core/saved_game.gd"
 }, {
-"base": "NamedResource",
+"base": "Resource",
 "class": "SetResource",
 "language": "GDScript",
 "path": "res://tools/loopin/set_resource.gd"
@@ -114,7 +94,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/grog/core/simple_game_script.gd"
 }, {
-"base": "NamedResource",
+"base": "Resource",
 "class": "SongResource",
 "language": "GDScript",
 "path": "res://tools/loopin/song_resource.gd"
@@ -123,37 +103,27 @@ _global_script_classes=[ {
 "class": "SymbolTable",
 "language": "GDScript",
 "path": "res://tools/misc/symbol_table.gd"
-}, {
-"base": "Reference",
-"class": "TestCase",
-"language": "GDScript",
-"path": "res://tools/test/test.gd"
 } ]
 _global_script_class_icons={
 "AudioPlayerPool": "",
 "CompiledScript": "",
 "FixedExpression": "",
 "GameScript": "",
-"GameServer": "",
 "Grog": "",
 "IdentifierExpression": "",
 "InventoryItemResource": "",
 "InverseNumberExpression": "",
 "LoopinStreamPlayer": "",
-"NamedResource": "",
-"NamedScene": "",
 "NegatedBoolExpression": "",
 "OperationExpression": "",
 "Parser": "",
 "RoomResource": "",
 "Routine": "",
-"Runner": "",
 "SavedGame": "",
 "SetResource": "",
 "SimpleGameScript": "",
 "SongResource": "",
-"SymbolTable": "",
-"TestCase": ""
+"SymbolTable": ""
 }
 
 [application]
