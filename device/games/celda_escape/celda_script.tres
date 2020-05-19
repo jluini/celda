@@ -10,6 +10,6 @@ rooms = {
 "cage": ExtResource( 3 )
 }
 player = ExtResource( 2 )
-default_action = ""
+default_action = "walk_to"
 default_color = Color( 0.96, 0.96, 0.96, 1 )
 script_path = "res://games/celda_escape/mock_script.grog"

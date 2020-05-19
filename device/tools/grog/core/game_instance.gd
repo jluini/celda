@@ -174,8 +174,7 @@ func _process(delta: float) -> void:
 			
 			else:
 				# auto walk
-				# TODO call deferred?
-				_advance() # resumes routine execution
+				call_deferred("_advance")
 			
 	else:
 		_walking_subject.teleport(target_point)
@@ -198,8 +197,7 @@ func _run_routine(routine_headers: Array) -> bool:
 	_current_routine = routine
 	_current_pointers = [-1]
 	
-	# TODO call deferred?
-	_advance()
+	call_deferred("_advance")
 	
 	return true
 
@@ -586,13 +584,14 @@ func _get_target_positioning(verb: String, target_node_name: String, opts: Dicti
 	var to_node_symbol = symbols.get_symbol_of_types(target_node_name, ["scene_item"], false)
 	
 	if to_node_symbol == null:
+		var position_node_name: String = "positions/" + target_node_name
 		# absent; find a plain node then
-		if not current_room.has_node(target_node_name):
-			_game_warning("node '%s' not found" % target_node_name)
+		if not current_room.has_node(position_node_name):
+			_game_warning("node '%s' not found" % position_node_name)
 			return { valid = false }
 		else:
 			# target is a plain node
-			var plain_node: Node2D = current_room.get_node(target_node_name)
+			var plain_node: Node2D = current_room.get_node(position_node_name)
 			target_position = plain_node.position
 	
 	elif not to_node_symbol.type:
@@ -791,8 +790,31 @@ func go_to_request(target_position: Vector2) -> bool:
 	
 	return true
 
-func interact_request(_item, _trigger_name: String):
-	_log_warning("TODO implement interact_request")
+func interact_request(item, trigger_name: String = "") -> bool:
+	if not _validate_game_state("interact_request", GameState.Playing):
+		return false
+	if not _validate_interaction_state("interact_request", InteractionState.Ready):
+		return false
+	
+	if not item:
+		return false
+	
+	var item_key: String = item.get_key()
+	
+	if not loaded_scene_items.has(item_key):
+		_log_warning("invalid item '%s' to interact" % item_key)
+		return false
+	
+	if trigger_name == "":
+		if not _game_script.default_action:
+			_game_warning("game script doesn't have a default action")
+			return false
+		
+		trigger_name = _game_script.default_action
+	
+	var routine_exists : bool = _run_routine([item_key, trigger_name])
+	
+	return routine_exists
 
 func pause_request() -> bool:
 	return _set_pausing(true)

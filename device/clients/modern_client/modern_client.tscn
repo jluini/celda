@@ -209,7 +209,11 @@ margin_left = 1255.61
 margin_top = 562.034
 margin_right = 1804.61
 margin_bottom = 872.034
+mouse_filter = 2
 color = Color( 1, 1, 1, 0.156863 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="curtain" type="TextureRect" parent="ui"]
 modulate = Color( 0, 0, 0, 1 )

@@ -14,8 +14,36 @@ main:
 		
 		.load_room cage
 		.set music=sufre
-		
-		
 		.curtain_up
+		you.teleport to=pos1
 		
-		.say "Había una vez..."
+		.say ONCE_UPON_A_TIME
+		
+		you.walk to=pos2
+		you.walk to=pos1
+		you.walk to=pos2
+		
+		.say ONCE_UPON_A_TIME
+		
+
+cage/poster:
+	walk_to:
+		# nothing
+		you.say "Tremendo póster."
+		
+		
+	look:
+		you.say NICE_POSTER1
+		you.say NICE_POSTER2
+	
+	use:
+		.load_room office
+		.set music=office
+		.curtain_up
+
+cage/toilet:
+	walk_to:
+		# nothing
+cage/bed:
+	walk_to:
+		# nothing

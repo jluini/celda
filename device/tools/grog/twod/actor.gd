@@ -2,12 +2,17 @@ extends Node2D
 
 export (float) var walk_speed = 300 # game units (pixels) per second
 
+export (Color) var color = Color.white
+
 var walking := false
 var angle := 0
 
 signal start_walking
 signal stop_walking
 signal angle_changed # (new_angle)
+
+func get_color():
+	return color
 
 func teleport(new_position: Vector2):
 	set_position(new_position)

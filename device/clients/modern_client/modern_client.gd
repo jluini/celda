@@ -116,7 +116,7 @@ func _on_item_disabled(_item):
 	pass
 
 func _on_server_say(subject: Node, speech: String, _duration: float, _skippable: bool):
-	var color = subject.color if subject else game_instance.get_default_color()
+	var color = subject.get_color() if subject else game_instance.get_default_color()
 	
 	_text.text = speech
 	_text.modulate = color
@@ -187,8 +187,11 @@ func _on_ui_click(position: Vector2):
 			var clicked_item = _get_scene_item_at(position)
 			
 			if clicked_item:
-				_log_debug("item '%s' clicked" % clicked_item.get_key())
 				_select_item(clicked_item)
+				
+				if not game_instance.interact_request(clicked_item):
+					_log_warning("interaction ignored")
+				
 			else:
 				_select_item(null)
 				game_instance.go_to_request(position)
@@ -383,6 +386,7 @@ func _skip() -> bool:
 	var skip_accepted: bool = game_instance.skip_request()
 	if skip_accepted:
 		_text.text = ""
+		_select_item(null)
 		
 	return skip_accepted
 
