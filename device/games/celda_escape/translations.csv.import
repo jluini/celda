@@ -13,4 +13,4 @@ dest_files=[ "res://games/celda_escape/translations.en.translation", "res://game
 [params]
 
 compress=true
-delimiter=2
+delimiter=1

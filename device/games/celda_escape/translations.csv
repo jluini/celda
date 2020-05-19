@@ -1,45 +1,9 @@
-id	en	es
-ACTION_WALK_TO	walk to	ir a
-ACTION_GIVE	give	dar
-ACTION_PICK_UP	pick up	recoger
-ACTION_USE	use	usar
-ACTION_OPEN	open	abrir
-ACTION_LOOK_AT	look at	mirar
-ACTION_PUSH	push	empujar
-ACTION_CLOSE	close	cerrar
-ACTION_TALK_TO	talk to	hablar con
-ACTION_PULL	pull	tirar
-TOOL_PREV_USE_WITH	use	usar
-TOOL_POST_USE_WITH	with	con
-CELDA_ESCAPE_FALLBACK_LOOK	I see.	Veo.
-CELDA_ESCAPE_FALLBACK_CANT	I can't.	No puedo.
-CELDA_ESCAPE_FALLBACK_CANT_OPEN	I can't open that.	No puedo abrirlo.
-CELDA_ESCAPE_FALLBACK_CANT_CLOSE	I can't close that.	No puedo cerrarlo.
-CELDA_ESCAPE_FALLBACK_PICK_UP	I better leave it there.	Mejor lo dejo ahí.
-CELDA_ESCAPE_NICE_THING	Nice thing.	Alta cosa.
-CELDA_ESCAPE_THING_THANKS	Thank you.	Gracias.
-CELDA_ESCAPE_THING_NO_TAKE	Never!	No sería capaz de recoger semejante cosa.
-ITEM_CELDA/GATE	gate	portón
-ITEM_CELDA/THING	thing	cosa
-ITEM_CELDA/POSTER	poster	póster
-ITEM_INV_POSTER	poster	póster
-ITEM_CELDA/EXIT	duct	ducto
-ITEM_CELDA/DOOR	door	puerta
-ITEM_CELDA/BED	bed	cama
-ITEM_CELDA/TOILET	toilet	inodoro
-ITEM_OFFICE/DUCT	duct	ducto
-ITEM_OFFICE/BUST	bust	busto
-ITEM_EXIT/DOOR	door	puerta
-ITEM_EXIT/GATE	gate	portón
-ITEM_EXIT/CLAW1	claw	gancho
-ITEM_EXIT/CLAW2	claw	gancho
-ITEM_EXIT/CLAW3	claw	gancho
-ITEM_EXIT/MASK1	mask	máscara
-ITEM_EXIT/MASK2	mask	máscara
-ITEM_EXIT/MASK3	mask	máscara
-ITEM_LAB/STRETCHER	stretcher	camilla
-ITEM_INV_MASK_DEFAULT	blue mask	máscara azul
-ITEM_INV_MASK_RED	red mask	máscara roja
-ITEM_INV_MASK_GREEN	green mask	máscara verde
-ITEM_INV_PAPER	paper	papel
-ITEM_INV_THING	thing	cosa
+id;en;es
+ITEM_CAGE/POSTER;poster;póster
+ITEM_INV_POSTER;poster;póster
+ITEM_CAGE/EXIT;duct;ducto
+ITEM_CAGE/DOOR;door;puerta
+ITEM_CAGE/BED;bed;cama
+ITEM_CAGE/TOILET;toilet;inodoro
+ITEM_OFFICE/BUST;bust;busto
+ITEM_LAB/STRETCHER;stretcher;camilla
