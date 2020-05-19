@@ -1,14 +1,15 @@
 [gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://games/celda_escape/rooms/celda/images/grid_open.png" type="Texture" id=1]
-[ext_resource path="res://games/celda_escape/rooms/celda/images/gate.png" type="Texture" id=3]
+[ext_resource path="res://games/celda_escape/rooms/cage/images/grid_open.png" type="Texture" id=1]
+[ext_resource path="res://games/celda_escape/rooms/cage/images/gate.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
 [ext_resource path="res://tools/grog/twod/item2d.gd" type="Script" id=5]
 [ext_resource path="res://games/celda_escape/rooms/celda/images/exit_exposed.png" type="Texture" id=7]
-[ext_resource path="res://games/celda_escape/rooms/celda/images/poster.png" type="Texture" id=9]
-[ext_resource path="res://games/celda_escape/rooms/celda/images/bed.png" type="Texture" id=10]
-[ext_resource path="res://games/celda_escape/rooms/celda/images/background.jpg" type="Texture" id=11]
-[ext_resource path="res://games/celda_escape/rooms/celda/images/toilet.png" type="Texture" id=12]
+[ext_resource path="res://games/celda_escape/rooms/cage/images/poster.png" type="Texture" id=9]
+[ext_resource path="res://games/celda_escape/rooms/cage/images/bed.png" type="Texture" id=10]
+[ext_resource path="res://games/celda_escape/rooms/cage/images/background.jpg" type="Texture" id=11]
+[ext_resource path="res://games/celda_escape/rooms/cage/images/toilet.png" type="Texture" id=12]
+
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 670.651, 625.289, 785.887, 712.824, 695.027, 712.824, 345.995, 621.965, 194.266, 888.625, -979.802, 887.463, -782.63, 723.398, -996.986, 655.482, -913.931, 573.859, -692.712, 648.578, -596.032, 568.131, -57.404, 778.434, 184.744, 694.091, 153.455, 639.675, 122.171, 572.103, 288.377, 575.427, 867.881, 782.631, 909.987, 820.304, 912.203, 898.975, 306.105, 895.651, 722.728, 781.523, 680.623, 746.065, 94.9586, 692.73, 90.8775, 639.675, 56.9514, 579.587, -81.8909, 719.938, 122.166, 747.145 )

@@ -7,6 +7,8 @@ export (String) var key = "room/new_item"
 export (Vector2) var size = Vector2(100, 100) setget set_size
 export (Vector2) var offset = Vector2.ZERO setget set_offset
 
+export (int) var interaction_angle = 90
+
 export (Color) var color = Color.white
 
 func _ready():

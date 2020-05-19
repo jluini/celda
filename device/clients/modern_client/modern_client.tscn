@@ -2,7 +2,7 @@
 
 [ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
-[ext_resource path="res://games/celda_escape/rooms/celda/images/background.jpg" type="Texture" id=3]
+[ext_resource path="res://games/celda_escape/rooms/cage/images/background.jpg" type="Texture" id=3]
 [ext_resource path="res://tools/theming/custom_label.gd" type="Script" id=4]
 [ext_resource path="res://clients/modern_client/saved/game_list.gd" type="Script" id=5]
 [ext_resource path="res://clients/modern_client/clicking.gd" type="Script" id=7]
@@ -14,6 +14,7 @@
 [ext_resource path="res://clients/modern_client/tabs.gd" type="Script" id=19]
 [ext_resource path="res://clients/modern_client/side_menu.gd" type="Script" id=20]
 [ext_resource path="res://clients/modern_client/menu_button.tscn" type="PackedScene" id=21]
+
 
 [sub_resource type="Animation" id=1]
 tracks/0/type = "value"
