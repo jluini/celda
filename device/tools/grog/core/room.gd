@@ -1,7 +1,7 @@
 extends Node
 
-export (NodePath) var default_player_position_path
-export (NodePath) var navigation_path
+export (NodePath) var default_player_position_path = "positions/default"
+export (NodePath) var navigation_path = "navigation"
 
 func get_default_player_position():
 	var default_player_position_holder = get_node_if_present(default_player_position_path)

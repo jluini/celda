@@ -3,7 +3,7 @@ main:
 		
 		.set door_seen=false
 		.set poster_was_taken=false
-
+		
 		# celda setup
 		.set door_seen=false
 		.set poster_was_taken=false
@@ -11,20 +11,11 @@ main:
 		
 		# office setup
 		.set bust_turn = false
-
-		#if $stage = 0:
-		#.load_room celda
-		.set music=sufre
-
-		#you.teleport to=celda/bed
-
-		.curtain_up
-
 		
-
-
-
-celda/thing:
-	look_at:
-		you.say CELDA_ESCAPE_NICE_THING
-		self.say CELDA_ESCAPE_THING_THANKS
+		.load_room cage
+		.set music=sufre
+		
+		
+		.curtain_up
+		
+		

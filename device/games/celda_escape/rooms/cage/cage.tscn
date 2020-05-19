@@ -1,0 +1,173 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=1]
+[ext_resource path="res://games/celda_escape/rooms/celda/images/gate.png" type="Texture" id=3]
+[ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
+[ext_resource path="res://tools/grog/twod/item2d.gd" type="Script" id=5]
+[ext_resource path="res://games/celda_escape/rooms/celda/images/grid_closed.png" type="Texture" id=6]
+[ext_resource path="res://games/celda_escape/rooms/celda/images/exit_exposed.png" type="Texture" id=7]
+[ext_resource path="res://games/celda_escape/rooms/celda/images/poster.png" type="Texture" id=9]
+[ext_resource path="res://games/celda_escape/rooms/celda/images/bed.png" type="Texture" id=10]
+[ext_resource path="res://games/celda_escape/rooms/celda/images/background.jpg" type="Texture" id=11]
+[ext_resource path="res://games/celda_escape/rooms/celda/images/toilet.png" type="Texture" id=12]
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( 670.651, 625.289, 785.887, 712.824, 695.027, 712.824, 345.995, 621.965, 306.105, 895.651, 122.171, 572.103, 288.377, 575.427, 912.203, 898.975, 722.728, 781.523, 680.623, 746.065, 867.881, 782.631, 909.987, 820.304 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 3 ), PoolIntArray( 7, 4, 3, 8 ), PoolIntArray( 3, 2, 9 ), PoolIntArray( 10, 11, 7, 8 ), PoolIntArray( 8, 3, 9 ) ]
+outlines = [ PoolVector2Array( 909.987, 820.304, 867.881, 782.631, 722.728, 781.523, 680.623, 746.065, 695.027, 712.824, 785.887, 712.824, 670.651, 625.289, 345.995, 621.965, 288.377, 575.427, 122.171, 572.103, 306.105, 895.651, 912.203, 898.975 ) ]
+
+[sub_resource type="Animation" id=2]
+tracks/0/type = "value"
+tracks/0/path = NodePath("cartel1:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=3]
+tracks/0/type = "value"
+tracks/0/path = NodePath("cartel1:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[node name="room" type="Node"]
+script = ExtResource( 4 )
+
+[node name="sprites" type="Node" parent="."]
+
+[node name="background" type="Sprite" parent="sprites"]
+texture = ExtResource( 11 )
+centered = false
+
+[node name="gate" type="Sprite" parent="sprites"]
+visible = false
+z_index = -78
+texture = ExtResource( 3 )
+centered = false
+
+[node name="grid" type="Sprite" parent="sprites"]
+visible = false
+position = Vector2( 1178.7, 587.494 )
+texture = ExtResource( 6 )
+
+[node name="positions" type="Node" parent="."]
+
+[node name="default" type="Position2D" parent="positions"]
+position = Vector2( 1338.89, 931.034 )
+
+[node name="test" type="Position2D" parent="positions"]
+position = Vector2( 1708.5, 928 )
+
+[node name="pos1" type="Position2D" parent="positions"]
+position = Vector2( 1165.5, 766.847 )
+
+[node name="pos2" type="Position2D" parent="positions"]
+position = Vector2( 1299.95, 979.723 )
+
+[node name="pos3" type="Position2D" parent="positions"]
+position = Vector2( 1594.83, 936.579 )
+
+[node name="pos4" type="Position2D" parent="positions"]
+position = Vector2( 1687.23, 835.944 )
+
+[node name="items" type="Node" parent="."]
+
+[node name="poster" type="Node2D" parent="items"]
+position = Vector2( 1726, 367 )
+z_index = 367
+script = ExtResource( 1 )
+key = "cage/poster"
+size = Vector2( 112.636, 250 )
+
+[node name="interact_position" type="Position2D" parent="items/poster"]
+position = Vector2( -38.8429, 468.312 )
+
+[node name="sprite" type="Sprite" parent="items/poster"]
+show_behind_parent = true
+texture = ExtResource( 9 )
+
+[node name="toilet" type="Node2D" parent="items"]
+position = Vector2( 1783, 928 )
+z_index = 928
+script = ExtResource( 1 )
+size = Vector2( 220, 240 )
+offset = Vector2( 0, -100 )
+
+[node name="interact_position" type="Position2D" parent="items/toilet"]
+position = Vector2( -120.937, -9.94092 )
+
+[node name="sprite" type="Sprite" parent="items/toilet"]
+show_behind_parent = true
+texture = ExtResource( 12 )
+offset = Vector2( 0, -107 )
+
+[node name="navigation" type="Navigation2D" parent="."]
+
+[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="navigation"]
+position = Vector2( 991.695, 168.422 )
+navpoly = SubResource( 1 )
+
+[node name="old_items" type="Node" parent="."]
+
+[node name="exit" type="Node2D" parent="old_items"]
+visible = false
+position = Vector2( 1726.57, 363.826 )
+z_index = -1080
+script = ExtResource( 5 )
+item_key = "celda/exit"
+color = Color( 1, 1, 1, 1 )
+radius = 70.0
+
+[node name="interact_position" type="Position2D" parent="old_items/exit"]
+position = Vector2( -40.1814, 479.087 )
+
+[node name="animation" type="AnimationPlayer" parent="old_items/exit"]
+anims/default = SubResource( 2 )
+anims/open = SubResource( 3 )
+
+[node name="cartel1" type="Sprite" parent="old_items/exit"]
+modulate = Color( 0.513726, 0.513726, 0.513726, 1 )
+texture = ExtResource( 7 )
+
+[node name="door" type="Node2D" parent="old_items"]
+visible = false
+position = Vector2( 551.32, 528.708 )
+script = ExtResource( 5 )
+item_key = "celda/door"
+color = Color( 0.0313726, 0.0313726, 0.0313726, 1 )
+interact_angle = 180
+radius = 200.0
+
+[node name="interact_position" type="Position2D" parent="old_items/door"]
+position = Vector2( 597.308, 233.071 )
+
+[node name="bed" type="Node2D" parent="old_items"]
+visible = false
+position = Vector2( 1481.78, 652.801 )
+z_index = -1080
+script = ExtResource( 5 )
+item_key = "celda/bed"
+color = Color( 1, 1, 1, 1 )
+interact_angle = 270
+radius = 150.0
+
+[node name="interact_position" type="Position2D" parent="old_items/bed"]
+position = Vector2( 18.2191, 157.233 )
+
+[node name="Sprite" type="Sprite" parent="old_items/bed"]
+position = Vector2( 0, 50 )
+texture = ExtResource( 10 )

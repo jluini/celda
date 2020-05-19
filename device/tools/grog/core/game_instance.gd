@@ -341,7 +341,7 @@ func _command_load_room(room_name: String) -> Dictionary:
 	#	print("No target scene in room resource '%s'" % room_name)
 	#	return _instant_termination
 	
-	var room = room_resource.get_target().instance()
+	var room = room_resource.instance()
 	
 	# make room pausable
 	room.pause_mode = PAUSE_MODE_STOP
@@ -961,17 +961,9 @@ func _get_routine(headers: Array):
 		_log_error("routine '%s' not found" % str(headers))
 		return null
 
-func _get_room_resource(room_name):
-	return _get_resource_in(_game_script.get_rooms(), room_name)
-
-static func _get_resource_in(list, elem_name):
-	for i in range(list.size()):
-		var elem = list[i]
-		
-		if elem.get_name() == elem_name:
-			return elem
-	
-	return null
+func _get_room_resource(room_name: String):
+	var room_dictionary : Dictionary = _game_script.get_rooms()
+	return room_dictionary.get(room_name, null)
 
 # validation
 
