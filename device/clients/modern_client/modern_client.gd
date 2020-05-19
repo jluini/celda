@@ -111,7 +111,7 @@ func _on_item_disabled(_item):
 
 func _on_server_say(subject: Node, speech: String, _duration: float, _skippable: bool):
 	var color = subject.color if subject else game_instance.get_default_color()
-
+	
 	_text.text = speech
 	_text.modulate = color
 
@@ -179,6 +179,10 @@ func _on_ui_click(position: Vector2):
 		
 		if game_instance.is_ready():
 			game_instance.go_to_request(position)
+		elif _skip():
+			pass
+		else:
+			_log_debug("click ignored")
 
 func _on_ui_start_hold(_position: Vector2):
 	pass
@@ -289,7 +293,7 @@ func _input(event):
 	if event is InputEventKey and event.pressed:
 		match event.scancode:
 			KEY_ESCAPE:
-				if game_instance and game_instance.skip_request():
+				if game_instance and _skip():
 					# TODO only handled in this case?
 					get_tree().set_input_as_handled()
 
@@ -356,3 +360,14 @@ func _client_state_str(state: int = -1):
 	if state == -1:
 		state = _client_state
 	return ClientState.keys()[state]
+
+func _skip() -> bool:
+	if not game_instance:
+		_log_warning("unexpected call to _skip")
+		return false
+	
+	var skip_accepted: bool = game_instance.skip_request()
+	if skip_accepted:
+		_text.text = ""
+		
+	return skip_accepted
