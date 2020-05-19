@@ -76,7 +76,7 @@ func set_angle(new_angle: int):
 	angle = new_angle
 	emit_signal("angle_changed", new_angle)
 
-func walk(new_angle):
+func walk(new_angle: int):
 	new_angle = _normalize_angle(new_angle)
 	
 	angle = new_angle
