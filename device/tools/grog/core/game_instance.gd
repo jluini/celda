@@ -174,6 +174,7 @@ func _process(delta: float) -> void:
 			
 			else:
 				# auto walk
+				# TODO call deferred?
 				_advance() # resumes routine execution
 			
 	else:
@@ -196,6 +197,8 @@ func _run_routine(routine_headers: Array) -> bool:
 	_current_routine_headers = routine_headers
 	_current_routine = routine
 	_current_pointers = [-1]
+	
+	# TODO call deferred?
 	_advance()
 	
 	return true
@@ -765,7 +768,7 @@ func skip_request() -> bool:
 		#_skip_requested = true
 		_skip_enabled = false
 		
-		_advance()
+		call_deferred("_advance")
 		
 		return true
 	
