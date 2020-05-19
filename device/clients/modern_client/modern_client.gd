@@ -15,6 +15,8 @@ onready var _quit_button = $ui/menu/side_menu/menu_buttons/quit
 onready var _options_button = $ui/menu/side_menu/menu_buttons/options
 onready var _back_button = $ui/menu/back_button
 
+onready var _selector = $ui/selector
+
 enum ClientState {
 	# no game yet (menu is open)
 	NoGame,
@@ -40,6 +42,8 @@ enum DragState {
 var _drag_state = DragState.None
 
 
+var _selected_item = null
+
 func _on_init():
 	_back_button.hide()
 
@@ -50,6 +54,8 @@ func _on_init():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 	
 	_side_menu.connect("completed", self, "_on_menu_completed")
+	
+	_select_item(null)
 
 func _on_menu_completed():
 	match _client_state:
@@ -178,7 +184,15 @@ func _on_ui_click(position: Vector2):
 		assert(game_instance)
 		
 		if game_instance.is_ready():
-			game_instance.go_to_request(position)
+			var clicked_item = _get_scene_item_at(position)
+			
+			if clicked_item:
+				_log_debug("item '%s' clicked" % clicked_item.get_key())
+				_select_item(clicked_item)
+			else:
+				_select_item(null)
+				game_instance.go_to_request(position)
+				
 		elif _skip():
 			pass
 		else:
@@ -371,3 +385,23 @@ func _skip() -> bool:
 		_text.text = ""
 		
 	return skip_accepted
+
+func _select_item(new_item):
+	if _selected_item:
+		pass # unselect previous item
+	
+	_selected_item = new_item
+	
+	if _selected_item:
+		var rect : Rect2 = _selected_item.get_rect()
+		
+		_selector.set_position(rect.position)
+		_selector.set_size(rect.size)
+		
+		_selector.show()
+	else:
+		_selector.hide()
+	
+#func _draw():
+#	if _selected_item:
+#		draw_rect(_selected_item.get_rect(), Color. red)

@@ -32,15 +32,20 @@ func set_offset(new_offset: Vector2):
 	offset = new_offset
 	update()
 
+func get_rect() -> Rect2:
+	var ret: Rect2 = _relative_rect()
+	ret.position += position
+	return ret
+
+func _relative_rect() -> Rect2:
+	return Rect2(offset - size / 2, size)
+
 func _draw():
 	if Engine.editor_hint:
 		_draw_rect()
 
 func _draw_rect(rect_color: Color = color):
-	draw_rect(_get_rect(), rect_color, false, 4.0)
-
-func _get_rect():
-	return Rect2(offset - size / 2, size)
+	draw_rect(_relative_rect(), rect_color, false, 4.0)
 
 func _update_z_index():
 	# TODO extract this logic

@@ -25,7 +25,6 @@ func get_signals() -> Array:
 func _end_game():
 	_on_end()
 	
-	#server = null
 	emit_signal("game_ended")
 	
 ####
@@ -82,12 +81,10 @@ func _on_server_variable_set(var_name: String, new_value):
 func _get_scene_item_at(position: Vector2):
 	for item in _loaded_items:
 		var world_pos = position # _global_to_world(position)
-		var item_center = item.position + item.offset
 		
-		var disp: Vector2 = item_center - world_pos
-		var distance = disp.length()
+		var item_rect : Rect2 = item.get_rect()
 		
-		if distance <= item.radius:
+		if item_rect.has_point(position):
 			return item
 	
 	return null

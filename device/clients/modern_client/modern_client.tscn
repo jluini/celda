@@ -15,7 +15,6 @@
 [ext_resource path="res://clients/modern_client/side_menu.gd" type="Script" id=20]
 [ext_resource path="res://clients/modern_client/menu_button.tscn" type="PackedScene" id=21]
 
-
 [sub_resource type="Animation" id=1]
 tracks/0/type = "value"
 tracks/0/path = NodePath("curtain:modulate")
@@ -204,6 +203,13 @@ __meta__ = {
 }
 
 [node name="tween" type="Tween" parent="ui/inventory_base"]
+
+[node name="selector" type="ColorRect" parent="ui"]
+margin_left = 1255.61
+margin_top = 562.034
+margin_right = 1804.61
+margin_bottom = 872.034
+color = Color( 1, 1, 1, 0.156863 )
 
 [node name="curtain" type="TextureRect" parent="ui"]
 modulate = Color( 0, 0, 0, 1 )
