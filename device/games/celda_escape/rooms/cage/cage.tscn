@@ -94,10 +94,25 @@ script = ExtResource( 1 )
 key = "cage/bed"
 size = Vector2( 400, 175 )
 offset = Vector2( 0, -10 )
+interaction_angle = 270
 
 [node name="sprite" type="Sprite" parent="items/bed"]
 show_behind_parent = true
 texture = ExtResource( 2 )
+
+[node name="interact_position" type="Position2D" parent="items/bed"]
+position = Vector2( 11.6912, 95.1999 )
+
+[node name="door" type="Node2D" parent="items"]
+position = Vector2( 556.168, 527 )
+z_index = 527
+script = ExtResource( 1 )
+key = "cage/door"
+size = Vector2( 220, 410 )
+interaction_angle = 210
+
+[node name="interact_position" type="Position2D" parent="items/door"]
+position = Vector2( 594.582, 237.165 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 

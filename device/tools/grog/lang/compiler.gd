@@ -926,19 +926,21 @@ func _compile_tree(cs, root, number_of_section_levels):
 			
 			assert(level == number_of_section_levels - 1)
 			assert(next_element.type == "sequence")
+			
 			assert(next_element.has("trigger_name"))
 			assert(next_element.has("statements"))
-			# TODO implement telekinetic / parameters
+			assert(next_element.has("telekinetic"))
 			
-			var trigger_name = next_element.trigger_name
-			var statements = next_element.statements
+			var trigger_name : String = next_element.trigger_name
+			var statements : Array = next_element.statements
+			var telekinetic : bool = next_element.telekinetic
 			
 			header_chain.push_back(trigger_name)
 			
 			if current_data.has(trigger_name):
 				print("Duplicated header 2 '%s'" % str(header_chain))
 			else:
-				var new_routine = Routine.new(trigger_name, statements)
+				var new_routine = Routine.new(trigger_name, statements, telekinetic)
 				current_data[trigger_name] = new_routine
 	
 			header_chain.pop_back()

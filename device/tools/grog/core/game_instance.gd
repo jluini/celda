@@ -145,6 +145,33 @@ func release():
 	
 	_log_debug("game release finished")
 
+func get_value(var_name: String):
+	var symbol = symbols.get_symbol(var_name)
+	
+	if symbol == null:
+		# absent
+		_game_error("global variable or symbol '%s' not found" % var_name)
+		return 0 # absent symbol defaults to zero
+	
+	match symbol.type:
+		"global_variable":
+			return symbol.target
+		
+#		"inventory_item":
+#			return symbol.amount
+#
+#		"inventory_item_instance":
+#			return symbol.target.get_key()
+#
+#		"scene_item":
+#			if symbol.disabled:
+#				return "disabled"
+#			else:
+#				return symbol.animation
+		_:
+			print("Trying to dereference symbol '%s' of type '%s'" % [var_name, symbol.type])
+			return false
+
 func _ready():
 	set_process(false)
 

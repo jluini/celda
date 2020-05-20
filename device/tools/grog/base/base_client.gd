@@ -5,7 +5,7 @@ signal game_ended
 var server
 var game_instance = null
 
-var _loaded_items = []
+var _loaded_items: Array
 
 func _get_module_name():
 	return "grog-client"
@@ -80,8 +80,6 @@ func _on_server_variable_set(var_name: String, new_value):
 
 func _get_scene_item_at(position: Vector2):
 	for item in _loaded_items:
-		var world_pos = position # _global_to_world(position)
-		
 		var item_rect : Rect2 = item.get_rect()
 		
 		if item_rect.has_point(position):
@@ -133,6 +131,8 @@ func _start_game_from(filename: String) -> Dictionary:
 			return delete_game_result
 		
 		game_instance = null
+	
+	_loaded_items = []
 	
 	var new_game_result: Dictionary = server.new_game_from(filename)
 	

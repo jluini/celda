@@ -4,10 +4,10 @@ main:
 		.set door_seen=false
 		.set poster_was_taken=false
 		
-		# celda setup
+		# cage setup
 		.set door_seen=false
 		.set poster_was_taken=false
-		celda/exit.disable
+		#cage/exit.disable
 		
 		# office setup
 		.set bust_turn = false
@@ -20,8 +20,8 @@ main:
 		.say ONCE_UPON_A_TIME
 		
 		you.walk to=pos2
-		you.walk to=pos1
-		you.walk to=pos2
+		#you.walk to=pos1
+		#you.walk to=pos2
 		
 		.say ONCE_UPON_A_TIME
 		
@@ -29,12 +29,11 @@ main:
 cage/poster:
 	walk_to:
 		# nothing
-		you.say "Tremendo póster."
+		you.say LOOK_POSTER
 		
 		
 	look:
-		you.say NICE_POSTER1
-		you.say NICE_POSTER2
+		you.say LOOK_POSTER
 	
 	use:
 		.load_room office
@@ -47,3 +46,13 @@ cage/toilet:
 cage/bed:
 	walk_to:
 		# nothing
+
+cage/door:
+	walk_to: TK
+		# nothing
+	#look:
+		if not $door_seen:
+			you.say LOOK_DOOR1
+			.set door_seen = true
+		else:
+			you.say LOOK_DOOR2

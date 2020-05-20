@@ -8,7 +8,7 @@ func _init(p_indirection_level: int = 0, p_key: String = ""):
 	key = p_key
 
 func evaluate(game):
-	var values = [key]
+	#var values = [key]
 	var value = key
 	
 	for _i in range(indirection_level):
@@ -18,6 +18,6 @@ func evaluate(game):
 			break
 		
 		value = game.get_value(value)
-		values.append(value)
+		#values.append(value)
 	
 	return value
