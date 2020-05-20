@@ -8,6 +8,8 @@ ITEM_CAGE/EXIT;duct;ducto
 ITEM_CAGE/DOOR;door;puerta
 ITEM_CAGE/BED;bed;cama
 ITEM_CAGE/TOILET;toilet;inodoro
+ITEM_OFFICE/TO_CAGE;hole;hueco
+ITEM_OFFICE/TO_LIVING;corridor;pasillo
 ITEM_OFFICE/BUST;bust;busto
 ITEM_LAB/STRETCHER;stretcher;camilla
 ONCE_UPON_A_TIME;Once upon a time...;Había una vez...

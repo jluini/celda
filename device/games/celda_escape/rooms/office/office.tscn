@@ -4,103 +4,81 @@
 [ext_resource path="res://games/celda_escape/rooms/office/images/Mesa.png" type="Texture" id=2]
 [ext_resource path="res://games/celda_escape/rooms/office/images/Silla-Of1.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
-[ext_resource path="res://tools/grog/twod/item2d.gd" type="Script" id=5]
+[ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=5]
 [ext_resource path="res://games/celda_escape/rooms/office/images/Armor-Of1.png" type="Texture" id=6]
 [ext_resource path="res://games/celda_escape/rooms/office/images/Busto-Of1.png" type="Texture" id=7]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 380.204, 838.492, 1231.84, 680.592, 1405.11, 653.384, 1489.6, 667.704, 1522.53, 699.207, 1349.27, 573.194, 1178.86, 600.401, 613.231, 574.626, 802.251, 603.265, 759.292, 686.32, 1715.85, 700.639, 1720.39, 837.408 )
-polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 2, 1, 6 ), PoolIntArray( 7, 5, 6, 8 ), PoolIntArray( 7, 8, 9, 0 ), PoolIntArray( 10, 11, 0, 4 ), PoolIntArray( 9, 1, 0 ) ]
-outlines = [ PoolVector2Array( 1720.39, 837.408, 1715.85, 700.639, 1522.53, 699.207, 1489.6, 667.704, 1405.11, 653.384, 1349.27, 573.194, 613.231, 574.626, 380.204, 838.492 ), PoolVector2Array( 759.292, 686.32, 1231.84, 680.592, 1178.86, 600.401, 802.251, 603.265 ) ]
+vertices = PoolVector2Array( 1905.7, 1072.42, 193.074, 1068.42, 500.535, 735.699, 1672.58, 901.901, 1897.07, 891.109, 1519.33, 740.016 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 3, 4, 0 ), PoolIntArray( 3, 2, 5 ) ]
+outlines = [ PoolVector2Array( 1897.07, 891.109, 1672.58, 901.901, 1519.33, 740.016, 500.535, 735.699, 193.074, 1068.42, 1905.7, 1072.42 ) ]
 
-[node name="office" type="Node2D"]
+[node name="office" type="Node"]
 script = ExtResource( 4 )
-default_player_position_path = NodePath("default_player_position")
-navigation_path = NodePath("Navigation2D")
 
-[node name="background" type="Node2D" parent="."]
+[node name="sprites" type="Node" parent="."]
 
-[node name="background" type="Sprite" parent="background"]
-z_index = -4096
+[node name="background" type="Sprite" parent="sprites"]
 texture = ExtResource( 1 )
 centered = false
 
-[node name="chair" type="Sprite" parent="background"]
+[node name="chair" type="Sprite" parent="sprites"]
+visible = false
 position = Vector2( 1027.05, 663.363 )
 z_index = -250
 texture = ExtResource( 3 )
 
-[node name="table" type="Sprite" parent="background"]
+[node name="table" type="Sprite" parent="sprites"]
+visible = false
 position = Vector2( 1006.34, 738.386 )
 z_index = -240
 texture = ExtResource( 2 )
 
-[node name="bust" type="Sprite" parent="background"]
+[node name="bust" type="Sprite" parent="sprites"]
+visible = false
 position = Vector2( 1578.32, 685.625 )
 z_index = -1080
 texture = ExtResource( 7 )
 
-[node name="armor" type="Sprite" parent="background"]
+[node name="armor" type="Sprite" parent="sprites"]
+visible = false
 position = Vector2( 436.556, 530.523 )
 z_index = -1080
 texture = ExtResource( 6 )
 
-[node name="Navigation2D" type="Navigation2D" parent="."]
+[node name="positions" type="Node" parent="."]
 
-[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
-position = Vector2( -270, 0 )
-scale = Vector2( 1.27, 1.27 )
-navpoly = SubResource( 1 )
-
-[node name="default_player_position" type="Position2D" parent="."]
+[node name="default" type="Position2D" parent="positions"]
 position = Vector2( 420.202, 867.626 )
 
-[node name="test_position" type="Position2D" parent="."]
-position = Vector2( 722.732, 774.828 )
+[node name="test" type="Position2D" parent="positions"]
+position = Vector2( 772.377, 815.839 )
 
-[node name="pos1" type="Position2D" parent="."]
-position = Vector2( 1736.08, 974.77 )
+[node name="from_living" type="Position2D" parent="positions"]
+position = Vector2( 1785.72, 979.087 )
 
-[node name="items" type="Node2D" parent="."]
+[node name="items" type="Node" parent="."]
 
-[node name="duct" type="Node2D" parent="items"]
-position = Vector2( 170.901, 241.02 )
+[node name="to_cage" type="Node2D" parent="items"]
+position = Vector2( 172.252, 244.705 )
+z_index = 244
 script = ExtResource( 5 )
-item_key = "office/duct"
-instance_number = 0
-color = Color( 0, 0, 0, 1 )
-interact_angle = 200
-walk_speed = 0.0
-radius = 75.0
-offset = Vector2( 0, 0 )
+key = "office/to_cage"
+size = Vector2( 130, 100 )
+interaction_angle = 180
 
-[node name="interact_position" type="Position2D" parent="items/duct"]
-position = Vector2( 226.821, 625.248 )
-
-[node name="bust" type="Node2D" parent="items"]
-position = Vector2( 1571.01, 591.886 )
-script = ExtResource( 5 )
-item_key = "office/bust"
-instance_number = 0
-color = Color( 0.164706, 0.647059, 0.815686, 1 )
-interact_angle = 350
-walk_speed = 0.0
-radius = 70.0
-offset = Vector2( 0, 0 )
-
-[node name="interact_position" type="Position2D" parent="items/bust"]
-position = Vector2( -88.1641, 216.144 )
-
-[node name="speech_position" type="Position2D" parent="items/bust"]
-position = Vector2( 2.27527, -89.8704 )
+[node name="interact_position" type="Position2D" parent="items/to_cage"]
+position = Vector2( 247.89, 622.362 )
 
 [node name="to_living" type="Node2D" parent="items"]
-position = Vector2( 1799.96, 957.241 )
+position = Vector2( 1801.33, 969.977 )
+z_index = 969
 script = ExtResource( 5 )
-item_key = "office/to_living"
-instance_number = 0
-color = Color( 0, 0, 0, 1 )
-interact_angle = 0
-walk_speed = 0.0
-radius = 150.0
-offset = Vector2( 0, 0 )
+key = "office/to_living"
+size = Vector2( 240, 220 )
+interaction_angle = 0
+
+[node name="navigation" type="Navigation2D" parent="."]
+
+[node name="polygon" type="NavigationPolygonInstance" parent="navigation"]
+navpoly = SubResource( 1 )
