@@ -27,30 +27,23 @@ main:
 		
 
 cage/poster:
-	walk_to:
-		# nothing
-		you.say LOOK_POSTER
-		
-		
 	look:
 		you.say LOOK_POSTER
 	
-	use:
-		.load_room office
-		.set music=office
-		.curtain_up
+#	use:
+#		.load_room office
+#		.set music=office
+#		.curtain_up
 
 cage/toilet:
-	walk_to:
-		# nothing
+	look:
+		you.say LOOK_TOILET
 cage/bed:
-	walk_to:
-		# nothing
+	look:
+		you.say LOOK_BED
 
 cage/door:
-	walk_to: TK
-		# nothing
-	#look:
+	look:
 		if not $door_seen:
 			you.say LOOK_DOOR1
 			.set door_seen = true

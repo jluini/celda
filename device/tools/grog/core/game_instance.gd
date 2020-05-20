@@ -856,29 +856,44 @@ func interact_request(item, trigger_name: String = "") -> bool:
 		_log_warning("invalid item '%s' to interact" % item_key)
 		return false
 	
-	if trigger_name == "":
-		if not _game_script.default_action:
-			_game_warning("game script doesn't have a default action")
-			return false
-		
-		trigger_name = _game_script.default_action
+	var action_is_default := trigger_name == ""
 	
-	var routine_found: bool = _fetch_routine([item_key, trigger_name])
+#	if trigger_name == "":
+#		if not _game_script.default_action:
+#			_game_warning("game script doesn't have a default action")
+#			return false
+#
+#		trigger_name = _game_script.default_action
 	
-	if not routine_found:
-		return false
+	# TODO fix duplicated code
 	
-	if _current_routine.is_telekinetic():
-		_run_routine()
-	else:
+	if action_is_default:
 		if not current_player:
-			_log_warning("interact_request: no player and routine is not telekinetic")
+			_log_warning("interact_request: no player and no trigger")
 			return false
 		
 		var target_position : Vector2 = item.get_interact_position()
 		
-		if not _start_walking(current_player, target_position, WalkingReason.GoingToItem):
+		# TODO using GoingToPosition because there's no future interaction in this case
+		if not _start_walking(current_player, target_position, WalkingReason.GoingToPosition):
 			return false
+	else:
+		var routine_found: bool = _fetch_routine([item_key, trigger_name])
+		
+		if not routine_found:
+			return false
+		
+		if _current_routine.is_telekinetic():
+			_run_routine()
+		else:
+			if not current_player:
+				_log_warning("interact_request: no player and routine is not telekinetic")
+				return false
+			
+			var target_position : Vector2 = item.get_interact_position()
+			
+			if not _start_walking(current_player, target_position, WalkingReason.GoingToItem):
+				return false
 		
 	return true
 
