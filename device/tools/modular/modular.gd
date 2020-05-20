@@ -10,11 +10,9 @@ enum Severity {
 export (Severity) var minimum_console_severity = Severity.Debug
 export (Severity) var minimum_modular_severity = Severity.Debug
 
-enum StartMode {
-	Welcome,
-	FirstApp
-}
-export (StartMode) var start_mode
+export (int) var initial_module_index = 0
+
+export (bool) var automatically_open_first_app = false
 
 var modules = {}
 
@@ -64,15 +62,6 @@ func _ready():
 		
 		_topbar.add_child(app_thumbnail)
 	
-	match start_mode:
-		StartMode.Welcome:
-			pass
-		
-		StartMode.FirstApp:
-			if _apps:
-				open_app(0)
-				
-	
 	var total = _modules.size() + _apps.size()
 	
 	if total == 0:
@@ -81,6 +70,11 @@ func _ready():
 		if valid:
 			_log_debug("%s modules initialized successfully (%s + %s)" % [total, _apps.size(), _modules.size()])
 
+	$ui/modules.current_tab = initial_module_index
+	
+	if automatically_open_first_app:
+		open_app(0)
+	
 func get_module(module_name: String):
 	return modules.get(module_name, null)
 
