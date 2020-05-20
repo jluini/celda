@@ -112,7 +112,7 @@ size = Vector2( 220, 410 )
 interaction_angle = 210
 
 [node name="interact_position" type="Position2D" parent="items/door"]
-position = Vector2( 594.582, 237.165 )
+position = Vector2( 559.372, 220.889 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 
