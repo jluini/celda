@@ -98,7 +98,6 @@ func _on_state_changed(_new_state):
 	_state_color.modulate = state_colors[_new_state]
 
 func _on_end_mode_selected(end_mode_index: int):
-	print("index=%d"%end_mode_index)
 	var end_mode_name = _end_mode.get_popup().get_item_text(end_mode_index)
 	
 	_end_mode.text = end_mode_name
