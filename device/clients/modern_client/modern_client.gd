@@ -15,7 +15,8 @@ onready var _quit_button = $ui/menu/side_menu/menu_buttons/quit
 onready var _options_button = $ui/menu/side_menu/menu_buttons/options
 onready var _back_button = $ui/menu/back_button
 
-onready var _selector = $ui/selector
+onready var _item_selector = $ui/selector
+onready var _action_list = $ui/action_list
 
 enum ClientState {
 	# no game yet (menu is open)
@@ -55,6 +56,8 @@ func _on_init():
 	
 	_side_menu.connect("completed", self, "_on_menu_completed")
 	
+	_item_selector.hide()
+	_action_list.hide()
 	_select_item(null)
 
 func _on_menu_completed():
@@ -82,7 +85,6 @@ func _start():
 #		return
 	
 	if _room_parent.get_child_count() > 0:
-		_log_debug("deleting %s nodes from viewport" % _room_parent.get_child_count())
 		make_empty(_room_parent)
 	
 	_text.text = ""
@@ -391,6 +393,12 @@ func _skip() -> bool:
 	return skip_accepted
 
 func _select_item(new_item):
+	if _selected_item == new_item:
+		if _selected_item:
+			_log_warning("item '%s' is already selected" % (new_item.get_key() if new_item else "null"))
+			# TODO return or refresh action list in this case?
+		return
+	
 	if _selected_item:
 		pass # unselect previous item
 	
@@ -399,13 +407,20 @@ func _select_item(new_item):
 	if _selected_item:
 		var rect : Rect2 = _selected_item.get_rect()
 		
-		_selector.set_position(rect.position)
-		_selector.set_size(rect.size)
+		_item_selector.set_position(rect.position)
+		_item_selector.set_size(rect.size)
 		
-		_selector.show()
+		_item_selector.show()
+		
+		var item_actions: Array = server.game_script.get_item_actions(_selected_item)
+		
+		# removing default action from list
+		item_actions.erase(server.game_script.default_action)
+		
+		_action_list.set_item(_selected_item, item_actions)
+		_action_list.show()
+		
 	else:
-		_selector.hide()
+		_item_selector.hide()
+		_action_list.hide()
 	
-#func _draw():
-#	if _selected_item:
-#		draw_rect(_selected_item.get_rect(), Color. red)

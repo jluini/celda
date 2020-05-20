@@ -30,13 +30,6 @@ func prepare(compiler) -> Dictionary:
 	_valid = ret.valid
 	return ret
 	
-func has_routine(headers: Array) -> bool:
-	if not is_valid():
-		print("Not valid")
-		return false
-	
-	return _has_routine(headers)
-
 func get_routine(headers: Array) -> Resource:
 	if not is_valid():
 		print("Not valid")
@@ -48,15 +41,18 @@ func get_sequence_with_parameter(_headers: Array, _param):
 	print("Not implemented")
 	return null
 
+func get_item_actions(item) -> Array:
+	return _get_item_actions(item.get_key())
+
 # abstract methods
 
 func _get_routine(_headers: Array) -> Resource:
 	print("Override _get_routine")
 	return null
 	
-func _has_routine(_headers: Array) -> bool:
-	print("Override _has_routine")
-	return false
-	
 func _prepare(_compiler) -> Dictionary:
 	return { valid = false, message = "Override _prepare" }
+
+func _get_item_actions(_item_key: String) -> Array:
+	print("Override _get_item_actions")
+	return []

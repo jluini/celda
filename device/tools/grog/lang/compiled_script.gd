@@ -30,9 +30,7 @@ func initialize(num_levels: int, data: Dictionary) -> bool:
 	# TODO validate dict!
 	_data = data
 	
-	
 	return true
-	
 
 func add_error(new_error):
 	_errors.append(new_error)
@@ -45,41 +43,7 @@ func print_errors():
 func _print_error(err):
 	print(err)
 
-func has_routine(headers: Array) -> bool:
-	if levels < 0:
-		print("Bad configuration")
-		return false
-	if headers.size() != levels:
-		print("Expecting %s headers (%s given)" % [levels, headers.size()])
-		return false
-	
-	var level = 0
-	var current_dict = _data
-	var current_key
-	
-	while true:
-		current_key = headers[level]
-		
-		if not current_dict.has(current_key):
-			if level < levels - 1:
-				var sublevels = headers.slice(0, level)
-				print("Even '%s' is absent" % str(sublevels))
-			
-			return false
-		
-		if level == levels - 1:
-			return true
-		
-		level += 1
-		current_dict = current_dict[current_key]
-	
-	# unreachable
-	return false
-
 func get_routine(headers: Array) -> Resource:
-	if levels < 0:
-		print("Bad configuration")
-		return null
 	if headers.size() != levels:
 		print("Expecting %s headers (%s given)" % [levels, headers.size()])
 		return null
@@ -107,40 +71,24 @@ func get_routine(headers: Array) -> Resource:
 	# unreachable
 	return null
 
-#func add_sequence(headers: Array, sequence) -> Dictionary:
-#	if levels < 0:
-#		return { valid = false, message = "Bad configuration" }
-#	if headers.size() != levels:
-#		return { valid = false, message = "Expecting %s headers (%s given)" % [levels, headers.size()] }
-#
-#	print("Adding sequence for %s" % str(headers))
-#
-#	var level = 0
-#	var current_dict = _dict
-#	var current_key
-#
-#	while true:
-#		current_key = headers[level]
-#		if level >= levels - 1:
-#			break
-#
-#		if not current_dict.has(current_key):
-#			print("Creating '%s' at level %s" % [current_key, level])
-#			current_dict[current_key] = {}
-#
-#		current_dict = current_dict[current_key]
-#		level += 1
-#
-#	if current_dict.has(current_key):
-#		return { valid = false, message = "Duplicated sequence for '%s'" % str(headers) }
-#
-#	print("Creating sequence for '%s' at level %s" % [current_key, level])
-#
-#	current_dict[current_key] = sequence
-#
-#	# TODO validate sequence?
-#
-#	return { valid = true }
+func get_sections(headers: Array) -> Array:
+	if headers.size() >= levels:
+		print("Expecting less than %s headers (%s given)" % [levels, headers.size()])
+		return []
+	
+	var level := 0
+	var current_dict: Dictionary = _data
+	
+	while headers.size() > level:
+		var current_key: String = headers[level]
+		if not current_dict.has(current_key):
+			print("Section '%s' not found at level %s" % [str(headers), level])
+			return []
+		
+		level += 1
+		current_dict = current_dict[current_key]
+	
+	return current_dict.keys()
 
 func is_valid():
 	return _valid

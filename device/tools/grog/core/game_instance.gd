@@ -1050,16 +1050,17 @@ func _fetch_routine(headers: Array) -> bool:
 	if not _validate_interaction_state("_fetch_routine", InteractionState.Ready):
 		return false
 	
-	if _game_script.has_routine(headers):
-		_current_routine_headers = headers
-		_current_routine = _game_script.get_routine(headers)
-		_current_pointers = [-1]
-		
-		return true
-	else:
+	var routine: Resource = _game_script.get_routine(headers)
+	
+	if not routine:
 		_log_warning("routine '%s' not found" % str(headers))
-		
 		return false
+	
+	_current_routine_headers = headers
+	_current_routine = routine
+	_current_pointers = [-1]
+	
+	return true
 
 func _get_room_resource(room_name: String):
 	var room_dictionary : Dictionary = _game_script.get_rooms()

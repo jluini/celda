@@ -15,8 +15,11 @@ func _ready():
 	if Engine.editor_hint:
 		set_notify_local_transform(true)
 
-func get_key():
+func get_key() -> String:
 	return key
+
+func get_item_name() -> String:
+	return tr("ITEM_" + get_key().to_upper())
 
 func get_interact_position() -> Vector2:
 	if has_node("interact_position"):

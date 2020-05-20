@@ -1,4 +1,7 @@
 id;en;es
+ACTION_LOOK;look;mirar
+ACTION_USE;use;usar
+ACTION_PICK_UP;pick up;recoger
 ITEM_CAGE/POSTER;poster;póster
 ITEM_INV_POSTER;poster;póster
 ITEM_CAGE/EXIT;duct;ducto
