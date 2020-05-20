@@ -18,15 +18,16 @@ func _ready():
 func get_key():
 	return key
 
+func get_interact_position() -> Vector2:
+	if has_node("interact_position"):
+		var interact_position_child : Node2D = get_node("interact_position")
+		return interact_position_child.global_position
+	else:
+		return global_position
+
 func set_size(new_size: Vector2):
 	size = new_size
 	update()
-
-func _notification(what):
-	if Engine.editor_hint:
-		match what:
-			35: # NOTIFICATION_LOCAL_TRANSFORM_CHANGED = 35
-				_update_z_index()
 
 func set_offset(new_offset: Vector2):
 	offset = new_offset
@@ -46,6 +47,12 @@ func _draw():
 
 func _draw_rect(rect_color: Color = color):
 	draw_rect(_relative_rect(), rect_color, false, 4.0)
+
+func _notification(what):
+	if Engine.editor_hint:
+		match what:
+			35: # NOTIFICATION_LOCAL_TRANSFORM_CHANGED = 35
+				_update_z_index()
 
 func _update_z_index():
 	# TODO extract this logic

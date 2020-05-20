@@ -76,7 +76,7 @@ func has_routine(headers: Array) -> bool:
 	# unreachable
 	return false
 
-func get_routine(headers: Array):
+func get_routine(headers: Array) -> Resource:
 	if levels < 0:
 		print("Bad configuration")
 		return null

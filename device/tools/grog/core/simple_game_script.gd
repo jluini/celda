@@ -47,5 +47,5 @@ func _prepare(compiler) -> Dictionary:
 func _has_routine(headers: Array) -> bool:
 	return _compiled_script.has_routine(headers)
 
-func _get_routine(headers: Array):
+func _get_routine(headers: Array) -> Resource:
 	return _compiled_script.get_routine(headers)

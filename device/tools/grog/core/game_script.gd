@@ -37,7 +37,7 @@ func has_routine(headers: Array) -> bool:
 	
 	return _has_routine(headers)
 
-func get_routine(headers: Array):
+func get_routine(headers: Array) -> Resource:
 	if not is_valid():
 		print("Not valid")
 		return null
@@ -50,7 +50,7 @@ func get_sequence_with_parameter(_headers: Array, _param):
 
 # abstract methods
 
-func _get_routine(_headers: Array):
+func _get_routine(_headers: Array) -> Resource:
 	print("Override _get_routine")
 	return null
 	

@@ -9,14 +9,14 @@ enum GameState {
 	Prepared,
 	Playing
 }
-var _game_state = GameState.NotInitialized
+var _game_state : int = GameState.NotInitialized
 
 enum InteractionState {
 	None,
 	Ready,
 	Running
 }
-var _interaction_state = InteractionState.None
+var _interaction_state : int = InteractionState.None
 
 var _server # grog server node
 var _game_script # GameScript resource
@@ -29,7 +29,7 @@ var _is_paused: bool = false
 # Running routines
 
 var _current_routine_headers: Array
-var _current_routine = null
+var _current_routine: Resource = null
 var _current_pointers: Array = []
 var _skip_enabled: bool = false
 
@@ -57,6 +57,21 @@ var loaded_scene_items = {}
 var _walking_time: float # seconds
 var _walking_path: PoolVector2Array
 var _walking_subject: Node2D
+
+enum WalkingReason {
+	# not walking
+	None,
+	
+	# walking by script indication (auto-walk)
+	Automatic,
+	
+	# walking by client go-to request (standard-walk)
+	GoingToPosition,
+	
+	# walking by client interact request (pre-walk)
+	GoingToItem
+}
+var _walking_reason : int = WalkingReason.None
 
 # constants
 
@@ -137,6 +152,11 @@ func _process(delta: float) -> void:
 	# if _process is called the player is walking, either in response to a client
 	# request ("client walk") or by a routine statement ("auto walk")
 	
+	if _walking_reason == WalkingReason.None:
+		_log_error("shouldn't be processing if not walking")
+		set_process(false)
+		return
+	
 	_walking_time += delta
 	
 	assert(_walking_path.size() >= 2)
@@ -168,38 +188,32 @@ func _process(delta: float) -> void:
 			set_process(false)
 			_walking_subject.stop()
 			
-			if _interaction_state == InteractionState.Ready:
-				# client walk
-				pass
+			match _walking_reason:
+				WalkingReason.Automatic:
+					if _interaction_state != InteractionState.Running:
+						_log_error("unexpected interaction state '%s' when automatic walk is over" % _interaction_state_str())
+						
+					call_deferred("_advance")
+				
+				WalkingReason.GoingToPosition:
+					pass
+				
+				WalkingReason.GoingToItem:
+					_run_routine()
+				
+				_:
+					assert(false)
 			
-			else:
-				# auto walk
-				call_deferred("_advance")
+			_walking_reason = WalkingReason.None
 			
 	else:
 		_walking_subject.teleport(target_point)
 
 # running
 
-func _run_routine(routine_headers: Array) -> bool:
-	if not _validate_game_state("_run_routine", GameState.Playing):
-		return false
-	if not _validate_interaction_state("_run_routine", InteractionState.Ready):
-		return false
-	
-	var routine = _get_routine(routine_headers)
-
-	if not routine:
-		return false
-	
+func _run_routine() -> void:
 	_interaction_state = InteractionState.Running
-	_current_routine_headers = routine_headers
-	_current_routine = routine
-	_current_pointers = [-1]
-	
 	call_deferred("_advance")
-	
-	return true
 
 # runs until...
 #    - routine is over (returning false)
@@ -541,7 +555,7 @@ func _command_walk(item_id: String, target_node_name: String) -> Dictionary:
 	if not positioning.valid:
 		return _instant_termination
 	
-	if not _start_walking(player, positioning.target_position):
+	if not _start_walking(player, positioning.target_position, WalkingReason.Automatic):
 		return _instant_termination
 	
 	return { termination = "custom" }
@@ -664,7 +678,7 @@ func _teleport(item: Node, positioning: Dictionary) -> void:
 		item.set_angle(positioning.target_angle)
 
 # used for command 'walk' and for client requests (go_to/interact)
-func _start_walking(subject: Node2D, original_target_position: Vector2) -> bool:
+func _start_walking(subject: Node2D, original_target_position: Vector2, reason: int) -> bool:
 	var nav : Navigation2D = current_room.get_navigation()
 	
 	if not nav:
@@ -679,12 +693,18 @@ func _start_walking(subject: Node2D, original_target_position: Vector2) -> bool:
 	var path: PoolVector2Array = nav.get_simple_path(origin_position, target_position)
 	
 	if path.size() < 2:
-		_log_warning("path is too short (length = %s)" % path.size())
+		_log_error("path is too short (length = %s)" % path.size())
+		return false
+	
+	if reason == WalkingReason.None:
+		_log_error("not a good reason to walk")
 		return false
 	
 	_walking_time = 0.0
 	_walking_path = path
 	_walking_subject = subject
+	_walking_reason = reason
+	
 	set_process(true)
 	
 	return true
@@ -746,9 +766,13 @@ func start_game_request(room_parent: Node) -> bool:
 		
 		_interaction_state = InteractionState.Ready
 		
-		if not _run_routine(["main", "init"]):
-			_log_error("can't run initial routine")
+		var initial_routine_found: bool = _fetch_routine(["main", "init"])
+		
+		if not initial_routine_found:
+			_game_error("initial routine not found")
 			return false
+		
+		_run_routine()
 	
 	# this doesn't do anything yet
 	_game_event("game_started", [current_player])
@@ -782,10 +806,10 @@ func go_to_request(target_position: Vector2) -> bool:
 		return false
 	
 	if not current_player:
-		_log_warning("go_to: no player")
+		_log_warning("go_to_request: no player")
 		return false
 	
-	if not _start_walking(current_player, target_position):
+	if not _start_walking(current_player, target_position, WalkingReason.GoingToPosition):
 		return false
 	
 	return true
@@ -812,9 +836,24 @@ func interact_request(item, trigger_name: String = "") -> bool:
 		
 		trigger_name = _game_script.default_action
 	
-	var routine_exists : bool = _run_routine([item_key, trigger_name])
+	var routine_found: bool = _fetch_routine([item_key, trigger_name])
 	
-	return routine_exists
+	if not routine_found:
+		return false
+	
+	if _current_routine.is_telekinetic():
+		_run_routine()
+	else:
+		if not current_player:
+			_log_warning("interact_request: no player and routine is not telekinetic")
+			return false
+		
+		var target_position : Vector2 = item.get_interact_position()
+		
+		if not _start_walking(current_player, target_position, WalkingReason.GoingToItem):
+			return false
+		
+	return true
 
 func pause_request() -> bool:
 	return _set_pausing(true)
@@ -939,7 +978,6 @@ func _read_saved_game(saved_game: Resource) -> Dictionary:
 		new_symbol.disabled = scene_item.disabled
 		new_symbol.animation = scene_item.state
 	
-	#var current_room_name: String = saved_game.current_room
 	_current_room_name = saved_game.current_room
 	_saved_player_position = saved_game.player_position
 	# TODO player orientation aswell
@@ -950,13 +988,12 @@ func _read_saved_game(saved_game: Resource) -> Dictionary:
 		_interaction_state = InteractionState.Running
 		
 		var routine_headers = saved_game.routine_headers
-		var routine = _get_routine(routine_headers)
+		var routine_found: bool = _fetch_routine(routine_headers)
 		
-		if not routine:
+		if not routine_found:
 			return { valid = false, message = "couldn't find saved routine '%s'" % str(routine_headers) }
 		
-		_current_routine_headers = routine_headers
-		_current_routine = routine
+		# override pointers
 		_current_pointers = saved_game.routine_stack
 		
 		# TODO fix this
@@ -979,12 +1016,23 @@ func _game_event(event_name: String, args: Array = []):
 	#_log_debug("SERVER EVENT '%s'" % event_name)
 	emit_signal("game_event", event_name, args)
 
-func _get_routine(headers: Array):
+# searchs for the routine and caches it if found
+func _fetch_routine(headers: Array) -> bool:
+	if not _validate_game_state("_fetch_routine", GameState.Playing):
+		return false
+	if not _validate_interaction_state("_fetch_routine", InteractionState.Ready):
+		return false
+	
 	if _game_script.has_routine(headers):
-		return _game_script.get_routine(headers)
+		_current_routine_headers = headers
+		_current_routine = _game_script.get_routine(headers)
+		_current_pointers = [-1]
+		
+		return true
 	else:
-		_log_error("routine '%s' not found" % str(headers))
-		return null
+		_log_warning("routine '%s' not found" % str(headers))
+		
+		return false
 
 func _get_room_resource(room_name: String):
 	var room_dictionary : Dictionary = _game_script.get_rooms()
@@ -1008,25 +1056,25 @@ func _validate_interaction_state(func_name: String, _expected_state) -> bool:
 	
 	return valid_state
 
+func _state_str() -> String:
+	var keys: Array = GameState.keys()
+	if _game_state < 0 or _game_state >= keys.size():
+		return "???"
+	
+	return keys[_game_state]
+
+func _interaction_state_str() -> String:
+	var keys: Array = InteractionState.keys()
+	if _interaction_state < 0 or _interaction_state >= keys.size():
+		return "???"
+	
+	return keys[_interaction_state]
+
 # Static utils
 
 static func _task_str(task: Dictionary):
 	var cmd: String = task.command
 	return "[%s]" % cmd.to_upper()
-
-static func _state_str(game_state: int) -> String:
-	var keys: Array = GameState.keys()
-	if game_state < 0 or game_state >= keys.size():
-		return "???"
-	
-	return keys[game_state]
-
-static func _interaction_state_str(interaction_state: int) -> String:
-	var keys: Array = InteractionState.keys()
-	if interaction_state < 0 or interaction_state >= keys.size():
-		return "???"
-	
-	return keys[interaction_state]
 
 # Returns angle in degrees between 0 and 360
 static func _get_degrees(direction: Vector2) -> float:
@@ -1043,9 +1091,9 @@ static func _get_degrees(direction: Vector2) -> float:
 # Local logging shortcuts
 
 func _log_invalid_game_state(func_name: String):
-	_log_error("can't call '%s' while game state is %s" % [func_name, _state_str(_game_state)])
+	_log_error("can't call '%s' while game state is %s" % [func_name, _state_str()])
 func _log_invalid_interaction_state(func_name: String):
-	_log_error("can't call '%s' while interaction state is %s" % [func_name, _interaction_state_str(_interaction_state)])
+	_log_error("can't call '%s' while interaction state is %s" % [func_name, _interaction_state_str()])
 
 func _log_debug(message: String, level = 0):
 	_server._log_debug(message, "game", level)
