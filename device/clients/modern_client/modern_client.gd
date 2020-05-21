@@ -114,8 +114,10 @@ func _on_server_room_loaded(_room):
 func _on_item_enabled(_item):
 	pass
 
-func _on_item_disabled(_item):
-	pass
+func _on_item_disabled(item):
+	if item == _selected_item:
+		print("unloading selected item '%s'!!" % item.get_key())
+	
 
 func _on_server_say(subject: Node, speech: String, _duration: float, _skippable: bool):
 	var color = subject.get_color() if subject else game_instance.get_default_color()

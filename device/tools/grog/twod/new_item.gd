@@ -41,6 +41,12 @@ func get_rect() -> Rect2:
 	ret.position += position
 	return ret
 
+func enable() -> void:
+	set_visible(true)
+
+func disable() -> void:
+	set_visible(false)
+
 func _relative_rect() -> Rect2:
 	return Rect2(offset - size / 2, size)
 

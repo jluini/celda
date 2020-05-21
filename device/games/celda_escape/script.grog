@@ -60,10 +60,10 @@ cage/poster:
 	look:
 		you.say LOOK_POSTER
 	
-#	use:
-#		.load_room office
-#		.set music=office
-#		.curtain_up
+	use:
+		.load_room office
+		.set music=office
+		.curtain_up
 
 cage/toilet:
 	look:
@@ -79,3 +79,11 @@ cage/door:
 			.set door_seen = true
 		else:
 			you.say LOOK_DOOR2
+
+office/to_cage:
+	look:
+		you.say LOOK_HOLE_FROM_OFFICE
+	use:
+		.load_room cage
+		.set music=sufre
+		.curtain_up

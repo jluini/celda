@@ -71,6 +71,7 @@ enum WalkingReason {
 	# walking by client interact request (pre-walk)
 	GoingToItem
 }
+
 var _walking_reason : int = WalkingReason.None
 
 # constants
@@ -124,9 +125,9 @@ func release():
 		
 		if current_player.is_inside_tree():
 			if not current_room:
-				_log_warning("player is in scene but no room")
+				_log_warning("player is in tree but no room")
 			elif current_room != current_player.get_parent():
-				_log_warning("player is in scene but outside current room")
+				_log_warning("player is in tree but outside current room")
 				
 			current_player.get_parent().remove_child(current_player)
 		else:
@@ -390,22 +391,24 @@ func _command_load_room(room_name: String) -> Dictionary:
 	
 	if not room:
 		_log_error("couldn't load room '%s'" % room_name)
+		
+		# TODO should end whole routine instead of passing to next statement?
 		return _instant_termination
 	
 	var theres_and_old_room = current_room != null
 	
 	if theres_and_old_room:
-		assert(false)
-		# TODO implement
-		# lower the curtain and load room afterwards
+		# TODO lower the curtain
 		
-		return _instant_termination
-	
-	# detaches player from previous room
-	if current_room and current_player:
-		current_room.remove_child(current_player)
-	
-	if current_room:
+		# TODO duplicated code in release
+		# detaches player from previous room
+		if current_player and current_player.is_inside_tree():
+			if current_room != current_player.get_parent():
+				_log_warning("player is in tree but outside current room (loading room '%s')" % room_name)
+			
+			current_player.get_parent().remove_child(current_player)
+		
+		# unload loaded items
 		for item_key in loaded_scene_items:
 			var item_symbol = symbols.get_symbol(item_key)
 			
@@ -413,12 +416,8 @@ func _command_load_room(room_name: String) -> Dictionary:
 			assert(item_symbol.loaded)
 			
 			if not item_symbol.disabled:
-				# then it's loaded in the client, so tell him to disable it
+				# then is loaded, so tell the client to disable it
 				_game_event("item_disabled", [item_symbol.target])
-				
-				# TODO care: this implies 'item_disabled' has a different
-				# meaning in the client and the server
-				# we are actually unloading it
 			
 			item_symbol.loaded = false
 		
@@ -432,8 +431,10 @@ func _command_load_room(room_name: String) -> Dictionary:
 	current_room = room
 	
 	if current_player:
+		# TODO adding player to room always
 		room.add_child(current_player)
-		# TODO check this
+		# TODO ability to use another starting position
+		# TODO set orientation aswell
 		current_player.teleport(room.get_default_player_position())
 	else:
 		_log_warning("playing with no player")
@@ -460,9 +461,6 @@ func _command_load_room(room_name: String) -> Dictionary:
 		
 		item_symbol.target = item
 		
-		# TODO any item initialization required?
-		#item_symbol.target.init_item(environment.compiler)
-		
 		assert(not item_symbol.loaded)
 		item_symbol.loaded = true
 		loaded_scene_items[item_key] = item
@@ -470,6 +468,7 @@ func _command_load_room(room_name: String) -> Dictionary:
 		if item_symbol.disabled:
 			item.disable()
 		else:
+			# TODO improve animation/enabledness logic
 			if item.has_node("animation"):
 				item.get_node("animation").play(item_symbol.animation)
 			_game_event("item_enabled", [item])
