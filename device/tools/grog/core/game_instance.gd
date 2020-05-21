@@ -79,7 +79,7 @@ const _instant_termination = { termination = "instant" }
 
 ###
 
-func init_game(server, game_script, saved_game: Resource) -> Dictionary:
+func init_game(server, game_script: Resource, saved_game: Resource, initial_stage: int) -> Dictionary:
 	if not _validate_game_state("init_game", GameState.NotInitialized):
 		return { valid = false, message = "invalid state" }
 	
@@ -100,8 +100,12 @@ func init_game(server, game_script, saved_game: Resource) -> Dictionary:
 		if not read_result.valid:
 			return read_result
 		
+		if initial_stage:
+			_log_warning("ignoring initial_stage '%s' because it's a saved game" % initial_stage)
+		
 	else:
 		_starting_from_saved_game = false
+		symbols.add_symbol("stage", "global_variable", initial_stage)
 	
 	_game_state = GameState.Prepared
 	
@@ -379,10 +383,6 @@ func _command_load_room(room_name: String) -> Dictionary:
 		_game_error("no room '%s'" % room_name)
 		return _instant_termination
 	
-	#if not room_resource.get_target():
-	#	print("No target scene in room resource '%s'" % room_name)
-	#	return _instant_termination
-	
 	var room = room_resource.instance()
 	
 	# make room pausable
@@ -488,7 +488,7 @@ func _command_curtain_up():
 func _command_set(var_name: String, new_value_expression) -> Dictionary:
 	var new_value = new_value_expression.evaluate(self)
 	
-	_log_debug("setting global '%s' to '%s' (type %s, class %s)" % [var_name, new_value, Grog._typestr(new_value), new_value.get_class() if typeof(new_value) == TYPE_OBJECT else "-"])
+	#_log_debug("setting global '%s' to '%s' (type %s, class %s)" % [var_name, new_value, Grog._typestr(new_value), new_value.get_class() if typeof(new_value) == TYPE_OBJECT else "-"])
 	
 	var symbol = symbols.get_symbol_of_types(var_name, ["global_variable"], false)
 	

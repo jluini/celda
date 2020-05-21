@@ -11,15 +11,20 @@ export (String) var default_action
 
 export (Color) var default_color = Color.whitesmoke
 
+export (Array, String) var stages = ["default"]
+
 var _valid = false
 
-func get_short_name():
+func get_short_name() -> String:
 	return get_name() # it returns the Resource name
 
-func get_rooms():
+func get_rooms() -> Dictionary:
 	return rooms
 
-func is_valid():
+func get_stages() -> Array:
+	return stages
+
+func is_valid() -> bool:
 	return _valid
 
 func prepare(compiler) -> Dictionary:

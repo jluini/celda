@@ -12,6 +12,9 @@ var _compiled_game = null
 
 var game_instance: Node = null
 
+var _start_list_button_group = ButtonGroup.new()
+var _initial_stage := 0
+
 func _get_module_name():
 	return "grog-server"
 
@@ -27,6 +30,29 @@ func _on_initialize() -> Dictionary:
 	if not res.valid:
 		# invalid game
 		return res
+	
+	var stages : Array = game_script.get_stages()
+	
+	if stages.size() == 0:
+		_log_error("there's no stages in script")
+	
+	for s in range(stages.size()):
+		var stage_name: String = stages[s]
+		
+		var stage_button := Button.new()
+		
+		stage_button.text = str(s) + ": " + stage_name
+		
+		stage_button.toggle_mode = true
+		stage_button.group = _start_list_button_group
+		
+		if s == 0:
+			stage_button.pressed = true
+		
+		# warning-ignore:return_value_discarded
+		stage_button.connect("pressed", self, "_on_stage_button_pressed", [s, stage_name])
+		
+		$control3/start_list.add_child(stage_button)
 	
 	var _save_folder_result: Dictionary = _get_or_create_save_folder()
 	
@@ -71,7 +97,7 @@ func new_game_from(filename: String) -> Dictionary:
 		if saved_game == null:
 			_log_warning("couldn't read saved game '%s', playing from start" % filename)
 	
-	var init_game_result: Dictionary = game_instance.init_game(self, game_script, saved_game)
+	var init_game_result: Dictionary = game_instance.init_game(self, game_script, saved_game, _initial_stage)
 	
 	if not init_game_result.valid:
 		_log_debug("deleting game instance")
@@ -223,3 +249,5 @@ func _on_save_button_pressed():
 	else:
 		_log_error("couldn't save")
 
+func _on_stage_button_pressed(stage_index: int, _stage_name: String):
+	_initial_stage = stage_index

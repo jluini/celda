@@ -1,30 +1,36 @@
 main:
 	init:
-		
-		.set door_seen=false
-		.set poster_was_taken=false
-		
 		# cage setup
 		.set door_seen=false
 		.set poster_was_taken=false
 		#cage/exit.disable
 		
-		# office setup
-		.set bust_turn = false
 		
-		.load_room cage
-		.set music=sufre
-		.curtain_up
-		you.teleport to=pos1
 		
-		.say ONCE_UPON_A_TIME
-		
-		you.walk to=pos2
-		#you.walk to=pos1
-		#you.walk to=pos2
-		
-		.say ONCE_UPON_A_TIME
-		
+		if $stage < 2:
+			.load_room cage
+			.set music=sufre
+			.curtain_up
+			
+			if $stage = 0:
+				
+				# ... intro goes here
+				
+		else:
+			
+			.set poster_was_taken = true
+			#inv_poster.add
+			#cage/poster.disable
+			#cage/exit.enable
+			
+			
+			# office stage
+			if $stage = 2:
+				.load_room office
+				.set music=office
+				.curtain_up
+			
+			# ...
 
 cage/poster:
 	look:
