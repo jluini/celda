@@ -1,8 +1,12 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/living/images/background.jpg" type="Texture" id=2]
+[ext_resource path="res://games/celda_escape/rooms/living/images/cabezas.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
+[ext_resource path="res://games/celda_escape/rooms/living/images/front.png" type="Texture" id=5]
+[ext_resource path="res://games/celda_escape/rooms/living/images/oso.png" type="Texture" id=6]
+[ext_resource path="res://games/celda_escape/rooms/living/images/cuadro.png" type="Texture" id=7]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1894.34, 1054.07, 1224.86, 736.069, 1216.49, 685.858, 1601.45, 671.911, 1769.57, 873.404, 33.7435, 1059.65, 44.9015, 825.334, 231.798, 825.334, 382.432, 741.648, 1885.97, 875.545, 1710.24, 775.122 )
@@ -16,6 +20,23 @@ script = ExtResource( 4 )
 
 [node name="background" type="Sprite" parent="sprites"]
 texture = ExtResource( 2 )
+centered = false
+
+[node name="cabezas" type="Sprite" parent="sprites"]
+texture = ExtResource( 3 )
+centered = false
+
+[node name="oso" type="Sprite" parent="sprites"]
+texture = ExtResource( 6 )
+centered = false
+
+[node name="cuadro" type="Sprite" parent="sprites"]
+texture = ExtResource( 7 )
+centered = false
+
+[node name="front" type="Sprite" parent="sprites"]
+z_index = 4096
+texture = ExtResource( 5 )
 centered = false
 
 [node name="positions" type="Node" parent="."]
@@ -33,6 +54,10 @@ position = Vector2( 782.806, 290.263 )
 z_index = 290
 script = ExtResource( 1 )
 key = "room/item1"
+size = Vector2( 100, 100 )
+offset = Vector2( 0, 0 )
+interaction_angle = 90
+color = Color( 1, 1, 1, 1 )
 
 [node name="interact_position" type="Position2D" parent="items/item_1"]
 position = Vector2( 71.5508, 82.1509 )
@@ -42,6 +67,10 @@ position = Vector2( 1701.27, 451.158 )
 z_index = 451
 script = ExtResource( 1 )
 key = "room/item2"
+size = Vector2( 100, 100 )
+offset = Vector2( 0, 0 )
+interaction_angle = 90
+color = Color( 1, 1, 1, 1 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 
