@@ -186,14 +186,11 @@ func _on_ui_click(position: Vector2):
 		assert(game_instance)
 		
 		if game_instance.is_ready():
-			var clicked_action : String = _action_list.get_item_action_at(position)
+			var clicked_action : String = _action_list.get_item_action_at(position) if _selected_item else ""
 			
 			if clicked_action:
-				if _selected_item:
-					if not game_instance.interact_request(_selected_item, clicked_action):
-						_log_warning("interaction ignored")
-				else:
-					_log_warning("clicking action '%s' but there's no selected item" % clicked_action)
+				if not game_instance.interact_request(_selected_item, clicked_action):
+					_log_warning("interaction ignored")
 				
 				_select_item(null)
 				
