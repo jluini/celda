@@ -1,18 +1,20 @@
-[gd_resource type="Resource" load_steps=5 format=2]
+[gd_resource type="Resource" load_steps=6 format=2]
 
 [ext_resource path="res://tools/grog/core/simple_game_script.gd" type="Script" id=1]
 [ext_resource path="res://games/demo_game/actors/guybrush/guybrush.tscn" type="PackedScene" id=2]
 [ext_resource path="res://games/celda_escape/rooms/cage/cage.tscn" type="PackedScene" id=3]
 [ext_resource path="res://games/celda_escape/rooms/office/office.tscn" type="PackedScene" id=4]
+[ext_resource path="res://games/celda_escape/rooms/living/living.tscn" type="PackedScene" id=5]
 
 [resource]
 script = ExtResource( 1 )
 rooms = {
 "cage": ExtResource( 3 ),
+"living": ExtResource( 5 ),
 "office": ExtResource( 4 )
 }
 player = ExtResource( 2 )
 default_action = "walk_to"
 default_color = Color( 0.96, 0.96, 0.96, 1 )
-stages = [ "default", "cage", "office" ]
+stages = [ "default", "cage", "office", "living" ]
 script_path = "res://games/celda_escape/mock_script.grog"

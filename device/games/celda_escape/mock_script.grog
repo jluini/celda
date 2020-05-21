@@ -30,6 +30,12 @@ main:
 				.set music=office
 				.curtain_up
 			
+			# living stage
+			elif $stage = 3:
+				.load_room living
+				.set music=office
+				.curtain_up
+			
 			# ...
 
 cage/poster:
