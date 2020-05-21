@@ -4,9 +4,10 @@ class_name GameScript
 
 export (Dictionary) var rooms
 
-export (Resource) var player
+export (PackedScene) var player
 
-export (Resource) var inventory_items_scene
+export (PackedScene) var inventory_items_scene
+
 export (String) var default_action
 
 export (Color) var default_color = Color.whitesmoke
@@ -16,7 +17,7 @@ export (Array, String) var stages = ["default"]
 var _valid = false
 
 func get_short_name() -> String:
-	return get_name() # it returns the Resource name
+	return get_name() # it returns the 'resource_name' property from Resource
 
 func get_rooms() -> Dictionary:
 	return rooms

@@ -94,6 +94,20 @@ func init_game(server, game_script: Resource, saved_game: Resource, initial_stag
 	current_player = player_resource.instance()
 	symbols.add_symbol("you", "player", current_player)
 	
+	var ii_scene: Node = game_script.inventory_items_scene.instance()
+	
+	for ii_model in ii_scene.get_children():
+		var key: String = ii_model.get_key()
+		
+		if symbols.has_symbol(key):
+			_game_error("duplicated inventory item id '%s'" % key)
+			continue
+		
+		var new_symbol = symbols.add_symbol(key, "inventory_item", ii_model)
+		new_symbol.amount = 0
+		new_symbol.last_instance_number = 0
+		#new_symbol.instances = []
+		
 	if saved_game != null:
 		_starting_from_saved_game = true
 		var read_result = _read_saved_game(saved_game)
@@ -174,7 +188,7 @@ func get_value(var_name: String):
 #			else:
 #				return symbol.animation
 		_:
-			print("Trying to dereference symbol '%s' of type '%s'" % [var_name, symbol.type])
+			_game_warning("trying to dereference symbol '%s' of type '%s'" % [var_name, symbol.type])
 			return false
 
 func _ready():
@@ -555,6 +569,33 @@ func _command_enable(item_key: String) -> Dictionary:
 
 func _command_disable(item_key: String) -> Dictionary:
 	return _change_enabledness(item_key, false)
+
+func _command_add(inv_key: String) -> Dictionary:
+	var item_symbol = symbols.get_symbol_of_types(inv_key, ["inventory_item"], true)
+	
+	if not item_symbol.type:
+		_game_error("no inventory_item '%s'" % inv_key)
+		return _instant_termination
+	
+	item_symbol.amount += 1
+	
+	var new_instance_number: int = item_symbol.last_instance_number + 1
+	item_symbol.last_instance_number = new_instance_number
+	var new_symbol_id: String = inv_key + "." + str(new_instance_number)
+	
+	var model: Node = item_symbol.target
+	
+	var new_instance := InventoryItemInstance.new(model, new_instance_number)
+	
+	assert(new_symbol_id == new_instance.get_id())
+	
+	# TODO actually another item could collide with this name
+	
+	symbols.add_symbol(new_symbol_id, "inventory_item_instance", new_instance)
+	
+	_game_event("item_added", [new_instance])
+	
+	return _instant_termination
 
 func _command_teleport(item_id: String, target_node_name: String, opts: Dictionary) -> Dictionary:
 	var player = _get_player(item_id)

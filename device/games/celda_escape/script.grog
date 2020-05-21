@@ -60,6 +60,12 @@ cage/poster:
 	look:
 		you.say LOOK_POSTER
 	
+	pick_up:
+		
+		cage/poster.disable
+		inv_poster.add
+		
+	
 	use:
 		.load_room office
 		.set music=office

@@ -127,7 +127,6 @@ __meta__ = {
 }
 end_position = Vector2( 0, 180 )
 delay = 1.5
-initially_at_start = false
 
 [node name="inventory" type="HBoxContainer" parent="ui/inventory_base"]
 anchor_right = 1.0
@@ -141,8 +140,8 @@ __meta__ = {
 item_scene = ExtResource( 15 )
 
 [node name="left" type="Control" parent="ui/inventory_base/inventory"]
-margin_left = 704.0
-margin_right = 804.0
+margin_left = 858.0
+margin_right = 958.0
 margin_bottom = 1080.0
 rect_min_size = Vector2( 100, 0 )
 mouse_filter = 2
@@ -165,23 +164,9 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="item_container" parent="ui/inventory_base/inventory" instance=ExtResource( 15 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 808.0
-margin_right = 958.0
-margin_bottom = 1080.0
-
-[node name="item_container2" parent="ui/inventory_base/inventory" instance=ExtResource( 15 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_left = 962.0
-margin_right = 1112.0
-margin_bottom = 1080.0
-
 [node name="right" type="Control" parent="ui/inventory_base/inventory"]
-margin_left = 1116.0
-margin_right = 1216.0
+margin_left = 962.0
+margin_right = 1062.0
 margin_bottom = 1080.0
 rect_min_size = Vector2( 100, 0 )
 mouse_filter = 2

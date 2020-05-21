@@ -39,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://tools/grog/lang/identifier_expression.gd"
 }, {
+"base": "Reference",
+"class": "InventoryItemInstance",
+"language": "GDScript",
+"path": "res://tools/grog/twod/inventory_item_instance.gd"
+}, {
 "base": "Resource",
 "class": "InventoryItemResource",
 "language": "GDScript",
@@ -111,6 +116,7 @@ _global_script_class_icons={
 "GameScript": "",
 "Grog": "",
 "IdentifierExpression": "",
+"InventoryItemInstance": "",
 "InventoryItemResource": "",
 "InverseNumberExpression": "",
 "LoopinStreamPlayer": "",

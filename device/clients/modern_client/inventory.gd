@@ -2,19 +2,11 @@ extends Node
 
 export (PackedScene) var item_scene
 
-func add_item(item: Node):
-	var texture = item.texture
-	var modulate = item.modulate
-	
+func add_item(item_model: Object):
 	var new_item_view = item_scene.instance()
 	
-	new_item_view.model = item
-	
-	var image = new_item_view.get_node("item_box/image")
-	
-	image.texture = texture
-	# TODO test this with masks
-	image.modulate = modulate
+	# TODO what is this for?
+	new_item_view.set_model(item_model)
 	
 	var count = get_child_count()
 	if count <= 1:

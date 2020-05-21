@@ -125,10 +125,10 @@ func _on_server_say(subject: Node, speech: String, _duration: float, _skippable:
 	_text.text = speech
 	_text.modulate = color
 
-func _on_server_item_added(item: Node):
+func _on_server_item_added(item: Object):
 	_inventory.add_item(item)
 
-func _on_server_item_removed(item: Node):
+func _on_server_item_removed(item: Object):
 	_inventory.remove_item(item)
 
 #	if _current_item == item:
@@ -265,8 +265,8 @@ func _on_ui_end_drag(_position: Vector2):
 		return
 
 	_menu_is_open = _side_menu.drop()
-	_inventory_base.drop()
-
+	#_inventory_base.drop()
+	
 	_drag_state = DragState.None
 
 func _get_inventory_item_at(position: Vector2):

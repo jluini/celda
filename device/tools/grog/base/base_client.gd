@@ -60,10 +60,10 @@ func _on_server_item_disabled(item):
 func _on_server_say(_subject: Node, _speech: String, _duration: float, _skippable: bool):
 	print("Override _on_server_say()")
 
-func _on_server_item_added(_item):
+func _on_server_item_added(_item: Object):
 	print("Override _on_server_item_added()")
 
-func _on_server_item_removed(_item: Node):
+func _on_server_item_removed(_item: Object):
 	print("Override _on_server_item_removed()")
 	
 func _on_server_curtain_up():
