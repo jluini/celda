@@ -1,108 +1,49 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://games/celda_escape/rooms/lab/images/background.jpg" type="Texture" id=1]
-[ext_resource path="res://tools/grog/twod/item2d.gd" type="Script" id=2]
-[ext_resource path="res://games/celda_escape/rooms/lab/images/gate.png" type="Texture" id=3]
+[ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=1]
+[ext_resource path="res://games/celda_escape/rooms/lab/images/background.jpg" type="Texture" id=2]
 [ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
-[ext_resource path="res://games/celda_escape/rooms/lab/images/Vidrio.png" type="Texture" id=5]
-[ext_resource path="res://games/celda_escape/rooms/lab/images/HombreFlotante.png" type="Texture" id=6]
-[ext_resource path="res://games/celda_escape/rooms/lab/floating_guy.gd" type="Script" id=7]
-[ext_resource path="res://games/celda_escape/rooms/lab/images/Camilla.png" type="Texture" id=8]
 
-[sub_resource type="Animation" id=1]
-resource_name = "default"
-length = 8.0
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 2
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0, 2, 4, 6 ),
-"transitions": PoolRealArray( 1, 1, 1, 1 ),
-"update": 0,
-"values": [ Vector2( 693.403, 350 ), Vector2( 693.403, 340 ), Vector2( 693.403, 350 ), Vector2( 693.403, 360 ) ]
-}
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( 1883.04, 1053.02, 172.878, 1049.34, 361.694, 830.317, 465.398, 729.364, 158.083, 827.906, 213.199, 717.673, 560.599, 627.483, 657.47, 645.855, 745.99, 637.504, 804.447, 607.44, 1553.58, 825.813, 806.117, 550.654, 1328.65, 548.619, 1814.87, 834.902, 1873.95, 898.52 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 2, 4, 5, 3 ), PoolIntArray( 0, 3, 6, 7 ), PoolIntArray( 0, 7, 8 ), PoolIntArray( 0, 8, 9, 10 ), PoolIntArray( 9, 11, 12, 10 ), PoolIntArray( 0, 10, 13, 14 ) ]
+outlines = [ PoolVector2Array( 1553.58, 825.813, 1328.65, 548.619, 806.117, 550.654, 804.447, 607.44, 745.99, 637.504, 657.47, 645.855, 560.599, 627.483, 465.398, 729.364, 213.199, 717.673, 158.083, 827.906, 361.694, 830.317, 172.878, 1049.34, 1883.04, 1053.02, 1873.95, 898.52, 1814.87, 834.902 ) ]
 
-[sub_resource type="NavigationPolygon" id=2]
-vertices = PoolVector2Array( 476.587, 678.06, 286.208, 674.684, 390.174, 567.343, 595.405, 570.719, 1639.11, 649.706, 1696.16, 712.084, 1693.4, 815.863, 1377.71, 746.127, 1447.38, 649.706, 1319.69, 626.773, 1258.92, 430.478, 855.995, 429.622, 871.282, 627.602, 852.619, 474.854, 797.936, 504.559, 346.504, 815.123, 830.668, 746.956, 663.979, 498.884 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7, 8 ), PoolIntArray( 8, 7, 9, 10 ), PoolIntArray( 11, 10, 9, 12, 13 ), PoolIntArray( 14, 13, 12 ), PoolIntArray( 7, 6, 15, 16 ), PoolIntArray( 12, 16, 15, 0, 3, 14 ), PoolIntArray( 14, 3, 17 ) ]
-outlines = [ PoolVector2Array( 1693.4, 815.863, 1696.16, 712.084, 1639.11, 649.706, 1447.38, 649.706, 1258.92, 430.478, 855.995, 429.622, 852.619, 474.854, 797.936, 504.559, 663.979, 498.884, 595.405, 570.719, 390.174, 567.343, 286.208, 674.684, 476.587, 678.06, 346.504, 815.123 ), PoolVector2Array( 871.282, 627.602, 830.668, 746.956, 1377.71, 746.127, 1319.69, 626.773 ) ]
-
-[node name="lab" type="Node2D"]
+[node name="room" type="Node"]
 script = ExtResource( 4 )
-default_player_position_path = NodePath("default_player_position")
-navigation_path = NodePath("Navigation2D")
 
-[node name="background" type="Node2D" parent="."]
+[node name="sprites" type="Node" parent="."]
 
-[node name="gate" type="Sprite" parent="background"]
-z_index = -219
-texture = ExtResource( 3 )
+[node name="background" type="Sprite" parent="sprites"]
+texture = ExtResource( 2 )
 centered = false
 
-[node name="background" type="Sprite" parent="background"]
-z_index = -4096
-texture = ExtResource( 1 )
-centered = false
+[node name="positions" type="Node" parent="."]
 
-[node name="glass" type="Sprite" parent="background"]
-position = Vector2( 682, 355.884 )
-z_index = -3900
-texture = ExtResource( 5 )
+[node name="default" type="Position2D" parent="positions"]
+position = Vector2( 345.988, 776.532 )
 
-[node name="guy" type="Sprite" parent="background"]
-position = Vector2( 693.403, 354.743 )
-z_index = -4000
-texture = ExtResource( 6 )
+[node name="test" type="Position2D" parent="positions"]
+position = Vector2( 112.236, 906.897 )
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="background/guy"]
-anims/default = SubResource( 1 )
-script = ExtResource( 7 )
+[node name="items" type="Node" parent="."]
 
-[node name="Navigation2D" type="Navigation2D" parent="."]
-visible = false
+[node name="item_1" type="Node2D" parent="items"]
+position = Vector2( 715.858, 850.953 )
+z_index = 850
+script = ExtResource( 1 )
+key = "room/item1"
 
-[node name="NavigationPolygonInstance" type="NavigationPolygonInstance" parent="Navigation2D"]
-position = Vector2( -270, 0 )
-scale = Vector2( 1.27, 1.27 )
-navpoly = SubResource( 2 )
+[node name="interact_position" type="Position2D" parent="items/item_1"]
+position = Vector2( 71.5508, 82.1509 )
 
-[node name="default_player_position" type="Position2D" parent="."]
-position = Vector2( 354.311, 804.008 )
+[node name="item_2" type="Node2D" parent="items"]
+position = Vector2( 1313.53, 774.741 )
+z_index = 774
+script = ExtResource( 1 )
+key = "room/item2"
 
-[node name="test_position" type="Position2D" parent="."]
-position = Vector2( 1445.92, 864.58 )
+[node name="navigation" type="Navigation2D" parent="."]
 
-[node name="items" type="Node2D" parent="."]
-
-[node name="exit" type="Node2D" parent="items"]
-position = Vector2( 180.308, 707.462 )
-script = ExtResource( 2 )
-item_key = "lab/exit"
-instance_number = 0
-color = Color( 0, 0, 0, 1 )
-interact_angle = 180
-walk_speed = 0.0
-radius = 150.0
-offset = Vector2( 0, 0 )
-
-[node name="stretcher" type="Node2D" parent="items"]
-position = Vector2( 1121, 771 )
-z_index = -215
-script = ExtResource( 2 )
-item_key = "lab/stretcher"
-instance_number = 0
-color = Color( 0, 0, 0, 1 )
-interact_angle = 45
-walk_speed = 0.0
-radius = 200.0
-offset = Vector2( 0, 0 )
-
-[node name="Sprite" type="Sprite" parent="items/stretcher"]
-texture = ExtResource( 8 )
-
-[node name="interact_position" type="Position2D" parent="items/stretcher"]
-position = Vector2( -124.582, 4.29596 )
+[node name="polygon" type="NavigationPolygonInstance" parent="navigation"]
+navpoly = SubResource( 1 )

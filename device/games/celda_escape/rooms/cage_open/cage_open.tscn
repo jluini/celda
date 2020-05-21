@@ -1,0 +1,112 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=1]
+[ext_resource path="res://games/celda_escape/rooms/cage/images/bed.png" type="Texture" id=2]
+[ext_resource path="res://games/celda_escape/rooms/cage/images/gate.png" type="Texture" id=3]
+[ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
+[ext_resource path="res://games/celda_escape/rooms/cage/images/grid_open.png" type="Texture" id=5]
+[ext_resource path="res://games/celda_escape/rooms/cage/images/poster.png" type="Texture" id=9]
+[ext_resource path="res://games/celda_escape/rooms/cage/images/background.jpg" type="Texture" id=11]
+[ext_resource path="res://games/celda_escape/rooms/cage/images/toilet.png" type="Texture" id=12]
+
+[sub_resource type="NavigationPolygon" id=1]
+vertices = PoolVector2Array( 670.651, 625.289, 785.887, 712.824, 695.027, 712.824, -808.246, 691.927, -939.384, 684.391, -903.208, 613.546, -663.542, 633.141, 867.881, 782.631, 909.987, 820.304, 912.203, 898.975, 306.105, 895.651, 722.728, 781.523, 680.623, 746.065, 345.995, 621.965, -980.082, 892.402, -980.082, 874.314, -600.43, 570.825, 288.377, 575.427 )
+polygons = [ PoolIntArray( 0, 1, 2 ), PoolIntArray( 3, 4, 5, 6 ), PoolIntArray( 7, 8, 9, 10, 11 ), PoolIntArray( 12, 11, 10, 13 ), PoolIntArray( 10, 14, 15, 3, 6 ), PoolIntArray( 10, 6, 16, 17, 13 ), PoolIntArray( 12, 13, 0, 2 ) ]
+outlines = [ PoolVector2Array( 909.987, 820.304, 867.881, 782.631, 722.728, 781.523, 680.623, 746.065, 695.027, 712.824, 785.887, 712.824, 670.651, 625.289, 345.995, 621.965, 288.377, 575.427, -600.43, 570.825, -663.542, 633.141, -903.208, 613.546, -939.384, 684.391, -808.246, 691.927, -980.082, 874.314, -980.082, 892.402, 306.105, 895.651, 912.203, 898.975 ) ]
+
+[node name="room" type="Node"]
+script = ExtResource( 4 )
+
+[node name="sprites" type="Node" parent="."]
+
+[node name="background" type="Sprite" parent="sprites"]
+texture = ExtResource( 11 )
+centered = false
+
+[node name="gate" type="Sprite" parent="sprites"]
+z_index = 907
+texture = ExtResource( 3 )
+centered = false
+
+[node name="grid" type="Sprite" parent="sprites"]
+position = Vector2( 1178.7, 587.494 )
+z_index = 1090
+texture = ExtResource( 5 )
+
+[node name="positions" type="Node" parent="."]
+
+[node name="default" type="Position2D" parent="positions"]
+position = Vector2( 1683.29, 835.368 )
+
+[node name="test" type="Position2D" parent="positions"]
+position = Vector2( 112.236, 906.897 )
+
+[node name="from_cellar" type="Position2D" parent="positions"]
+position = Vector2( 235.151, 840.988 )
+
+[node name="items" type="Node" parent="."]
+
+[node name="poster" type="Node2D" parent="items"]
+position = Vector2( 1726, 367 )
+z_index = 367
+script = ExtResource( 1 )
+key = "cage/poster"
+size = Vector2( 112.636, 250 )
+interaction_angle = 0
+
+[node name="interact_position" type="Position2D" parent="items/poster"]
+position = Vector2( -38.8429, 468.312 )
+
+[node name="sprite" type="Sprite" parent="items/poster"]
+show_behind_parent = true
+texture = ExtResource( 9 )
+
+[node name="toilet" type="Node2D" parent="items"]
+position = Vector2( 1783, 928 )
+z_index = 928
+script = ExtResource( 1 )
+key = "cage/toilet"
+size = Vector2( 220, 240 )
+offset = Vector2( 0, -100 )
+interaction_angle = 0
+
+[node name="interact_position" type="Position2D" parent="items/toilet"]
+position = Vector2( -120.937, -9.94092 )
+
+[node name="sprite" type="Sprite" parent="items/toilet"]
+show_behind_parent = true
+texture = ExtResource( 12 )
+offset = Vector2( 0, -107 )
+
+[node name="bed" type="Node2D" parent="items"]
+position = Vector2( 1478.32, 712.888 )
+z_index = 712
+script = ExtResource( 1 )
+key = "cage/bed"
+size = Vector2( 400, 175 )
+offset = Vector2( 0, -10 )
+interaction_angle = 270
+
+[node name="sprite" type="Sprite" parent="items/bed"]
+show_behind_parent = true
+texture = ExtResource( 2 )
+
+[node name="interact_position" type="Position2D" parent="items/bed"]
+position = Vector2( 11.6912, 95.1999 )
+
+[node name="door" type="Node2D" parent="items"]
+position = Vector2( 556.168, 527 )
+z_index = 527
+script = ExtResource( 1 )
+key = "cage/door"
+size = Vector2( 220, 410 )
+interaction_angle = 270
+
+[node name="interact_position" type="Position2D" parent="items/door"]
+position = Vector2( -0.2724, 220.889 )
+
+[node name="navigation" type="Navigation2D" parent="."]
+
+[node name="polygon" type="NavigationPolygonInstance" parent="navigation"]
+position = Vector2( 991.695, 168.422 )
+navpoly = SubResource( 1 )

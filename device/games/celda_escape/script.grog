@@ -1,83 +1,81 @@
 main:
 	init:
-		# nothing
-	
-	#start:
-		
-		# celda setup
+		# cage setup
 		.set door_seen=false
 		.set poster_was_taken=false
-		celda/exit.disable
+		#cage/exit.disable
 		
-		# office setup
-		.set bust_turn = false
-
-		if $stage = 0:
-			.load_room celda
+		
+		
+		if $stage < 2:
+			.load_room cage
 			.set music=sufre
 			.curtain_up
-		elif $stage = 1:
-			.say "En una celda oscura..." duration=3
-			.say "...despertóse Juan Carlos." duration=3
 			
-			.load_room celda
-			.set music=sufre
-			
-			you.teleport to=pos1
-			.curtain_up
-			
-			you.walk to=pos2
-			you.walk to=pos1
-			you.walk to=pos2
-			you.walk to=pos1
-			you.walk to=pos2
-			you.walk to=pos1
-			you.walk to=pos2
+			if $stage = 0:
+				
+				# ... intro goes here
+				
 		else:
-			.set poster_was_taken=true
-			inv_poster.add
-			celda/poster.disable
-			celda/exit.enable
-			celda/exit.play open
-			inv_thing.add
-			celda/thing.disable
 			
+			.set poster_was_taken = true
+			#inv_poster.add
+			#cage/poster.disable
+			#cage/exit.enable
+			
+			
+			# office stage
 			if $stage = 2:
 				.load_room office
 				.set music=office
-			
 				.curtain_up
-			else:
-				inv_poster.remove # TODO test this...
-				celda/poster.enable
-				celda/exit.disable
-				
-				if $stage = 3:
-					.load_room celda_open
-					you.teleport to=pos5 angle=45
-					.set music=uajari
-				
-					.curtain_up
-				else:
-
-					# ...
-					if $stage = 4:
-						.load_room lab
-						.set music=lab
-					else:
-						.set msg = "Unknown stage " + $stage
-						.say $msg
-
-
-		.enable_input
-
-celda/thing:
-	look_at:
-		you.say CELDA_ESCAPE_NICE_THING
-		self.say CELDA_ESCAPE_THING_THANKS
-		
-
-	pick_up:
-		self.disable
-		inv_thing.add
 			
+			# living stage
+			elif $stage = 3:
+				.load_room living
+				.set music=office
+				.curtain_up
+			
+			# cage-open stage
+			elif $stage = 4:
+				.load_room cage_open
+				.set music=uajari
+				.curtain_up
+			
+			# cellar stage
+			elif $stage = 5:
+				.load_room cellar
+				.set music=lab
+				.curtain_up
+			
+			# lab stage
+			elif $stage = 6:
+				.load_room lab
+				.set music=lab
+				.curtain_up
+			
+			# ...
+
+cage/poster:
+	look:
+		you.say LOOK_POSTER
+	
+#	use:
+#		.load_room office
+#		.set music=office
+#		.curtain_up
+
+cage/toilet:
+	look:
+		you.say LOOK_TOILET
+cage/bed:
+	look:
+		you.say LOOK_BED
+
+cage/door:
+	look:
+		if not $door_seen:
+			you.say LOOK_DOOR1
+			.set door_seen = true
+		else:
+			you.say LOOK_DOOR2
