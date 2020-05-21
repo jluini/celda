@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Camilla.png-0ee43774a3c5287619ea289ef16d3c08.stex"
+path="res://.import/front.png-61b7e9573e8c5eb9479f2618e7bbd2e4.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/lab/images/Camilla.png"
-dest_files=[ "res://.import/Camilla.png-0ee43774a3c5287619ea289ef16d3c08.stex" ]
+source_file="res://games/celda_escape/rooms/lab/images/front.png"
+dest_files=[ "res://.import/front.png-61b7e9573e8c5eb9479f2618e7bbd2e4.stex" ]
 
 [params]
 
