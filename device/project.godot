@@ -130,7 +130,7 @@ _global_script_class_icons={
 
 config/name="celda"
 run/main_scene="res://apps/standard_runner/standard_runner.tscn"
-config/icon="res://icon.png"
+config/icon="res://icon/icon.png"
 
 [display]
 
