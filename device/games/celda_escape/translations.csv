@@ -4,6 +4,7 @@ ACTION_USE;use;usar
 ACTION_PICK_UP;pick up;recoger
 ITEM_CAGE/POSTER;poster;póster
 ITEM_INV_POSTER;poster;póster
+ITEM_CAGE/TO_OFFICE;hole;hueco
 ITEM_CAGE/EXIT;duct;ducto
 ITEM_CAGE/DOOR;door;puerta
 ITEM_CAGE/BED;bed;cama
@@ -19,3 +20,4 @@ LOOK_DOOR2;I already told you it's a nice door.;Ya te dije que es linda puerta.
 LOOK_TOILET;Nice toilet.;Alto inodoro.
 LOOK_BED;Nice bed.;Alta cama.
 LOOK_HOLE_FROM_OFFICE;It leads to the cage.;Conduce a la jaula.
+LOOK_HOLE_FROM_CAGE;It's my way to the light.;Es mi camino hacia la luz.

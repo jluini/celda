@@ -3,7 +3,7 @@ main:
 		# cage setup
 		.set door_seen=false
 		.set poster_was_taken=false
-		#cage/exit.disable
+		cage/to_office.disable
 		
 		
 		
@@ -64,12 +64,8 @@ cage/poster:
 		
 		cage/poster.disable
 		inv_poster.add
+		cage/to_office.enable
 		
-	
-	use:
-		.load_room office
-		.set music=office
-		.curtain_up
 
 cage/toilet:
 	look:
@@ -85,6 +81,14 @@ cage/door:
 			.set door_seen = true
 		else:
 			you.say LOOK_DOOR2
+
+cage/to_office:
+	look:
+		you.say LOOK_HOLE_FROM_CAGE
+	use:
+		.load_room office
+		.set music=office
+		.curtain_up
 
 office/to_cage:
 	look:
