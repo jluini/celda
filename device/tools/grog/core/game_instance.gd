@@ -219,7 +219,7 @@ func _process(delta: float) -> void:
 	# stop() will be called some lines below
 	_walking_subject.walk(angle)
 	
-	var step_distance: float = _walking_subject.walk_speed * _walking_time
+	var step_distance: float = _walking_subject.get_speed() * _walking_time
 	var target_point: Vector2 = origin + step_distance * direction
 	
 	if pow(step_distance, 2) >= distance2:
