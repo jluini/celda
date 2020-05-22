@@ -3,7 +3,7 @@
 [ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/bed.png" type="Texture" id=2]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/gate.png" type="Texture" id=3]
-[ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
+[ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=4]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/grid_open.png" type="Texture" id=5]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/poster.png" type="Texture" id=9]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/background.jpg" type="Texture" id=11]
@@ -52,7 +52,9 @@ z_index = 367
 script = ExtResource( 1 )
 key = "cage/poster"
 size = Vector2( 112.636, 250 )
+offset = Vector2( 0, 0 )
 interaction_angle = 0
+color = Color( 1, 1, 1, 1 )
 
 [node name="interact_position" type="Position2D" parent="items/poster"]
 position = Vector2( -38.8429, 468.312 )
@@ -69,6 +71,7 @@ key = "cage/toilet"
 size = Vector2( 220, 240 )
 offset = Vector2( 0, -100 )
 interaction_angle = 0
+color = Color( 1, 1, 1, 1 )
 
 [node name="interact_position" type="Position2D" parent="items/toilet"]
 position = Vector2( -120.937, -9.94092 )
@@ -86,6 +89,7 @@ key = "cage/bed"
 size = Vector2( 400, 175 )
 offset = Vector2( 0, -10 )
 interaction_angle = 270
+color = Color( 1, 1, 1, 1 )
 
 [node name="sprite" type="Sprite" parent="items/bed"]
 show_behind_parent = true
@@ -100,7 +104,9 @@ z_index = 527
 script = ExtResource( 1 )
 key = "cage/door"
 size = Vector2( 220, 410 )
+offset = Vector2( 0, 0 )
 interaction_angle = 270
+color = Color( 1, 1, 1, 1 )
 
 [node name="interact_position" type="Position2D" parent="items/door"]
 position = Vector2( -0.2724, 220.889 )

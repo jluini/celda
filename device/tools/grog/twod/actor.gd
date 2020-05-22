@@ -7,8 +7,8 @@ export (Color) var color = Color.white
 var walking := false
 var angle := 0
 
-var horizon : float = 266
-var center : float = 896
+var _horizon_y : float = 0.0
+var _default_y : float = 900.0
 
 signal start_walking
 signal stop_walking
@@ -19,10 +19,11 @@ func get_color():
 
 func get_linear_scale() -> float:
 	var y : float = position.y
-	return (y - horizon) / (center - horizon)
+	return (y - _horizon_y) / (_default_y - _horizon_y)
 
 func get_speed() -> float:
-	return walk_speed * get_linear_scale()
+	var _scale: float = scale.x
+	return walk_speed * _scale
 
 func teleport(new_position: Vector2):
 	set_position(new_position)
@@ -37,6 +38,10 @@ func teleport(new_position: Vector2):
 	var scale : float = get_linear_scale()
 	
 	set_scale(Vector2(scale, scale))
+	
+	if is_inside_tree():
+		get_tree().get_nodes_in_group("show_y")[0].text = "%04.2f" % y
+		get_tree().get_nodes_in_group("show_scale")[0].text = "%4.4f" % scale
 
 func walk(new_angle: int):
 	angle = _normalize_angle(new_angle)
@@ -50,6 +55,10 @@ func stop():
 func set_angle(new_angle: int):
 	angle = _normalize_angle(new_angle)
 	emit_signal("angle_changed", angle)
+
+func set_room(new_room):
+	_horizon_y = new_room.horizon_y as float
+	_default_y = new_room.default_y as float
 
 # TODO extract this logic
 static func _normalize_angle(_angle: int) -> int:

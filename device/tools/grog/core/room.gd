@@ -3,10 +3,13 @@ extends Node
 export (NodePath) var default_player_position_path = "positions/default"
 export (NodePath) var navigation_path = "navigation"
 
-func get_default_player_position():
+func get_default_player_position() -> Vector2:
 	var default_player_position_holder = get_node_if_present(default_player_position_path)
+	
 	if default_player_position_holder:
 		return default_player_position_holder.position
+	else:
+		return Vector2()
 
 func get_navigation():
 	return get_node_if_present(navigation_path)

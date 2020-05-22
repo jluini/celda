@@ -2,7 +2,7 @@
 
 [ext_resource path="res://games/celda_escape/rooms/cellar/images/background.jpg" type="Texture" id=1]
 [ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=2]
-[ext_resource path="res://tools/grog/core/room.gd" type="Script" id=4]
+[ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=3]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1816.89, 1039.53, 58.8726, 1040.51, 433.565, 753.321, 1530.69, 761.271 )
@@ -10,7 +10,7 @@ polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
 outlines = [ PoolVector2Array( 1530.69, 761.271, 433.565, 753.321, 58.8726, 1040.51, 1816.89, 1039.53 ) ]
 
 [node name="room" type="Node"]
-script = ExtResource( 4 )
+script = ExtResource( 3 )
 
 [node name="sprites" type="Node" parent="."]
 
@@ -36,6 +36,10 @@ position = Vector2( 715.858, 850.953 )
 z_index = 850
 script = ExtResource( 2 )
 key = "room/item1"
+size = Vector2( 100, 100 )
+offset = Vector2( 0, 0 )
+interaction_angle = 90
+color = Color( 1, 1, 1, 1 )
 
 [node name="interact_position" type="Position2D" parent="items/item_1"]
 position = Vector2( 71.5508, 82.1509 )
@@ -45,6 +49,10 @@ position = Vector2( 1313.53, 774.741 )
 z_index = 774
 script = ExtResource( 2 )
 key = "room/item2"
+size = Vector2( 100, 100 )
+offset = Vector2( 0, 0 )
+interaction_angle = 90
+color = Color( 1, 1, 1, 1 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 
