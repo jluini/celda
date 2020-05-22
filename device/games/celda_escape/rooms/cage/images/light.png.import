@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Mesa.png-4d6420933d50ea538cfca46c6ea95950.stex"
+path="res://.import/light.png-397805999add0ecfadb3f8b7bfb6fbe3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/office/images/Mesa.png"
-dest_files=[ "res://.import/Mesa.png-4d6420933d50ea538cfca46c6ea95950.stex" ]
+source_file="res://games/celda_escape/rooms/cage/images/light.png"
+dest_files=[ "res://.import/light.png-397805999add0ecfadb3f8b7bfb6fbe3.stex" ]
 
 [params]
 
