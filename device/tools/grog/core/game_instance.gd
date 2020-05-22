@@ -129,6 +129,8 @@ func init_game(server, game_script: Resource, saved_game: Resource, initial_stag
 func release():
 	_log_debug("releasing game")
 	
+	_set_tree_paused(false)
+	
 	if symbols:
 		symbols.free()
 	else:
@@ -158,9 +160,6 @@ func release():
 			_log_warning("deleting room outside of scene tree")
 		
 		current_room.queue_free()
-	
-	# TODO manage tree from here??
-	get_tree().paused = false
 	
 	_log_debug("game release finished")
 
@@ -949,10 +948,14 @@ func _set_pausing(new_paused) -> bool:
 		return false
 	
 	_is_paused = new_paused
-	# TODO manage tree from here??
-	get_tree().paused = new_paused
+	_set_tree_paused(new_paused)
+	
 	return true
 
+func _set_tree_paused(paused: bool):
+	# TODO manage tree from here??
+	get_tree().paused = paused
+	#get_tree().set_deferred("paused", paused)
 
 # client queries
 

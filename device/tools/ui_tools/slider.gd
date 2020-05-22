@@ -46,9 +46,10 @@ func _ready():
 	_set_level(_current_level)
 	
 	# warning-ignore:return_value_discarded
-	$tween.connect("tween_all_completed", self, "_on_completed")
+	#$tween.connect("tween_all_completed", self, "_on_completed")
+	$tween.connect("tween_completed", self, "_on_completed")
 
-func _on_completed():
+func _on_completed(_obj, _prop):
 	emit_signal("completed")
 
 func _set_level(new_level: float):
@@ -114,7 +115,9 @@ func drop() -> bool:
 
 func _interpolate_position(final_value: float):
 	var time_scale = abs(final_value - _current_level)
+	
 	if time_scale == 0:
+		print("returning coz time_scale = 0")
 		return
 	
 	$tween.interpolate_method(

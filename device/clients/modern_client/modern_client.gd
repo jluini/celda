@@ -235,30 +235,31 @@ func _on_ui_drag(position: Vector2):
 	if _drag_state != DragState.Dragging:
 		return
 	
-	var delta = position - _initial_drag_position
-
-	if abs(delta.x) > abs(delta.y):
-		delta.y = 0
-		_initial_drag_position.y = position.y
-	else:
-		delta.x = 0
-		_initial_drag_position.x = position.x
-	
 	# don't allow sliding while Starting
 	if _client_state == ClientState.Starting:
 		return
 	
-	var should_be_paused = _side_menu.slide(delta)
+	var delta = position - _initial_drag_position
 	
-	if _client_state == ClientState.Playing:
-		assert(game_instance)
-		if should_be_paused != game_instance.is_paused():
-			if should_be_paused:
-				game_instance.pause_request()
-			else:
-				game_instance.unpause_request()
-	
-	#var _inventory_is_open = _inventory_base.slide(delta)
+	var x_drag := abs(delta.x) > abs(delta.y)
+
+	if x_drag:
+		#delta.y = 0
+		#_initial_drag_position.y = position.y
+		
+		var should_be_paused = _side_menu.slide(delta)
+		
+		if _client_state == ClientState.Playing:
+			assert(game_instance)
+			if should_be_paused != game_instance.is_paused():
+				if should_be_paused:
+					game_instance.pause_request()
+				else:
+					game_instance.unpause_request()
+#	else:
+#		delta.x = 0
+#		_initial_drag_position.x = position.x
+#	var _inventory_is_open = _inventory_base.slide(delta)
 
 func _on_ui_end_drag(_position: Vector2):
 	if _drag_state != DragState.Dragging:
