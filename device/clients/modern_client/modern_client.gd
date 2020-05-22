@@ -52,7 +52,7 @@ func _on_init():
 
 	_hide_group("only_if_playing")
 	
-	Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
+	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 	
 	_side_menu.connect("completed", self, "_on_menu_completed")
 	
