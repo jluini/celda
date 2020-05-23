@@ -26,7 +26,6 @@ texture = ExtResource( 11 )
 centered = false
 
 [node name="front" type="Sprite" parent="sprites"]
-visible = false
 z_index = 4096
 texture = ExtResource( 5 )
 centered = false
