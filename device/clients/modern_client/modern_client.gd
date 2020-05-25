@@ -55,10 +55,6 @@ func _on_init():
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 	
 	_side_menu.connect("completed", self, "_on_menu_completed")
-	
-	_item_selector.hide()
-	_action_list.hide()
-	_select_item(null)
 
 func _on_menu_completed():
 	match _client_state:
@@ -83,6 +79,9 @@ func _start():
 #	if _client_state != ClientState.NoGame:
 #		_log_warning("unexpected state %s" % _client_state_str())
 #		return
+	_item_selector.hide()
+	_action_list.hide()
+	_select_item(null)
 	
 	if _room_parent.get_child_count() > 0:
 		make_empty(_room_parent)
@@ -94,6 +93,8 @@ func _start():
 	
 	_side_menu.end_enabled = true
 	_side_menu.set_state(false)
+	
+	_inventory.clear()
 	
 	# game will actually start when menu completes closing
 
