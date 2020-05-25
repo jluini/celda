@@ -97,3 +97,19 @@ office/to_cage:
 		.load_room cage
 		.set music=sufre
 		.curtain_up
+
+office/to_living:
+	use:
+		.load_room living
+		# keep music 'office'
+		.curtain_up
+
+living/to_office:
+	use:
+		.load_room office
+		# keep music 'office'
+		.curtain_up
+
+living/painting:
+	look:
+		you.say LOOK_PAINTING

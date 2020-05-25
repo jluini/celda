@@ -35,6 +35,7 @@ texture = ExtResource( 7 )
 centered = false
 
 [node name="front" type="Sprite" parent="sprites"]
+visible = false
 z_index = 4096
 texture = ExtResource( 5 )
 centered = false
@@ -49,25 +50,25 @@ position = Vector2( 112.236, 906.897 )
 
 [node name="items" type="Node" parent="."]
 
-[node name="item_1" type="Node2D" parent="items"]
-position = Vector2( 782.806, 290.263 )
-z_index = 290
+[node name="painting" type="Node2D" parent="items"]
+position = Vector2( 1139.77, 236 )
+z_index = 236
 script = ExtResource( 1 )
-key = "room/item1"
-size = Vector2( 100, 100 )
+key = "living/painting"
+size = Vector2( 125, 170 )
 offset = Vector2( 0, 0 )
-interaction_angle = 90
+interaction_angle = 250
 color = Color( 1, 1, 1, 1 )
 
-[node name="interact_position" type="Position2D" parent="items/item_1"]
-position = Vector2( 71.5508, 82.1509 )
+[node name="interact_position" type="Position2D" parent="items/painting"]
+position = Vector2( 75.7612, 445.308 )
 
-[node name="item_2" type="Node2D" parent="items"]
-position = Vector2( 1701.27, 451.158 )
-z_index = 451
+[node name="to_office" type="Node2D" parent="items"]
+position = Vector2( 136.578, 929.356 )
+z_index = 929
 script = ExtResource( 1 )
-key = "room/item2"
-size = Vector2( 100, 100 )
+key = "living/to_office"
+size = Vector2( 300, 300 )
 offset = Vector2( 0, 0 )
 interaction_angle = 90
 color = Color( 1, 1, 1, 1 )

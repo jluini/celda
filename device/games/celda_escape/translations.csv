@@ -12,6 +12,8 @@ ITEM_CAGE/TOILET;toilet;inodoro
 ITEM_OFFICE/TO_CAGE;hole;hueco
 ITEM_OFFICE/TO_LIVING;corridor;pasillo
 ITEM_OFFICE/BUST;bust;busto
+ITEM_LIVING/PAINTING;painting;pintura
+ITEM_LIVING/TO_OFFICE;corridor;pasillo
 ITEM_LAB/STRETCHER;stretcher;camilla
 ONCE_UPON_A_TIME;Once upon a time...;Había una vez...
 LOOK_POSTER;"It says ""hang in there"".";"Dice ""hang in there""."
@@ -21,3 +23,4 @@ LOOK_TOILET;Nice toilet.;Alto inodoro.
 LOOK_BED;Nice bed.;Alta cama.
 LOOK_HOLE_FROM_OFFICE;It leads to the cage.;Conduce a la jaula.
 LOOK_HOLE_FROM_CAGE;It's my way to the light.;Es mi camino hacia la luz.
+LOOK_PAINTING;Nice painting.;Lindo cuadro.
