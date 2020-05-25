@@ -94,7 +94,7 @@ office/to_cage:
 	look:
 		you.say LOOK_HOLE_FROM_OFFICE
 	use:
-		.load_room cage
+		.load_room cage_open
 		.set music=sufre
 		.curtain_up
 
