@@ -50,17 +50,17 @@ position = Vector2( 112.236, 906.897 )
 
 [node name="items" type="Node" parent="."]
 
-[node name="painting" type="Node2D" parent="items"]
+[node name="picture" type="Node2D" parent="items"]
 position = Vector2( 1139.77, 236 )
 z_index = 236
 script = ExtResource( 1 )
-key = "living/painting"
+key = "living/picture"
 size = Vector2( 125, 170 )
 offset = Vector2( 0, 0 )
 interaction_angle = 250
 color = Color( 1, 1, 1, 1 )
 
-[node name="interact_position" type="Position2D" parent="items/painting"]
+[node name="interact_position" type="Position2D" parent="items/picture"]
 position = Vector2( 75.7612, 445.308 )
 
 [node name="to_office" type="Node2D" parent="items"]

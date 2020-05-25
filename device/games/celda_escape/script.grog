@@ -110,6 +110,6 @@ living/to_office:
 		# keep music 'office'
 		.curtain_up
 
-living/painting:
+living/picture:
 	look:
-		you.say LOOK_PAINTING
+		you.say LOOK_PICTURE
