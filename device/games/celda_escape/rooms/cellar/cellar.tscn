@@ -38,7 +38,7 @@ texture = ExtResource( 5 )
 centered = false
 
 [node name="rejas" type="Sprite" parent="sprites"]
-z_index = 760
+z_index = 720
 texture = ExtResource( 4 )
 centered = false
 
