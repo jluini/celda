@@ -10,3 +10,9 @@ func set_model(item_model: Object):
 	
 	image_display.texture = texture
 	#image.modulate = modulate
+
+func get_key():
+	return model.get_key()
+
+func get_item_name() -> String:
+	return tr("ITEM_" + get_key().to_upper())

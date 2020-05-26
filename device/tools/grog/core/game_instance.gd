@@ -899,9 +899,12 @@ func interact_request(item, trigger_name: String = "") -> bool:
 	
 	var item_key: String = item.get_key()
 	
-	if not loaded_scene_items.has(item_key):
-		_log_warning("invalid item '%s' to interact" % item_key)
-		return false
+	# TODO check it's a valid scene item or inventory item?
+	var is_inventory_item: bool = not loaded_scene_items.has(item_key)
+	
+#	if not loaded_scene_items.has(item_key):
+#		_log_warning("invalid item '%s' to interact" % item_key)
+#		return false
 	
 	var action_is_default := trigger_name == ""
 	
@@ -930,7 +933,9 @@ func interact_request(item, trigger_name: String = "") -> bool:
 		if not routine_found:
 			return false
 		
-		if _current_routine.is_telekinetic():
+		var is_telekinetic = is_inventory_item or _current_routine.is_telekinetic()
+		
+		if is_telekinetic:
 			_run_routine()
 		else:
 			if not current_player:

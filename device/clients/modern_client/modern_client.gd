@@ -216,7 +216,7 @@ func _on_ui_end_drag(_position: Vector2):
 	
 	_drag_state = DragState.None
 
-###
+### Client clicking
 
 func _menu_click(position: Vector2) -> void:
 	var clicked_button: Control = _get_menu_button_at(position)
@@ -259,6 +259,7 @@ func _menu_click(position: Vector2) -> void:
 			_log_warning("unknown button '%s' clicked" % clicked_button.name)
 
 func _ready_click(position: Vector2) -> void:
+	# check action click first
 	var clicked_action : String = _action_list.get_item_action_at(position) if _selected_item else ""
 	
 	if clicked_action:
@@ -266,23 +267,46 @@ func _ready_click(position: Vector2) -> void:
 			_log_warning("interaction ignored")
 		
 		_select_item(null)
-	else:
-		var clicked_item = _get_scene_item_at(position)
 		
-		if clicked_item:
-			_select_item(clicked_item)
-			
-			if not game_instance.interact_request(clicked_item):
-				_log_warning("interaction ignored")
-		else:
-			_select_item(null)
-			game_instance.go_to_request(position)
+		return
+	
+	# then check inventory item click
+	
+	var clicked_item = _get_inventory_item_at(position)
+	
+	if clicked_item:
+		_select_item(clicked_item)
+		
+		print("clicked inventory item '%s'" % clicked_item.get_key())
+		
+		#
+#		if not game_instance.interact_request(clicked_item):
+#			_log_warning("interaction ignored")
+		
+		return
+	
+	# then check scene item click
+	
+	clicked_item = _get_scene_item_at(position)
+	
+	if clicked_item:
+		_select_item(clicked_item)
+		
+		if not game_instance.interact_request(clicked_item):
+			_log_warning("interaction ignored")
+		
+		return
+	
+	# finally issue a go-to request
+	
+	_select_item(null)
+	game_instance.go_to_request(position)
 
 ###
 
 func _get_inventory_item_at(position: Vector2):
 	var ret = _inventory.get_item_at(position)
-
+	
 	return ret
 
 func _on_continue_pressed():

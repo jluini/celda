@@ -39,15 +39,15 @@ func remove_item(item: Node):
 	print("Item to remove not found!")
 
 func get_item_at(position: Vector2) -> Node:
-	var cs = get_children()
-	for i in range(1, cs.size()):
-		var c = cs[i]
+	for i in range(_items.size()):
+		var c = _items[i]
 		if c.has_node("item_box"):
 			var f = c.get_node("item_box")
 			var rect: Rect2 = f.get_global_rect()
 			if rect.has_point(position):
 				return c
-	
+		else:
+			print("no box")
 	return null
 
 func clear():

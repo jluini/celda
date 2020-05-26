@@ -19,9 +19,9 @@ main:
 		else:
 			
 			.set poster_was_taken = true
-			#inv_poster.add
-			#cage/poster.disable
-			#cage/exit.enable
+			cage/poster.disable
+			inv_poster.add
+			cage/to_office.enable
 			
 			
 			# office stage
@@ -66,6 +66,16 @@ cage/poster:
 		inv_poster.add
 		cage/to_office.enable
 		
+inv_poster:
+	look:
+		you.say LOOK_POSTER
+	
+	use:
+		self.remove
+		cage/to_office.disable
+		cage/poster.enable
+		
+
 
 cage/toilet:
 	look:
