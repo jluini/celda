@@ -148,72 +148,17 @@ func _on_ui_click(position: Vector2):
 		return
 	
 	if _menu_is_open:
-		var clicked_button: Control = _get_menu_button_at(position)
-		
-		if clicked_button:
-			match clicked_button.name:
-				"continue":
-					if _client_state != ClientState.Playing:
-						_log_warning("unexpected 'continue' click")
-						return
-					
-					game_instance.unpause_request()
-					_menu_is_open = false
-					_side_menu.set_state(false)
-					
-				"save_game":
-					var save_result = server.save_game()
-					
-					if save_result.valid:
-						_log_debug("game saved!")
-					else:
-						_log_error("couldn't save")
-				
-				"new_game":
-					_new_game_from("")
-					
-				"load_game":
-					_on_load_game_pressed()
-					
-				"options":
-					_close_all()
-					_modular.show_modules()
-				
-				"quit":
-					_on_quit_pressed()
-					
-				_:
-					_log_warning("unknown button '%s' clicked" % clicked_button.name)
+		_menu_click(position)
+		return
 	
+	# else there must be a game_instance
+	
+	if game_instance.is_ready():
+		_ready_click(position)
+	elif _skip():
+		pass
 	else:
-		assert(game_instance)
-		
-		if game_instance.is_ready():
-			var clicked_action : String = _action_list.get_item_action_at(position) if _selected_item else ""
-			
-			if clicked_action:
-				if not game_instance.interact_request(_selected_item, clicked_action):
-					_log_warning("interaction ignored")
-				
-				_select_item(null)
-				
-			else:
-				var clicked_item = _get_scene_item_at(position)
-				
-				if clicked_item:
-					_select_item(clicked_item)
-					
-					if not game_instance.interact_request(clicked_item):
-						_log_warning("interaction ignored")
-					
-				else:
-					_select_item(null)
-					game_instance.go_to_request(position)
-				
-		elif _skip():
-			pass
-		else:
-			_log_debug("click ignored")
+		_log_debug("click ignored")
 
 func _on_ui_start_hold(_position: Vector2):
 	pass
@@ -270,6 +215,70 @@ func _on_ui_end_drag(_position: Vector2):
 	#_inventory_base.drop()
 	
 	_drag_state = DragState.None
+
+###
+
+func _menu_click(position: Vector2) -> void:
+	var clicked_button: Control = _get_menu_button_at(position)
+	
+	if not clicked_button:
+		return
+	
+	match clicked_button.name:
+		"continue":
+			if _client_state != ClientState.Playing:
+				_log_warning("unexpected 'continue' click")
+				return
+			
+			game_instance.unpause_request()
+			_menu_is_open = false
+			_side_menu.set_state(false)
+			
+		"save_game":
+			var save_result = server.save_game()
+			
+			if save_result.valid:
+				_log_debug("game saved!")
+			else:
+				_log_error("couldn't save")
+		
+		"new_game":
+			_new_game_from("")
+			
+		"load_game":
+			_on_load_game_pressed()
+			
+		"options":
+			_close_all()
+			_modular.show_modules()
+		
+		"quit":
+			_on_quit_pressed()
+			
+		_:
+			_log_warning("unknown button '%s' clicked" % clicked_button.name)
+
+func _ready_click(position: Vector2) -> void:
+	var clicked_action : String = _action_list.get_item_action_at(position) if _selected_item else ""
+	
+	if clicked_action:
+		if not game_instance.interact_request(_selected_item, clicked_action):
+			_log_warning("interaction ignored")
+		
+		_select_item(null)
+	else:
+		var clicked_item = _get_scene_item_at(position)
+		
+		if clicked_item:
+			_select_item(clicked_item)
+			
+			if not game_instance.interact_request(clicked_item):
+				_log_warning("interaction ignored")
+		else:
+			_select_item(null)
+			game_instance.go_to_request(position)
+
+###
 
 func _get_inventory_item_at(position: Vector2):
 	var ret = _inventory.get_item_at(position)
