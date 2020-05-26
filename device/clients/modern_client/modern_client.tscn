@@ -2,7 +2,7 @@
 
 [ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
-[ext_resource path="res://games/celda_escape/rooms/cage/images/background.jpg" type="Texture" id=3]
+[ext_resource path="res://games/celda_escape/menu.jpg" type="Texture" id=3]
 [ext_resource path="res://tools/theming/custom_label.gd" type="Script" id=4]
 [ext_resource path="res://clients/modern_client/saved/game_list.gd" type="Script" id=5]
 [ext_resource path="res://clients/modern_client/action_list.gd" type="Script" id=6]
@@ -108,6 +108,7 @@ margin_right = 40.0
 margin_bottom = 40.0
 mouse_filter = 2
 texture = ExtResource( 3 )
+expand = true
 
 [node name="ui" type="Control" parent="."]
 anchor_right = 1.0
@@ -206,6 +207,7 @@ __meta__ = {
 }
 
 [node name="action_list" type="ColorRect" parent="ui"]
+visible = false
 margin_left = 475.935
 margin_top = 212.855
 margin_right = 778.935
@@ -269,7 +271,7 @@ mouse_filter = 2
 color = Color( 0, 0, 0, 0.478431 )
 
 [node name="curtain" type="TextureRect" parent="ui"]
-modulate = Color( 0, 0, 0, 1 )
+modulate = Color( 0, 0, 0, 0 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -298,6 +300,7 @@ anims/up = SubResource( 4 )
 one_shot = true
 
 [node name="menu" type="ColorRect" parent="ui"]
+modulate = Color( 1, 1, 1, 0.901961 )
 self_modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
