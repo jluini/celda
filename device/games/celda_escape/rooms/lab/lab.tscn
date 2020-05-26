@@ -37,7 +37,7 @@ centered = false
 position = Vector2( 345.988, 776.532 )
 
 [node name="test" type="Position2D" parent="positions"]
-position = Vector2( 362.071, 840.274 )
+position = Vector2( 236.723, 818.06 )
 
 [node name="items" type="Node" parent="."]
 
@@ -52,7 +52,7 @@ interaction_angle = 180
 color = Color( 1, 1, 1, 1 )
 
 [node name="interact_position" type="Position2D" parent="items/to_cellar"]
-position = Vector2( 71.5508, 82.1509 )
+position = Vector2( 23.9505, 315.392 )
 
 [node name="item_2" type="Node2D" parent="items"]
 position = Vector2( 1313.53, 774.741 )
