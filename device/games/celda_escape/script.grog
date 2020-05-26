@@ -90,6 +90,12 @@ cage/to_office:
 		.set music=office
 		.curtain_up
 
+cage/to_cellar:
+	use:
+		.load_room cellar
+		.set music=lab
+		.curtain_up
+
 office/to_cage:
 	look:
 		you.say LOOK_HOLE_FROM_OFFICE

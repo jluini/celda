@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://games/celda_escape/rooms/cage/cage.tscn" type="PackedScene" id=1]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/grid_open.png" type="Texture" id=2]
+[ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=3]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1658.13, 789.104, 1770.79, 877.876, 1683.98, 879.568, 1336.34, 791.689, 212.579, 875.382, 16.2492, 871.357, 40.0994, 778.606, 306.611, 802.842, 1899.14, 1062.89, 51.6174, 1057.93, 52.6107, 998.786, 1899.8, 990.71, 394.232, 735.25, 1704.66, 949.355, 1671.06, 917.047, 1859.74, 951.94, 1279.48, 745.164 )
@@ -13,6 +14,16 @@ outlines = [ PoolVector2Array( 394.232, 735.25, 306.611, 802.842, 40.0994, 778.6
 [node name="grid" parent="sprites" index="3"]
 position = Vector2( 1111.49, 587.494 )
 texture = ExtResource( 2 )
+
+[node name="to_cellar" type="Node2D" parent="items" index="5"]
+position = Vector2( 191.066, 584.013 )
+z_index = 584
+script = ExtResource( 3 )
+key = "cage/to_cellar"
+size = Vector2( 360, 700 )
+offset = Vector2( 0, 0 )
+interaction_angle = 180
+color = Color( 1, 1, 1, 1 )
 
 [node name="polygon" parent="navigation" index="0"]
 enabled = false
