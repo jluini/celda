@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=13 format=2]
+[gd_resource type="Resource" load_steps=15 format=2]
 
 [ext_resource path="res://tools/loopin/set_resource.gd" type="Script" id=1]
 [ext_resource path="res://tools/loopin/song_resource.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://music/sources/office_final.ogg" type="AudioStream" id=6]
 [ext_resource path="res://music/sources/sufre_uno.ogg" type="AudioStream" id=7]
 [ext_resource path="res://music/sources/lab.ogg" type="AudioStream" id=8]
+[ext_resource path="res://music/sources/menu.ogg" type="AudioStream" id=9]
 
 [sub_resource type="Resource" id=1]
 resource_name = "office"
@@ -55,6 +56,17 @@ end_mode = 0
 breaking_mode = 1
 breaking_measures = 0
 
+[sub_resource type="Resource" id=5]
+resource_name = "menu"
+script = ExtResource( 2 )
+main_loop_stream = ExtResource( 9 )
+number_of_measures = 0
+measure_numerator = 0
+measure_denominator = 0
+end_mode = 1
+breaking_mode = 0
+breaking_measures = 0
+
 [resource]
 script = ExtResource( 1 )
-songs = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ]
+songs = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ]

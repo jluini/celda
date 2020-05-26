@@ -9,7 +9,7 @@ main:
 		
 		if $stage < 2:
 			.load_room cage
-			.set music=sufre
+			# keep music 'menu' from menu
 			.curtain_up
 			
 			if $stage = 0:

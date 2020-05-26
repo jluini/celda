@@ -55,7 +55,9 @@ func _on_init():
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 	
 	_side_menu.connect("completed", self, "_on_menu_completed")
-
+	
+	_modular.broadcast("music", "start", ["menu"])
+	
 func _on_menu_completed():
 	match _client_state:
 		ClientState.Starting:
