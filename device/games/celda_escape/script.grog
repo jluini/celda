@@ -62,7 +62,7 @@ cage/poster:
 	
 	pick_up:
 		
-		cage/poster.disable
+		self.disable
 		inv_poster.add
 		cage/to_office.enable
 		
@@ -70,6 +70,7 @@ cage/poster:
 cage/toilet:
 	look:
 		you.say LOOK_TOILET
+		
 cage/bed:
 	look:
 		you.say LOOK_BED

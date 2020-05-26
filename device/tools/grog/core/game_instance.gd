@@ -31,6 +31,8 @@ var _is_paused: bool = false
 var _current_routine_headers: Array
 var _current_routine: Resource = null
 var _current_pointers: Array = []
+var _current_context: Dictionary = {}
+
 var _skip_enabled: bool = false
 
 # current room node is placed here;
@@ -257,6 +259,7 @@ func _process(delta: float) -> void:
 # running
 
 func _run_routine() -> void:
+	symbols.set_context(_current_context)
 	_interaction_state = InteractionState.Running
 	call_deferred("_advance")
 
@@ -299,6 +302,8 @@ func _advance(): # -> bool: # it returns a bool by I'm ignoring it currently
 				
 				_current_routine = null
 				_current_pointers = []
+				_current_context = {}
+				symbols.set_context(_current_context)
 				_interaction_state = InteractionState.Ready
 				
 				return false
@@ -835,7 +840,7 @@ func start_game_request(room_parent: Node) -> bool:
 		
 		_interaction_state = InteractionState.Ready
 		
-		var initial_routine_found: bool = _fetch_routine(["main", "init"])
+		var initial_routine_found: bool = _fetch_routine(["main", "init"], {})
 		
 		if not initial_routine_found:
 			_game_error("initial routine not found")
@@ -920,7 +925,7 @@ func interact_request(item, trigger_name: String = "") -> bool:
 		if not _start_walking(current_player, target_position, WalkingReason.GoingToPosition):
 			return false
 	else:
-		var routine_found: bool = _fetch_routine([item_key, trigger_name])
+		var routine_found: bool = _fetch_routine([item_key, trigger_name], { "self": item_key })
 		
 		if not routine_found:
 			return false
@@ -1076,7 +1081,9 @@ func _read_saved_game(saved_game: Resource) -> Dictionary:
 		_interaction_state = InteractionState.Running
 		
 		var routine_headers = saved_game.routine_headers
-		var routine_found: bool = _fetch_routine(routine_headers)
+		
+		# TODO recreate context
+		var routine_found: bool = _fetch_routine(routine_headers, {})
 		
 		if not routine_found:
 			return { valid = false, message = "couldn't find saved routine '%s'" % str(routine_headers) }
@@ -1105,7 +1112,7 @@ func _game_event(event_name: String, args: Array = []):
 	emit_signal("game_event", event_name, args)
 
 # searchs for the routine and caches it if found
-func _fetch_routine(headers: Array) -> bool:
+func _fetch_routine(headers: Array, context: Dictionary) -> bool:
 	if not _validate_game_state("_fetch_routine", GameState.Playing):
 		return false
 	if not _validate_interaction_state("_fetch_routine", InteractionState.Ready):
@@ -1120,6 +1127,7 @@ func _fetch_routine(headers: Array) -> bool:
 	_current_routine_headers = headers
 	_current_routine = routine
 	_current_pointers = [-1]
+	_current_context = context
 	
 	return true
 
