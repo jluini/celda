@@ -64,7 +64,7 @@ number_of_measures = 0
 measure_numerator = 0
 measure_denominator = 0
 end_mode = 1
-breaking_mode = 0
+breaking_mode = 1
 breaking_measures = 0
 
 [resource]
