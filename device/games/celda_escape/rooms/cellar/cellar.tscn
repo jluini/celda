@@ -31,27 +31,24 @@ position = Vector2( 112.236, 906.897 )
 
 [node name="items" type="Node" parent="."]
 
-[node name="item_1" type="Node2D" parent="items"]
-position = Vector2( 715.858, 850.953 )
-z_index = 850
+[node name="to_cage" type="Node2D" parent="items"]
+position = Vector2( 201.748, 585.948 )
+z_index = 585
 script = ExtResource( 2 )
-key = "room/item1"
-size = Vector2( 100, 100 )
+key = "cellar/to_cage"
+size = Vector2( 350, 750 )
 offset = Vector2( 0, 0 )
-interaction_angle = 90
+interaction_angle = 180
 color = Color( 1, 1, 1, 1 )
 
-[node name="interact_position" type="Position2D" parent="items/item_1"]
-position = Vector2( 71.5508, 82.1509 )
-
-[node name="item_2" type="Node2D" parent="items"]
-position = Vector2( 1313.53, 774.741 )
-z_index = 774
+[node name="to_lab" type="Node2D" parent="items"]
+position = Vector2( 1740.19, 586.587 )
+z_index = 586
 script = ExtResource( 2 )
-key = "room/item2"
-size = Vector2( 100, 100 )
+key = "cellar/to_lab"
+size = Vector2( 350, 750 )
 offset = Vector2( 0, 0 )
-interaction_angle = 90
+interaction_angle = 0
 color = Color( 1, 1, 1, 1 )
 
 [node name="navigation" type="Navigation2D" parent="."]

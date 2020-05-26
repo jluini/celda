@@ -101,7 +101,7 @@ office/to_cage:
 		you.say LOOK_HOLE_FROM_OFFICE
 	use:
 		.load_room cage_open
-		.set music=sufre
+		.set music=uajari
 		.curtain_up
 
 office/to_living:
@@ -119,3 +119,21 @@ living/to_office:
 living/picture:
 	look:
 		you.say LOOK_PICTURE
+
+cellar/to_cage:
+	use:
+		.load_room cage_open
+		.set music=uajari
+		.curtain_up
+
+cellar/to_lab:
+	use:
+		.load_room lab
+		# keep music 'lab'
+		.curtain_up
+
+lab/to_cellar:
+	use:
+		.load_room cellar
+		# keep music 'lab'
+		.curtain_up

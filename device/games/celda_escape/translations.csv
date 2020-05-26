@@ -15,6 +15,9 @@ ITEM_OFFICE/TO_LIVING;corridor;pasillo
 ITEM_OFFICE/BUST;bust;busto
 ITEM_LIVING/PICTURE;picture;cuadro
 ITEM_LIVING/TO_OFFICE;corridor;pasillo
+ITEM_CELLAR/TO_CAGE;stairway;escaleras
+ITEM_CELLAR/TO_LAB;door;puerta
+ITEM_LAB/TO_CELLAR;door;puerta
 ITEM_LAB/STRETCHER;stretcher;camilla
 ONCE_UPON_A_TIME;Once upon a time...;Había una vez...
 LOOK_POSTER;"It says ""hang in there"".";"Dice ""hang in there""."

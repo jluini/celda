@@ -35,7 +35,6 @@ texture = ExtResource( 7 )
 centered = false
 
 [node name="front" type="Sprite" parent="sprites"]
-visible = false
 z_index = 4096
 texture = ExtResource( 5 )
 centered = false
@@ -70,7 +69,7 @@ script = ExtResource( 1 )
 key = "living/to_office"
 size = Vector2( 300, 300 )
 offset = Vector2( 0, 0 )
-interaction_angle = 90
+interaction_angle = 180
 color = Color( 1, 1, 1, 1 )
 
 [node name="navigation" type="Navigation2D" parent="."]

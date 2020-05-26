@@ -41,17 +41,17 @@ position = Vector2( 362.071, 840.274 )
 
 [node name="items" type="Node" parent="."]
 
-[node name="item_1" type="Node2D" parent="items"]
-position = Vector2( 715.858, 850.953 )
-z_index = 850
+[node name="to_cellar" type="Node2D" parent="items"]
+position = Vector2( 293.914, 436.411 )
+z_index = 436
 script = ExtResource( 1 )
-key = "room/item1"
-size = Vector2( 100, 100 )
+key = "lab/to_cellar"
+size = Vector2( 350, 750 )
 offset = Vector2( 0, 0 )
 interaction_angle = 90
 color = Color( 1, 1, 1, 1 )
 
-[node name="interact_position" type="Position2D" parent="items/item_1"]
+[node name="interact_position" type="Position2D" parent="items/to_cellar"]
 position = Vector2( 71.5508, 82.1509 )
 
 [node name="item_2" type="Node2D" parent="items"]
