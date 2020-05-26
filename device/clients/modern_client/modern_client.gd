@@ -81,6 +81,9 @@ func _start():
 #	if _client_state != ClientState.NoGame:
 #		_log_warning("unexpected state %s" % _client_state_str())
 #		return
+	_modular.broadcast("music", "stop", [])
+	$audio_player.play()
+	
 	_item_selector.hide()
 	_action_list.hide()
 	_select_item(null)

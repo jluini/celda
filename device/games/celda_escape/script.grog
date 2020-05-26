@@ -9,7 +9,7 @@ main:
 		
 		if $stage < 2:
 			.load_room cage
-			# keep music 'menu' from menu
+			.set music=celda
 			.curtain_up
 			
 			if $stage = 0:

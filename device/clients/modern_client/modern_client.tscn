@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://clients/modern_client/action_list.gd" type="Script" id=6]
 [ext_resource path="res://clients/modern_client/clicking.gd" type="Script" id=7]
 [ext_resource path="res://tools/modular/console_font.tres" type="DynamicFont" id=8]
+[ext_resource path="res://music/sources/new_game.ogg" type="AudioStream" id=9]
 [ext_resource path="res://clients/modern_client/saved/game_entry.tscn" type="PackedScene" id=12]
 [ext_resource path="res://clients/modern_client/inventory.gd" type="Script" id=13]
 [ext_resource path="res://clients/modern_client/inventory_item.tscn" type="PackedScene" id=15]
@@ -442,6 +443,9 @@ margin_top = 927.002
 margin_right = 1609.05
 margin_bottom = 1049.0
 text = "Cancel"
+
+[node name="audio_player" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 9 )
 
 [node name="label" type="Label" parent="."]
 margin_right = 46.0
