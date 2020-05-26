@@ -113,9 +113,6 @@ func set_context(new_context: Dictionary) -> void:
 		if not _symbols_by_name.has(target_symbol_name):
 			push_error("symbol '%s' referenced by context string '%s' is absent" % [target_symbol_name, key])
 			continue
-		
-		print("registering context string %s -> %s" % [key, target_symbol_name])
-		
 
 func get_context() -> Dictionary:
 	return _context
