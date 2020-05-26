@@ -9,9 +9,9 @@
 [ext_resource path="res://games/celda_escape/rooms/cellar/images/camas.png" type="Texture" id=7]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1816.89, 1039.53, 58.8726, 1040.51, 433.565, 753.321, 1065.95, 756.423, 1315.88, 761.839, 1305.05, 671.307, 1255.32, 609.054, 1427.31, 610.178, 1502.36, 705.353, 1305.82, 709.996, 1061.31, 714.639, 977.739, 713.091, 978.513, 671.307, 1530.69, 761.271 )
-polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 6, 7 ), PoolIntArray( 7, 8, 9, 5 ), PoolIntArray( 10, 11, 12, 5, 9 ), PoolIntArray( 3, 10, 9, 4 ), PoolIntArray( 13, 0, 4 ) ]
-outlines = [ PoolVector2Array( 1530.69, 761.271, 1315.88, 761.839, 1305.82, 709.996, 1502.36, 705.353, 1427.31, 610.178, 1255.32, 609.054, 1305.05, 671.307, 978.513, 671.307, 977.739, 713.091, 1061.31, 714.639, 1065.95, 756.423, 433.565, 753.321, 58.8726, 1040.51, 1816.89, 1039.53 ) ]
+vertices = PoolVector2Array( 1816.89, 1039.53, 58.8726, 1040.51, 433.565, 753.321, 1530.69, 761.271 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ) ]
+outlines = [ PoolVector2Array( 1530.69, 761.271, 433.565, 753.321, 58.8726, 1040.51, 1816.89, 1039.53 ) ]
 
 [node name="room" type="Node"]
 script = ExtResource( 3 )
@@ -61,9 +61,7 @@ z_index = 585
 script = ExtResource( 2 )
 key = "cellar/to_cage"
 size = Vector2( 350, 750 )
-offset = Vector2( 0, 0 )
 interaction_angle = 180
-color = Color( 1, 1, 1, 1 )
 
 [node name="to_lab" type="Node2D" parent="items"]
 position = Vector2( 1740.19, 586.587 )
@@ -71,12 +69,9 @@ z_index = 586
 script = ExtResource( 2 )
 key = "cellar/to_lab"
 size = Vector2( 350, 750 )
-offset = Vector2( 0, 0 )
 interaction_angle = 0
-color = Color( 1, 1, 1, 1 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 
 [node name="polygon" type="NavigationPolygonInstance" parent="navigation"]
-position = Vector2( 0, -1.948 )
 navpoly = SubResource( 1 )

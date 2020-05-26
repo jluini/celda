@@ -9,9 +9,9 @@
 [ext_resource path="res://games/celda_escape/rooms/living/images/cuadro.png" type="Texture" id=7]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1893.77, 830.233, 1892.66, 1055.16, 802.79, 1054.42, 867.001, 864.948, 1700.97, 825.801, 1562.47, 689.513, 1215.65, 724.97, 1205.68, 658.488, 1559.15, 657.38, 379.089, 724.97, 650.158, 858.632, 303.842, 930.211, 231.798, 825.334, 34.3684, 914.422, 44.9015, 825.334 )
-polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 4, 3, 6 ), PoolIntArray( 6, 7, 8, 5 ), PoolIntArray( 9, 6, 3, 10 ), PoolIntArray( 9, 10, 11, 12 ), PoolIntArray( 12, 11, 13, 14 ) ]
-outlines = [ PoolVector2Array( 1562.47, 689.513, 1559.15, 657.38, 1205.68, 658.488, 1215.65, 724.97, 379.089, 724.97, 231.798, 825.334, 44.9015, 825.334, 34.3684, 914.422, 303.842, 930.211, 650.158, 858.632, 867.001, 864.948, 802.79, 1054.42, 1892.66, 1055.16, 1893.77, 830.233, 1700.97, 825.801 ) ]
+vertices = PoolVector2Array( 1894.34, 1054.07, 1224.86, 736.069, 1216.49, 685.858, 1601.45, 671.911, 1769.57, 873.404, 33.7435, 1059.65, 44.9015, 825.334, 231.798, 825.334, 382.432, 741.648, 1885.97, 875.545, 1710.24, 775.122 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 0, 5, 6, 7 ), PoolIntArray( 0, 7, 8, 1 ), PoolIntArray( 4, 9, 0 ), PoolIntArray( 10, 4, 3 ) ]
+outlines = [ PoolVector2Array( 1710.24, 775.122, 1601.45, 671.911, 1216.49, 685.858, 1224.86, 736.069, 382.432, 741.648, 231.798, 825.334, 44.9015, 825.334, 33.7435, 1059.65, 1894.34, 1054.07, 1885.97, 875.545, 1769.57, 873.404 ) ]
 
 [node name="room" type="Node"]
 script = ExtResource( 4 )
@@ -23,6 +23,7 @@ texture = ExtResource( 2 )
 centered = false
 
 [node name="cabezas" type="Sprite" parent="sprites"]
+visible = false
 texture = ExtResource( 3 )
 centered = false
 
@@ -55,9 +56,7 @@ z_index = 236
 script = ExtResource( 1 )
 key = "living/picture"
 size = Vector2( 125, 170 )
-offset = Vector2( 0, 0 )
 interaction_angle = 250
-color = Color( 1, 1, 1, 1 )
 
 [node name="interact_position" type="Position2D" parent="items/picture"]
 position = Vector2( 75.7612, 445.308 )
@@ -68,12 +67,9 @@ z_index = 929
 script = ExtResource( 1 )
 key = "living/to_office"
 size = Vector2( 300, 300 )
-offset = Vector2( 0, 0 )
 interaction_angle = 180
-color = Color( 1, 1, 1, 1 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 
 [node name="polygon" type="NavigationPolygonInstance" parent="navigation"]
-position = Vector2( -1.10803, 0 )
 navpoly = SubResource( 1 )
