@@ -48,7 +48,7 @@ script = ExtResource( 1 )
 key = "lab/to_cellar"
 size = Vector2( 350, 750 )
 offset = Vector2( 0, 0 )
-interaction_angle = 90
+interaction_angle = 180
 color = Color( 1, 1, 1, 1 )
 
 [node name="interact_position" type="Position2D" parent="items/to_cellar"]
