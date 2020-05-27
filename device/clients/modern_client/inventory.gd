@@ -28,12 +28,17 @@ func _add_child_at_index(index: int, child: Node) -> void:
 	add_child(child)
 	move_child(child, index)
 
-func remove_item(item: Node):
-	var cs = get_children()
-	for i in range(1, cs.size()):
-		var c = cs[i]
-		if c.model == item:
-			remove_child(c)
+func remove_item(item_instance):
+	# TODO improve this...
+	_validate_number_of_children()
+	for index in range(_items.size()):
+		var item_view = _items[index]
+		
+		# care: word 'model' is wrong, it's the reflected instance instead
+		if item_view.model == item_instance:
+			remove_child(item_view)
+			item_view.queue_free()
+			_items.remove(index)
 			return
 	
 	print("Item to remove not found!")

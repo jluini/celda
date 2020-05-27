@@ -588,7 +588,8 @@ func _command_add(inv_key: String) -> Dictionary:
 	
 	var new_instance_number: int = item_symbol.last_instance_number + 1
 	item_symbol.last_instance_number = new_instance_number
-	var new_symbol_id: String = inv_key + "." + str(new_instance_number)
+	
+	var new_symbol_id: String = Grog.get_item_id(inv_key, new_instance_number)
 	
 	var model: Node = item_symbol.target
 	
@@ -601,6 +602,38 @@ func _command_add(inv_key: String) -> Dictionary:
 	symbols.add_symbol(new_symbol_id, "inventory_item_instance", new_instance)
 	
 	_game_event("item_added", [new_instance])
+	
+	return _instant_termination
+
+func _command_remove(item_id: String) -> Dictionary:
+	var instance_symbol = symbols.get_symbol_of_types(item_id, ["inventory_item_instance"], true)
+	
+	if not instance_symbol.type:
+		_game_error("no inventory_item_instance '%s'" % item_id)
+		return _instant_termination
+	
+	item_id = instance_symbol.symbol_name
+	
+	var key_and_number = Grog.get_item_key_and_number(item_id)
+	
+	if not key_and_number.valid:
+		_log_error("invalid inventory item instance id '%s'" % item_id)
+		return _instant_termination
+	
+	var model_symbol = symbols.get_symbol_of_types(key_and_number.item_key, ["inventory_item"], true)
+	
+	if not model_symbol.type:
+		_log_error("inventory item instance '%s' has no associated model symbol")
+		return _instant_termination
+	
+	model_symbol.amount -= 1
+	
+	var item_instance = instance_symbol.target
+	
+	# TODO instead, don't store inventory instances as symbols...
+	instance_symbol.target = null
+	
+	_game_event("item_removed", [item_instance])
 	
 	return _instant_termination
 
@@ -898,9 +931,11 @@ func interact_request(item, trigger_name: String = "") -> bool:
 		return false
 	
 	var item_key: String = item.get_key()
+	var item_id: String = item.get_id()
 	
 	# TODO check it's a valid scene item or inventory item?
-	var is_inventory_item: bool = not loaded_scene_items.has(item_key)
+	# TODO do this much better
+	var is_inventory_item: bool = item_id != item_key
 	
 #	if not loaded_scene_items.has(item_key):
 #		_log_warning("invalid item '%s' to interact" % item_key)
@@ -928,7 +963,7 @@ func interact_request(item, trigger_name: String = "") -> bool:
 		if not _start_walking(current_player, target_position, WalkingReason.GoingToPosition):
 			return false
 	else:
-		var routine_found: bool = _fetch_routine([item_key, trigger_name], { "self": item_key })
+		var routine_found: bool = _fetch_routine([item_key, trigger_name], { "self": item_id })
 		
 		if not routine_found:
 			return false

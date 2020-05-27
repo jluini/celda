@@ -135,10 +135,12 @@ func _on_server_item_added(item: Object):
 	_inventory.add_item(item)
 
 func _on_server_item_removed(item: Object):
+	# TODO improve this when view and instance are unified/clarified
+	if _selected_item and _selected_item.get_id() == item.get_id():
+		_select_item(null)
+		
 	_inventory.remove_item(item)
 
-#	if _current_item == item:
-#		_select_item(null)
 
 func _on_server_curtain_up():
 	_curtain.play("up")
@@ -281,13 +283,6 @@ func _ready_click(position: Vector2) -> void:
 	
 	if clicked_item:
 		_select_item(clicked_item)
-		
-		print("clicked inventory item '%s'" % clicked_item.get_key())
-		
-		#
-#		if not game_instance.interact_request(clicked_item):
-#			_log_warning("interaction ignored")
-		
 		return
 	
 	# then check scene item click

@@ -172,6 +172,26 @@ const commands = {
 	
 }
 
+const item_id_separator := "."
+
+static func get_item_id(item_key: String, instance_number: int) -> String:
+	return "%s%s%s" % [item_key, item_id_separator, instance_number]
+
+static func get_item_key_and_number(item_id: String) -> Dictionary:
+	var index: int = item_id.find_last(item_id_separator)
+	
+	var separator_length: int = item_id_separator.length()
+	
+	var instance_number_index: int = index + separator_length
+	
+	if index < 0 or item_id.length() <= instance_number_index:
+		return { valid = false }
+	return {
+		valid = true,
+		item_key = item_id.substr(0, index),
+		instance_number = int(item_id.substr(instance_number_index))
+	}
+
 static func _typestr(value):
 	match typeof(value):
 		TYPE_ARRAY:
@@ -190,4 +210,3 @@ static func _typestr(value):
 			return "String"
 		_:
 			return "another:%s" % typeof(value)
-			

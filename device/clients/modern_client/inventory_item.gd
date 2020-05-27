@@ -1,5 +1,6 @@
 extends Control
 
+# TODO name model is wrong! change it to 'instance' or something
 var model = null
 
 func set_model(item_model: Object):
@@ -13,6 +14,9 @@ func set_model(item_model: Object):
 
 func get_key():
 	return model.get_key()
+
+func get_id():
+	return model.get_id()
 
 func get_item_name() -> String:
 	return tr("ITEM_" + get_key().to_upper())

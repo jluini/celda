@@ -18,6 +18,9 @@ func _ready():
 func get_key() -> String:
 	return key
 
+func get_id() -> String:
+	return key # id and key are the same for a scene item
+
 func get_item_name() -> String:
 	return tr("ITEM_" + get_key().to_upper())
 

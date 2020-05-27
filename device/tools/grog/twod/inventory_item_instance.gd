@@ -13,7 +13,7 @@ func _init(model: Node, instance_number: int):
 	_instance_number = _instance_number
 	
 	_key = model.get_key()
-	_id = "%s.%s" % [_key, instance_number]
+	_id = Grog.get_item_id(_key, instance_number)
 
 func get_key() -> String:
 	return _key
