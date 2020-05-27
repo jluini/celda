@@ -779,10 +779,12 @@ func _start_walking(subject: Node2D, original_target_position: Vector2, reason: 
 		_game_warning("room has no navigation polygon")
 		return false
 	
-	var origin_position = subject.position
+	var origin_position: Vector2 = subject.position
 	var target_position: Vector2 = nav.get_closest_point(original_target_position)
 	
-	# TODO don't walk if we are close enough to destination
+	if origin_position.is_equal_approx(target_position):
+		# care; returning false, same as in error cases
+		return false
 	
 	var path: PoolVector2Array = nav.get_simple_path(origin_position, target_position)
 	
@@ -953,7 +955,9 @@ func interact_request(item, trigger_name: String) -> bool:
 		var target_position : Vector2 = item.get_interact_position()
 		
 		if not _start_walking(current_player, target_position, WalkingReason.GoingToItem):
-			return false
+			# running as telekinetic because it's too close
+			_log_debug("running as telekinetic")
+			_run_routine()
 		
 	return true
 
