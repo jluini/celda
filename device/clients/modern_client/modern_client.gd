@@ -291,10 +291,6 @@ func _ready_click(position: Vector2) -> void:
 	
 	if clicked_item:
 		_select_item(clicked_item)
-		
-		if not game_instance.interact_request(clicked_item):
-			_log_warning("interaction ignored")
-		
 		return
 	
 	# finally issue a go-to request

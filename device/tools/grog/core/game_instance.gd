@@ -918,66 +918,42 @@ func go_to_request(target_position: Vector2) -> bool:
 	
 	return true
 
-func interact_request(item, trigger_name: String = "") -> bool:
+func interact_request(item, trigger_name: String) -> bool:
 	if not _validate_game_state("interact_request", GameState.Playing):
 		return false
 	if not _validate_interaction_state("interact_request", InteractionState.Ready):
 		return false
 	
-	if not item:
+	if not item or not trigger_name:
+		_log_warning("invalid interaction request (trigger = '%s')" % trigger_name)
 		return false
+	
+	# TODO check it's a valid scene item or inventory item?
 	
 	var item_key: String = item.get_key()
 	var item_id: String = item.get_id()
 	
-	# TODO check it's a valid scene item or inventory item?
 	# TODO do this much better
 	var is_inventory_item: bool = item_id != item_key
 	
-#	if not loaded_scene_items.has(item_key):
-#		_log_warning("invalid item '%s' to interact" % item_key)
-#		return false
+	var routine_found: bool = _fetch_routine([item_key, trigger_name], { "self": item_id })
 	
-	var action_is_default := trigger_name == ""
+	if not routine_found:
+		return false
 	
-#	if trigger_name == "":
-#		if not _game_script.default_action:
-#			_game_warning("game script doesn't have a default action")
-#			return false
-#
-#		trigger_name = _game_script.default_action
+	var is_telekinetic = is_inventory_item or _current_routine.is_telekinetic()
 	
-	# TODO fix duplicated code
-	
-	if action_is_default:
+	if is_telekinetic:
+		_run_routine()
+	else:
 		if not current_player:
-			_log_warning("interact_request: no player and no trigger")
+			_log_warning("interact_request: no player and routine is not telekinetic")
 			return false
 		
 		var target_position : Vector2 = item.get_interact_position()
 		
-		# TODO using GoingToPosition because there's no future interaction in this case
-		if not _start_walking(current_player, target_position, WalkingReason.GoingToPosition):
+		if not _start_walking(current_player, target_position, WalkingReason.GoingToItem):
 			return false
-	else:
-		var routine_found: bool = _fetch_routine([item_key, trigger_name], { "self": item_id })
-		
-		if not routine_found:
-			return false
-		
-		var is_telekinetic = is_inventory_item or _current_routine.is_telekinetic()
-		
-		if is_telekinetic:
-			_run_routine()
-		else:
-			if not current_player:
-				_log_warning("interact_request: no player and routine is not telekinetic")
-				return false
-			
-			var target_position : Vector2 = item.get_interact_position()
-			
-			if not _start_walking(current_player, target_position, WalkingReason.GoingToItem):
-				return false
 		
 	return true
 
