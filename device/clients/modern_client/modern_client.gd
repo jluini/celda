@@ -436,13 +436,7 @@ func _skip() -> bool:
 
 func _select_item(new_item):
 	if _selected_item == new_item:
-		if _selected_item:
-			_log_warning("item '%s' is already selected" % (new_item.get_key() if new_item else "null"))
-			# TODO return or refresh action list in this case?
 		return
-	
-	if _selected_item:
-		pass # unselect previous item
 	
 	_selected_item = new_item
 	

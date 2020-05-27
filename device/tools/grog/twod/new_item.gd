@@ -24,12 +24,15 @@ func get_id() -> String:
 func get_item_name() -> String:
 	return tr("ITEM_" + get_key().to_upper())
 
-func get_interact_position() -> Vector2:
+func get_interaction_position() -> Vector2:
 	if has_node("interact_position"):
 		var interact_position_child : Node2D = get_node("interact_position")
 		return interact_position_child.global_position
 	else:
 		return global_position
+
+func get_interaction_angle() -> int:
+	return interaction_angle
 
 func set_size(new_size: Vector2):
 	size = new_size

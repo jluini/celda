@@ -71,9 +71,11 @@ enum WalkingReason {
 }
 
 var _walking_reason : int = WalkingReason.None
-var _walking_time: float # seconds since current segment started
 var _walking_path: PoolVector2Array
 var _walking_subject: Node2D
+var _walking_target: Dictionary
+
+var _walking_time: float # seconds since current segment started
 var _walking_direction: Vector2
 var _walking_distance2: float
 
@@ -220,6 +222,9 @@ func _process(delta: float) -> void:
 			# final destination reached
 			set_process(false)
 			_walking_subject.stop()
+			
+			if _walking_target.set_angle:
+				_walking_subject.set_angle(_walking_target.target_angle)
 			
 			match _walking_reason:
 				WalkingReason.Automatic:
@@ -649,7 +654,7 @@ func _command_walk(item_id: String, target_node_name: String) -> Dictionary:
 	if not positioning.valid:
 		return _instant_termination
 	
-	if not _start_walking(player, positioning.target_position, WalkingReason.Automatic):
+	if not _start_walking(player, positioning, WalkingReason.Automatic):
 		return _instant_termination
 	
 	return { termination = "custom" }
@@ -718,12 +723,12 @@ func _get_target_positioning(verb: String, target_node_name: String, opts: Dicti
 		else:
 			# target is a scene item
 			var to_node = to_node_symbol.target
-			target_position = to_node.get_interact_position()
+			target_position = to_node.get_interaction_position()
 			
 			if not set_angle:
 				# use interaction angle by default
 				set_angle = true
-				target_angle = to_node.get_interact_angle()
+				target_angle = to_node.get_interaction_angle()
 	
 	return {
 		valid = true,
@@ -772,7 +777,7 @@ func _teleport(item: Node, positioning: Dictionary) -> void:
 		item.set_angle(positioning.target_angle)
 
 # used for command 'walk' and for client requests (go_to/interact)
-func _start_walking(subject: Node2D, original_target_position: Vector2, reason: int) -> bool:
+func _start_walking(subject: Node2D, _target_positioning: Dictionary, reason: int) -> bool:
 	var nav : Navigation2D = current_room.get_navigation()
 	
 	if not nav:
@@ -780,7 +785,7 @@ func _start_walking(subject: Node2D, original_target_position: Vector2, reason: 
 		return false
 	
 	var origin_position: Vector2 = subject.position
-	var target_position: Vector2 = nav.get_closest_point(original_target_position)
+	var target_position: Vector2 = nav.get_closest_point(_target_positioning.target_position)
 	
 	if origin_position.is_equal_approx(target_position):
 		# care; returning false, same as in error cases
@@ -799,6 +804,8 @@ func _start_walking(subject: Node2D, original_target_position: Vector2, reason: 
 	_walking_path = path
 	_walking_subject = subject
 	_walking_reason = reason
+	_walking_target = _target_positioning
+	
 	_setup_walking_segment()
 	
 	set_process(true)
@@ -892,9 +899,7 @@ func start_game_request(room_parent: Node) -> bool:
 	return true
 
 func skip_request() -> bool:
-	if _skip_enabled: # and not _skip_requested:
-		_log_debug("skip accepted")
-		#_skip_requested = true
+	if _skip_enabled:
 		_skip_enabled = false
 		
 		call_deferred("_advance")
@@ -915,7 +920,12 @@ func go_to_request(target_position: Vector2) -> bool:
 		_log_warning("go_to_request: no player")
 		return false
 	
-	if not _start_walking(current_player, target_position, WalkingReason.GoingToPosition):
+	var target_positioning := {
+		target_position = target_position,
+		set_angle = false
+	}
+	
+	if not _start_walking(current_player, target_positioning, WalkingReason.GoingToPosition):
 		return false
 	
 	return true
@@ -952,11 +962,17 @@ func interact_request(item, trigger_name: String) -> bool:
 			_log_warning("interact_request: no player and routine is not telekinetic")
 			return false
 		
-		var target_position : Vector2 = item.get_interact_position()
+		#var target_position : Vector2 = item.get_interaction_position()
 		
-		if not _start_walking(current_player, target_position, WalkingReason.GoingToItem):
+		var target_positioning := {
+			target_position = item.get_interaction_position(),
+			set_angle = true,
+			target_angle = item.get_interaction_angle()
+		}
+		
+		if not _start_walking(current_player, target_positioning, WalkingReason.GoingToItem):
 			# running as telekinetic because it's too close
-			_log_debug("running as telekinetic")
+			current_player.set_angle(target_positioning.target_angle)
 			_run_routine()
 		
 	return true
