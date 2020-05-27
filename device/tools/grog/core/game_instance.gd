@@ -56,10 +56,6 @@ var loaded_scene_items = {}
 
 # walking state
 
-var _walking_time: float # seconds
-var _walking_path: PoolVector2Array
-var _walking_subject: Node2D
-
 enum WalkingReason {
 	# not walking
 	None,
@@ -75,6 +71,11 @@ enum WalkingReason {
 }
 
 var _walking_reason : int = WalkingReason.None
+var _walking_time: float # seconds since current segment started
+var _walking_path: PoolVector2Array
+var _walking_subject: Node2D
+var _walking_direction: Vector2
+var _walking_distance2: float
 
 # constants
 
@@ -206,29 +207,14 @@ func _process(delta: float) -> void:
 	
 	_walking_time += delta
 	
-	assert(_walking_path.size() >= 2)
-	
-	var origin: Vector2 = _walking_path[0]
-	var destination: Vector2 = _walking_path[1]
-	
-	var displacement = destination - origin
-	var distance2 = displacement.length_squared()
-	var direction = displacement.normalized()
-	var angle = _get_degrees(direction)
-	
-	# TODO care; walking even if final destination is reached this frame, and
-	# stop() will be called some lines below
-	_walking_subject.walk(angle)
-	
 	var step_distance: float = _walking_subject.get_speed() * _walking_time
-	var target_point: Vector2 = origin + step_distance * direction
+	var target_point: Vector2 = _walking_path[0] + step_distance * _walking_direction
 	
-	if pow(step_distance, 2) >= distance2:
+	if pow(step_distance, 2) >= _walking_distance2:
 		# current destination reached
 		
-		_walking_subject.teleport(destination)
+		_walking_subject.teleport(_walking_path[1])
 		_walking_path.remove(0)
-		_walking_time = 0.0
 		
 		if _walking_path.size() < 2:
 			# final destination reached
@@ -252,7 +238,8 @@ func _process(delta: float) -> void:
 					assert(false)
 			
 			_walking_reason = WalkingReason.None
-			
+		else:
+			_setup_walking_segment()
 	else:
 		_walking_subject.teleport(target_point)
 
@@ -807,14 +794,24 @@ func _start_walking(subject: Node2D, original_target_position: Vector2, reason: 
 		_log_error("not a good reason to walk")
 		return false
 	
-	_walking_time = 0.0
 	_walking_path = path
 	_walking_subject = subject
 	_walking_reason = reason
+	_setup_walking_segment()
 	
 	set_process(true)
 	
 	return true
+
+func _setup_walking_segment():
+	assert(_walking_path.size() >= 2)
+	
+	_walking_time = 0.0
+	var displacement = _walking_path[1] - _walking_path[0]
+	_walking_distance2 = displacement.length_squared()
+	_walking_direction = displacement.normalized()
+	var angle = _get_degrees(_walking_direction)
+	_walking_subject.walk(angle)
 
 # Returns the symbol for a scene item (or builds it if not created yet)
 # Only returns null in case of type mismatch (symbol exists but its type doesn't match)
