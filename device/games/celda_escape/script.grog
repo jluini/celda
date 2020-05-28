@@ -80,6 +80,8 @@ inv_poster:
 cage/toilet:
 	look:
 		you.say LOOK_TOILET
+	walk_to:
+		you.say "Me están entrando ganas."
 		
 cage/bed:
 	look:
@@ -92,6 +94,8 @@ cage/door:
 			.set door_seen = true
 		else:
 			you.say LOOK_DOOR2
+	walk_to: TK
+		you.say CANT_REACH_DOOR
 
 cage/to_office:
 	look:

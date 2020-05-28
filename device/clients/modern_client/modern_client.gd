@@ -450,8 +450,14 @@ func _select_item(new_item):
 		
 		var item_actions: Array = server.game_script.get_item_actions(_selected_item)
 		
-		# removing default action from list
-		item_actions.erase(server.game_script.default_action)
+		var default_action: String = server.game_script.default_action
+		
+		# remove default action from list if present
+		item_actions.erase(default_action)
+		
+		if _selected_item.is_scene_item():
+			# add default action as first option
+			item_actions.push_front(default_action)
 		
 		_action_list.set_item(_selected_item, item_actions)
 		_action_list.show()

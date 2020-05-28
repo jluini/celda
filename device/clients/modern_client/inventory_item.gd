@@ -20,3 +20,6 @@ func get_id():
 
 func get_item_name() -> String:
 	return tr("ITEM_" + get_key().to_upper())
+
+func is_scene_item() -> bool:
+	return false

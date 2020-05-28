@@ -237,7 +237,9 @@ func _process(delta: float) -> void:
 					pass
 				
 				WalkingReason.GoingToItem:
-					_run_routine()
+					if _current_routine:
+						_run_routine()
+					# else this is an empty interaction (default action with no routine specified)
 				
 				_:
 					assert(false)
@@ -251,6 +253,10 @@ func _process(delta: float) -> void:
 # running
 
 func _run_routine() -> void:
+	if not _current_routine:
+		_log_error("calling _run_routine() but there is no routine")
+		return
+	
 	symbols.set_context(_current_context)
 	_interaction_state = InteractionState.Running
 	call_deferred("_advance")
@@ -948,12 +954,20 @@ func interact_request(item, trigger_name: String) -> bool:
 	# TODO do this much better
 	var is_inventory_item: bool = item_id != item_key
 	
-	var routine_found: bool = _fetch_routine([item_key, trigger_name], { "self": item_id })
+	var is_default_action: bool = trigger_name == _game_script.default_action
 	
-	if not routine_found:
+	var routine_found: bool = _fetch_routine(
+		[item_key, trigger_name],
+		{ "self": item_id },
+		not is_default_action
+	)
+	
+	if not is_default_action and not routine_found:
+		# this should not happen in current version
+		# error was already logged in _fetch_routine
 		return false
 	
-	var is_telekinetic = is_inventory_item or _current_routine.is_telekinetic()
+	var is_telekinetic = is_inventory_item or (routine_found and _current_routine.is_telekinetic())
 	
 	if is_telekinetic:
 		_run_routine()
@@ -961,8 +975,6 @@ func interact_request(item, trigger_name: String) -> bool:
 		if not current_player:
 			_log_warning("interact_request: no player and routine is not telekinetic")
 			return false
-		
-		#var target_position : Vector2 = item.get_interaction_position()
 		
 		var target_positioning := {
 			target_position = item.get_interaction_position(),
@@ -973,7 +985,9 @@ func interact_request(item, trigger_name: String) -> bool:
 		if not _start_walking(current_player, target_positioning, WalkingReason.GoingToItem):
 			# running as telekinetic because it's too close
 			current_player.set_angle(target_positioning.target_angle)
-			_run_routine()
+			if routine_found:
+				_run_routine()
+			# else this is an empty interaction (default action with no routine specified)
 		
 	return true
 
@@ -1145,7 +1159,7 @@ func _game_event(event_name: String, args: Array = []):
 	emit_signal("game_event", event_name, args)
 
 # searchs for the routine and caches it if found
-func _fetch_routine(headers: Array, context: Dictionary) -> bool:
+func _fetch_routine(headers: Array, context: Dictionary, required := true) -> bool:
 	if not _validate_game_state("_fetch_routine", GameState.Playing):
 		return false
 	if not _validate_interaction_state("_fetch_routine", InteractionState.Ready):
@@ -1154,7 +1168,9 @@ func _fetch_routine(headers: Array, context: Dictionary) -> bool:
 	var routine: Resource = _game_script.get_routine(headers)
 	
 	if not routine:
-		_log_warning("routine '%s' not found" % str(headers))
+		if required:
+			# this error might not make sense in future clients
+			_log_error("routine '%s' not found" % str(headers))
 		return false
 	
 	_current_routine_headers = headers

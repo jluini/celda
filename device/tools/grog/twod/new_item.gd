@@ -53,6 +53,9 @@ func enable() -> void:
 func disable() -> void:
 	set_visible(false)
 
+func is_scene_item() -> bool:
+	return true
+
 func _relative_rect() -> Rect2:
 	return Rect2(offset - size / 2, size)
 
