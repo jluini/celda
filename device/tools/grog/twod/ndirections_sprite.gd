@@ -59,7 +59,6 @@ func play_animation(key):
 
 func _get_animation():
 	if not _animation:
-		print("gettin it")
 		_animation = get_node(animation_path)
 	return _animation
 

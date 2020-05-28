@@ -123,7 +123,6 @@ func _on_item_enabled(_item):
 func _on_item_disabled(item):
 	if item == _selected_item:
 		print("unloading selected item '%s'!!" % item.get_key())
-	
 
 func _on_server_say(subject: Node, speech: String, _duration: float, _skippable: bool):
 	var color = subject.get_color() if subject else game_instance.get_default_color()
@@ -455,6 +454,7 @@ func _select_item(new_item, return_true_if_no_actions := false):
 		
 		if _selected_item.is_scene_item():
 			if return_true_if_no_actions and item_actions.empty():
+				_selected_item = null
 				return true
 			
 			# add default action as first option
