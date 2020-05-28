@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/bed.png" type="Texture" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://games/celda_escape/rooms/cage/images/front.png" type="Texture" id=5]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/grid_closed.png" type="Texture" id=6]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/light.png" type="Texture" id=7]
+[ext_resource path="res://games/celda_escape/rooms/cage/images/light_back.png" type="Texture" id=8]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/poster.png" type="Texture" id=9]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/background.jpg" type="Texture" id=11]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/toilet.png" type="Texture" id=12]
@@ -137,9 +138,14 @@ offset = Vector2( 0, -530 )
 interaction_angle = 0
 color = Color( 1, 1, 1, 1 )
 
-[node name="sprite" type="Sprite" parent="items/to_office"]
+[node name="light" type="Sprite" parent="items/to_office"]
 position = Vector2( -765.168, -324.902 )
 texture = ExtResource( 7 )
+
+[node name="lightback" type="Sprite" parent="items/to_office"]
+position = Vector2( -765.168, -324.902 )
+z_as_relative = false
+texture = ExtResource( 8 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 
