@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=2]
+[gd_scene load_steps=74 format=2]
 
 [ext_resource path="res://games/celda_escape/actors/shabon/char-cel-left-down.png" type="Texture" id=1]
 [ext_resource path="res://games/celda_escape/actors/shabon/char-cel-left-up.png" type="Texture" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://games/celda_escape/actors/shabon/char-cel-left.png" type="Texture" id=4]
 [ext_resource path="res://games/celda_escape/actors/shabon/char-cel-up.png" type="Texture" id=5]
 [ext_resource path="res://tools/grog/twod/actor.gd" type="Script" id=6]
+[ext_resource path="res://games/celda_escape/actors/shabon/Sha-Walk.png" type="Texture" id=7]
+[ext_resource path="res://games/celda_escape/actors/shabon/idle.png" type="Texture" id=8]
 [ext_resource path="res://tools/grog/twod/ndirections_sprite.gd" type="Script" id=67]
 
 [sub_resource type="AtlasTexture" id=1]
@@ -233,15 +235,55 @@ flags = 4
 atlas = ExtResource( 5 )
 region = Rect2( 300, 876, 150, 438 )
 
-[sub_resource type="SpriteFrames" id=46]
+[sub_resource type="AtlasTexture" id=46]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 0, 0, 220, 420 )
+
+[sub_resource type="AtlasTexture" id=47]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 220, 0, 220, 420 )
+
+[sub_resource type="AtlasTexture" id=48]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 440, 0, 220, 420 )
+
+[sub_resource type="AtlasTexture" id=49]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 0, 420, 220, 420 )
+
+[sub_resource type="AtlasTexture" id=50]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 220, 420, 220, 420 )
+
+[sub_resource type="AtlasTexture" id=51]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 440, 420, 220, 420 )
+
+[sub_resource type="AtlasTexture" id=52]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 0, 840, 220, 420 )
+
+[sub_resource type="AtlasTexture" id=53]
+flags = 4
+atlas = ExtResource( 7 )
+region = Rect2( 220, 840, 220, 420 )
+
+[sub_resource type="SpriteFrames" id=54]
 animations = [ {
-"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ) ],
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ), SubResource( 7 ), SubResource( 8 ), SubResource( 9 ), SubResource( 10 ), SubResource( 11 ), SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ), SubResource( 16 ), SubResource( 17 ), SubResource( 18 ), SubResource( 19 ), SubResource( 20 ), SubResource( 21 ), SubResource( 22 ), SubResource( 23 ), SubResource( 24 ), SubResource( 25 ), SubResource( 26 ), SubResource( 27 ), SubResource( 28 ), SubResource( 29 ), SubResource( 30 ), SubResource( 31 ), SubResource( 32 ), SubResource( 33 ), SubResource( 34 ), SubResource( 35 ), SubResource( 36 ), SubResource( 37 ), SubResource( 38 ), SubResource( 39 ), SubResource( 40 ), SubResource( 41 ), SubResource( 42 ), SubResource( 43 ), SubResource( 44 ), SubResource( 45 ), SubResource( 46 ), SubResource( 47 ), SubResource( 48 ), SubResource( 49 ), SubResource( 50 ), SubResource( 51 ), SubResource( 52 ), SubResource( 53 ), ExtResource( 8 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
 } ]
 
-[sub_resource type="Animation" id=47]
+[sub_resource type="Animation" id=55]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -255,8 +297,7 @@ tracks/0/keys = {
 "values": [ 2 ]
 }
 
-[sub_resource type="Animation" id=48]
-resource_name = "idle_left"
+[sub_resource type="Animation" id=56]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -270,7 +311,7 @@ tracks/0/keys = {
 "values": [ 21 ]
 }
 
-[sub_resource type="Animation" id=49]
+[sub_resource type="Animation" id=57]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -281,10 +322,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 11 ]
+"values": [ 53 ]
 }
 
-[sub_resource type="Animation" id=50]
+[sub_resource type="Animation" id=58]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -298,7 +339,7 @@ tracks/0/keys = {
 "values": [ 33 ]
 }
 
-[sub_resource type="Animation" id=51]
+[sub_resource type="Animation" id=59]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -312,7 +353,7 @@ tracks/0/keys = {
 "values": [ 44 ]
 }
 
-[sub_resource type="Animation" id=52]
+[sub_resource type="Animation" id=60]
 length = 0.9
 loop = true
 tracks/0/type = "value"
@@ -328,7 +369,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7, 8 ]
 }
 
-[sub_resource type="Animation" id=53]
+[sub_resource type="Animation" id=61]
 length = 0.9
 loop = true
 tracks/0/type = "value"
@@ -344,8 +385,8 @@ tracks/0/keys = {
 "values": [ 18, 19, 20, 21, 22, 23, 24, 25, 26 ]
 }
 
-[sub_resource type="Animation" id=54]
-length = 0.9
+[sub_resource type="Animation" id=62]
+length = 0.8
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -354,13 +395,13 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8 ),
-"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 9, 10, 11, 12, 13, 14, 15, 16, 17 ]
+"values": [ 45, 46, 47, 48, 49, 50, 51, 52 ]
 }
 
-[sub_resource type="Animation" id=55]
+[sub_resource type="Animation" id=63]
 length = 0.9
 loop = true
 tracks/0/type = "value"
@@ -376,7 +417,7 @@ tracks/0/keys = {
 "values": [ 27, 28, 29, 30, 31, 32, 33, 34, 35 ]
 }
 
-[sub_resource type="Animation" id=56]
+[sub_resource type="Animation" id=64]
 length = 0.9
 loop = true
 tracks/0/type = "value"
@@ -397,21 +438,21 @@ z_index = 1
 script = ExtResource( 6 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
-frames = SubResource( 46 )
-frame = 2
+frames = SubResource( 54 )
+frame = 50
 offset = Vector2( 0, -180 )
 
 [node name="animation" type="AnimationPlayer" parent="."]
-anims/idle_front = SubResource( 47 )
-anims/idle_left = SubResource( 48 )
-anims/idle_leftfront = SubResource( 49 )
-anims/idle_leftup = SubResource( 50 )
-anims/idle_up = SubResource( 51 )
-anims/walk_front = SubResource( 52 )
-anims/walk_left = SubResource( 53 )
-anims/walk_leftfront = SubResource( 54 )
-anims/walk_leftup = SubResource( 55 )
-anims/walk_up = SubResource( 56 )
+anims/idle_front = SubResource( 55 )
+anims/idle_left = SubResource( 56 )
+anims/idle_leftfront = SubResource( 57 )
+anims/idle_leftup = SubResource( 58 )
+anims/idle_up = SubResource( 59 )
+anims/walk_front = SubResource( 60 )
+anims/walk_left = SubResource( 61 )
+anims/walk_leftfront = SubResource( 62 )
+anims/walk_leftup = SubResource( 63 )
+anims/walk_up = SubResource( 64 )
 
 [node name="speech_position" type="Position2D" parent="."]
 position = Vector2( 0, -350 )
