@@ -98,35 +98,31 @@ cage/door:
 		you.say CANT_REACH_DOOR
 
 cage/to_office:
-	look:
-		you.say LOOK_HOLE_FROM_CAGE
-	use:
+	walk_to:
 		.load_room office
 		.set music=office
 		.curtain_up
 
 cage/to_cellar:
-	use:
+	walk_to:
 		.load_room cellar
 		.set music=lab
 		.curtain_up
 
 office/to_cage:
-	look:
-		you.say LOOK_HOLE_FROM_OFFICE
-	use:
+	walk_to:
 		.load_room cage_open
 		.set music=uajari
 		.curtain_up
 
 office/to_living:
-	use:
+	walk_to:
 		.load_room living
 		# keep music 'office'
 		.curtain_up
 
 living/to_office:
-	use:
+	walk_to:
 		.load_room office
 		# keep music 'office'
 		.curtain_up
@@ -136,19 +132,19 @@ living/picture:
 		you.say LOOK_PICTURE
 
 cellar/to_cage:
-	use:
+	walk_to:
 		.load_room cage_open
 		.set music=uajari
 		.curtain_up
 
 cellar/to_lab:
-	use:
+	walk_to:
 		.load_room lab
 		# keep music 'lab'
 		.curtain_up
 
 lab/to_cellar:
-	use:
+	walk_to:
 		.load_room cellar
 		# keep music 'lab'
 		.curtain_up

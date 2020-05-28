@@ -290,7 +290,10 @@ func _ready_click(position: Vector2) -> void:
 	clicked_item = _get_scene_item_at(position)
 	
 	if clicked_item:
-		_select_item(clicked_item)
+		if _select_item(clicked_item, true):
+			if not game_instance.interact_request(clicked_item, server.game_script.default_action):
+				_log_warning("default interaction ignored")
+		
 		return
 	
 	# finally issue a go-to request
@@ -434,13 +437,29 @@ func _skip() -> bool:
 		
 	return skip_accepted
 
-func _select_item(new_item):
+func _select_item(new_item, return_true_if_no_actions := false) -> bool:
 	if _selected_item == new_item:
-		return
+		return false
 	
 	_selected_item = new_item
 	
+	_item_selector.hide()
+	_action_list.hide()
+	
 	if _selected_item:
+		var item_actions: Array = server.game_script.get_item_actions(_selected_item)
+		var default_action: String = server.game_script.default_action
+		
+		# remove default action from list if present
+		item_actions.erase(default_action)
+		
+		if _selected_item.is_scene_item():
+			if return_true_if_no_actions and item_actions.empty():
+				return true
+			
+			# add default action as first option
+			item_actions.push_front(default_action)
+		
 		var rect : Rect2 = _selected_item.get_rect()
 		
 		_item_selector.set_position(rect.position)
@@ -448,21 +467,7 @@ func _select_item(new_item):
 		
 		_item_selector.show()
 		
-		var item_actions: Array = server.game_script.get_item_actions(_selected_item)
-		
-		var default_action: String = server.game_script.default_action
-		
-		# remove default action from list if present
-		item_actions.erase(default_action)
-		
-		if _selected_item.is_scene_item():
-			# add default action as first option
-			item_actions.push_front(default_action)
-		
 		_action_list.set_item(_selected_item, item_actions)
 		_action_list.show()
-		
-	else:
-		_item_selector.hide()
-		_action_list.hide()
 	
+	return false
