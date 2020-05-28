@@ -47,7 +47,7 @@ texture = ExtResource( 6 )
 position = Vector2( 1338.89, 931.034 )
 
 [node name="test" type="Position2D" parent="positions"]
-position = Vector2( 112.236, 906.897 )
+position = Vector2( 1573.07, 871.269 )
 
 [node name="pos1" type="Position2D" parent="positions"]
 position = Vector2( 1165.5, 766.847 )
@@ -100,7 +100,8 @@ offset = Vector2( 0, -107 )
 
 [node name="bed" type="Node2D" parent="items"]
 position = Vector2( 1478.32, 712.888 )
-z_index = 712
+z_index = 10
+z_as_relative = false
 script = ExtResource( 1 )
 key = "cage/bed"
 size = Vector2( 400, 175 )
@@ -144,6 +145,7 @@ texture = ExtResource( 7 )
 
 [node name="lightback" type="Sprite" parent="items/to_office"]
 position = Vector2( -765.168, -324.902 )
+z_index = 20
 z_as_relative = false
 texture = ExtResource( 8 )
 
