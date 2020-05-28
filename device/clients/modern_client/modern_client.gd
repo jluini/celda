@@ -437,7 +437,7 @@ func _skip() -> bool:
 		
 	return skip_accepted
 
-func _select_item(new_item, return_true_if_no_actions := false) -> bool:
+func _select_item(new_item, return_true_if_no_actions := false):
 	if _selected_item == new_item:
 		return false
 	
