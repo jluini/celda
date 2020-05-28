@@ -14,6 +14,13 @@ signal start_walking
 signal stop_walking
 signal angle_changed # (new_angle)
 
+# used when added to a new room
+func setup(new_room: Node, position: Vector2, orientation: int):
+	_set_room(new_room)
+	teleport(position)
+	set_angle(orientation)
+	stop() # triggers idle animation
+
 func get_color():
 	return color
 
@@ -56,7 +63,7 @@ func set_angle(new_angle: int):
 	angle = _normalize_angle(new_angle)
 	emit_signal("angle_changed", angle)
 
-func set_room(new_room):
+func _set_room(new_room: Node):
 	_horizon_y = new_room.horizon_y as float
 	_default_y = new_room.default_y as float
 

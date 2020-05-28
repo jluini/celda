@@ -450,11 +450,11 @@ func _command_load_room(room_name: String) -> Dictionary:
 		# TODO adding player to room always
 		room.add_child(current_player)
 		
-		current_player.set_room(room)
-		
 		# TODO ability to use another starting position
-		# TODO set orientation aswell
-		current_player.teleport(room.get_default_player_position())
+		var starting_position: Vector2 = room.get_default_player_position()
+		var starting_orientation: int = 90
+		
+		current_player.setup(room, starting_position, starting_orientation)
 	else:
 		_log_warning("playing with no player")
 	

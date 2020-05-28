@@ -9,7 +9,7 @@ export (NodePath) var animation_path
 export (NodePath) var sprite_path
 
 # Expected to be AnimationPlayer. We use play(String).
-onready var _animation = get_node(animation_path)
+var _animation
 
 # Expected to be Sprite or AnimatedSprite. We use flip_h and flip_v properties.
 var _sprite
@@ -37,8 +37,7 @@ func _on_angle_changed(new_angle: int):
 	var index = get_range_index(angle, config)
 	var key = config[index].walk if walking else config[index].idle
 	play_animation(key)
-	
-	
+
 func _on_stop_walking():
 	walking = false
 	
@@ -48,7 +47,7 @@ func _on_stop_walking():
 	key = config[index].idle
 	
 	play_animation(key)
-	
+
 func play_animation(key):
 	var keys: Array = key.split(".", false)
 	var animation_name = keys.pop_front()
@@ -56,8 +55,14 @@ func play_animation(key):
 	_get_sprite().flip_h = keys.has("flip_h")
 	_get_sprite().flip_v = keys.has("flip_v")
 
-	_animation.play(animation_name)
-	
+	_get_animation().play(animation_name)
+
+func _get_animation():
+	if not _animation:
+		print("gettin it")
+		_animation = get_node(animation_path)
+	return _animation
+
 # Misc
 
 # Return the index of the first element greater than the reference value, or 0
