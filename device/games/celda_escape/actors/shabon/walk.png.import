@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/char-cel-left-up.png-f22a0f141e2fd7e685ecd145cfcbb03e.stex"
+path="res://.import/walk.png-11e8a46392535c2952700df4b1b6c318.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/actors/shabon/char-cel-left-up.png"
-dest_files=[ "res://.import/char-cel-left-up.png-f22a0f141e2fd7e685ecd145cfcbb03e.stex" ]
+source_file="res://games/celda_escape/actors/shabon/walk.png"
+dest_files=[ "res://.import/walk.png-11e8a46392535c2952700df4b1b6c318.stex" ]
 
 [params]
 
