@@ -650,6 +650,19 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 							var option_value
 							
 							match np.type:
+								Grog.ParameterType.Identifier:
+									if value_token.type != Grog.TokenType.Identifier:
+										compiled_script.add_error("Option '%s' must be an identifier in command %s (line %s)" % [option_name, command_name, line.line_number])
+										return
+									
+									# TODO implement indirection with IdentifierExpression's
+									
+									if value_token.data.indirection_level > 0:
+										compiled_script.add_error("Indirection levels in options not implemented yet (line %s)" % line.line_number)
+										return
+									
+									option_value = value_token.data.key
+									
 								Grog.ParameterType.BooleanType:
 									if value_token.type == Grog.TokenType.TrueKeyword:
 										option_value = true

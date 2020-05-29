@@ -8,7 +8,7 @@ main:
 		
 		
 		if $stage < 2:
-			.load_room cage
+			.load_room cage at=positions/initial
 			.set music=celda
 			.curtain_up
 			
@@ -26,31 +26,31 @@ main:
 			
 			# office stage
 			if $stage = 2:
-				.load_room office
+				.load_room office at=positions/from_cage
 				.set music=office
 				.curtain_up
 			
 			# living stage
 			elif $stage = 3:
-				.load_room living
+				.load_room living at=positions/from_office
 				.set music=office
 				.curtain_up
 			
 			# cage-open stage
 			elif $stage = 4:
-				.load_room cage_open
+				.load_room cage_open at=positions/from_office
 				.set music=uajari
 				.curtain_up
 			
 			# cellar stage
 			elif $stage = 5:
-				.load_room cellar
+				.load_room cellar at=positions/from_cage
 				.set music=lab
 				.curtain_up
 			
 			# lab stage
 			elif $stage = 6:
-				.load_room lab
+				.load_room lab at=positions/from_cellar
 				.set music=lab
 				.curtain_up
 			
@@ -99,31 +99,31 @@ cage/door:
 
 cage/to_office:
 	walk_to:
-		.load_room office
+		.load_room office at=positions/from_cage
 		.set music=office
 		.curtain_up
 
 cage/to_cellar:
 	walk_to:
-		.load_room cellar
+		.load_room cellar at=positions/from_cage
 		.set music=lab
 		.curtain_up
 
 office/to_cage:
 	walk_to:
-		.load_room cage_open
+		.load_room cage_open at=positions/from_office
 		.set music=uajari
 		.curtain_up
 
 office/to_living:
 	walk_to:
-		.load_room living
+		.load_room living at=positions/from_office
 		# keep music 'office'
 		.curtain_up
 
 living/to_office:
 	walk_to:
-		.load_room office
+		.load_room office at=positions/from_living
 		# keep music 'office'
 		.curtain_up
 
@@ -133,18 +133,18 @@ living/picture:
 
 cellar/to_cage:
 	walk_to:
-		.load_room cage_open
+		.load_room cage_open at=positions/from_cellar
 		.set music=uajari
 		.curtain_up
 
 cellar/to_lab:
 	walk_to:
-		.load_room lab
+		.load_room lab at=positions/from_cellar
 		# keep music 'lab'
 		.curtain_up
 
 lab/to_cellar:
 	walk_to:
-		.load_room cellar
+		.load_room cellar at=positions/from_lab
 		# keep music 'lab'
 		.curtain_up

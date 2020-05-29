@@ -15,43 +15,42 @@ var _animation
 var _sprite
 
 var walking = false
-var angle = 0
-#var last_angle: int = 0
+var orientation := 0.0
 
 func _get_sprite():
 	if not _sprite:
 		_sprite = get_node(sprite_path)
 	return _sprite
 
-func _on_start_walking(new_angle: int):
-	angle = new_angle
+func _on_start_walking(new_orientation: float):
+	orientation = _normalize_angle(new_orientation)
 	walking = true
 	
-	var index = get_range_index(angle, config)
-	var key = config[index].walk
+	var index = _get_direction_index()
+	var key: String = config[index].walk
 	
 	play_animation(key)
 
-func _on_angle_changed(new_angle: int):
-	angle = new_angle
-	var index = get_range_index(angle, config)
-	var key = config[index].walk if walking else config[index].idle
+func _on_orientation_changed(new_orientation: float):
+	orientation = _normalize_angle(new_orientation)
+	
+	var index = _get_direction_index()
+	var key: String = config[index].walk if walking else config[index].idle
+	
 	play_animation(key)
 
-func _on_stop_walking():
+func _on_stop_walking() -> void:
 	walking = false
 	
-	var key: String = config.back().idle
-	
-	var index = get_range_index(angle, config)
-	key = config[index].idle
+	var index = _get_direction_index()
+	var key: String = config[index].idle
 	
 	play_animation(key)
 
-func play_animation(key):
+func play_animation(key: String) -> void:
 	var keys: Array = key.split(".", false)
 	var animation_name = keys.pop_front()
-
+	
 	_get_sprite().flip_h = keys.has("flip_h")
 	_get_sprite().flip_v = keys.has("flip_v")
 
@@ -64,10 +63,17 @@ func _get_animation():
 
 # Misc
 
-# Return the index of the first element greater than the reference value, or 0
-func get_range_index(value, cut_values: Array) -> int:
-	for i in range(cut_values.size()):
-		if value < cut_values[i].value:
+# Return the index of the first element greater than the normalized orientation, or 0
+func _get_direction_index() -> int:
+	for i in range(config.size()):
+		if orientation < config[i].value:
 			return i
 	
 	return 0
+
+static func _normalize_angle(angle: float) -> float:
+	while angle < 0:
+		angle += 360.0
+	while angle >= 360.0:
+		angle -= 360.0
+	return angle

@@ -58,6 +58,9 @@ const commands = {
 		subject = SubjectType.None,
 		required_params = [
 			{ name = "room_name", type = ParameterType.Identifier }
+		],
+		named_params = [
+			{ name = "at", type = ParameterType.Identifier }
 		]
 	},
 	wait = {

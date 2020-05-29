@@ -221,10 +221,11 @@ func _process(delta: float) -> void:
 		if _walking_path.size() < 2:
 			# final destination reached
 			set_process(false)
+			
 			_walking_subject.stop()
 			
-			if _walking_target.set_angle:
-				_walking_subject.set_angle(_walking_target.target_angle)
+			if _walking_target.set_orientation:
+				_walking_subject.set_orientation(_walking_target.orientation)
 			
 			match _walking_reason:
 				WalkingReason.Automatic:
@@ -392,7 +393,7 @@ func _run_command(command: Dictionary) -> Dictionary:
 
 ### commands
 
-func _command_load_room(room_name: String) -> Dictionary:
+func _command_load_room(room_name: String, opts: Dictionary) -> Dictionary:
 	# TODO validate state? same for all commands
 	
 	var room_resource = _get_room_resource(room_name)
@@ -446,20 +447,9 @@ func _command_load_room(room_name: String) -> Dictionary:
 	_current_room_name = room_name
 	current_room = room
 	
-	if current_player:
-		# TODO adding player to room always
-		room.add_child(current_player)
-		
-		# TODO ability to use another starting position
-		var starting_position: Vector2 = room.get_default_player_position()
-		var starting_orientation: int = 90
-		
-		current_player.setup(room, starting_position, starting_orientation)
-	else:
-		_log_warning("playing with no player")
-	
 	# care: items are not _ready yet
 	
+	# load room items
 	for item in room.get_items():
 		var item_key = item.get_key()
 		
@@ -493,6 +483,22 @@ func _command_load_room(room_name: String) -> Dictionary:
 			_game_event("item_enabled", [item])
 	
 	_room_parent.add_child(room) # _ready is called here for room and its items
+	
+	# load player if needed
+	if opts.has("at"):
+		if current_player:
+			var positioning: Dictionary = _get_target_positioning("load_room", opts.at)
+			
+			if positioning.valid:
+				room.add_child(current_player)
+				current_player.setup(room, positioning.location, positioning.orientation)
+			else:
+				_game_error("can't position player at '%s'" % opts.at)
+		
+		else:
+			_game_warning("should load room with player at '%s' but there's no player" % opts.at)
+	else:
+		_log_warning("playing with no player not fully implemented yet")
 	
 	_game_event("room_loaded", [room]) # TODO parameter is not necessary
 	
@@ -635,13 +641,14 @@ func _command_remove(item_id: String) -> Dictionary:
 	
 	return _instant_termination
 
-func _command_teleport(item_id: String, target_node_name: String, opts: Dictionary) -> Dictionary:
+# TODO ignoring teleport opts
+func _command_teleport(item_id: String, target_node_name: String, _opts: Dictionary) -> Dictionary:
 	var player = _get_player(item_id)
 	
 	if not player:
 		return _instant_termination
 	
-	var positioning = _get_target_positioning("teleport", target_node_name, opts)
+	var positioning = _get_target_positioning("teleport", target_node_name)
 	
 	if positioning.valid:
 		_teleport(player, positioning)
@@ -655,7 +662,7 @@ func _command_walk(item_id: String, target_node_name: String) -> Dictionary:
 	if not player:
 		return _instant_termination
 	
-	var positioning = _get_target_positioning("walk", target_node_name, {})
+	var positioning = _get_target_positioning("walk", target_node_name)
 	
 	if not positioning.valid:
 		return _instant_termination
@@ -684,34 +691,27 @@ func _get_player(item_id: String) -> Node:
 	
 	return ret
 
-func _get_target_positioning(verb: String, target_node_name: String, opts: Dictionary) -> Dictionary:
-	var target_position: Vector2 # TODO this is coupled with two-dimensional geometry
-	var set_angle: bool = false
-	var target_angle: int
-	
-	if opts.has("angle"):
-		var angle_option = opts["angle"]
-		
-		if typeof(angle_option) != TYPE_INT:
-			_log_warning("angle is of type %s" % Grog._typestr(angle_option))
-			angle_option = int(angle_option)
-		
-		set_angle = true
-		target_angle = angle_option
-	
+# TODO change name?
+# TODO improve code
+func _get_target_positioning(verb: String, target_node_name: String) -> Dictionary:
 	# tries to find a scene item first
 	var to_node_symbol = symbols.get_symbol_of_types(target_node_name, ["scene_item"], false)
 	
 	if to_node_symbol == null:
-		var position_node_name: String = "positions/" + target_node_name
 		# absent; find a plain node then
-		if not current_room.has_node(position_node_name):
-			_game_warning("node '%s' not found" % position_node_name)
+		if not current_room.has_node(target_node_name):
+			_game_warning("node '%s' not found" % target_node_name)
 			return { valid = false }
 		else:
 			# target is a plain node
-			var plain_node: Node2D = current_room.get_node(position_node_name)
-			target_position = plain_node.position
+			var plain_node: Node2D = current_room.get_node(target_node_name)
+			
+			return {
+				valid = true,
+				location = plain_node.get_location(),
+				set_orientation = true,
+				orientation = plain_node.get_orientation()
+			}
 	
 	elif not to_node_symbol.type:
 		# type mismatch
@@ -729,19 +729,13 @@ func _get_target_positioning(verb: String, target_node_name: String, opts: Dicti
 		else:
 			# target is a scene item
 			var to_node = to_node_symbol.target
-			target_position = to_node.get_interaction_position()
 			
-			if not set_angle:
-				# use interaction angle by default
-				set_angle = true
-				target_angle = to_node.get_interaction_angle()
-	
-	return {
-		valid = true,
-		target_position = target_position,
-		set_angle = set_angle,
-		target_angle = target_angle
-	}
+			return {
+				valid = true,
+				location = to_node.get_interact_location(),
+				set_orientation = true,
+				orientation = to_node.get_interact_orientation()
+			}
 
 func _change_enabledness(item_key: String, new_enabledness: bool) -> Dictionary:
 	var verb = "enable" if new_enabledness else "disable"
@@ -776,14 +770,15 @@ func _change_enabledness(item_key: String, new_enabledness: bool) -> Dictionary:
 
 	return _instant_termination
 
+# TODO encapsulate positioning as object and implement this as actor/item method?
 func _teleport(item: Node, positioning: Dictionary) -> void:
-	item.teleport(positioning.target_position)
+	item.teleport(positioning.location)
 	
-	if positioning.set_angle:
-		item.set_angle(positioning.target_angle)
+	if positioning.set_orientation:
+		item.set_orientation(positioning.orientation)
 
 # used for command 'walk' and for client requests (go_to/interact)
-func _start_walking(subject: Node2D, _target_positioning: Dictionary, reason: int) -> bool:
+func _start_walking(subject: Node2D, target_positioning: Dictionary, reason: int) -> bool:
 	var nav : Navigation2D = current_room.get_navigation()
 	
 	if not nav:
@@ -791,7 +786,7 @@ func _start_walking(subject: Node2D, _target_positioning: Dictionary, reason: in
 		return false
 	
 	var origin_position: Vector2 = subject.position
-	var target_position: Vector2 = nav.get_closest_point(_target_positioning.target_position)
+	var target_position: Vector2 = nav.get_closest_point(target_positioning.location)
 	
 	if origin_position.is_equal_approx(target_position):
 		# care; returning false, same as in error cases
@@ -810,7 +805,7 @@ func _start_walking(subject: Node2D, _target_positioning: Dictionary, reason: in
 	_walking_path = path
 	_walking_subject = subject
 	_walking_reason = reason
-	_walking_target = _target_positioning
+	_walking_target = target_positioning
 	
 	_setup_walking_segment()
 	
@@ -864,8 +859,9 @@ func start_game_request(room_parent: Node) -> bool:
 	if _starting_from_saved_game:
 		if _current_room_name:
 			# TODO use another function name for this
+			# TODO this has changed, starting positioning is needed now
 			# warning-ignore:return_value_discarded
-			_command_load_room(_current_room_name)
+			_command_load_room(_current_room_name, {})
 			
 			if not current_room:
 				_log_error("loading saved '%s' room failed" % _current_room_name)
@@ -927,8 +923,8 @@ func go_to_request(target_position: Vector2) -> bool:
 		return false
 	
 	var target_positioning := {
-		target_position = target_position,
-		set_angle = false
+		location = target_position,
+		set_orientation = false
 	}
 	
 	if not _start_walking(current_player, target_positioning, WalkingReason.GoingToPosition):
@@ -977,14 +973,14 @@ func interact_request(item, trigger_name: String) -> bool:
 			return false
 		
 		var target_positioning := {
-			target_position = item.get_interaction_position(),
-			set_angle = true,
-			target_angle = item.get_interaction_angle()
+			location = item.get_interact_location(),
+			set_orientation = true,
+			orientation = item.get_interact_orientation()
 		}
 		
 		if not _start_walking(current_player, target_positioning, WalkingReason.GoingToItem):
 			# running as telekinetic because it's too close
-			current_player.set_angle(target_positioning.target_angle)
+			current_player.set_orientation(target_positioning.orientation)
 			if routine_found:
 				_run_routine()
 			# else this is an empty interaction (default action with no routine specified)

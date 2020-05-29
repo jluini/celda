@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=1]
 [ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=2]
+[ext_resource path="res://tools/grog/twod/positioning.gd" type="Script" id=3]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1873.42, 1045.41, 58.8726, 1040.51, 308.986, 422.578, 1642.92, 412.77 )
@@ -18,11 +19,10 @@ centered = false
 
 [node name="positions" type="Node" parent="."]
 
-[node name="default" type="Position2D" parent="positions"]
-position = Vector2( 1338.89, 931.034 )
-
-[node name="test" type="Position2D" parent="positions"]
-position = Vector2( 112.236, 906.897 )
+[node name="initial" type="Node2D" parent="positions"]
+position = Vector2( 458.456, 638.658 )
+rotation = 2.61799
+script = ExtResource( 3 )
 
 [node name="items" type="Node" parent="."]
 
@@ -31,23 +31,11 @@ position = Vector2( 715.858, 850.953 )
 z_index = 850
 script = ExtResource( 1 )
 key = "room/item1"
-size = Vector2( 100, 100 )
-offset = Vector2( 0, 0 )
-interaction_angle = 90
-color = Color( 1, 1, 1, 1 )
 
-[node name="interact_position" type="Position2D" parent="items/item_1"]
-position = Vector2( 71.5508, 82.1509 )
-
-[node name="item_2" type="Node2D" parent="items"]
-position = Vector2( 1313.53, 774.741 )
-z_index = 774
-script = ExtResource( 1 )
-key = "room/item2"
-size = Vector2( 100, 100 )
-offset = Vector2( 0, 0 )
-interaction_angle = 90
-color = Color( 1, 1, 1, 1 )
+[node name="positioning" type="Node2D" parent="items/item_1"]
+position = Vector2( -82.6501, 58.9 )
+rotation = -0.785398
+script = ExtResource( 3 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/bed.png" type="Texture" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://games/celda_escape/rooms/cage/images/light.png" type="Texture" id=7]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/light_back.png" type="Texture" id=8]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/poster.png" type="Texture" id=9]
+[ext_resource path="res://tools/grog/twod/positioning.gd" type="Script" id=10]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/background.jpg" type="Texture" id=11]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/toilet.png" type="Texture" id=12]
 
@@ -43,23 +44,19 @@ texture = ExtResource( 6 )
 
 [node name="positions" type="Node" parent="."]
 
-[node name="default" type="Position2D" parent="positions"]
-position = Vector2( 1338.89, 931.034 )
+[node name="initial" type="Node2D" parent="positions"]
+position = Vector2( 1555.76, 976.189 )
+rotation = 3.14159
+script = ExtResource( 10 )
 
-[node name="test" type="Position2D" parent="positions"]
-position = Vector2( 1573.07, 871.269 )
+[node name="from_office" type="Node2D" parent="positions"]
+position = Vector2( 1670.3, 832.752 )
+rotation = 3.14159
+script = ExtResource( 10 )
 
-[node name="pos1" type="Position2D" parent="positions"]
-position = Vector2( 1165.5, 766.847 )
-
-[node name="pos2" type="Position2D" parent="positions"]
-position = Vector2( 1299.95, 979.723 )
-
-[node name="pos3" type="Position2D" parent="positions"]
-position = Vector2( 1594.83, 936.579 )
-
-[node name="pos4" type="Position2D" parent="positions"]
-position = Vector2( 1687.23, 835.944 )
+[node name="from_cellar" type="Node2D" parent="positions"]
+position = Vector2( 200.284, 823.214 )
+script = ExtResource( 10 )
 
 [node name="items" type="Node" parent="."]
 
@@ -69,65 +66,14 @@ z_index = 367
 script = ExtResource( 1 )
 key = "cage/poster"
 size = Vector2( 112.636, 250 )
-offset = Vector2( 0, 0 )
-interaction_angle = 0
-color = Color( 1, 1, 1, 1 )
-
-[node name="interact_position" type="Position2D" parent="items/poster"]
-position = Vector2( -38.8429, 468.312 )
 
 [node name="sprite" type="Sprite" parent="items/poster"]
 show_behind_parent = true
 texture = ExtResource( 9 )
 
-[node name="toilet" type="Node2D" parent="items"]
-position = Vector2( 1783, 928 )
-z_index = 928
-script = ExtResource( 1 )
-key = "cage/toilet"
-size = Vector2( 220, 240 )
-offset = Vector2( 0, -100 )
-interaction_angle = 0
-color = Color( 1, 1, 1, 1 )
-
-[node name="interact_position" type="Position2D" parent="items/toilet"]
-position = Vector2( -120.937, -9.94092 )
-
-[node name="sprite" type="Sprite" parent="items/toilet"]
-show_behind_parent = true
-texture = ExtResource( 12 )
-offset = Vector2( 0, -107 )
-
-[node name="bed" type="Node2D" parent="items"]
-position = Vector2( 1478.32, 712.888 )
-z_index = 10
-z_as_relative = false
-script = ExtResource( 1 )
-key = "cage/bed"
-size = Vector2( 400, 175 )
-offset = Vector2( 0, -10 )
-interaction_angle = 270
-color = Color( 1, 1, 1, 1 )
-
-[node name="sprite" type="Sprite" parent="items/bed"]
-show_behind_parent = true
-texture = ExtResource( 2 )
-
-[node name="interact_position" type="Position2D" parent="items/bed"]
-position = Vector2( 11.6912, 95.1999 )
-
-[node name="door" type="Node2D" parent="items"]
-position = Vector2( 556.168, 527 )
-z_index = 527
-script = ExtResource( 1 )
-key = "cage/door"
-size = Vector2( 220, 410 )
-offset = Vector2( 0, 0 )
-interaction_angle = 210
-color = Color( 1, 1, 1, 1 )
-
-[node name="interact_position" type="Position2D" parent="items/door"]
-position = Vector2( 559.372, 220.889 )
+[node name="positioning" type="Node2D" parent="items/poster"]
+position = Vector2( -55.7717, 465.768 )
+script = ExtResource( 10 )
 
 [node name="to_office" type="Node2D" parent="items"]
 position = Vector2( 1725.28, 865.199 )
@@ -136,8 +82,6 @@ script = ExtResource( 1 )
 key = "cage/to_office"
 size = Vector2( 130, 120 )
 offset = Vector2( 0, -530 )
-interaction_angle = 0
-color = Color( 1, 1, 1, 1 )
 
 [node name="light" type="Sprite" parent="items/to_office"]
 position = Vector2( -765.168, -324.902 )
@@ -148,6 +92,57 @@ position = Vector2( -765.168, -324.902 )
 z_index = 20
 z_as_relative = false
 texture = ExtResource( 8 )
+
+[node name="positioning" type="Node2D" parent="items/to_office"]
+position = Vector2( -55.0518, -32.431 )
+script = ExtResource( 10 )
+
+[node name="toilet" type="Node2D" parent="items"]
+position = Vector2( 1783, 928 )
+z_index = 928
+script = ExtResource( 1 )
+key = "cage/toilet"
+size = Vector2( 220, 240 )
+offset = Vector2( 0, -100 )
+
+[node name="sprite" type="Sprite" parent="items/toilet"]
+show_behind_parent = true
+texture = ExtResource( 12 )
+offset = Vector2( 0, -107 )
+
+[node name="positioning" type="Node2D" parent="items/toilet"]
+position = Vector2( -113.685, -3.15796 )
+script = ExtResource( 10 )
+
+[node name="bed" type="Node2D" parent="items"]
+position = Vector2( 1478.32, 712.888 )
+z_index = 10
+z_as_relative = false
+script = ExtResource( 1 )
+key = "cage/bed"
+size = Vector2( 400, 175 )
+offset = Vector2( 0, -10 )
+
+[node name="sprite" type="Sprite" parent="items/bed"]
+show_behind_parent = true
+texture = ExtResource( 2 )
+
+[node name="positioning" type="Node2D" parent="items/bed"]
+position = Vector2( 15.2001, 90.25 )
+rotation = -1.5708
+script = ExtResource( 10 )
+
+[node name="door" type="Node2D" parent="items"]
+position = Vector2( 556.168, 527 )
+z_index = 527
+script = ExtResource( 1 )
+key = "cage/door"
+size = Vector2( 220, 410 )
+
+[node name="positioning" type="Node2D" parent="items/door"]
+position = Vector2( 553.689, 221.055 )
+rotation = -2.98626
+script = ExtResource( 10 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 

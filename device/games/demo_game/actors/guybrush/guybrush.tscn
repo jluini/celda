@@ -312,6 +312,6 @@ config = [ {
 } ]
 animation_path = NodePath("../animation")
 sprite_path = NodePath("../Sprite")
-[connection signal="angle_changed" from="." to="ndirections" method="_on_angle_changed"]
+[connection signal="orientation_changed" from="." to="ndirections" method="_on_orientation_changed"]
 [connection signal="start_walking" from="." to="ndirections" method="_on_start_walking"]
 [connection signal="stop_walking" from="." to="ndirections" method="_on_stop_walking"]

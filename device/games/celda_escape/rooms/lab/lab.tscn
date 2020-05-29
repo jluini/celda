@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/background.jpg" type="Texture" id=2]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/front.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=4]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/gate.png" type="Texture" id=5]
+[ext_resource path="res://tools/grog/twod/positioning.gd" type="Script" id=6]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1883.04, 1053.02, 172.878, 1049.34, 361.694, 830.317, 465.398, 729.364, 158.083, 827.906, 213.199, 717.673, 560.599, 627.483, 657.47, 645.855, 745.99, 637.504, 804.447, 607.44, 1553.58, 825.813, 806.117, 550.654, 1328.65, 548.619, 1814.87, 834.902, 1873.95, 898.52 )
@@ -33,11 +34,9 @@ centered = false
 
 [node name="positions" type="Node" parent="."]
 
-[node name="default" type="Position2D" parent="positions"]
-position = Vector2( 345.988, 776.532 )
-
-[node name="test" type="Position2D" parent="positions"]
-position = Vector2( 236.723, 818.06 )
+[node name="from_cellar" type="Node2D" parent="positions"]
+position = Vector2( 296.101, 766.162 )
+script = ExtResource( 6 )
 
 [node name="items" type="Node" parent="."]
 
@@ -47,22 +46,11 @@ z_index = 436
 script = ExtResource( 1 )
 key = "lab/to_cellar"
 size = Vector2( 350, 750 )
-offset = Vector2( 0, 0 )
-interaction_angle = 180
-color = Color( 1, 1, 1, 1 )
 
-[node name="interact_position" type="Position2D" parent="items/to_cellar"]
-position = Vector2( 23.9505, 315.392 )
-
-[node name="item_2" type="Node2D" parent="items"]
-position = Vector2( 1313.53, 774.741 )
-z_index = 774
-script = ExtResource( 1 )
-key = "room/item2"
-size = Vector2( 100, 100 )
-offset = Vector2( 0, 0 )
-interaction_angle = 90
-color = Color( 1, 1, 1, 1 )
+[node name="positioning" type="Node2D" parent="items/to_cellar"]
+position = Vector2( -92.5316, 327.562 )
+rotation = 3.14159
+script = ExtResource( 6 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 

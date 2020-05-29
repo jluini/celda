@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://games/celda_escape/rooms/office/images/background.jpg" type="Texture" id=1]
 [ext_resource path="res://games/celda_escape/rooms/office/images/front.png" type="Texture" id=2]
 [ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=3]
+[ext_resource path="res://tools/grog/twod/positioning.gd" type="Script" id=4]
 [ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=5]
 [ext_resource path="res://games/celda_escape/rooms/office/images/armor.png" type="Texture" id=6]
 [ext_resource path="res://games/celda_escape/rooms/office/images/busto.png" type="Texture" id=7]
@@ -38,29 +39,28 @@ texture = ExtResource( 6 )
 
 [node name="positions" type="Node" parent="."]
 
-[node name="default" type="Position2D" parent="positions"]
-position = Vector2( 420.202, 867.626 )
+[node name="from_cage" type="Node2D" parent="positions"]
+position = Vector2( 426.514, 859.18 )
+script = ExtResource( 4 )
 
-[node name="test" type="Position2D" parent="positions"]
-position = Vector2( 772.377, 815.839 )
-
-[node name="from_living" type="Position2D" parent="positions"]
-position = Vector2( 1785.72, 979.087 )
+[node name="from_living" type="Node2D" parent="positions"]
+position = Vector2( 1856.66, 967.942 )
+rotation = 3.14159
+script = ExtResource( 4 )
 
 [node name="items" type="Node" parent="."]
 
 [node name="to_cage" type="Node2D" parent="items"]
-position = Vector2( 172.252, 244.705 )
-z_index = 244
+position = Vector2( 172.252, 234 )
+z_index = 234
 script = ExtResource( 5 )
 key = "office/to_cage"
-size = Vector2( 130, 100 )
-offset = Vector2( 0, 0 )
-interaction_angle = 180
-color = Color( 1, 1, 1, 1 )
+size = Vector2( 150, 150 )
 
-[node name="interact_position" type="Position2D" parent="items/to_cage"]
-position = Vector2( 247.89, 622.362 )
+[node name="positioning" type="Node2D" parent="items/to_cage"]
+position = Vector2( 253.907, 626 )
+rotation = 3.14159
+script = ExtResource( 4 )
 
 [node name="to_living" type="Node2D" parent="items"]
 position = Vector2( 1801.33, 969.977 )
@@ -68,9 +68,10 @@ z_index = 969
 script = ExtResource( 5 )
 key = "office/to_living"
 size = Vector2( 240, 220 )
-offset = Vector2( 0, 0 )
-interaction_angle = 0
-color = Color( 1, 1, 1, 1 )
+
+[node name="positioning" type="Node2D" parent="items/to_living"]
+position = Vector2( 86.6637, 3.86896 )
+script = ExtResource( 4 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 

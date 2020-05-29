@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://games/celda_escape/rooms/cellar/images/background.jpg" type="Texture" id=1]
 [ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://games/celda_escape/rooms/cellar/images/walls.png" type="Texture" id=5]
 [ext_resource path="res://games/celda_escape/rooms/cellar/images/Front.png" type="Texture" id=6]
 [ext_resource path="res://games/celda_escape/rooms/cellar/images/camas.png" type="Texture" id=7]
+[ext_resource path="res://tools/grog/twod/positioning.gd" type="Script" id=8]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1816.89, 1039.53, 58.8726, 1040.51, 433.565, 753.321, 1120.62, 759.644, 1530.69, 761.271, 1300.79, 759.644, 1368.53, 680.732, 1307.08, 610.425, 1411.34, 612.054, 1499.82, 714.951, 1282.63, 715.649, 1115.73, 712.157, 978.856, 677.24, 977.739, 713.091 )
@@ -44,14 +45,14 @@ centered = false
 
 [node name="positions" type="Node" parent="."]
 
-[node name="default" type="Position2D" parent="positions"]
-position = Vector2( 337.17, 864.783 )
+[node name="from_cage" type="Node2D" parent="positions"]
+position = Vector2( 336.815, 843.888 )
+script = ExtResource( 8 )
 
-[node name="from_lab" type="Position2D" parent="positions"]
-position = Vector2( 1566.79, 872.733 )
-
-[node name="test" type="Position2D" parent="positions"]
-position = Vector2( 256.146, 864.868 )
+[node name="from_lab" type="Node2D" parent="positions"]
+position = Vector2( 1647.06, 873.498 )
+rotation = 3.14159
+script = ExtResource( 8 )
 
 [node name="items" type="Node" parent="."]
 
@@ -61,9 +62,11 @@ z_index = 585
 script = ExtResource( 2 )
 key = "cellar/to_cage"
 size = Vector2( 350, 750 )
-offset = Vector2( 0, 0 )
-interaction_angle = 180
-color = Color( 1, 1, 1, 1 )
+
+[node name="positioning" type="Node2D" parent="items/to_cage"]
+position = Vector2( -9.25317, 161.005 )
+rotation = 4.02473
+script = ExtResource( 8 )
 
 [node name="to_lab" type="Node2D" parent="items"]
 position = Vector2( 1740.19, 586.587 )
@@ -71,9 +74,11 @@ z_index = 586
 script = ExtResource( 2 )
 key = "cellar/to_lab"
 size = Vector2( 350, 750 )
-offset = Vector2( 0, 0 )
-interaction_angle = 0
-color = Color( 1, 1, 1, 1 )
+
+[node name="positioning" type="Node2D" parent="items/to_lab"]
+position = Vector2( 51.8176, 262.79 )
+rotation = -0.195477
+script = ExtResource( 8 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 
