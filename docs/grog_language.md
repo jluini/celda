@@ -15,10 +15,10 @@ Instructions can be:
 
 |      Command      |                  Description                  |   Sintaxis                                                                            |
 |:-----------------:|:--------------------------------------------- |:------------------------------------------------------------------------------------- |
-| **load_room**     | Loads a new room.                             | `            .load_room    <room_id>                                                ` |
-| **enable_input**  | Enables input and show controls.              | `            .enable_input                                                          ` |
-| **disable_input** | Disable input and hides controls.             | `            .disable_input                                                         ` |
-| **curtain_up**    | Curtain up.                                   | `            .curtain_up                                                            ` |
+| **load\_room**    | Loads a new room.                             | `            .load_room    <room_id> at=<initial_player_position>                   ` |
+| **enable\_input** | Enables input and show controls.              | `            .enable_input                                                          ` |
+| **disable\_input**| Disable input and hides controls.             | `            .disable_input                                                         ` |
+| **curtain\_up**   | Curtain up.                                   | `            .curtain_up                                                            ` |
 | **wait**          | Waits `delay` seconds.                        | `            .wait         <delay> [skippable=true\|false]                          ` |
 | **say**           | The environment or an item says something.    | ` [<subject>].say          <speech> [skippable=true\|false]  [duration=<delay>]     ` |
 | **walk**          | Player or item walks to position.             | `   <subject>.walk         to=<target_name>                                         ` |
@@ -39,9 +39,11 @@ Instructions can be:
 ## load_room
 
 If there's a room loaded, lowers the curtain and unloads it. Then loads the new room.
-The command `curtain_up` is needed afterwards to raise the curtain again (the new room will not be visible otherwise).
 
-Not fully implemented yet.
+The option `at` indicates the initial positioning of the player. It can be the key of an item in the room of the path to a _plain_ positioning node.
+If the option is absent the room is loaded without a player (not working yet).
+
+The command `curtain_up` is needed after `load_room` to raise the curtain again (the new room will not be visible otherwise).
 
 ## curtain_up
 
