@@ -153,12 +153,6 @@ offset = Vector2( 0, -180 )
 anims/idle_leftfront = SubResource( 21 )
 anims/walk_leftfront = SubResource( 22 )
 
-[node name="speech_position" type="Position2D" parent="."]
-position = Vector2( 0, -350 )
-__meta__ = {
-"_gizmo_extents_": 8.0
-}
-
 [node name="ndirections" type="Node" parent="."]
 script = ExtResource( 67 )
 config = [ {
