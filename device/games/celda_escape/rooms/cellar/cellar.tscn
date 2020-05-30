@@ -1,13 +1,16 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://games/celda_escape/rooms/cellar/images/background.jpg" type="Texture" id=1]
-[ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=2]
+[ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=2]
 [ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=3]
 [ext_resource path="res://games/celda_escape/rooms/cellar/images/rejas.png" type="Texture" id=4]
 [ext_resource path="res://games/celda_escape/rooms/cellar/images/walls.png" type="Texture" id=5]
 [ext_resource path="res://games/celda_escape/rooms/cellar/images/Front.png" type="Texture" id=6]
 [ext_resource path="res://games/celda_escape/rooms/cellar/images/camas.png" type="Texture" id=7]
-[ext_resource path="res://tools/grog/twod/positioning.gd" type="Script" id=8]
+[ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=8]
+
+
+
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1816.89, 1039.53, 58.8726, 1040.51, 433.565, 753.321, 1120.62, 759.644, 1530.69, 761.271, 1300.79, 759.644, 1368.53, 680.732, 1307.08, 610.425, 1411.34, 612.054, 1499.82, 714.951, 1282.63, 715.649, 1115.73, 712.157, 978.856, 677.24, 977.739, 713.091 )

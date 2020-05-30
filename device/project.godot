@@ -42,7 +42,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "InventoryItemInstance",
 "language": "GDScript",
-"path": "res://tools/grog/twod/inventory_item_instance.gd"
+"path": "res://tools/grog/core/inventory_item_instance.gd"
 }, {
 "base": "Reference",
 "class": "InverseNumberExpression",

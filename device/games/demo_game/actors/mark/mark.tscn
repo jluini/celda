@@ -17,8 +17,9 @@
 [ext_resource path="res://games/demo_game/actors/mark/sprites/mark15.png" type="Texture" id=15]
 [ext_resource path="res://games/demo_game/actors/mark/sprites/mark18.png" type="Texture" id=16]
 [ext_resource path="res://games/demo_game/actors/mark/sprites/mark19.png" type="Texture" id=17]
-[ext_resource path="res://tools/grog/twod/actor.gd" type="Script" id=18]
+[ext_resource path="res://tools/grog/core/actor.gd" type="Script" id=18]
 [ext_resource path="res://tools/grog/twod/ndirections_sprite.gd" type="Script" id=67]
+
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
