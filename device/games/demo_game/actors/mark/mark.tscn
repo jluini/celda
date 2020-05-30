@@ -17,9 +17,8 @@
 [ext_resource path="res://games/demo_game/actors/mark/sprites/mark15.png" type="Texture" id=15]
 [ext_resource path="res://games/demo_game/actors/mark/sprites/mark18.png" type="Texture" id=16]
 [ext_resource path="res://games/demo_game/actors/mark/sprites/mark19.png" type="Texture" id=17]
-[ext_resource path="res://tools/grog/twod/item2d.gd" type="Script" id=66]
+[ext_resource path="res://tools/grog/twod/actor.gd" type="Script" id=18]
 [ext_resource path="res://tools/grog/twod/ndirections_sprite.gd" type="Script" id=67]
-
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -29,7 +28,7 @@ animations = [ {
 "speed": 5.0
 } ]
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=2]
 resource_name = "default"
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -44,8 +43,7 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "idle_front"
+[sub_resource type="Animation" id=3]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -59,8 +57,7 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "idle_right"
+[sub_resource type="Animation" id=4]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -74,7 +71,7 @@ tracks/0/keys = {
 "values": [ 2 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -88,8 +85,7 @@ tracks/0/keys = {
 "values": [ 1 ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "idle_up"
+[sub_resource type="Animation" id=6]
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
 tracks/0/interp = 1
@@ -103,8 +99,7 @@ tracks/0/keys = {
 "values": [ 3 ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "walk_front"
+[sub_resource type="Animation" id=7]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -120,8 +115,7 @@ tracks/0/keys = {
 "values": [ 4, 5, 6, 7 ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "walk_right"
+[sub_resource type="Animation" id=8]
 loop = true
 step = 0.2
 tracks/0/type = "value"
@@ -137,7 +131,7 @@ tracks/0/keys = {
 "values": [ 8, 9, 10, 11, 12 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -154,12 +148,8 @@ tracks/0/keys = {
 }
 
 [node name="mark" type="Node2D"]
-script = ExtResource( 66 )
-item_key = "mark"
-color = Color( 0.913725, 0.443137, 0.443137, 1 )
-walk_speed = 350.0
-radius = 120.0
-offset = Vector2( 0, -200 )
+script = ExtResource( 18 )
+color = Color( 0.917647, 0.443137, 0.443137, 1 )
 
 [node name="Sprite" type="AnimatedSprite" parent="."]
 scale = Vector2( 4.5, 4.5 )
@@ -167,14 +157,15 @@ frames = SubResource( 1 )
 offset = Vector2( 0, -35 )
 
 [node name="animation" type="AnimationPlayer" parent="."]
-anims/default = SubResource( 9 )
-anims/idle_front = SubResource( 2 )
-anims/idle_right = SubResource( 3 )
-anims/idle_rightfront = SubResource( 4 )
-anims/idle_up = SubResource( 5 )
-anims/walk_front = SubResource( 6 )
-anims/walk_right = SubResource( 7 )
-anims/walk_up = SubResource( 8 )
+playback_speed = 1.6
+anims/default = SubResource( 2 )
+anims/idle_front = SubResource( 3 )
+anims/idle_right = SubResource( 4 )
+anims/idle_rightfront = SubResource( 5 )
+anims/idle_up = SubResource( 6 )
+anims/walk_front = SubResource( 7 )
+anims/walk_right = SubResource( 8 )
+anims/walk_up = SubResource( 9 )
 
 [node name="speech_position" type="Position2D" parent="."]
 position = Vector2( 0, -330 )
@@ -208,6 +199,6 @@ config = [ {
 } ]
 animation_path = NodePath("../animation")
 sprite_path = NodePath("../Sprite")
-[connection signal="angle_changed" from="." to="ndirections" method="_on_angle_changed"]
+[connection signal="orientation_changed" from="." to="ndirections" method="_on_orientation_changed"]
 [connection signal="start_walking" from="." to="ndirections" method="_on_start_walking"]
 [connection signal="stop_walking" from="." to="ndirections" method="_on_stop_walking"]
