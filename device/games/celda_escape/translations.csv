@@ -5,6 +5,10 @@ ACTION_USE;use;usar
 ACTION_PICK_UP;pick up;recoger
 ITEM_CAGE/POSTER;poster;póster
 ITEM_INV_POSTER;poster;póster
+ITEM_INV_BOOK;book;libro
+ITEM_INV_KEY1;key;llave
+ITEM_INV_STICK;stick;palo
+ITEM_INV_SKULL;skull;calavera
 ITEM_CAGE/TO_OFFICE;hole;hueco
 ITEM_CAGE/EXIT;duct;ducto
 ITEM_CAGE/DOOR;door;puerta

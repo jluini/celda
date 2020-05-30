@@ -15,7 +15,14 @@ main:
 			if $stage = 0:
 				
 				# ... intro goes here
+			
+			else:
 				
+				inv_stick.add
+				inv_book.add
+				inv_key1.add
+				inv_skull.add
+				inv_book.add
 		else:
 			
 			.set poster_was_taken = true
