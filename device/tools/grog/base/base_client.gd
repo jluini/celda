@@ -76,7 +76,7 @@ func _on_server_variable_set(var_name: String, new_value):
 	if var_name == "music":
 		_modular.broadcast("music", "start", [new_value])
 
-func _on_server_tool_set(item, verb: String):
+func _on_server_tool_set(_item, _verb: String):
 	_log_warning("override _on_server_tool_set")
 
 ###

@@ -146,7 +146,7 @@ func _on_server_curtain_up():
 func _on_server_curtain_down():
 	_curtain.play("down")
 
-func _on_server_tool_set(item, verb: String):
+func _on_server_tool_set(item, _verb: String):
 	var item_view = _inventory.get_view(item)
 	
 	if not item_view:
@@ -154,7 +154,6 @@ func _on_server_tool_set(item, verb: String):
 		return
 	
 	_select_item(item_view, false, true)
-
 
 ### Clicking ui events
 
