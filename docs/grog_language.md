@@ -41,7 +41,7 @@ Instructions can be:
 If there's a room loaded, lowers the curtain and unloads it. Then loads the new room.
 
 The option `at` indicates the initial positioning of the player. It can be the key of an item in the room of the path to a _plain_ positioning node.
-If the option is absent the room is loaded without a player (not working yet).
+If the option is absent the room is loaded without a player.
 
 The command `curtain_up` is needed after `load_room` to raise the curtain again (the new room will not be visible otherwise).
 

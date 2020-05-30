@@ -95,9 +95,17 @@ func init_game(server, game_script: Resource, saved_game: Resource, initial_stag
 	# TODO improve
 	assert(_game_script.is_valid())
 	
-	var player_resource = _game_script.player
-	current_player = player_resource.instance()
-	symbols.add_symbol("you", "player", current_player)
+	var player_resource : PackedScene = _game_script.player
+	
+	if player_resource:
+		current_player = player_resource.instance()
+		
+		if not current_player:
+			return { valid = false, message = "can't instantiate player scene" }
+		
+		symbols.add_symbol("you", "player", current_player)
+	else:
+		_log_warning("playing a game with no player")
 	
 	var ii_scene: Node = game_script.inventory_items_scene.instance()
 	
@@ -419,7 +427,7 @@ func _command_load_room(room_name: String, opts: Dictionary) -> Dictionary:
 		
 		# TODO duplicated code in release
 		# detaches player from previous room
-		if current_player and current_player.is_inside_tree():
+		if is_player_in_room():
 			if current_room != current_player.get_parent():
 				_log_warning("player is in tree but outside current room (loading room '%s')" % room_name)
 			
@@ -496,9 +504,7 @@ func _command_load_room(room_name: String, opts: Dictionary) -> Dictionary:
 				_game_error("can't position player at '%s'" % opts.at)
 		
 		else:
-			_game_warning("should load room with player at '%s' but there's no player" % opts.at)
-	else:
-		_log_warning("playing with no player not fully implemented yet")
+			_game_warning("should load room '%s' with player at '%s' but there's no player" % [room_name, opts.at])
 	
 	_game_event("room_loaded", [room]) # TODO parameter is not necessary
 	
@@ -641,33 +647,39 @@ func _command_remove(item_id: String) -> Dictionary:
 	
 	return _instant_termination
 
+# TODO ignoring item_id (only 'you' is possible now)
 # TODO ignoring teleport opts
-func _command_teleport(item_id: String, target_node_name: String, _opts: Dictionary) -> Dictionary:
-	var player = _get_player(item_id)
-	
-	if not player:
+func _command_teleport(_item_id: String, target_node_name: String, _opts: Dictionary) -> Dictionary:
+	if not is_player_in_room():
+		_game_error("command 'teleport' but there's no player in room")
 		return _instant_termination
 	
 	var positioning = _get_target_positioning("teleport", target_node_name)
 	
-	if positioning.valid:
-		_teleport(player, positioning)
-	# else error was logged already
+	if not positioning.valid:
+		# error was logged already
+		return _instant_termination
+
+	current_player.teleport(positioning.location)
+
+	if positioning.set_orientation:
+		current_player.set_orientation(positioning.orientation)
 	
 	return _instant_termination
 
-func _command_walk(item_id: String, target_node_name: String) -> Dictionary:
-	var player: Node2D = _get_player(item_id)
-	
-	if not player:
+# TODO ignoring item_id (only 'you' is possible now)
+func _command_walk(_item_id: String, target_node_name: String) -> Dictionary:
+	if not is_player_in_room():
+		_game_error("command 'walk' but there's no player in room")
 		return _instant_termination
 	
 	var positioning = _get_target_positioning("walk", target_node_name)
 	
 	if not positioning.valid:
+		# error was logged already
 		return _instant_termination
 	
-	if not _start_walking(player, positioning, WalkingReason.Automatic):
+	if not _start_walking(current_player, positioning, WalkingReason.Automatic):
 		return _instant_termination
 	
 	return { termination = "custom" }
@@ -677,19 +689,19 @@ func _command_walk(item_id: String, target_node_name: String) -> Dictionary:
 
 # TODO this must be revised
 # currently always returns the player so doesn't make much sense
-func _get_player(item_id: String) -> Node:
-	var item_symbol = symbols.get_symbol_of_types(item_id, ["player"], true)
-	
-	if not item_symbol.type:
-		_game_warning("no player '%s'" % item_id)
-		return null
-	
-	var ret = item_symbol.target
-
-	assert(not not ret)
-	assert(ret == current_player)
-	
-	return ret
+#func _get_player(item_id: String) -> Node:
+#	var item_symbol = symbols.get_symbol_of_types(item_id, ["player"], true)
+#
+#	if not item_symbol.type:
+#		_game_warning("no player '%s'" % item_id)
+#		return null
+#
+#	var ret = item_symbol.target
+#
+#	assert(not not ret)
+#	assert(ret == current_player)
+#
+#	return ret
 
 # TODO change name?
 # TODO improve code
@@ -769,13 +781,6 @@ func _change_enabledness(item_key: String, new_enabledness: bool) -> Dictionary:
 			_game_event("item_disabled", [item])
 
 	return _instant_termination
-
-# TODO encapsulate positioning as object and implement this as actor/item method?
-func _teleport(item: Node, positioning: Dictionary) -> void:
-	item.teleport(positioning.location)
-	
-	if positioning.set_orientation:
-		item.set_orientation(positioning.orientation)
 
 # used for command 'walk' and for client requests (go_to/interact)
 func _start_walking(subject: Node2D, target_positioning: Dictionary, reason: int) -> bool:
@@ -918,8 +923,8 @@ func go_to_request(target_position: Vector2) -> bool:
 	if not _validate_interaction_state("go_to_request", InteractionState.Ready):
 		return false
 	
-	if not current_player:
-		_log_warning("go_to_request: no player")
+	if not is_player_in_room():
+		_log_warning("go_to_request: no player in room")
 		return false
 	
 	var target_positioning := {
@@ -963,7 +968,10 @@ func interact_request(item, trigger_name: String) -> bool:
 		# error was already logged in _fetch_routine
 		return false
 	
-	var is_telekinetic = is_inventory_item or (routine_found and _current_routine.is_telekinetic())
+	# TODO log warning if routine is non-telekinetic but can't execute as such
+	# because it's an inventory item or the player is not in room?
+	
+	var is_telekinetic = is_inventory_item or not is_player_in_room() or (routine_found and _current_routine.is_telekinetic())
 	
 	if is_telekinetic:
 		_run_routine()
@@ -1015,6 +1023,20 @@ func is_paused() -> bool:
 
 func is_ready() -> bool:
 	return _interaction_state == InteractionState.Ready
+
+func is_player_in_room() -> bool:
+	return current_player and current_player.is_inside_tree()
+
+func get_default_action() -> String:
+	return _game_script.default_action
+
+func get_item_actions(item) -> Array:
+	return _game_script.get_item_actions(item)
+	
+func get_default_color() -> Color:
+	return _game_script.default_color
+
+###
 
 func get_current_headers() -> Array:
 	if is_ready():
@@ -1085,9 +1107,6 @@ func get_scene_items() -> Array:
 		})
 		
 	return ret
-
-func get_default_color():
-	return _game_script.default_color
 
 # load game
 

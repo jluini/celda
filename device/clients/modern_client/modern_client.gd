@@ -290,7 +290,7 @@ func _ready_click(position: Vector2) -> void:
 	
 	if clicked_item:
 		if _select_item(clicked_item, true):
-			if not game_instance.interact_request(clicked_item, server.game_script.default_action):
+			if not game_instance.interact_request(clicked_item, game_instance.get_default_action()):
 				_log_warning("default interaction ignored")
 		
 		return
@@ -298,7 +298,9 @@ func _ready_click(position: Vector2) -> void:
 	# finally issue a go-to request
 	
 	_select_item(null)
-	game_instance.go_to_request(position)
+	
+	if game_instance.is_player_in_room():
+		game_instance.go_to_request(position)
 
 ###
 
@@ -446,8 +448,8 @@ func _select_item(new_item, return_true_if_no_actions := false):
 	_action_list.hide()
 	
 	if _selected_item:
-		var item_actions: Array = server.game_script.get_item_actions(_selected_item)
-		var default_action: String = server.game_script.default_action
+		var item_actions: Array = game_instance.get_item_actions(_selected_item)
+		var default_action: String = game_instance.get_default_action()
 		
 		# remove default action from list if present
 		item_actions.erase(default_action)
