@@ -34,7 +34,7 @@ func remove_item(item_instance):
 	for index in range(_items.size()):
 		var item_view = _items[index]
 		
-		if item_view.get_item() == item_instance:
+		if item_view.get_item_instance() == item_instance:
 			remove_child(item_view)
 			item_view.queue_free()
 			_items.remove(index)

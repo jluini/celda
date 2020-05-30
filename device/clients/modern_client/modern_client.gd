@@ -134,8 +134,7 @@ func _on_server_item_added(item: Object):
 	_inventory.add_item(item)
 
 func _on_server_item_removed(item: Object):
-	# TODO improve this when view and instance are unified/clarified
-	if _selected_item and _selected_item.get_id() == item.get_id():
+	if _get_selected_item() == item:
 		_select_item(null)
 		
 	_inventory.remove_item(item)
@@ -269,7 +268,7 @@ func _ready_click(position: Vector2) -> void:
 	var clicked_action : String = _action_list.get_item_action_at(position) if _selected_item else ""
 	
 	if clicked_action:
-		if not game_instance.interact_request(_selected_item, clicked_action):
+		if not game_instance.interact_request(_get_selected_item(), clicked_action):
 			_log_warning("interaction ignored")
 		
 		_select_item(null)
@@ -443,7 +442,7 @@ func _select_item(new_item, return_true_if_no_actions := false):
 	_action_list.hide()
 	
 	if _selected_item:
-		var actual_item = _selected_item if _selected_item.is_scene_item() else _selected_item.get_item_instance()
+		var actual_item = _get_selected_item()
 		
 		var item_actions: Array = game_instance.get_item_actions(actual_item)
 		var default_action: String = game_instance.get_default_action()
@@ -470,3 +469,9 @@ func _select_item(new_item, return_true_if_no_actions := false):
 		_action_list.show()
 	
 	return false
+
+func _get_selected_item():
+	if _selected_item and not _selected_item.is_scene_item():
+		return _selected_item.get_item_instance()
+	else:
+		return _selected_item
