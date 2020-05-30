@@ -24,6 +24,7 @@ ITEM_CELLAR/TO_CAGE;stairway;escaleras
 ITEM_CELLAR/TO_LAB;door;puerta
 ITEM_LAB/TO_CELLAR;door;puerta
 ITEM_LAB/STRETCHER;stretcher;camilla
+ITEM_LAB/DESK;desk;escritorio
 ONCE_UPON_A_TIME;Once upon a time...;Había una vez...
 LOOK_POSTER;"It says ""hang in there"".";"Dice ""hang in there""."
 LOOK_DOOR1;Nice door.;Linda puerta.

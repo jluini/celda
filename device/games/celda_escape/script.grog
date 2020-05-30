@@ -180,3 +180,11 @@ lab/to_cellar:
 		.load_room cellar at=positions/from_lab
 		# keep music 'lab'
 		.curtain_up
+
+lab/desk:
+	look:
+		.load_room desk
+
+desk/to_lab:
+	walk_to:
+		.load_room lab at=lab/desk

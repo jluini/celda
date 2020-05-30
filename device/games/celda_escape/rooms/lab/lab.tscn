@@ -7,9 +7,6 @@
 [ext_resource path="res://games/celda_escape/rooms/lab/images/gate.png" type="Texture" id=5]
 [ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=6]
 
-
-
-
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1883.04, 1053.02, 172.878, 1049.34, 361.694, 830.317, 465.398, 729.364, 158.083, 827.906, 213.199, 717.673, 560.599, 627.483, 657.47, 645.855, 745.99, 637.504, 804.447, 607.44, 1553.58, 825.813, 806.117, 550.654, 1328.65, 548.619, 1814.87, 834.902, 1873.95, 898.52 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 2, 4, 5, 3 ), PoolIntArray( 0, 3, 6, 7 ), PoolIntArray( 0, 7, 8 ), PoolIntArray( 0, 8, 9, 10 ), PoolIntArray( 9, 11, 12, 10 ), PoolIntArray( 0, 10, 13, 14 ) ]
@@ -49,10 +46,26 @@ z_index = 436
 script = ExtResource( 1 )
 key = "lab/to_cellar"
 size = Vector2( 350, 750 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
 [node name="positioning" type="Node2D" parent="items/to_cellar"]
 position = Vector2( -92.5316, 327.562 )
 rotation = 3.14159
+script = ExtResource( 6 )
+
+[node name="desk" type="Node2D" parent="items"]
+position = Vector2( 1131.37, 413.148 )
+z_index = 413
+script = ExtResource( 1 )
+key = "lab/desk"
+size = Vector2( 500, 250 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
+
+[node name="positioning" type="Node2D" parent="items/desk"]
+position = Vector2( -6.67664, 136.137 )
+rotation = 4.71239
 script = ExtResource( 6 )
 
 [node name="navigation" type="Navigation2D" parent="."]
