@@ -278,7 +278,7 @@ func _ready_click(position: Vector2) -> void:
 	
 	# then check inventory item click
 	
-	var clicked_item = _get_inventory_item_at(position)
+	var clicked_item = _inventory.get_item_at(position)
 	
 	if clicked_item:
 		_select_item(clicked_item)
@@ -303,11 +303,6 @@ func _ready_click(position: Vector2) -> void:
 		game_instance.go_to_request(position)
 
 ###
-
-func _get_inventory_item_at(position: Vector2):
-	var ret = _inventory.get_item_at(position)
-	
-	return ret
 
 func _on_continue_pressed():
 	pass # Replace with function body.
@@ -448,7 +443,9 @@ func _select_item(new_item, return_true_if_no_actions := false):
 	_action_list.hide()
 	
 	if _selected_item:
-		var item_actions: Array = game_instance.get_item_actions(_selected_item)
+		var actual_item = _selected_item if _selected_item.is_scene_item() else _selected_item.get_item_instance()
+		
+		var item_actions: Array = game_instance.get_item_actions(actual_item)
 		var default_action: String = game_instance.get_default_action()
 		
 		# remove default action from list if present
@@ -469,7 +466,7 @@ func _select_item(new_item, return_true_if_no_actions := false):
 		
 		_item_selector.show()
 		
-		_action_list.set_item(_selected_item, item_actions)
+		_action_list.set_item(actual_item, item_actions)
 		_action_list.show()
 	
 	return false

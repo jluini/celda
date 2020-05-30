@@ -5,7 +5,7 @@
 |      Signature                                                          |                  Description                                |
 | ----------------------------------------------------------------------- | ----------------------------------------------------------- |
 |  `start_game_request(root_node: Node)                                `  |  Start the game.                                            |
-|  `skip_request()                                           `  |  Skip current task if it is skippable. |
+|  `skip_request()                                                     `  |  Skip current task if it is skippable. |
 |  `go_to_request(global_position)                                     `  |  Try to walk with the player to the specified global position (or closest navigation point). |
 |                                                                         |                                                             |
 |                                                                         |                                                             |
@@ -29,7 +29,7 @@
 |  `wait_ended()                                                       `  |  The wait (indicated by a 'wait' or a 'say') is over (either timed out or skipped by client). |
 |  `item_enabled(item: Node)                                           `  |  Scene item is client-enabled, i.e. it's loaded and non-globally disabled (client can interact with it). |
 |  `item_disabled(item: Node)                                          `  |  Scene item is client-disabled (either unloaded or disabled in practice). Client must clear it. |
-|  `item_added(item_model: Node, instance_number: int)                 `  |  Inventory item's instance added.                      |
-|  `item_removed(item_model: Node, instance_number: int)               `  |  Inventory item's instance is removed.                     |
+|  `item_added(item_instance: Object, instance_number: int)            `  |  Inventory item's instance added.                      |
+|  `item_removed(item_instance: Object, instance_number: int)          `  |  Inventory item's instance is removed.                     |
 
 [<- back to index](index.md)

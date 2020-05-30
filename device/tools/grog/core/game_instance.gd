@@ -952,8 +952,7 @@ func interact_request(item, trigger_name: String) -> bool:
 	var item_key: String = item.get_key()
 	var item_id: String = item.get_id()
 	
-	# TODO do this much better
-	var is_inventory_item: bool = item_id != item_key
+	var is_inventory_item: bool = not item.is_scene_item()
 	
 	var is_default_action: bool = trigger_name == _game_script.default_action
 	
