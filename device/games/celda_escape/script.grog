@@ -131,12 +131,12 @@ living/picture:
 	look:
 		#you.say LOOK_PICTURE
 		.load_room picture
-		.curtain_up
+		#.curtain_up
 
 picture/to_living:
 	walk_to:
 		.load_room living at=living/picture
-		.curtain_up
+		#.curtain_up
 
 cellar/to_cage:
 	walk_to:
@@ -149,6 +149,22 @@ cellar/to_lab:
 		.load_room lab at=positions/from_cellar
 		# keep music 'lab'
 		.curtain_up
+	look:
+		.load_room lab_door
+		#.curtain_up
+	
+	# TODO remove this
+	doc:
+		.load_room doc
+		#.curtain_up
+
+lab_door/to_cellar:
+	walk_to:
+		.load_room cellar at=cellar/to_lab
+
+doc/to_cellar:
+	walk_to:
+		.load_room cellar at=cellar/to_lab # TODO fix this position
 
 lab/to_cellar:
 	walk_to:

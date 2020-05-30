@@ -76,7 +76,7 @@ key = "cellar/to_lab"
 size = Vector2( 350, 750 )
 
 [node name="positioning" type="Node2D" parent="items/to_lab"]
-position = Vector2( 51.8176, 262.79 )
+position = Vector2( -99.9727, 284.27 )
 rotation = -0.195477
 script = ExtResource( 8 )
 
