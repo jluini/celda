@@ -129,7 +129,14 @@ living/to_office:
 
 living/picture:
 	look:
-		you.say LOOK_PICTURE
+		#you.say LOOK_PICTURE
+		.load_room picture
+		.curtain_up
+
+picture/to_living:
+	walk_to:
+		.load_room living at=living/picture
+		.curtain_up
 
 cellar/to_cage:
 	walk_to:
