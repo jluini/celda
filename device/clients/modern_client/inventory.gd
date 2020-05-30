@@ -44,14 +44,22 @@ func remove_item(item_instance):
 
 func get_item_at(position: Vector2) -> Node:
 	for i in range(_items.size()):
-		var c = _items[i]
-		if c.has_node("item_box"):
-			var f = c.get_node("item_box")
-			var rect: Rect2 = f.get_global_rect()
+		var view = _items[i]
+		if view.has_node("item_box"):
+			var box = view.get_node("item_box")
+			var rect: Rect2 = box.get_global_rect()
 			if rect.has_point(position):
-				return c
+				return view
 		else:
 			print("no box")
+	return null
+
+func get_view(item_instance) -> Node:
+	for i in range(_items.size()):
+		var view = _items[i]
+		if view.get_item_instance() == item_instance:
+			return view
+	
 	return null
 
 func clear():

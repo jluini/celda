@@ -71,9 +71,11 @@ inv_poster:
 		you.say LOOK_POSTER
 	
 	use:
-		self.remove
-		cage/to_office.disable
-		cage/poster.enable
+		#self.remove
+		#cage/to_office.disable
+		#cage/poster.enable
+		
+		self.set_tool use_with
 		
 
 

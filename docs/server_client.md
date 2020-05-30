@@ -31,5 +31,6 @@
 |  `item_disabled(item: Node)                                          `  |  Scene item is client-disabled (either unloaded or disabled in practice). Client must clear it. |
 |  `item_added(item_instance: Object, instance_number: int)            `  |  Inventory item's instance added.                      |
 |  `item_removed(item_instance: Object, instance_number: int)          `  |  Inventory item's instance is removed.                     |
+|  `tool_set(new_tool, verb)                                           `  |  An item is set as _tool_.                                |
 
 [<- back to index](index.md)

@@ -537,6 +537,8 @@ func _command_set(var_name: String, new_value_expression) -> Dictionary:
 	
 	return _instant_termination
 
+# TODO implement wait
+
 func _command_say(item_id: String, speech_token: Dictionary, opts: Dictionary) -> Dictionary:
 	var speech = speech_token.expression.evaluate(self)
 	
@@ -684,6 +686,22 @@ func _command_walk(_item_id: String, target_node_name: String) -> Dictionary:
 	
 	return { termination = "custom" }
 
+func _command_set_tool(item_id: String, verb: String):
+	# TODO include scene items
+	var item_symbol = symbols.get_symbol_of_types(item_id, ["inventory_item_instance"], true)
+	
+	if not item_symbol.type:
+		# absent
+		# TODO change message when scene items are included
+		_game_warning("set_tool: no inventory item instance '%s'" % item_id)
+		return _instant_termination
+	
+	_set_tool(item_symbol.target, verb)
+	
+	return _instant_termination
+
+func _set_tool(item, verb: String):
+	_game_event("tool_set", [item, verb])
 
 ### command utils
 

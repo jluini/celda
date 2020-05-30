@@ -35,7 +35,7 @@ func on_server_event(event_name, args):
 	if self.has_method(handler_name):
 		self.callv(handler_name, args)
 	else:
-		print("Implemente method '%s'" % handler_name)
+		_log_warning("implement method '%s'" % handler_name)
 
 #	@SERVER EVENTS
 
@@ -47,7 +47,7 @@ func _on_server_game_ended():
 	_end_game()
 
 func _on_server_room_loaded(_room):
-	print("Override _on_server_room_loaded()")
+	_log_warning("override _on_server_room_loaded()")
 
 func _on_server_item_enabled(item):
 	_loaded_items.append(item)
@@ -58,23 +58,26 @@ func _on_server_item_disabled(item):
 	_on_item_disabled(item)
 
 func _on_server_say(_subject: Node, _speech: String, _duration: float, _skippable: bool):
-	print("Override _on_server_say()")
+	_log_warning("override _on_server_say()")
 
 func _on_server_item_added(_item: Object):
-	print("Override _on_server_item_added()")
+	_log_warning("override _on_server_item_added()")
 
 func _on_server_item_removed(_item: Object):
-	print("Override _on_server_item_removed()")
+	_log_warning("override _on_server_item_removed()")
 	
 func _on_server_curtain_up():
-	print("Override _on_server_curtain_up()")
+	_log_warning("override _on_server_curtain_up()")
 	
 func _on_server_curtain_down():
-	print("Override _on_server_curtain_down()")
+	_log_warning("override _on_server_curtain_down()")
 
 func _on_server_variable_set(var_name: String, new_value):
 	if var_name == "music":
 		_modular.broadcast("music", "start", [new_value])
+
+func _on_server_tool_set(item, verb: String):
+	_log_warning("override _on_server_tool_set")
 
 ###
 
@@ -106,19 +109,19 @@ func capitalize_first(text: String) -> String:
 ###
 
 func _on_init():
-	print("Override _on_init()")
+	_log_warning("override _on_init()")
 	
 func _on_start():
-	print("Override _on_start()")
+	_log_warning("override _on_start()")
 	
 func _on_end():
-	print("Override _on_end()")
+	_log_warning("override _on_end()")
 
 func _on_item_enabled(_item):
-	print("Override _on_item_enabled()")
+	_log_warning("override _on_item_enabled()")
 
 func _on_item_disabled(_item):
-	print("Override _on_item_disabled()")
+	_log_warning("override _on_item_disabled()")
 
 
 func _start_game_from(filename: String) -> Dictionary:

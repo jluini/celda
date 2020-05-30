@@ -16,20 +16,18 @@ Instructions can be:
 |      Command      |                  Description                  |   Sintaxis                                                                            |
 |:-----------------:|:--------------------------------------------- |:------------------------------------------------------------------------------------- |
 | **load\_room**    | Loads a new room.                             | `            .load_room    <room_id> at=<initial_player_position>                   ` |
-| **enable\_input** | Enables input and show controls.              | `            .enable_input                                                          ` |
-| **disable\_input**| Disable input and hides controls.             | `            .disable_input                                                         ` |
 | **curtain\_up**   | Curtain up.                                   | `            .curtain_up                                                            ` |
+| **set**           | Sets the value of a global variable.          | `            .set          <var_name>=<expression...>                               ` |
 | **wait**          | Waits `delay` seconds.                        | `            .wait         <delay> [skippable=true\|false]                          ` |
 | **say**           | The environment or an item says something.    | ` [<subject>].say          <speech> [skippable=true\|false]  [duration=<delay>]     ` |
-| **walk**          | Player or item walks to position.             | `   <subject>.walk         to=<target_name>                                         ` |
-| **teleport**      | Moves the player or item.                     | `   <subject>.teleport     to=<target_name>   [angle=<int>]                         ` |
-| **set**           | Sets the value of a global variable.          | `            .set          <var_name>=<expression...>                               ` |
 | **enable**        | Enable a scene item (loaded or not).          | `   <sc_item>.enable                                                                ` |
 | **disable**       | Disable a scene item (loaded or not).         | `   <sc_item>.disable                                                               ` |
 | **add**           | Increments an inventory item's count.         | `  <inv_item>.add                                                                   ` |
 | **remove**        | Decrements an inventory item's count.         | `  <inv_item>.remove                                                                ` |
+| **teleport**      | Moves the player or item.                     | `   <subject>.teleport     to=<target_name>   [angle=<int>]                         ` |
+| **walk**          | Player or item walks to position.             | `   <subject>.walk         to=<target_name>                                         ` |
 | **play**          | Sets a state to a scene item (loaded or not). | `   <sc_item>.play         <animation_name>                                         ` |
-| **set_tool**      | Sets a scene/inventory item as "tool".        | `      <item>.set_tool     <verb_name>                                              ` |
+| **set\_tool**     | Sets a scene/inventory item as "tool".        | `      <item>.set_tool     <verb_name>                                              ` |
 | **debug**         | Shows evaluation result in console.           | `            .debug        <expression...>                                          ` |
 | **end**           | Ends the game.                                | `            .end                                                                   ` |
 
@@ -60,6 +58,10 @@ Sets a new value for a global variable.
 	.set text = "hello"
 	.set text = $text + ", world"
 
+## wait
+
+TODO currently not implemented.
+
 ## say
 
 The environment or an item says something. This needs to be revised and documented.
@@ -78,8 +80,13 @@ A disabled item is hidden and can't receive interactions.
 	item1.enable  # enables a specific item (either loaded or not)
 	self.disable  # disables the current interacting item (for example when picking it up)
 
+## add & remove
+
+TODO add documentation.
 
 ## teleport
+
+TODO fix documentation.
 
 Instantly teleports an item or actor to the position specified by `target_name`.
 The target must be either a (loaded and enabled) scene item or a plain node name.
@@ -94,7 +101,25 @@ In the case of plain nodes it remains unchanged when not specified.
 	you.teleport to=room/item1  angle=90                 # overrides the item's interaction angle
 
 
+## walk
+
+TODO add documentation.
+
+## play
+
+TODO not implemented.
 
 
+## set_tool
+
+Sets an item (usually the interacting one) as current *tool*. That means it can be combined with another items for further interactions.
+
+## debug
+
+TODO not implemented.
+
+## end
+
+TODO not implemented.
 
 [<- back to index](index.md)

@@ -4,6 +4,8 @@ export (String) var root_path = "user://"
 export (String) var saved_games_path = "saved_games"
 export (String) var quick_save_path = "quicksave.tres"
 
+export (int) var initial_stage = 0
+
 export (Resource) var game_script
 
 onready var compiler = $compiler
@@ -36,6 +38,8 @@ func _on_initialize() -> Dictionary:
 	if stages.size() == 0:
 		_log_error("there's no stages in script")
 	
+	_initial_stage = initial_stage
+	
 	for s in range(stages.size()):
 		var stage_name: String = stages[s]
 		
@@ -46,7 +50,7 @@ func _on_initialize() -> Dictionary:
 		stage_button.toggle_mode = true
 		stage_button.group = _start_list_button_group
 		
-		if s == 0:
+		if s == _initial_stage:
 			stage_button.pressed = true
 		
 		# warning-ignore:return_value_discarded

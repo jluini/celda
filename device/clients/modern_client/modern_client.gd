@@ -84,8 +84,8 @@ func _start():
 	_modular.broadcast("music", "stop", [])
 	$audio_player.play()
 	
-	_item_selector.hide()
-	_action_list.hide()
+	_item_selector.hide() # just in case
+	_action_list.hide() # just in case
 	_select_item(null)
 	
 	if _room_parent.get_child_count() > 0:
@@ -145,6 +145,16 @@ func _on_server_curtain_up():
 
 func _on_server_curtain_down():
 	_curtain.play("down")
+
+func _on_server_tool_set(item, verb: String):
+	var item_view = _inventory.get_view(item)
+	
+	if not item_view:
+		_log_warning("tool '%s' not found as inventory item" % item.get_id())
+		return
+	
+	_select_item(item_view, false, true)
+
 
 ### Clicking ui events
 
@@ -432,7 +442,7 @@ func _skip() -> bool:
 		
 	return skip_accepted
 
-func _select_item(new_item, return_true_if_no_actions := false):
+func _select_item(new_item, return_true_if_no_actions := false, set_as_tool := false):
 	if _selected_item == new_item:
 		return false
 	
@@ -460,13 +470,11 @@ func _select_item(new_item, return_true_if_no_actions := false):
 		
 		var rect : Rect2 = _selected_item.get_rect()
 		
-		_item_selector.set_position(rect.position)
-		_item_selector.set_size(rect.size)
+		_item_selector.show_rect(rect, set_as_tool)
 		
-		_item_selector.show()
-		
-		_action_list.set_item(actual_item, item_actions)
-		_action_list.show()
+		if not set_as_tool:
+			_action_list.set_item(actual_item, item_actions)
+			_action_list.show()
 	
 	return false
 
