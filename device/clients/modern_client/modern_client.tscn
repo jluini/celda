@@ -154,7 +154,7 @@ mouse_filter = 2
 size_flags_vertical = 3
 
 [node name="texture_rect" type="TextureRect" parent="ui/inventory_base/inventory/left"]
-modulate = Color( 0.870588, 0.890196, 0.647059, 0.913725 )
+modulate = Color( 0.4, 0.4, 0.4, 0.913725 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -179,7 +179,7 @@ mouse_filter = 2
 size_flags_vertical = 3
 
 [node name="texture_rect" type="TextureRect" parent="ui/inventory_base/inventory/right"]
-modulate = Color( 0.870588, 0.890196, 0.647059, 0.913725 )
+modulate = Color( 0.4, 0.4, 0.4, 0.913725 )
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
