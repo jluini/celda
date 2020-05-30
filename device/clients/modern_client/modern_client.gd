@@ -134,8 +134,7 @@ func _on_server_item_added(item: Object):
 	_inventory.add_item(item)
 
 func _on_server_item_removed(item: Object):
-	# TODO improve this when view and instance are unified/clarified
-	if _selected_item and _selected_item.get_id() == item.get_id():
+	if _get_selected_item() == item:
 		_select_item(null)
 		
 	_inventory.remove_item(item)
@@ -269,7 +268,7 @@ func _ready_click(position: Vector2) -> void:
 	var clicked_action : String = _action_list.get_item_action_at(position) if _selected_item else ""
 	
 	if clicked_action:
-		if not game_instance.interact_request(_selected_item, clicked_action):
+		if not game_instance.interact_request(_get_selected_item(), clicked_action):
 			_log_warning("interaction ignored")
 		
 		_select_item(null)
@@ -278,7 +277,7 @@ func _ready_click(position: Vector2) -> void:
 	
 	# then check inventory item click
 	
-	var clicked_item = _get_inventory_item_at(position)
+	var clicked_item = _inventory.get_item_at(position)
 	
 	if clicked_item:
 		_select_item(clicked_item)
@@ -290,7 +289,7 @@ func _ready_click(position: Vector2) -> void:
 	
 	if clicked_item:
 		if _select_item(clicked_item, true):
-			if not game_instance.interact_request(clicked_item, server.game_script.default_action):
+			if not game_instance.interact_request(clicked_item, game_instance.get_default_action()):
 				_log_warning("default interaction ignored")
 		
 		return
@@ -298,14 +297,11 @@ func _ready_click(position: Vector2) -> void:
 	# finally issue a go-to request
 	
 	_select_item(null)
-	game_instance.go_to_request(position)
+	
+	if game_instance.is_player_in_room():
+		game_instance.go_to_request(position)
 
 ###
-
-func _get_inventory_item_at(position: Vector2):
-	var ret = _inventory.get_item_at(position)
-	
-	return ret
 
 func _on_continue_pressed():
 	pass # Replace with function body.
@@ -446,8 +442,10 @@ func _select_item(new_item, return_true_if_no_actions := false):
 	_action_list.hide()
 	
 	if _selected_item:
-		var item_actions: Array = server.game_script.get_item_actions(_selected_item)
-		var default_action: String = server.game_script.default_action
+		var actual_item = _get_selected_item()
+		
+		var item_actions: Array = game_instance.get_item_actions(actual_item)
+		var default_action: String = game_instance.get_default_action()
 		
 		# remove default action from list if present
 		item_actions.erase(default_action)
@@ -467,7 +465,13 @@ func _select_item(new_item, return_true_if_no_actions := false):
 		
 		_item_selector.show()
 		
-		_action_list.set_item(_selected_item, item_actions)
+		_action_list.set_item(actual_item, item_actions)
 		_action_list.show()
 	
 	return false
+
+func _get_selected_item():
+	if _selected_item and not _selected_item.is_scene_item():
+		return _selected_item.get_item_instance()
+	else:
+		return _selected_item

@@ -65,8 +65,9 @@
 [ext_resource path="res://games/demo_game/actors/guybrush/sprites/63.png" type="Texture" id=63]
 [ext_resource path="res://games/demo_game/actors/guybrush/sprites/64.png" type="Texture" id=64]
 [ext_resource path="res://games/demo_game/actors/guybrush/sprites/65.png" type="Texture" id=65]
-[ext_resource path="res://tools/grog/twod/actor.gd" type="Script" id=66]
+[ext_resource path="res://tools/grog/core/actor.gd" type="Script" id=66]
 [ext_resource path="res://tools/grog/twod/ndirections_sprite.gd" type="Script" id=67]
+
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -271,9 +272,6 @@ anims/walk_left = SubResource( 9 )
 anims/walk_leftfront = SubResource( 10 )
 anims/walk_leftup = SubResource( 11 )
 anims/walk_up = SubResource( 12 )
-
-[node name="speech_position" type="Position2D" parent="."]
-position = Vector2( 0, -350 )
 
 [node name="ndirections" type="Node" parent="."]
 script = ExtResource( 67 )

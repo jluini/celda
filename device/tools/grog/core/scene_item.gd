@@ -13,6 +13,9 @@ func _ready():
 	if Engine.editor_hint:
 		set_notify_local_transform(true)
 
+func is_scene_item() -> bool:
+	return true
+
 func get_key() -> String:
 	return key
 
@@ -48,9 +51,6 @@ func enable() -> void:
 
 func disable() -> void:
 	set_visible(false)
-
-func is_scene_item() -> bool:
-	return true
 
 func get_rect() -> Rect2:
 	var ret: Rect2 = _relative_rect()

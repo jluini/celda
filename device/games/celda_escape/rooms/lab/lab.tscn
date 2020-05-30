@@ -1,11 +1,14 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=1]
+[ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/background.jpg" type="Texture" id=2]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/front.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=4]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/gate.png" type="Texture" id=5]
-[ext_resource path="res://tools/grog/twod/positioning.gd" type="Script" id=6]
+[ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=6]
+
+
+
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1883.04, 1053.02, 172.878, 1049.34, 361.694, 830.317, 465.398, 729.364, 158.083, 827.906, 213.199, 717.673, 560.599, 627.483, 657.47, 645.855, 745.99, 637.504, 804.447, 607.44, 1553.58, 825.813, 806.117, 550.654, 1328.65, 548.619, 1814.87, 834.902, 1873.95, 898.52 )

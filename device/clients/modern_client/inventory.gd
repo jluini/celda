@@ -11,11 +11,11 @@ func _ready():
 	_items = []
 	_validate_number_of_children()
 
-func add_item(item_model: Object):
+func add_item(item_instance: Object):
 	var new_item_view = item_scene.instance()
 	
 	# TODO what is this for?
-	new_item_view.set_model(item_model)
+	new_item_view.set_item(item_instance)
 	
 	_validate_number_of_children()
 	
@@ -34,8 +34,7 @@ func remove_item(item_instance):
 	for index in range(_items.size()):
 		var item_view = _items[index]
 		
-		# care: word 'model' is wrong, it's the reflected instance instead
-		if item_view.model == item_instance:
+		if item_view.get_item_instance() == item_instance:
 			remove_child(item_view)
 			item_view.queue_free()
 			_items.remove(index)

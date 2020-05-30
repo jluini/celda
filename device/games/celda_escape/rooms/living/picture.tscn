@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
+[ext_resource path="res://tools/grog/core/room.gd" type="Script" id=2]
+[ext_resource path="res://games/celda_escape/rooms/living/images/cuadro.png" type="Texture" id=3]
+
+
+
+[node name="room" type="Node"]
+script = ExtResource( 2 )
+
+[node name="sprites" type="Node" parent="."]
+
+[node name="background" type="Sprite" parent="sprites"]
+texture = ExtResource( 3 )
+centered = false
+
+[node name="items" type="Node" parent="."]
+
+[node name="to_living" type="Node2D" parent="items"]
+position = Vector2( 960, 540 )
+z_index = 540
+script = ExtResource( 1 )
+key = "picture/to_living"
+size = Vector2( 1920, 1080 )

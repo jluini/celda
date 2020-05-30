@@ -1,8 +1,11 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://tools/grog/twod/new_item.gd" type="Script" id=1]
+[ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
 [ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=2]
-[ext_resource path="res://tools/grog/twod/positioning.gd" type="Script" id=3]
+[ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=3]
+
+
+
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1873.42, 1045.41, 58.8726, 1040.51, 308.986, 422.578, 1642.92, 412.77 )
