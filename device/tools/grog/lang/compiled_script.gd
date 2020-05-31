@@ -63,15 +63,16 @@ func get_routine(headers: Array, tool_parameter: String) -> Resource:
 			return null
 		
 		if level == levels - 1:
-			var routine = current_dict[current_key]
+			var routines: Dictionary = current_dict[current_key]
 			
 			if tool_parameter:
-				if routine.pattern and _matches(tool_parameter, routine.pattern):
-					return routine
-			elif not routine.pattern:
-				return routine
-			
-			return null
+				for pattern in routines:
+					if _matches(tool_parameter, pattern):
+						return routines[pattern]
+				
+				return null
+			else:
+				return routines.get("", null)
 		
 		level += 1
 		current_dict = current_dict[current_key]
@@ -99,10 +100,11 @@ func get_sections(headers: Array, only_straight_ones := false) -> Array:
 	var ret = []
 	
 	for trigger_name in current_dict:
-		var routine = current_dict[trigger_name]
-		if not only_straight_ones or not routine.has_pattern():
+		var routines: Dictionary = current_dict[trigger_name]
+		
+		if not only_straight_ones or routines.has(""):
 			ret.append(trigger_name)
-	
+		
 	return ret
 
 func is_valid():

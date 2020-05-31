@@ -961,12 +961,17 @@ func _compile_tree(cs, root, number_of_section_levels):
 			
 			header_chain.push_back(trigger_name)
 			
-			if current_data.has(trigger_name):
-				print("Duplicated routine header '%s'" % str(header_chain))
+			if not current_data.has(trigger_name):
+				current_data[trigger_name] = {}
+			
+			if current_data[trigger_name].has(pattern):
+				# TODO fail compiling instead?
+				print("duplicated routine header '%s' with pattern '%s' (ignoring it)" % [str(header_chain), pattern])
 			else:
+				# TODO pattern is not needed anymore
 				var new_routine = Routine.new(trigger_name, statements, telekinetic, pattern)
-				current_data[trigger_name] = new_routine
-	
+				current_data[trigger_name][pattern] = new_routine
+			
 			header_chain.pop_back()
 		
 	assert(level == 0)
