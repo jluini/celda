@@ -904,7 +904,7 @@ func start_game_request(room_parent: Node) -> bool:
 		
 		_interaction_state = InteractionState.Ready
 		
-		var initial_routine_found: bool = _fetch_routine(["main", "init"], {})
+		var initial_routine_found: bool = _fetch_routine(["main", "init"], null, {}, true)
 		
 		if not initial_routine_found:
 			_game_error("initial routine not found")
@@ -955,17 +955,17 @@ func go_to_request(target_position: Vector2) -> bool:
 	
 	return true
 
+enum InteractionType {
+	Default,    # go-to-item interaction
+	Standard,   # usual actions over items
+	Combination # combine this item with a previously selected tool
+}
+
 func interact_request(item, trigger_name: String, _tool = null) -> bool:
 	if not _validate_game_state("interact_request", GameState.Playing):
 		return false
 	if not _validate_interaction_state("interact_request", InteractionState.Ready):
 		return false
-	
-	# TODO
-	if _tool:
-		_log_warning("tool interaction not implemented yet")
-		return false
-	
 	
 	if not item or not trigger_name:
 		_log_warning("invalid interaction request (trigger = '%s')" % trigger_name)
@@ -973,23 +973,42 @@ func interact_request(item, trigger_name: String, _tool = null) -> bool:
 	
 	# TODO check it's a valid scene item or inventory item?
 	
-	var item_key: String = item.get_key()
-	var item_id: String = item.get_id()
+	var item_key : String = item.get_key()
+	var item_id : String = item.get_id()
 	
-	var is_inventory_item: bool = not item.is_scene_item()
+	var is_inventory_item : bool = not item.is_scene_item()
 	
-	var is_default_action: bool = trigger_name == _game_script.default_action
+	var _interaction_type = InteractionType.Standard
+	
+	if _tool:
+		_interaction_type = InteractionType.Combination
+	elif trigger_name == _game_script.default_action:
+		_interaction_type = InteractionType.Default
+	
+	# TODO add tool to context
+	var context := { "self": item_id }
 	
 	var routine_found: bool = _fetch_routine(
 		[item_key, trigger_name],
-		{ "self": item_id },
-		not is_default_action
+		_tool,
+		context,
+		_interaction_type == InteractionType.Standard
 	)
 	
-	if not is_default_action and not routine_found:
-		# this should not happen in current version
-		# error was already logged in _fetch_routine
-		return false
+	if not routine_found:
+		match _interaction_type:
+			InteractionType.Default:
+				pass # everything is alright
+			
+			InteractionType.Standard:
+				# this should not happen with current client
+				# error was already logged in _fetch_routine
+				return false
+			
+			InteractionType.Combination:
+				# impossible combination
+				_log_debug("impossible combination: %s %s with %s" % [trigger_name, _tool.get_id(), item_id])
+				return false
 	
 	# TODO log warning if routine is non-telekinetic but can't execute as such
 	# because it's an inventory item or the player is not in room?
@@ -1168,7 +1187,8 @@ func _read_saved_game(saved_game: Resource) -> Dictionary:
 		var routine_headers = saved_game.routine_headers
 		
 		# TODO recreate context
-		var routine_found: bool = _fetch_routine(routine_headers, {})
+		# TODO recreate tool
+		var routine_found: bool = _fetch_routine(routine_headers, null, {}, true)
 		
 		if not routine_found:
 			return { valid = false, message = "couldn't find saved routine '%s'" % str(routine_headers) }
@@ -1197,18 +1217,18 @@ func _game_event(event_name: String, args: Array = []):
 	emit_signal("game_event", event_name, args)
 
 # searchs for the routine and caches it if found
-func _fetch_routine(headers: Array, context: Dictionary, required := true) -> bool:
+func _fetch_routine(headers: Array, _tool, context: Dictionary, warn_if_absent) -> bool:
 	if not _validate_game_state("_fetch_routine", GameState.Playing):
 		return false
 	if not _validate_interaction_state("_fetch_routine", InteractionState.Ready):
 		return false
 	
-	var routine: Resource = _game_script.get_routine(headers)
+	var routine: Resource = _game_script.get_routine(headers, _tool.get_id() if _tool else "")
 	
 	if not routine:
-		if required:
-			# this error might not make sense in future clients
-			_log_error("routine '%s' not found" % str(headers))
+		if warn_if_absent:
+			_log_warning("routine '%s' not found" % str(headers))
+		
 		return false
 	
 	_current_routine_headers = headers

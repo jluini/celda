@@ -43,7 +43,7 @@ func print_errors():
 func _print_error(err):
 	print(err)
 
-func get_routine(headers: Array) -> Resource:
+func get_routine(headers: Array, tool_parameter: String) -> Resource:
 	if headers.size() != levels:
 		print("Expecting %s headers (%s given)" % [levels, headers.size()])
 		return null
@@ -63,7 +63,14 @@ func get_routine(headers: Array) -> Resource:
 			return null
 		
 		if level == levels - 1:
-			return current_dict[current_key]
+			var routine = current_dict[current_key]
+			
+			var tool_required : bool = tool_parameter != ""
+			var routine_has_tool : bool = routine.pattern != ""
+			
+			print("ignoring tool parameter matching (%s/%s)" % [tool_required, routine_has_tool])
+			
+			return routine
 		
 		level += 1
 		current_dict = current_dict[current_key]

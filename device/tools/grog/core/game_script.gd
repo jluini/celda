@@ -36,12 +36,12 @@ func prepare(compiler) -> Dictionary:
 	_valid = ret.valid
 	return ret
 	
-func get_routine(headers: Array) -> Resource:
+func get_routine(headers: Array, tool_parameter: String) -> Resource:
 	if not is_valid():
 		print("Not valid")
 		return null
 	
-	return _get_routine(headers)
+	return _get_routine(headers, tool_parameter)
 
 func get_sequence_with_parameter(_headers: Array, _param):
 	print("Not implemented")
@@ -52,7 +52,7 @@ func get_item_actions(item) -> Array:
 
 # abstract methods
 
-func _get_routine(_headers: Array) -> Resource:
+func _get_routine(_headers: Array, _tool_parameter: String) -> Resource:
 	print("Override _get_routine")
 	return null
 	

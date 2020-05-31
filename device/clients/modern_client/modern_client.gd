@@ -299,7 +299,7 @@ func _ready_click(position: Vector2) -> void:
 			if _tool == _with:
 				_select_item(null)
 			else:
-				print("interact tool '%s' with inventory item '%s' (%s)" % [_tool.get_id(), _with.get_id(), _tool_verb])
+				pass # print("interact tool '%s' with inventory item '%s' (%s)" % [_tool.get_id(), _with.get_id(), _tool_verb])
 		else:
 			_select_item(clicked_item)
 		return
@@ -313,10 +313,14 @@ func _ready_click(position: Vector2) -> void:
 			var _tool = _get_selected_item()
 			var _with = clicked_item
 			
-			print("interact tool '%s' with scene item '%s' (%s)" % [_tool.get_id(), _with.get_id(), _tool_verb])
+			pass # print("interact tool '%s' with scene item '%s' (%s)" % [_tool.get_id(), _with.get_id(), _tool_verb])
 			
-			if not game_instance.interact_request(_with, _tool_verb, _tool):
-				_log_warning("interaction ignored (tool with scene item)")
+			if game_instance.interact_request(_with, _tool_verb, _tool):
+				# successful combination
+				_select_item(null)
+			else:
+				# failed combination
+				pass # TODO notify the user
 			
 		else:
 			var do_default_action: bool = _select_item(clicked_item, true)

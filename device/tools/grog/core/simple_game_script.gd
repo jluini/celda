@@ -45,8 +45,8 @@ func _prepare(compiler) -> Dictionary:
 
 # TODO up these to superclass game_script?
 
-func _get_routine(headers: Array) -> Resource:
-	return _compiled_script.get_routine(headers)
+func _get_routine(headers: Array, tool_parameter: String) -> Resource:
+	return _compiled_script.get_routine(headers, tool_parameter)
 
 func _get_item_actions(item_key: String) -> Array:
 	return _compiled_script.get_sections([item_key], true)
