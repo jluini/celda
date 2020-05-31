@@ -49,4 +49,4 @@ func _get_routine(headers: Array) -> Resource:
 	return _compiled_script.get_routine(headers)
 
 func _get_item_actions(item_key: String) -> Array:
-	return _compiled_script.get_sections([item_key])
+	return _compiled_script.get_sections([item_key], true)

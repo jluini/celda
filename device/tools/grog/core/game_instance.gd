@@ -955,11 +955,17 @@ func go_to_request(target_position: Vector2) -> bool:
 	
 	return true
 
-func interact_request(item, trigger_name: String) -> bool:
+func interact_request(item, trigger_name: String, _tool = null) -> bool:
 	if not _validate_game_state("interact_request", GameState.Playing):
 		return false
 	if not _validate_interaction_state("interact_request", InteractionState.Ready):
 		return false
+	
+	# TODO
+	if _tool:
+		_log_warning("tool interaction not implemented yet")
+		return false
+	
 	
 	if not item or not trigger_name:
 		_log_warning("invalid interaction request (trigger = '%s')" % trigger_name)

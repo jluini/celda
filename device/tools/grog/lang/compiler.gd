@@ -58,7 +58,7 @@ func compile(code: String, number_of_section_levels: int) -> CompiledScript:
 	# stage 3: parsing (creating a tree whose nodes are described below)
 	#     - root at level zero
 	#     - sections at every (0 < level < number_of_section_levels) (currently using exactly one level of this kind)
-	#     - sequences at level=number_of_section_levels (currently = 2); these are actually a (special?) case of 'sections'
+	#     - routine headers at level=number_of_section_levels (currently = 2); these are actually a (special?) case of 'sections'
 	#     - statements at every level > number_of_section_levels
 	var root = _parse_lines(cs, lines, number_of_section_levels)
 	if not cs.is_valid():
@@ -350,7 +350,7 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 					assert(level < number_of_section_levels - 1)
 					current_block.sections = children
 					
-				elif current_block.type == "sequence":
+				elif current_block.type == "routine":
 					assert(level == number_of_section_levels - 1)
 				
 					current_block.statements = children
@@ -406,7 +406,7 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 				compiled_script.add_error("Expecting : or ( after trigger name (line %s)" % line.line_number)
 				return
 			
-			var pattern = null
+			var pattern := ""
 			
 			if colon_token.content == "(":
 				# header with parameter
@@ -427,14 +427,14 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 					pattern = pattern_token.content
 				
 				if num_tokens <= k:
-					compiled_script.add_error("Missing ) after header pattern (line %s)" % line.line_number)
+					compiled_script.add_error("Missing ')' after header pattern (line %s)" % line.line_number)
 					return
 				
 				var closing_parentheses = line.tokens[k]
 				k += 1
 				
 				if not _token_is_operator(closing_parentheses, ")"):
-					compiled_script.add_error("Expecting ) after pattern (line %s)" % line.line_number)
+					compiled_script.add_error("Expecting ')' after pattern (line %s)" % line.line_number)
 					return
 				
 				if num_tokens <= k:
@@ -445,10 +445,10 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 				k += 1
 				
 				if not _token_is_operator(colon_token, ":"):
-					compiled_script.add_error("Expecting : or after closing pharentheses (line %s)" % line.line_number)
+					compiled_script.add_error("Expecting ':' or after closing pharentheses (line %s)" % line.line_number)
 					return
 			
-			# TODO check here: only telekinetic in sequences, not sections!
+			# TODO check here: only telekinetic in routine headers, not sections!
 			
 			var is_telekinetic = false
 			while num_tokens > k:
@@ -458,21 +458,31 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 				if _token_is_straight_identifier(option_token) or option_token.to_lower() == "tk":
 					is_telekinetic = true
 				else:
-					compiled_script.add_error("Invalid sequence parameter (only TK allowed) (line %s)" % line.line_number)
+					compiled_script.add_error("Invalid routine parameter (only TK allowed) (line %s)" % line.line_number)
 					return
 			
 			if level == number_of_section_levels - 1:
+				# routine header
+				
 				children.append({
-					type = "sequence",
+					type = "routine",
 					trigger_name = first_token.data.key,
 					telekinetic = is_telekinetic,
 					pattern = pattern
 					# waiting for statements
 				})
 			else:
-				# TODO
+				# section
+				
+				# TODO don't allow TK or patterns at these levels,
+				# or make another decision; remove these warnings then
+				
 				if is_telekinetic:
-					print("Why telekinetic here?")
+					print("ignoring TK at level %s" % level)
+				
+				if pattern:
+					print("ignoring pattern (%s) at level %s" % [pattern, level])
+				
 				children.append({
 					type = "section",
 					trigger_name = first_token.data.key,
@@ -486,7 +496,7 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 			children = []
 			level += 1
 		
-		else: # instruction (command or if/else/while opening statement)
+		else: # statement (command or if/else/while opening)
 			match first_token.type:
 				Grog.TokenType.Command:
 					if first_token.data.indirection_level > 0:
@@ -851,7 +861,7 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 					
 			# end match first_token.type
 			
-		# end if (sequence header versus instruction line)
+		# end if (routine header versus statement line)
 		
 	# end while true
 	
@@ -908,7 +918,7 @@ func _compile_tree(cs, root, number_of_section_levels):
 		current_index += 1
 		
 		if level < number_of_section_levels - 1:
-			# 'section' level (excluding sequences)
+			# 'section' level (excluding routine headers)
 			
 			assert(next_element.type == "section")
 			assert(next_element.has("trigger_name"))
@@ -918,7 +928,7 @@ func _compile_tree(cs, root, number_of_section_levels):
 			header_chain.push_back(section_name)
 			
 			if current_data.has(section_name):
-				print("Duplicated header 1 '%s'" % str(header_chain))
+				print("Duplicated section header '%s'" % str(header_chain))
 				header_chain.pop_back()
 			else:
 				current_data[section_name] = {}
@@ -935,10 +945,10 @@ func _compile_tree(cs, root, number_of_section_levels):
 				current_items = next_element.sections
 		
 		else:
-			# 'sequence' or 'trigger' level
+			# 'routine header' level
 			
 			assert(level == number_of_section_levels - 1)
-			assert(next_element.type == "sequence")
+			assert(next_element.type == "routine")
 			
 			assert(next_element.has("trigger_name"))
 			assert(next_element.has("statements"))
@@ -947,13 +957,14 @@ func _compile_tree(cs, root, number_of_section_levels):
 			var trigger_name : String = next_element.trigger_name
 			var statements : Array = next_element.statements
 			var telekinetic : bool = next_element.telekinetic
+			var pattern : String = next_element.pattern
 			
 			header_chain.push_back(trigger_name)
 			
 			if current_data.has(trigger_name):
-				print("Duplicated header 2 '%s'" % str(header_chain))
+				print("Duplicated routine header '%s'" % str(header_chain))
 			else:
-				var new_routine = Routine.new(trigger_name, statements, telekinetic)
+				var new_routine = Routine.new(trigger_name, statements, telekinetic, pattern)
 				current_data[trigger_name] = new_routine
 	
 			header_chain.pop_back()

@@ -71,7 +71,7 @@ func get_routine(headers: Array) -> Resource:
 	# unreachable
 	return null
 
-func get_sections(headers: Array) -> Array:
+func get_sections(headers: Array, only_straight_ones := false) -> Array:
 	if headers.size() >= levels:
 		print("Expecting less than %s headers (%s given)" % [levels, headers.size()])
 		return []
@@ -88,7 +88,14 @@ func get_sections(headers: Array) -> Array:
 		level += 1
 		current_dict = current_dict[current_key]
 	
-	return current_dict.keys()
+	var ret = []
+	
+	for trigger_name in current_dict:
+		var routine = current_dict[trigger_name]
+		if not only_straight_ones or not routine.has_pattern():
+			ret.append(trigger_name)
+	
+	return ret
 
 func is_valid():
 	return _valid
