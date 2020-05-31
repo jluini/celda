@@ -1223,7 +1223,7 @@ func _fetch_routine(headers: Array, _tool, context: Dictionary, warn_if_absent) 
 	if not _validate_interaction_state("_fetch_routine", InteractionState.Ready):
 		return false
 	
-	var routine: Resource = _game_script.get_routine(headers, _tool.get_id() if _tool else "")
+	var routine: Resource = _game_script.get_routine(headers, _tool.get_key() if _tool else "")
 	
 	if not routine:
 		if warn_if_absent:

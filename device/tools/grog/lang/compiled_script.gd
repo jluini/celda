@@ -65,12 +65,13 @@ func get_routine(headers: Array, tool_parameter: String) -> Resource:
 		if level == levels - 1:
 			var routine = current_dict[current_key]
 			
-			var tool_required : bool = tool_parameter != ""
-			var routine_has_tool : bool = routine.pattern != ""
+			if tool_parameter:
+				if routine.pattern and _matches(tool_parameter, routine.pattern):
+					return routine
+			elif not routine.pattern:
+				return routine
 			
-			print("ignoring tool parameter matching (%s/%s)" % [tool_required, routine_has_tool])
-			
-			return routine
+			return null
 		
 		level += 1
 		current_dict = current_dict[current_key]
@@ -106,3 +107,17 @@ func get_sections(headers: Array, only_straight_ones := false) -> Array:
 
 func is_valid():
 	return _valid
+
+static func _matches(parameter: String, raw_pattern: String) -> bool:
+	var pattern := raw_pattern.replace("/", "\\/")
+	
+	pattern = pattern.replace("*", ".*")
+	
+	pattern = "^" + pattern + "$"
+	
+	var regex = RegEx.new()
+	regex.compile(pattern)
+	
+	var matches: bool = regex.search(parameter) != null
+	
+	return matches
