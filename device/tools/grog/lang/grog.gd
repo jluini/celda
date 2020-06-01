@@ -175,7 +175,7 @@ const commands = {
 	
 }
 
-const item_id_separator := "."
+const item_id_separator := "/"
 
 static func get_item_id(item_key: String, instance_number: int) -> String:
 	return "%s%s%s" % [item_key, item_id_separator, instance_number]
