@@ -9,6 +9,10 @@ export (Vector2) var offset = Vector2.ZERO setget set_offset
 
 export (Color) var color = Color.white
 
+# Game state
+var _enabledness: bool
+var _state: String
+
 func _ready():
 	if Engine.editor_hint:
 		set_notify_local_transform(true)
@@ -24,6 +28,49 @@ func get_id() -> String:
 
 func get_item_name() -> String:
 	return tr("ITEM_" + get_key().to_upper())
+
+### Game state
+
+func load_item(enabledness: bool, state: String):
+	_enabledness = enabledness
+	_state = state
+	
+	if enabledness:
+		_play_animation()
+	else:
+		set_visible(false)
+
+func enable() -> void:
+	_enabledness = true
+	_play_animation()
+	set_visible(true)
+
+func disable() -> void:
+	_enabledness = false
+	set_visible(false)
+	_stop_animation()
+
+func set_state(new_state: String):
+	_state = new_state
+	if _enabledness:
+		_play_animation()
+
+###
+
+func _play_animation():
+	if has_node("animation"):
+		var anim: AnimationPlayer = get_node("animation")
+		if anim.has_animation(_state):
+			anim.play(_state)
+		else:
+			push_warning("item '%s': no animation '%s'" % [key, _state])
+
+func _stop_animation():
+	if has_node("animation"):
+		var anim: AnimationPlayer = get_node("animation")
+		anim.stop(false)
+
+###
 
 func get_interact_location() -> Vector2:
 	if has_node("positioning"):
@@ -45,12 +92,6 @@ func set_size(new_size: Vector2):
 func set_offset(new_offset: Vector2):
 	offset = new_offset
 	update()
-
-func enable() -> void:
-	set_visible(true)
-
-func disable() -> void:
-	set_visible(false)
 
 func get_rect() -> Rect2:
 	var ret: Rect2 = _relative_rect()

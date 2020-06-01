@@ -482,12 +482,11 @@ func _command_load_room(room_name: String, opts: Dictionary) -> Dictionary:
 		item_symbol.loaded = true
 		loaded_scene_items[item_key] = item
 		
-		if item_symbol.disabled:
-			item.disable()
-		else:
-			if item.has_node("animation"):
-				item.get_node("animation").play(item_symbol.state)
-			
+		var is_enabled: bool = not item_symbol.disabled
+		
+		item.load_item(is_enabled, item_symbol.state)
+		
+		if is_enabled:
 			_game_event("item_enabled", [item])
 	
 	_room_parent.add_child(room) # _ready is called here for room and its items
@@ -704,13 +703,9 @@ func _command_play(item_id: String, new_state: String) -> Dictionary:
 	
 	item_symbol.state = new_state
 	
-	if item_symbol.loaded and not item_symbol.disabled:
+	if item_symbol.loaded:
 		var item: Node = item_symbol.target
-		
-		if item.has_node("animation"):
-			item.get_node("animation").play(new_state)
-	else:
-		_log_debug("setting state '%s' to hidden item '%s'" % [new_state, item_id])
+		item.set_state(new_state)
 	
 	return _instant_termination
 
