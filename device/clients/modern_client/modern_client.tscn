@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
@@ -14,7 +14,6 @@
 [ext_resource path="res://clients/modern_client/inventory.gd" type="Script" id=13]
 [ext_resource path="res://clients/modern_client/inventory_item.tscn" type="PackedScene" id=15]
 [ext_resource path="res://tools/ui_tools/slider.gd" type="Script" id=17]
-[ext_resource path="res://clients/modern_client/images/right.png" type="Texture" id=18]
 [ext_resource path="res://clients/modern_client/tabs.gd" type="Script" id=19]
 [ext_resource path="res://clients/modern_client/side_menu.gd" type="Script" id=20]
 [ext_resource path="res://clients/modern_client/menu_button.tscn" type="PackedScene" id=21]
@@ -145,57 +144,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 item_scene = ExtResource( 15 )
-previous_children = 1
-later_children = 1
-
-[node name="left" type="Control" parent="ui/inventory_base/inventory"]
-margin_left = 858.0
-margin_right = 958.0
-margin_bottom = 150.0
-rect_min_size = Vector2( 100, 0 )
-mouse_filter = 2
-size_flags_vertical = 3
-
-[node name="texture_rect" type="TextureRect" parent="ui/inventory_base/inventory/left"]
-modulate = Color( 0.4, 0.4, 0.4, 0.913725 )
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -175.0
-margin_right = -7.62939e-06
-margin_bottom = -25.0
-mouse_filter = 2
-size_flags_vertical = 0
-texture = ExtResource( 18 )
-stretch_mode = 6
-flip_h = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="right" type="Control" parent="ui/inventory_base/inventory"]
-margin_left = 962.0
-margin_right = 1062.0
-margin_bottom = 150.0
-rect_min_size = Vector2( 100, 0 )
-mouse_filter = 2
-size_flags_vertical = 3
-
-[node name="texture_rect" type="TextureRect" parent="ui/inventory_base/inventory/right"]
-modulate = Color( 0.4, 0.4, 0.4, 0.913725 )
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_top = -175.0
-margin_right = -7.62939e-06
-margin_bottom = -25.0
-mouse_filter = 2
-size_flags_vertical = 0
-texture = ExtResource( 18 )
-stretch_mode = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="tween" type="Tween" parent="ui/inventory_base"]
 
