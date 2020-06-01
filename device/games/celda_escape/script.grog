@@ -152,6 +152,8 @@ cage/poster:
 		self.disable
 		inv_poster.add
 		cage/to_office.enable
+		cage/to_office.play opening blocking=true
+		cage/to_office.play open
 	
 	# TODO use_with(inv_stick): "No le haría daño" ?
 	
@@ -174,9 +176,11 @@ cage/to_office:
 		#.curtain_up
 	
 	use_with(inv_poster):
+		self.play closing blocking=true
+		self.play default
+		self.disable
 		cage/poster.enable
 		tool.remove
-		self.disable
 
 cage/to_cellar:
 	walk_to:

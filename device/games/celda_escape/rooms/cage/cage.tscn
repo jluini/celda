@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/bed.png" type="Texture" id=2]
@@ -13,7 +13,70 @@
 [ext_resource path="res://games/celda_escape/rooms/cage/images/background.jpg" type="Texture" id=11]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/toilet.png" type="Texture" id=12]
 
-[sub_resource type="NavigationPolygon" id=1]
+[sub_resource type="Animation" id=5]
+resource_name = "closing"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "default"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "opening"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="NavigationPolygon" id=3]
 vertices = PoolVector2Array( 670.651, 625.289, 785.887, 712.824, 695.027, 712.824, 336.649, 896.138, 163.153, 575.388, 288.377, 575.427, 345.995, 621.965, 867.881, 782.631, 909.987, 820.304, 912.203, 898.975, 722.728, 781.523, 680.623, 746.065 )
 polygons = [ PoolIntArray( 0, 1, 2 ), PoolIntArray( 3, 4, 5, 6 ), PoolIntArray( 7, 8, 9, 3, 10 ), PoolIntArray( 11, 10, 3, 6 ), PoolIntArray( 11, 6, 0, 2 ) ]
 outlines = [ PoolVector2Array( 909.987, 820.304, 867.881, 782.631, 722.728, 781.523, 680.623, 746.065, 695.027, 712.824, 785.887, 712.824, 670.651, 625.289, 345.995, 621.965, 288.377, 575.427, 163.153, 575.388, 336.649, 896.138, 912.203, 898.975 ) ]
@@ -66,8 +129,6 @@ z_index = 367
 script = ExtResource( 1 )
 key = "cage/poster"
 size = Vector2( 112.636, 250 )
-offset = Vector2( 0, 0 )
-color = Color( 1, 1, 1, 1 )
 
 [node name="sprite" type="Sprite" parent="items/poster"]
 show_behind_parent = true
@@ -78,13 +139,13 @@ position = Vector2( -55.7717, 465.768 )
 script = ExtResource( 10 )
 
 [node name="to_office" type="Node2D" parent="items"]
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( 1725.28, 865.199 )
 z_index = 865
 script = ExtResource( 1 )
 key = "cage/to_office"
 size = Vector2( 130, 120 )
 offset = Vector2( 0, -530 )
-color = Color( 1, 1, 1, 1 )
 
 [node name="light" type="Sprite" parent="items/to_office"]
 position = Vector2( -765.168, -324.902 )
@@ -100,6 +161,12 @@ texture = ExtResource( 8 )
 position = Vector2( -55.0518, -32.431 )
 script = ExtResource( 10 )
 
+[node name="animation" type="AnimationPlayer" parent="items/to_office"]
+anims/closing = SubResource( 5 )
+anims/default = SubResource( 1 )
+anims/open = SubResource( 4 )
+anims/opening = SubResource( 2 )
+
 [node name="toilet" type="Node2D" parent="items"]
 position = Vector2( 1783, 928 )
 z_index = 928
@@ -107,7 +174,6 @@ script = ExtResource( 1 )
 key = "cage/toilet"
 size = Vector2( 220, 240 )
 offset = Vector2( 0, -100 )
-color = Color( 1, 1, 1, 1 )
 
 [node name="sprite" type="Sprite" parent="items/toilet"]
 show_behind_parent = true
@@ -126,7 +192,6 @@ script = ExtResource( 1 )
 key = "cage/bed"
 size = Vector2( 400, 175 )
 offset = Vector2( 0, -10 )
-color = Color( 1, 1, 1, 1 )
 
 [node name="sprite" type="Sprite" parent="items/bed"]
 show_behind_parent = true
@@ -143,8 +208,6 @@ z_index = 527
 script = ExtResource( 1 )
 key = "cage/door"
 size = Vector2( 220, 410 )
-offset = Vector2( 0, 0 )
-color = Color( 1, 1, 1, 1 )
 
 [node name="positioning" type="Node2D" parent="items/door"]
 position = Vector2( 553.689, 221.055 )
@@ -155,4 +218,4 @@ script = ExtResource( 10 )
 
 [node name="polygon" type="NavigationPolygonInstance" parent="navigation"]
 position = Vector2( 991.695, 168.422 )
-navpoly = SubResource( 1 )
+navpoly = SubResource( 3 )
