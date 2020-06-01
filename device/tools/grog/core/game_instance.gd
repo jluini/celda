@@ -198,7 +198,7 @@ func get_value(var_name: String):
 #			if symbol.disabled:
 #				return "disabled"
 #			else:
-#				return symbol.animation
+#				return symbol.state
 		_:
 			_game_warning("trying to dereference symbol '%s' of type '%s'" % [var_name, symbol.type])
 			return false
@@ -485,9 +485,9 @@ func _command_load_room(room_name: String, opts: Dictionary) -> Dictionary:
 		if item_symbol.disabled:
 			item.disable()
 		else:
-			# TODO improve animation/enabledness logic
 			if item.has_node("animation"):
-				item.get_node("animation").play(item_symbol.animation)
+				item.get_node("animation").play(item_symbol.state)
+			
 			_game_event("item_enabled", [item])
 	
 	_room_parent.add_child(room) # _ready is called here for room and its items
@@ -686,12 +686,40 @@ func _command_walk(_item_id: String, target_node_name: String) -> Dictionary:
 	
 	return { termination = "custom" }
 
-func _command_set_tool(item_id: String, verb: String):
+func _command_play(item_id: String, new_state: String) -> Dictionary:
+	# TODO what about inventory items' states?
+	var item_symbol = symbols.get_symbol_of_types(item_id, ["scene_item"], true)
+	
+	if not item_symbol.type:
+		# absent or type mismatch
+		_game_warning("play: no scene item '%s'" % item_id)
+		return _instant_termination
+	
+	# updates item_id (maybe it was 'self' or another alias)
+	item_id = item_symbol.symbol_name
+	
+	if item_symbol.state == new_state:
+		_game_warning("play: item '%s' is already in state '%s' (ignoring it)" % [item_id, new_state])
+		return _instant_termination
+	
+	item_symbol.state = new_state
+	
+	if item_symbol.loaded and not item_symbol.disabled:
+		var item: Node = item_symbol.target
+		
+		if item.has_node("animation"):
+			item.get_node("animation").play(new_state)
+	else:
+		_log_debug("setting state '%s' to hidden item '%s'" % [new_state, item_id])
+	
+	return _instant_termination
+
+func _command_set_tool(item_id: String, verb: String) -> Dictionary:
 	# TODO include scene items
 	var item_symbol = symbols.get_symbol_of_types(item_id, ["inventory_item_instance"], true)
 	
 	if not item_symbol.type:
-		# absent
+		# absent or type mismatch
 		# TODO change message when scene items are included
 		_game_warning("set_tool: no inventory item instance '%s'" % item_id)
 		return _instant_termination
@@ -856,7 +884,7 @@ func _get_or_build_scene_item(item_key: String, debug_action_name: String):
 		symbol = symbols.add_symbol(item_key, "scene_item", null)
 		symbol.loaded = false
 		symbol.disabled = false
-		symbol.animation = "default"
+		symbol.state = "default"
 		
 		return symbol
 		
@@ -1144,7 +1172,7 @@ func get_scene_items() -> Array:
 	for scene_item in scene_items_list:
 		var item_key: String = scene_item.symbol_name
 		var is_disabled: bool = scene_item.disabled
-		var animation_state: String = scene_item.animation
+		var animation_state: String = scene_item.state
 		
 		ret.append({
 			key = item_key,
@@ -1177,7 +1205,7 @@ func _read_saved_game(saved_game: Resource) -> Dictionary:
 		var new_symbol = symbols.add_symbol(key, "scene_item", null)
 		new_symbol.loaded = false
 		new_symbol.disabled = scene_item.disabled
-		new_symbol.animation = scene_item.state
+		new_symbol.state = scene_item.state
 	
 	_current_room_name = saved_game.current_room
 	_saved_player_position = saved_game.player_position
