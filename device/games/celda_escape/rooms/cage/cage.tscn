@@ -13,13 +13,10 @@
 [ext_resource path="res://games/celda_escape/rooms/cage/images/background.jpg" type="Texture" id=11]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/toilet.png" type="Texture" id=12]
 
-
-
-
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 670.651, 625.289, 785.887, 712.824, 695.027, 712.824, 345.995, 621.965, 306.105, 895.651, 122.171, 572.103, 288.377, 575.427, 912.203, 898.975, 722.728, 781.523, 680.623, 746.065, 867.881, 782.631, 909.987, 820.304 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 3 ), PoolIntArray( 7, 4, 3, 8 ), PoolIntArray( 3, 2, 9 ), PoolIntArray( 10, 11, 7, 8 ), PoolIntArray( 8, 3, 9 ) ]
-outlines = [ PoolVector2Array( 909.987, 820.304, 867.881, 782.631, 722.728, 781.523, 680.623, 746.065, 695.027, 712.824, 785.887, 712.824, 670.651, 625.289, 345.995, 621.965, 288.377, 575.427, 122.171, 572.103, 306.105, 895.651, 912.203, 898.975 ) ]
+vertices = PoolVector2Array( 670.651, 625.289, 785.887, 712.824, 695.027, 712.824, 336.649, 896.138, 163.153, 575.388, 288.377, 575.427, 345.995, 621.965, 867.881, 782.631, 909.987, 820.304, 912.203, 898.975, 722.728, 781.523, 680.623, 746.065 )
+polygons = [ PoolIntArray( 0, 1, 2 ), PoolIntArray( 3, 4, 5, 6 ), PoolIntArray( 7, 8, 9, 3, 10 ), PoolIntArray( 11, 10, 3, 6 ), PoolIntArray( 11, 6, 0, 2 ) ]
+outlines = [ PoolVector2Array( 909.987, 820.304, 867.881, 782.631, 722.728, 781.523, 680.623, 746.065, 695.027, 712.824, 785.887, 712.824, 670.651, 625.289, 345.995, 621.965, 288.377, 575.427, 163.153, 575.388, 336.649, 896.138, 912.203, 898.975 ) ]
 
 [node name="room" type="Node"]
 script = ExtResource( 4 )
@@ -69,6 +66,8 @@ z_index = 367
 script = ExtResource( 1 )
 key = "cage/poster"
 size = Vector2( 112.636, 250 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
 [node name="sprite" type="Sprite" parent="items/poster"]
 show_behind_parent = true
@@ -85,6 +84,7 @@ script = ExtResource( 1 )
 key = "cage/to_office"
 size = Vector2( 130, 120 )
 offset = Vector2( 0, -530 )
+color = Color( 1, 1, 1, 1 )
 
 [node name="light" type="Sprite" parent="items/to_office"]
 position = Vector2( -765.168, -324.902 )
@@ -107,6 +107,7 @@ script = ExtResource( 1 )
 key = "cage/toilet"
 size = Vector2( 220, 240 )
 offset = Vector2( 0, -100 )
+color = Color( 1, 1, 1, 1 )
 
 [node name="sprite" type="Sprite" parent="items/toilet"]
 show_behind_parent = true
@@ -125,6 +126,7 @@ script = ExtResource( 1 )
 key = "cage/bed"
 size = Vector2( 400, 175 )
 offset = Vector2( 0, -10 )
+color = Color( 1, 1, 1, 1 )
 
 [node name="sprite" type="Sprite" parent="items/bed"]
 show_behind_parent = true
@@ -141,6 +143,8 @@ z_index = 527
 script = ExtResource( 1 )
 key = "cage/door"
 size = Vector2( 220, 410 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
 [node name="positioning" type="Node2D" parent="items/door"]
 position = Vector2( 553.689, 221.055 )

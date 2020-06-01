@@ -4,9 +4,6 @@
 [ext_resource path="res://games/celda_escape/rooms/cage/images/poster.png" type="Texture" id=2]
 [ext_resource path="res://clients/modern_client/inventory_item_display.gd" type="Script" id=3]
 
-
-
-
 [node name="item_container" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -39,7 +36,7 @@ margin_top = 7.0
 margin_right = -7.0
 margin_bottom = -7.0
 mouse_filter = 2
-color = Color( 0.160784, 0.160784, 0.160784, 0.776471 )
+color = Color( 0.160784, 0.160784, 0.160784, 0.282353 )
 __meta__ = {
 "_edit_use_anchors_": false
 }

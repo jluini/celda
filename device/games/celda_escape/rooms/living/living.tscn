@@ -9,13 +9,10 @@
 [ext_resource path="res://games/celda_escape/rooms/living/images/cuadro.png" type="Texture" id=7]
 [ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=8]
 
-
-
-
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1894.34, 1054.07, 1224.86, 736.069, 1216.49, 685.858, 1601.45, 671.911, 1769.57, 873.404, 33.7435, 1059.65, 44.9015, 825.334, 231.798, 825.334, 382.432, 741.648, 1885.97, 875.545, 1710.24, 775.122 )
-polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 0, 5, 6, 7 ), PoolIntArray( 0, 7, 8, 1 ), PoolIntArray( 4, 9, 0 ), PoolIntArray( 10, 4, 3 ) ]
-outlines = [ PoolVector2Array( 1710.24, 775.122, 1601.45, 671.911, 1216.49, 685.858, 1224.86, 736.069, 382.432, 741.648, 231.798, 825.334, 44.9015, 825.334, 33.7435, 1059.65, 1894.34, 1054.07, 1885.97, 875.545, 1769.57, 873.404 ) ]
+vertices = PoolVector2Array( 1224.86, 736.069, 1214.29, 671.74, 1472.58, 670.866, 1580.64, 783.335, 1746.18, 959.857, 1894.34, 1054.07, 33.7435, 1059.65, 44.9015, 825.334, 231.798, 825.334, 382.432, 741.648, 1892.16, 956.684 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 6, 7, 8 ), PoolIntArray( 5, 8, 9, 0, 4 ), PoolIntArray( 4, 10, 5 ) ]
+outlines = [ PoolVector2Array( 1580.64, 783.335, 1472.58, 670.866, 1214.29, 671.74, 1224.86, 736.069, 382.432, 741.648, 231.798, 825.334, 44.9015, 825.334, 33.7435, 1059.65, 1894.34, 1054.07, 1892.16, 956.684, 1746.18, 959.857 ) ]
 
 [node name="room" type="Node"]
 script = ExtResource( 4 )
@@ -58,6 +55,8 @@ z_index = 236
 script = ExtResource( 1 )
 key = "living/picture"
 size = Vector2( 125, 170 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
 [node name="positioning" type="Node2D" parent="items/picture"]
 position = Vector2( 87.2048, 445.648 )
@@ -70,6 +69,8 @@ z_index = 929
 script = ExtResource( 1 )
 key = "living/to_office"
 size = Vector2( 300, 300 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
 [node name="positioning" type="Node2D" parent="items/to_office"]
 position = Vector2( -126.835, -15.7385 )
