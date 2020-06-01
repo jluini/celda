@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/background.jpg" type="Texture" id=2]
@@ -8,6 +8,24 @@
 [ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=6]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/hombre_flotante.png" type="Texture" id=7]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/vidrio.png" type="Texture" id=8]
+
+[sub_resource type="Animation" id=2]
+resource_name = "default"
+length = 8.0
+loop = true
+step = 1.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2, 4, 6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 25 ), Vector2( 0, 0 ), Vector2( 0, -25 ) ]
+}
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1883.04, 1053.02, 172.878, 1049.34, 361.694, 830.317, 465.398, 729.364, 158.083, 827.906, 213.199, 717.673, 560.599, 627.483, 657.47, 645.855, 745.99, 637.504, 804.447, 607.44, 1553.58, 825.813, 806.117, 550.654, 1328.65, 548.619, 1814.87, 834.902, 1873.95, 898.52 )
@@ -75,8 +93,8 @@ rotation = 4.71239
 script = ExtResource( 6 )
 
 [node name="guy" type="Node2D" parent="items"]
-position = Vector2( 677.748, 570 )
-z_index = 570
+position = Vector2( 683, 552 )
+z_index = 552
 script = ExtResource( 1 )
 key = "lab/guy"
 size = Vector2( 185, 500 )
@@ -84,17 +102,24 @@ offset = Vector2( 0, -227 )
 color = Color( 1, 1, 1, 1 )
 
 [node name="positioning" type="Node2D" parent="items/guy"]
-position = Vector2( 114.422, 40 )
+position = Vector2( 104.492, 61.847 )
 rotation = 3.81529
+z_index = 4096
 script = ExtResource( 6 )
 
 [node name="sprite" type="Sprite" parent="items/guy"]
+show_behind_parent = true
 texture = ExtResource( 7 )
-offset = Vector2( 0, -227 )
+offset = Vector2( 0, -200 )
 
 [node name="glass" type="Sprite" parent="items/guy"]
+show_behind_parent = true
 texture = ExtResource( 8 )
 offset = Vector2( 0, -227 )
+
+[node name="animation" type="AnimationPlayer" parent="items/guy"]
+playback_speed = 0.5
+anims/default = SubResource( 2 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 
