@@ -39,6 +39,7 @@ ITEM_CELLAR/TO_LAB;door;puerta
 ITEM_LAB/TO_CELLAR;door;puerta
 ITEM_LAB/STRETCHER;stretcher;camilla
 ITEM_LAB/DESK;desk;escritorio
+LOOK_GUY;TODO;TODO
 BAD_IDEA;Bad idea.;Mala idea.
 SAY_NO;No.;No.
 FOR_WHAT;For what?;¿Para qué?

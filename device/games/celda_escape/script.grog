@@ -256,6 +256,10 @@ lab/to_cellar:
 		# keep music 'lab'
 		#.curtain_up
 
+lab/guy:
+	look:
+		you.say LOOK_GUY
+
 lab/desk:
 	look:
 		.load_room desk

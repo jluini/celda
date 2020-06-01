@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/background.jpg" type="Texture" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=4]
 [ext_resource path="res://games/celda_escape/rooms/lab/images/gate.png" type="Texture" id=5]
 [ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=6]
+[ext_resource path="res://games/celda_escape/rooms/lab/images/hombre_flotante.png" type="Texture" id=7]
+[ext_resource path="res://games/celda_escape/rooms/lab/images/vidrio.png" type="Texture" id=8]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1883.04, 1053.02, 172.878, 1049.34, 361.694, 830.317, 465.398, 729.364, 158.083, 827.906, 213.199, 717.673, 560.599, 627.483, 657.47, 645.855, 745.99, 637.504, 804.447, 607.44, 1553.58, 825.813, 806.117, 550.654, 1328.65, 548.619, 1814.87, 834.902, 1873.95, 898.52 )
@@ -38,6 +40,9 @@ centered = false
 position = Vector2( 296.101, 766.162 )
 script = ExtResource( 6 )
 
+[node name="position_2d" type="Position2D" parent="positions"]
+position = Vector2( 810.974, 570.466 )
+
 [node name="items" type="Node" parent="."]
 
 [node name="to_cellar" type="Node2D" parent="items"]
@@ -52,6 +57,7 @@ color = Color( 1, 1, 1, 1 )
 [node name="positioning" type="Node2D" parent="items/to_cellar"]
 position = Vector2( -92.5316, 327.562 )
 rotation = 3.14159
+z_index = 4096
 script = ExtResource( 6 )
 
 [node name="desk" type="Node2D" parent="items"]
@@ -67,6 +73,28 @@ color = Color( 1, 1, 1, 1 )
 position = Vector2( -6.67664, 136.137 )
 rotation = 4.71239
 script = ExtResource( 6 )
+
+[node name="guy" type="Node2D" parent="items"]
+position = Vector2( 677.748, 570 )
+z_index = 570
+script = ExtResource( 1 )
+key = "lab/guy"
+size = Vector2( 185, 500 )
+offset = Vector2( 0, -227 )
+color = Color( 1, 1, 1, 1 )
+
+[node name="positioning" type="Node2D" parent="items/guy"]
+position = Vector2( 114.422, 40 )
+rotation = 3.81529
+script = ExtResource( 6 )
+
+[node name="sprite" type="Sprite" parent="items/guy"]
+texture = ExtResource( 7 )
+offset = Vector2( 0, -227 )
+
+[node name="glass" type="Sprite" parent="items/guy"]
+texture = ExtResource( 8 )
+offset = Vector2( 0, -227 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 
