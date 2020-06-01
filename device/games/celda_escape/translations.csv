@@ -5,15 +5,29 @@ ACTION_USE;use;usar
 ACTION_PICK_UP;pick up;recoger
 ITEM_CAGE/POSTER;poster;póster
 ITEM_INV_POSTER;poster;póster
+LOOK_POSTER;"It says ""hang in there"".";"Dice ""hang in there""."
 ITEM_INV_BOOK;book;libro
+LOOK_BOOK;TODO;TODO
 ITEM_INV_KEY1;key;llave
+LOOK_KEY1;TODO;TODO
 ITEM_INV_STICK;stick;palo
+LOOK_STICK;TODO;TODO
 ITEM_INV_SKULL;skull;calavera
+LOOK_SKULL;TODO;TODO
+ITEM_INV_JAR;jar;frasco
+LOOK_JAR;TODO;TODO
 ITEM_CAGE/TO_OFFICE;hole;hueco
-ITEM_CAGE/EXIT;duct;ducto
 ITEM_CAGE/DOOR;door;puerta
 ITEM_CAGE/BED;bed;cama
+LOOK_BED;It's not less hard than the stones on the ground.;No es menos dura que las piedras del suelo.
+USE_KEY_WITH_BED;I don't think it will be unlocked.;No parece abrirse con llave.
 ITEM_CAGE/TOILET;toilet;inodoro
+LOOK_TOILET;It has not been used for a long time.;No se usa hace largo tiempo.
+USE_KEY_WITH_TOILET1;I wouldn't discard the key here.;No tiraría la llave al inodoro.
+USE_KEY_WITH_TOILET2;Maybe later it will help me.;Tal vez más tarde me sea útil.
+USE_JAR_WITH_TOILET;It would be a waste to throw it here.;Sería un desperdicio tirarlo aquí.
+USE_POSTER_WITH_TOILET;No. It could get clogged.;No. Podría taparse y quizás lo necesite.
+USE_X_WITH_TOILET;I wouldn't throw it here.;No lo tiraría aquí.
 ITEM_CAGE/TO_CELLAR;stairway;escaleras
 ITEM_OFFICE/TO_CAGE;hole;hueco
 ITEM_OFFICE/TO_LIVING;corridor;pasillo
@@ -25,11 +39,8 @@ ITEM_CELLAR/TO_LAB;door;puerta
 ITEM_LAB/TO_CELLAR;door;puerta
 ITEM_LAB/STRETCHER;stretcher;camilla
 ITEM_LAB/DESK;desk;escritorio
-ONCE_UPON_A_TIME;Once upon a time...;Había una vez...
-LOOK_POSTER;"It says ""hang in there"".";"Dice ""hang in there""."
-LOOK_DOOR1;Nice door.;Linda puerta.
-LOOK_DOOR2;I already told you it's a nice door.;Ya te dije que es linda puerta.
+BAD_IDEA;Bad idea.;Mala idea.
+SAY_NO;No.;No.
+FOR_WHAT;For what?;¿Para qué?
+INVALID_COMBINATION;That doesn't seem to work.;Eso no parece funcionar.
 CANT_REACH_DOOR;I can't reach it.;No puedo alcanzarla.
-LOOK_TOILET;Nice toilet.;Alto inodoro.
-LOOK_BED;Nice bed.;Alta cama.
-LOOK_PICTURE;Nice picture.;Lindo cuadro.

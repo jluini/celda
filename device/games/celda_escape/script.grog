@@ -1,3 +1,5 @@
+# Main script
+
 main:
 	init:
 		# cage setup
@@ -23,6 +25,7 @@ main:
 				inv_key1.add
 				inv_skull.add
 				inv_book.add
+				inv_jar.add
 		else:
 			
 			.set poster_was_taken = true
@@ -63,78 +66,145 @@ main:
 			
 			# ...
 
-cage/poster:
-	look:
-		you.say LOOK_POSTER
-	
-	pick_up:
-		
-		self.disable
-		inv_poster.add
-		cage/to_office.enable
-		
+# Inventory items
+
 inv_poster:
 	look:
 		you.say LOOK_POSTER
 	
 	use:
-		#self.remove
-		#cage/to_office.disable
-		#cage/poster.enable
-		
 		self.set_tool use_with
-		
 
+inv_book:
+	look:
+		you.say LOOK_BOOK
+	use:
+		self.set_tool use_with
+
+inv_stick:
+	look:
+		you.say LOOK_STICK
+	use:
+		self.set_tool use_with
+
+inv_skull:
+	look:
+		you.say LOOK_SKULL
+	use:
+		self.set_tool use_with
+
+inv_key1:
+	look:
+		you.say LOOK_KEY1
+	use:
+		self.set_tool use_with
+
+inv_jar:
+	look:
+		you.say LOOK_JAR
+	use:
+		self.set_tool use_with
+
+# Cage items
 
 cage/toilet:
 	look:
 		you.say LOOK_TOILET
-	walk_to:
-		you.say "Me están entrando ganas."
-		
+	
+	use_with(inv_stick):
+		you.say BAD_IDEA
+	
+	use_with(inv_key*):
+		you.say USE_KEY_WITH_TOILET1
+		you.say USE_KEY_WITH_TOILET2
+	
+	use_with(inv_jar):
+		you.say USE_JAR_WITH_TOILET
+	
+	use_with(inv_poster):
+		you.say USE_POSTER_WITH_TOILET
+	
+	use_with(*):
+		you.say USE_X_WITH_TOILET
+
 cage/bed:
 	look:
 		you.say LOOK_BED
+	
+	use_with(inv_stick):
+		you.say SAY_NO
+	
+	use_with(inv_key*):
+		you.say USE_KEY_WITH_BED
+	
+	use_with(inv_jar):
+		you.say FOR_WHAT
+	
+	use_with(*): TK
+		you.say INVALID_COMBINATION
+	
+
+cage/poster:
+	look:
+		you.say LOOK_POSTER
+	
+	pick_up:
+		self.disable
+		inv_poster.add
+		cage/to_office.enable
+	
+	# TODO use_with(inv_stick): "No le haría daño" ?
+	
+	use_with(*):
+		you.say INVALID_COMBINATION
 
 cage/door:
+	# TODO case with cage open
+	walk_to: # TK
+		you.say CANT_REACH_DOOR
 	look:
-		if not $door_seen:
-			you.say LOOK_DOOR1
-			.set door_seen = true
-		else:
-			you.say LOOK_DOOR2
-	walk_to: TK
+		you.say CANT_REACH_DOOR
+	use_with(*):
 		you.say CANT_REACH_DOOR
 
 cage/to_office:
 	walk_to:
 		.load_room office at=positions/from_cage
 		.set music=office
-		.curtain_up
+		#.curtain_up
+	
+	use_with(inv_poster):
+		cage/poster.enable
+		inv_poster/1.remove # use tool alias when available
+		self.disable
 
 cage/to_cellar:
 	walk_to:
 		.load_room cellar at=positions/from_cage
 		.set music=lab
-		.curtain_up
+		#.curtain_up
+
+# Office items
 
 office/to_cage:
 	walk_to:
 		.load_room cage_open at=positions/from_office
 		.set music=uajari
-		.curtain_up
+		#.curtain_up
 
 office/to_living:
 	walk_to:
 		.load_room living at=positions/from_office
 		# keep music 'office'
-		.curtain_up
+		#.curtain_up
+
+# Living items
 
 living/to_office:
 	walk_to:
 		.load_room office at=positions/from_living
 		# keep music 'office'
-		.curtain_up
+		#.curtain_up
 
 living/picture:
 	look:
@@ -147,17 +217,19 @@ picture/to_living:
 		.load_room living at=living/picture
 		#.curtain_up
 
+# Cellar items
+
 cellar/to_cage:
 	walk_to:
 		.load_room cage_open at=positions/from_cellar
 		.set music=uajari
-		.curtain_up
+		#.curtain_up
 
 cellar/to_lab:
 	walk_to:
 		.load_room lab at=positions/from_cellar
 		# keep music 'lab'
-		.curtain_up
+		#.curtain_up
 	look:
 		.load_room lab_door
 		#.curtain_up
@@ -167,19 +239,22 @@ cellar/to_lab:
 		.load_room doc
 		#.curtain_up
 
+doc/to_cellar:
+	walk_to:
+		.load_room cellar at=cellar/to_lab # TODO fix this position
+
+# Lab items
+
 lab_door/to_cellar:
 	walk_to:
 		.load_room cellar at=cellar/to_lab
 
-doc/to_cellar:
-	walk_to:
-		.load_room cellar at=cellar/to_lab # TODO fix this position
 
 lab/to_cellar:
 	walk_to:
 		.load_room cellar at=positions/from_lab
 		# keep music 'lab'
-		.curtain_up
+		#.curtain_up
 
 lab/desk:
 	look:

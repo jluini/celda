@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://games/celda_escape/items/poster.png" type="Texture" id=1]
 [ext_resource path="res://tools/grog/core/inventory_item_model.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://games/celda_escape/items/Book.png" type="Texture" id=4]
 [ext_resource path="res://games/celda_escape/items/skull.png" type="Texture" id=5]
 [ext_resource path="res://games/celda_escape/items/key1.png" type="Texture" id=6]
+[ext_resource path="res://games/celda_escape/items/mask.png" type="Texture" id=7]
 
 [node name="inventory_items" type="GridContainer"]
 anchor_right = 1.0
@@ -67,4 +68,15 @@ script = ExtResource( 2 )
 
 [node name="sprite" type="Sprite" parent="inv_stick"]
 texture = ExtResource( 3 )
+centered = false
+
+[node name="inv_jar" type="Control" parent="."]
+margin_left = 1520.0
+margin_right = 1820.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 300, 150 )
+script = ExtResource( 2 )
+
+[node name="sprite" type="Sprite" parent="inv_jar"]
+texture = ExtResource( 7 )
 centered = false
