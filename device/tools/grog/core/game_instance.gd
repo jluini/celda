@@ -705,7 +705,7 @@ func _command_walk(_item_id: String, target_node_name: String) -> Dictionary:
 	
 	return { termination = "custom" }
 
-func _command_play(item_id: String, new_state: String) -> Dictionary:
+func _command_play(item_id: String, new_state: String, opts: Dictionary) -> Dictionary:
 	# TODO what about inventory items' states?
 	var item_symbol = symbols.get_symbol_of_types(item_id, ["scene_item"], true)
 	
@@ -723,10 +723,19 @@ func _command_play(item_id: String, new_state: String) -> Dictionary:
 	
 	item_symbol.state = new_state
 	
+	var is_blocking: bool = opts.get("blocking", false)
+	
 	if item_symbol.loaded:
 		var item: Node = item_symbol.target
-		item.set_state(new_state)
+		
+		var blocking_time: float = item.set_state(new_state)
+		
+		if is_blocking:
+			return { termination = "timed", delay = blocking_time }
 	
+	elif is_blocking:
+		_game_warning("play: ignoring 'blocking' option because item '%s' is not loaded" % item_id)
+		
 	return _instant_termination
 
 func _command_set_tool(item_id: String, verb: String) -> Dictionary:

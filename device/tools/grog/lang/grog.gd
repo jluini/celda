@@ -134,6 +134,9 @@ const commands = {
 		subject = SubjectType.Required,
 		required_params = [
 			{ name = "animation_name", type = ParameterType.Identifier }
+		],
+		named_params = [
+			{ name = "blocking", type = ParameterType.BooleanType }
 		]
 	},
 	
