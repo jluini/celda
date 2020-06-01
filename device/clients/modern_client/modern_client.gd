@@ -509,7 +509,7 @@ func _select_item(new_item, return_true_if_no_actions := false, tool_verb := "")
 		_action_list.set_item(actual_item, item_actions)
 		_action_list.show()
 	
-	var rect : Rect2 = _selected_item.get_rect()
+	var rect : Rect2 = _selected_item.get_item_rect()
 	_item_selector.show_rect(rect, _selected_as_tool)
 	
 	return false

@@ -108,7 +108,7 @@ func set_offset(new_offset: Vector2):
 	offset = new_offset
 	update()
 
-func get_rect() -> Rect2:
+func get_item_rect() -> Rect2:
 	var ret: Rect2 = _relative_rect()
 	ret.position += position
 	return ret

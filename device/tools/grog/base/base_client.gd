@@ -83,7 +83,7 @@ func _on_server_tool_set(_item, _verb: String):
 
 func _get_scene_item_at(position: Vector2):
 	for item in _loaded_items:
-		var item_rect : Rect2 = item.get_rect()
+		var item_rect : Rect2 = item.get_item_rect()
 		
 		if item_rect.has_point(position):
 			return item

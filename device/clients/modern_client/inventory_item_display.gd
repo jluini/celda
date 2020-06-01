@@ -16,3 +16,6 @@ func get_item_instance():
 
 func is_scene_item() -> bool:
 	return false
+
+func get_item_rect() -> Rect2:
+	return get_global_rect()

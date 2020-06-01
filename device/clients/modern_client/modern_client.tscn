@@ -133,8 +133,11 @@ end_position = Vector2( 0, 180 )
 delay = 1.5
 
 [node name="inventory" type="HBoxContainer" parent="ui/inventory_base"]
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_top = -170.0
+margin_bottom = -20.0
 mouse_filter = 2
 alignment = 1
 script = ExtResource( 13 )
@@ -148,7 +151,7 @@ later_children = 1
 [node name="left" type="Control" parent="ui/inventory_base/inventory"]
 margin_left = 858.0
 margin_right = 958.0
-margin_bottom = 1080.0
+margin_bottom = 150.0
 rect_min_size = Vector2( 100, 0 )
 mouse_filter = 2
 size_flags_vertical = 3
@@ -173,7 +176,7 @@ __meta__ = {
 [node name="right" type="Control" parent="ui/inventory_base/inventory"]
 margin_left = 962.0
 margin_right = 1062.0
-margin_bottom = 1080.0
+margin_bottom = 150.0
 rect_min_size = Vector2( 100, 0 )
 mouse_filter = 2
 size_flags_vertical = 3
