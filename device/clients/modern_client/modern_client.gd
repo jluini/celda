@@ -171,10 +171,9 @@ func _on_ui_click(position: Vector2):
 	
 	if game_instance.is_ready():
 		_ready_click(position)
-	elif _skip():
-		pass
 	else:
-		_log_debug("click ignored")
+		# warning-ignore:return_value_discarded
+		_try_to_skip()
 
 func _on_ui_start_hold(_position: Vector2):
 	pass
@@ -389,7 +388,7 @@ func _input(event):
 	if event is InputEventKey and event.pressed:
 		match event.scancode:
 			KEY_ESCAPE:
-				if game_instance and _skip():
+				if _try_to_skip():
 					# TODO only handled in this case?
 					get_tree().set_input_as_handled()
 
@@ -457,16 +456,23 @@ func _client_state_str(state: int = -1):
 		state = _client_state
 	return ClientState.keys()[state]
 
-func _skip() -> bool:
+func _try_to_skip() -> bool:
 	if not game_instance:
 		_log_warning("unexpected call to _skip")
 		return false
 	
+	if not game_instance.is_skip_enabled():
+		return false
+	
 	var skip_accepted: bool = game_instance.skip_request()
+	
 	if skip_accepted:
+		# TODO check text clearing
 		_text.text = ""
 		_select_item(null)
-		
+	else:
+		_log_warning("skip request ignored")
+	
 	return skip_accepted
 
 func _select_item(new_item, return_true_if_no_actions := false, tool_verb := ""):

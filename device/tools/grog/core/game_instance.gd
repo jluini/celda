@@ -21,6 +21,8 @@ var _interaction_state : int = InteractionState.None
 var _server # grog server node
 var _game_script # GameScript resource
 
+var _timer: Timer
+
 var _starting_from_saved_game: bool
 var _saved_player_position: Vector2
 
@@ -91,6 +93,12 @@ func init_game(server, game_script: Resource, saved_game: Resource, initial_stag
 	
 	_server = server
 	_game_script = game_script
+	
+	_timer = Timer.new()
+	_timer.one_shot = true
+	# warning-ignore:return_value_discarded
+	_timer.connect("timeout", self, "_on_timer_timeout")
+	add_child(_timer)
 	
 	# TODO improve
 	assert(_game_script.is_valid())
@@ -327,6 +335,8 @@ func _advance(): # -> bool: # it returns a bool by I'm ignoring it currently
 		if next_statement.type == "command":
 			var result = _run_command(next_statement)
 			
+			_skip_enabled = false
+			
 			match result.termination:
 				"skip":
 					_skip_enabled = true
@@ -337,7 +347,12 @@ func _advance(): # -> bool: # it returns a bool by I'm ignoring it currently
 				
 				"instant":
 					pass
-					
+				
+				"timed":
+					var delay: float = result.delay
+					_timer.start(delay)
+					return true
+				
 				_:
 					_log_error("command '%s': invalid termination '%s'" % [next_statement.command_name, result.termination])
 		
@@ -536,7 +551,12 @@ func _command_set(var_name: String, new_value_expression) -> Dictionary:
 	
 	return _instant_termination
 
-# TODO implement wait
+func _command_wait(delay: float, _opts: Dictionary) -> Dictionary:
+	if delay <= 0:
+		_game_warning("wait: invalid delay of %s seconds (ignoring it)" % delay)
+		return _instant_termination
+	
+	return { termination = "timed", delay = delay }
 
 func _command_say(item_id: String, speech_token: Dictionary, opts: Dictionary) -> Dictionary:
 	var speech = speech_token.expression.evaluate(self)
@@ -953,9 +973,7 @@ func skip_request() -> bool:
 		call_deferred("_advance")
 		
 		return true
-	
 	else:
-		
 		return false
 
 func go_to_request(target_position: Vector2) -> bool:
@@ -1092,6 +1110,9 @@ func is_paused() -> bool:
 
 func is_ready() -> bool:
 	return _interaction_state == InteractionState.Ready
+
+func is_skip_enabled() -> bool:
+	return _skip_enabled
 
 func is_player_in_room() -> bool:
 	return current_player and current_player.is_inside_tree()
@@ -1300,6 +1321,11 @@ func _interaction_state_str() -> String:
 		return "???"
 	
 	return keys[_interaction_state]
+
+# Signals
+
+func _on_timer_timeout():
+	call_deferred("_advance")
 
 # Static utils
 
