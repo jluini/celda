@@ -904,7 +904,7 @@ func start_game_request(room_parent: Node) -> bool:
 		
 		_interaction_state = InteractionState.Ready
 		
-		var initial_routine_found: bool = _fetch_routine(["main", "init"], null, {}, true)
+		var initial_routine_found: bool = _fetch_routine(["main", "init"], "", {}, true)
 		
 		if not initial_routine_found:
 			_game_error("initial routine not found")
@@ -985,12 +985,16 @@ func interact_request(item, trigger_name: String, _tool = null) -> bool:
 	elif trigger_name == _game_script.default_action:
 		_interaction_type = InteractionType.Default
 	
-	# TODO add tool to context
 	var context := { "self": item_id }
+	var tool_parameter := ""
+	
+	if _tool:
+		context["tool"] = _tool.get_id()
+		tool_parameter = _tool.get_key()
 	
 	var routine_found: bool = _fetch_routine(
 		[item_key, trigger_name],
-		_tool,
+		tool_parameter,
 		context,
 		_interaction_type == InteractionType.Standard
 	)
@@ -1188,7 +1192,7 @@ func _read_saved_game(saved_game: Resource) -> Dictionary:
 		
 		# TODO recreate context
 		# TODO recreate tool
-		var routine_found: bool = _fetch_routine(routine_headers, null, {}, true)
+		var routine_found: bool = _fetch_routine(routine_headers, "", {}, true)
 		
 		if not routine_found:
 			return { valid = false, message = "couldn't find saved routine '%s'" % str(routine_headers) }
@@ -1217,13 +1221,13 @@ func _game_event(event_name: String, args: Array = []):
 	emit_signal("game_event", event_name, args)
 
 # searchs for the routine and caches it if found
-func _fetch_routine(headers: Array, _tool, context: Dictionary, warn_if_absent) -> bool:
+func _fetch_routine(headers: Array, tool_parameter: String, context: Dictionary, warn_if_absent) -> bool:
 	if not _validate_game_state("_fetch_routine", GameState.Playing):
 		return false
 	if not _validate_interaction_state("_fetch_routine", InteractionState.Ready):
 		return false
 	
-	var routine: Resource = _game_script.get_routine(headers, _tool.get_key() if _tool else "")
+	var routine: Resource = _game_script.get_routine(headers, tool_parameter)
 	
 	if not routine:
 		if warn_if_absent:

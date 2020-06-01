@@ -175,7 +175,7 @@ cage/to_office:
 	
 	use_with(inv_poster):
 		cage/poster.enable
-		inv_poster/1.remove # use tool alias when available
+		tool.remove
 		self.disable
 
 cage/to_cellar:
