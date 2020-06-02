@@ -57,7 +57,7 @@ key = "living/picture"
 size = Vector2( 125, 170 )
 
 [node name="positioning" type="Node2D" parent="items/picture"]
-position = Vector2( 87.2048, 445.648 )
+position = Vector2( 94.0897, 436.111 )
 rotation = -1.83958
 script = ExtResource( 8 )
 
@@ -96,6 +96,18 @@ size = Vector2( 235, 560 )
 [node name="positioning" type="Node2D" parent="items/bear"]
 position = Vector2( 26.8182, 291.886 )
 rotation = 4.56753
+script = ExtResource( 8 )
+
+[node name="door" type="Node2D" parent="items"]
+position = Vector2( 1398.53, 424.889 )
+z_index = 424
+script = ExtResource( 1 )
+key = "living/door"
+size = Vector2( 195, 420 )
+
+[node name="positioning" type="Node2D" parent="items/door"]
+position = Vector2( -2.83, 246.277 )
+rotation = 4.72984
 script = ExtResource( 8 )
 
 [node name="to_office" type="Node2D" parent="items"]

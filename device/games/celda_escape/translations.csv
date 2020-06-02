@@ -46,6 +46,11 @@ LOOK_BEAR;A majestic creature.;Una majestuosa criatura.
 USE_STICK_WITH_BEAR;I think it suffered too much to hit it with an iron.;Creo que ya sufrió demasiado como para darle con un fierro.
 USE_KEY_WITH_BEAR;Bears don't have keys.;Los osos no tienen llave.
 USE_SKULL_WITH_BEAR;It already has a head.;Ya tiene cabeza.
+ITEM_LIVING/DOOR;door;puerta
+LOOK_LIVING_DOOR1;Fresh air passes underneath.;Un aire fresco pasa por debajo.
+LOOK_LIVING_DOOR2;I have to find a way to open it.;Tengo que buscar la forma de abrirla.
+USE_KEY_WITH_LIVING_DOOR;It doesn't even fit into the lock.;Ni siquiera entra en la cerradura.
+USE_X_WITH_LIVING_DOOR;I can't open it with this.;No me sirve para abrirla.
 ITEM_CELLAR/TO_CAGE;stairway;escaleras
 ITEM_CELLAR/TO_LAB;door;puerta
 ITEM_CELLAR/BUCKET;bucket;balde
@@ -64,5 +69,7 @@ BAD_IDEA;Bad idea.;Mala idea.
 SAY_NO;No.;No.
 FOR_WHAT;For what?;¿Para qué?
 DOES_NOT_WORK;It doesn't work.;No funciona.
+IT_IS_USELESS;It's useless.;Es inútil.
+NOTHING_HAPPENS;Nothing happens.;No sucede nada.
 INVALID_COMBINATION;That doesn't seem to work.;Eso no parece funcionar.
 CANT_REACH_DOOR;I can't reach it.;No puedo alcanzarla.
