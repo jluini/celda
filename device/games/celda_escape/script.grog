@@ -210,6 +210,29 @@ living/to_office:
 		# keep music 'office'
 		#.curtain_up
 
+living/furniture:
+	look:
+		you.say LOOK_FURNITURE
+	
+	use_with(inv_stick):
+		you.say USE_STICK_WITH_FURNITURE
+	
+	use_with(inv_key*):
+		you.say USE_KEY_WITH_FURNITURE
+	
+	use_with(*):
+		you.say INVALID_COMBINATION
+
+living/mirror:
+	look:
+		you.say LOOK_MIRROR
+	
+	use_with(inv_stick):
+		you.say USE_STICK_WITH_MIRROR
+	
+	use_with(*):
+		you.say INVALID_COMBINATION
+
 living/picture:
 	look:
 		#you.say LOOK_PICTURE

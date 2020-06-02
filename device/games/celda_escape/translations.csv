@@ -34,6 +34,13 @@ ITEM_OFFICE/TO_LIVING;corridor;pasillo
 ITEM_OFFICE/BUST;bust;busto
 ITEM_LIVING/PICTURE;picture;cuadro
 ITEM_LIVING/TO_OFFICE;corridor;pasillo
+ITEM_LIVING/FURNITURE;furniture;mueble
+LOOK_FURNITURE;Antique piece of furniture, very luxurious.;Mueble antiguo, muy lujoso.
+USE_STICK_WITH_FURNITURE;It's not worth hitting it with the stick.;No vale la pena romperlo a palazos.
+USE_KEY_WITH_FURNITURE;It doesn't fit;No entra.
+ITEM_LIVING/MIRROR;mirror;espejo
+LOOK_MIRROR;TODO;TODO
+USE_STICK_WITH_MIRROR;I don't want to break it.;No quisiera romperlo.
 ITEM_CELLAR/TO_CAGE;stairway;escaleras
 ITEM_CELLAR/TO_LAB;door;puerta
 ITEM_CELLAR/BUCKET;bucket;balde
