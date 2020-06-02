@@ -218,7 +218,35 @@ office/bust:
 	
 	use_with(*):
 		you.say INVALID_COMBINATION
+
+office/desk:
+	look:
+		you.say LOOK_OFFICE_DESK
 	
+	use_with(inv_stick):
+		you.say IT_IS_USELESS
+	
+	use_with(inv_key*):
+		you.say USE_KEY_WITH_OFFICE_DESK
+	
+	use_with(inv_flask):
+		you.say DOES_NOT_WORK
+	
+	use_with(*):
+		you.say INVALID_COMBINATION
+
+office/chair:
+	look:
+		you.say LOOK_OFFICE_CHAIR
+	
+	use_with(inv_stick):
+		you.say IT_DOESNT_MAKE_SENSE
+	
+	use_with(inv_key*):
+		you.say CANT_BE_OPENED_WITH_KEY
+	
+	use_with(*):
+		you.say INVALID_COMBINATION
 
 office/to_cage:
 	walk_to:

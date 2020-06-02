@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://games/celda_escape/rooms/office/images/background.jpg" type="Texture" id=1]
 [ext_resource path="res://games/celda_escape/rooms/office/images/front.png" type="Texture" id=2]
@@ -8,11 +8,13 @@
 [ext_resource path="res://games/celda_escape/rooms/office/images/armor.png" type="Texture" id=6]
 [ext_resource path="res://games/celda_escape/rooms/office/images/busto.png" type="Texture" id=7]
 [ext_resource path="res://games/celda_escape/rooms/office/images/armor_cover.jpg" type="Texture" id=8]
+[ext_resource path="res://games/celda_escape/rooms/office/images/mesa.png" type="Texture" id=9]
+[ext_resource path="res://games/celda_escape/rooms/office/images/silla.png" type="Texture" id=10]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1672.58, 901.901, 1905.7, 1072.42, 221.304, 1068.49, 546.559, 735.894, 1499.78, 842.606, 1897.07, 891.109, 1439.72, 739.679, 1624.01, 843.119 )
-polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 0, 5, 1 ), PoolIntArray( 3, 6, 4 ), PoolIntArray( 0, 4, 7 ) ]
-outlines = [ PoolVector2Array( 1897.07, 891.109, 1672.58, 901.901, 1624.01, 843.119, 1499.78, 842.606, 1439.72, 739.679, 546.559, 735.894, 221.304, 1068.49, 1905.7, 1072.42 ) ]
+vertices = PoolVector2Array( 1624.01, 843.119, 1672.58, 901.901, 221.304, 1068.49, 1310.45, 870.44, 1499.78, 842.606, 1439.72, 739.679, 1244.27, 761.311, 546.559, 735.894, 753.44, 759.137, 692.312, 870.932, 1897.07, 891.109, 1905.7, 1072.42 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 4, 3, 6 ), PoolIntArray( 7, 5, 6, 8 ), PoolIntArray( 7, 8, 9, 2 ), PoolIntArray( 10, 11, 2, 1 ), PoolIntArray( 9, 3, 2 ) ]
+outlines = [ PoolVector2Array( 1897.07, 891.109, 1672.58, 901.901, 1624.01, 843.119, 1499.78, 842.606, 1439.72, 739.679, 546.559, 735.894, 221.304, 1068.49, 1905.7, 1072.42 ), PoolVector2Array( 1310.45, 870.44, 1244.27, 761.311, 753.44, 759.137, 692.312, 870.932 ) ]
 
 [node name="office" type="Node"]
 script = ExtResource( 3 )
@@ -77,6 +79,42 @@ texture = ExtResource( 7 )
 [node name="positioning" type="Node2D" parent="items/bust"]
 position = Vector2( -111.974, 99.793 )
 rotation = -0.432842
+script = ExtResource( 4 )
+
+[node name="desk" type="Node2D" parent="items"]
+position = Vector2( 1007, 824 )
+z_index = 824
+script = ExtResource( 5 )
+key = "office/desk"
+size = Vector2( 510, 260 )
+offset = Vector2( 0, -95 )
+
+[node name="sprite" type="Sprite" parent="items/desk"]
+show_behind_parent = true
+position = Vector2( -47.0082, -283.985 )
+texture = ExtResource( 9 )
+
+[node name="positioning" type="Node2D" parent="items/desk"]
+position = Vector2( -90.1492, -66.3322 )
+rotation = 1.44513
+script = ExtResource( 4 )
+
+[node name="chair" type="Node2D" parent="items"]
+position = Vector2( 1030, 797.936 )
+z_index = 797
+script = ExtResource( 5 )
+key = "office/chair"
+size = Vector2( 200, 260 )
+offset = Vector2( 20, -190 )
+
+[node name="sprite" type="Sprite" parent="items/chair"]
+show_behind_parent = true
+position = Vector2( 0, -140.095 )
+texture = ExtResource( 10 )
+
+[node name="positioning" type="Node2D" parent="items/chair"]
+position = Vector2( -113.156, -40.2565 )
+rotation = 0.144862
 script = ExtResource( 4 )
 
 [node name="to_cage" type="Node2D" parent="items"]

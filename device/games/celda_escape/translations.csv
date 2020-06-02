@@ -33,6 +33,11 @@ ITEM_OFFICE/ARMOUR;armour;armadura
 LOOK_ARMOUR;It's and old German armour.;Es una antigua armadura alemana.
 ITEM_OFFICE/BUST;bust;busto
 LOOK_BUST;She looks very happy.;Se la ve muy feliz.
+ITEM_OFFICE/DESK;desk;escritorio
+LOOK_OFFICE_DESK;It's tidy and its drawers seem closed.;Está ordenado y sus cajones parecen cerrados.
+USE_KEY_WITH_OFFICE_DESK;It doesn't unlock any of its drawers.;No abre ninguno de sus cajones.
+ITEM_OFFICE/CHAIR;chair;silla
+LOOK_OFFICE_CHAIR;It looks comfortable, although the leather is battered.;Parece cómoda, aunque el cuero se ve maltratado.
 ITEM_OFFICE/TO_CAGE;hole;hueco
 ITEM_OFFICE/TO_LIVING;corridor;pasillo
 ITEM_LIVING/PICTURE;picture;cuadro
@@ -79,10 +84,12 @@ BAD_IDEA;Bad idea.;Mala idea.
 SAY_NO;No.;No.
 FOR_WHAT;For what?;¿Para qué?
 DOES_NOT_WORK;It doesn't work.;No funciona.
+IT_DOESNT_MAKE_SENSE;It doesn't make sense.;No tiene sentido.
 IT_IS_USELESS;It's useless.;Es inútil.
 NOTHING_HAPPENS;Nothing happens.;No sucede nada.
 I_CANT_DO_ANYTHING;I can't do anything.;No puedo hacer nada.
 IT_WOULDNT_BE_WISE;It wouldn't be wise.;No sería prudente.
 DOES_NOT_HAVE_A_LOCK;It doesn't have a lock.;No tiene cerradura.
+CANT_BE_OPENED_WITH_KEY;It can't be opened with a key.;No se abre con llave.
 INVALID_COMBINATION;That doesn't seem to work.;Eso no parece funcionar.
 CANT_REACH_DOOR;I can't reach it.;No puedo alcanzarla.
