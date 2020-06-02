@@ -198,9 +198,9 @@ func get_value(var_name: String):
 		"global_variable":
 			return symbol.target
 		
-#		"inventory_item":
-#			return symbol.amount
-#
+		"inventory_item":
+			return symbol.amount
+
 #		"inventory_item_instance":
 #			return symbol.target.get_key()
 #

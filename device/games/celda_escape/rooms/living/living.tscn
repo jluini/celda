@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/living/images/background.png" type="Texture" id=2]
@@ -11,8 +11,39 @@
 [ext_resource path="res://games/celda_escape/rooms/living/images/candelabro.png" type="Texture" id=9]
 [ext_resource path="res://games/celda_escape/rooms/living/images/cajafuerte.png" type="Texture" id=10]
 [ext_resource path="res://games/celda_escape/rooms/living/images/cajita.png" type="Texture" id=11]
+[ext_resource path="res://games/celda_escape/rooms/living/images/cajita_open.png" type="Texture" id=12]
 
-[sub_resource type="NavigationPolygon" id=1]
+[sub_resource type="Animation" id=1]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 11 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ ExtResource( 12 ) ]
+}
+
+[sub_resource type="NavigationPolygon" id=3]
 vertices = PoolVector2Array( 1224.86, 736.069, 1214.29, 671.74, 1441.19, 670.972, 1692.49, 959.412, 1894.34, 1054.07, 33.7435, 1059.65, 44.9015, 825.334, 231.798, 825.334, 382.432, 741.648, 1892.16, 956.684 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7 ), PoolIntArray( 4, 7, 8, 3 ), PoolIntArray( 3, 9, 4 ), PoolIntArray( 3, 8, 0 ) ]
 outlines = [ PoolVector2Array( 1441.19, 670.972, 1214.29, 671.74, 1224.86, 736.069, 382.432, 741.648, 231.798, 825.334, 44.9015, 825.334, 33.7435, 1059.65, 1894.34, 1054.07, 1892.16, 956.684, 1692.49, 959.412 ) ]
@@ -48,10 +79,6 @@ centered = false
 texture = ExtResource( 10 )
 centered = false
 
-[node name="small_box" type="Sprite" parent="sprites"]
-texture = ExtResource( 11 )
-centered = false
-
 [node name="candelabrum" type="Sprite" parent="sprites"]
 texture = ExtResource( 9 )
 centered = false
@@ -76,6 +103,40 @@ position = Vector2( 94.0897, 436.111 )
 rotation = -1.83958
 script = ExtResource( 8 )
 
+[node name="small_box" type="Node2D" parent="items"]
+position = Vector2( 767.361, 491.854 )
+z_index = 491
+script = ExtResource( 1 )
+key = "living/small_box"
+size = Vector2( 100, 55 )
+
+[node name="positioning" type="Node2D" parent="items/small_box"]
+position = Vector2( -74.7827, 247.896 )
+rotation = 5.16268
+script = ExtResource( 8 )
+
+[node name="sprite" type="Sprite" parent="items/small_box"]
+position = Vector2( -767.361, -491.854 )
+texture = ExtResource( 11 )
+centered = false
+
+[node name="animation" type="AnimationPlayer" parent="items/small_box"]
+anims/default = SubResource( 1 )
+anims/open = SubResource( 2 )
+
+[node name="candelabrum" type="Node2D" parent="items"]
+position = Vector2( 915.966, 605.298 )
+z_index = 605
+script = ExtResource( 1 )
+key = "living/candelabrum"
+size = Vector2( 100, 140 )
+offset = Vector2( -3, -155 )
+
+[node name="positioning" type="Node2D" parent="items/candelabrum"]
+position = Vector2( -50, 133.222 )
+rotation = 4.72984
+script = ExtResource( 8 )
+
 [node name="furniture" type="Node2D" parent="items"]
 position = Vector2( 915.966, 620 )
 z_index = 620
@@ -93,36 +154,11 @@ position = Vector2( 915.966, 605.298 )
 z_index = 605
 script = ExtResource( 1 )
 key = "living/mirror"
-size = Vector2( 330, 80 )
-offset = Vector2( 0, -250 )
+size = Vector2( 330, 200 )
+offset = Vector2( 0, -225 )
 
 [node name="positioning" type="Node2D" parent="items/mirror"]
 position = Vector2( 0.185181, 133.222 )
-rotation = 4.72984
-script = ExtResource( 8 )
-
-[node name="candelabrum" type="Node2D" parent="items"]
-position = Vector2( 915.966, 605.298 )
-z_index = 605
-script = ExtResource( 1 )
-key = "living/candelabrum"
-size = Vector2( 100, 140 )
-offset = Vector2( -3, -155 )
-
-[node name="positioning" type="Node2D" parent="items/candelabrum"]
-position = Vector2( -50, 133.222 )
-rotation = 4.72984
-script = ExtResource( 8 )
-
-[node name="small_box" type="Node2D" parent="items"]
-position = Vector2( 767.361, 491.854 )
-z_index = 491
-script = ExtResource( 1 )
-key = "living/small_box"
-size = Vector2( 100, 55 )
-
-[node name="positioning" type="Node2D" parent="items/small_box"]
-position = Vector2( -45, 247.896 )
 rotation = 4.72984
 script = ExtResource( 8 )
 
@@ -177,4 +213,4 @@ script = ExtResource( 8 )
 [node name="navigation" type="Navigation2D" parent="."]
 
 [node name="polygon" type="NavigationPolygonInstance" parent="navigation"]
-navpoly = SubResource( 1 )
+navpoly = SubResource( 3 )

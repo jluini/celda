@@ -5,6 +5,7 @@ main:
 		# cage setup
 		.set door_seen=false
 		.set poster_was_taken=false
+		.set key1_was_taken=false
 		cage/to_office.disable
 		
 		
@@ -21,10 +22,10 @@ main:
 			else:
 				
 				inv_stick.add
-				inv_book.add
-				inv_key1.add
+				#inv_book.add
+				#inv_key1.add
 				inv_skull.add
-				inv_book.add
+				inv_key2.add
 				inv_flask.add
 		else:
 			
@@ -46,25 +47,30 @@ main:
 				.set music=office
 				.curtain_up
 			
-			# cage-open stage
-			elif $stage = 4:
-				.load_room cage_open at=positions/from_office
-				.set music=uajari
-				.curtain_up
-			
-			# cellar stage
-			elif $stage = 5:
-				.load_room cellar at=positions/from_cage
-				.set music=lab
-				.curtain_up
-			
-			# lab stage
-			elif $stage = 6:
-				.load_room lab at=positions/from_cellar
-				.set music=lab
-				.curtain_up
-			
-			# ...
+			else:
+				.set key1_was_taken=true
+				inv_key1.add
+				living/small_box.play open
+				
+				# cage-open stage
+				if $stage = 4:
+					.load_room cage_open at=positions/from_office
+					.set music=uajari
+					.curtain_up
+				
+				# cellar stage
+				elif $stage = 5:
+					.load_room cellar at=positions/from_cage
+					.set music=lab
+					.curtain_up
+				
+				# lab stage
+				elif $stage = 6:
+					.load_room lab at=positions/from_cellar
+					.set music=lab
+					.curtain_up
+				
+				# ...
 
 # Inventory items
 
@@ -96,6 +102,12 @@ inv_skull:
 inv_key1:
 	look:
 		you.say LOOK_KEY1
+	use:
+		self.set_tool use_with
+
+inv_key2:
+	look:
+		you.say LOOK_KEY2
 	use:
 		self.set_tool use_with
 
@@ -276,7 +288,7 @@ living/furniture:
 		you.say USE_STICK_WITH_FURNITURE
 	
 	use_with(inv_key*):
-		you.say USE_KEY_WITH_FURNITURE
+		you.say IT_DOESNT_FIT
 	
 	use_with(*):
 		you.say INVALID_COMBINATION
@@ -334,8 +346,30 @@ living/strongbox:
 
 living/small_box:
 	look:
-		you.say LOOK_SMALL_BOX1
-		you.say LOOK_SMALL_BOX2
+		if $inv_key1 = 0:
+			if not $key1_was_taken:
+				you.say LOOK_SMALL_BOX1
+				you.say LOOK_SMALL_BOX2
+			else:
+				you.say LOOK_SMALL_BOX_AGAIN
+			inv_key1.add
+			self.play open
+			if not $key1_was_taken:
+				you.say LOOK_SMALL_BOX3
+				.set key1_was_taken=true
+		else:
+			you.say LOOK_SMALL_BOX_OPENED
+	
+	use_with(inv_key1):
+		you.say SAVE_KEY_IN_BOX
+		tool.remove
+		self.play default
+	
+	use_with(inv_key*):
+		you.say SAVE_ANOTHER_KEY_IN_BOX
+	
+	use_with(*):
+		you.say SAVE_X_IN_BOX # OJO esto implica que cualquier objeto pequeño debe tener otra rutina
 
 living/candelabrum:
 	look:

@@ -9,7 +9,9 @@ LOOK_POSTER;"It says ""hang in there"".";"Dice ""hang in there""."
 ITEM_INV_BOOK;book;libro
 LOOK_BOOK;TODO;TODO
 ITEM_INV_KEY1;key;llave
-LOOK_KEY1;TODO;TODO
+LOOK_KEY1;A little key.;Una pequeña llave.
+ITEM_INV_KEY2;key 2;llave 2
+LOOK_KEY2;Another little key.;Otra pequeña llave.
 ITEM_INV_STICK;stick;palo
 LOOK_STICK;TODO;TODO
 ITEM_INV_SKULL;skull;calavera
@@ -45,7 +47,6 @@ ITEM_LIVING/TO_OFFICE;corridor;pasillo
 ITEM_LIVING/FURNITURE;furniture;mueble
 LOOK_FURNITURE;Antique piece of furniture, very luxurious.;Mueble antiguo, muy lujoso.
 USE_STICK_WITH_FURNITURE;It's not worth hitting it with the stick.;No vale la pena romperlo a palazos.
-USE_KEY_WITH_FURNITURE;It doesn't fit;No entra.
 ITEM_LIVING/MIRROR;mirror;espejo
 LOOK_MIRROR;TODO;TODO
 USE_STICK_WITH_MIRROR;I don't want to break it.;No quisiera romperlo.
@@ -64,6 +65,12 @@ LOOK_STRONGBOX;It seems to be a strongbox.;Parece una caja fuerte.
 ITEM_LIVING/SMALL_BOX;small box;cajita
 LOOK_SMALL_BOX1;It's a delicate little box...;Es una delicada caja...
 LOOK_SMALL_BOX2;it seems to have something inside of it.;creo que tiene algo en su interior.
+LOOK_SMALL_BOX3;A little key!;¡Una pequeña llave!
+LOOK_SMALL_BOX_AGAIN;I will take the key again.;Tomaré la llave otra vez.
+LOOK_SMALL_BOX_OPENED;It's the box where I got the key from.;Es la caja de donde obtuve la llave.
+SAVE_KEY_IN_BOX;I'll leave the key in its place.;Dejaré la llave en su lugar.
+SAVE_ANOTHER_KEY_IN_BOX;I don't want to play hiding keys.;No quiero jugar a esconder llaves.
+SAVE_X_IN_BOX;It doesn't fit in this little box.;No entra en esta pequeña cajita.
 ITEM_LIVING/CANDELABRUM;candelabrum;candelabro
 LOOK_CANDELABRUM;TODO;TODO
 ITEM_CELLAR/TO_CAGE;stairway;escaleras
@@ -87,6 +94,7 @@ DOES_NOT_WORK;It doesn't work.;No funciona.
 IT_DOESNT_MAKE_SENSE;It doesn't make sense.;No tiene sentido.
 IT_IS_USELESS;It's useless.;Es inútil.
 NOTHING_HAPPENS;Nothing happens.;No sucede nada.
+IT_DOESNT_FIT;It doesn't fit;No entra.
 I_CANT_DO_ANYTHING;I can't do anything.;No puedo hacer nada.
 IT_WOULDNT_BE_WISE;It wouldn't be wise.;No sería prudente.
 DOES_NOT_HAVE_A_LOCK;It doesn't have a lock.;No tiene cerradura.
