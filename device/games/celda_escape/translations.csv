@@ -14,7 +14,7 @@ ITEM_INV_STICK;stick;palo
 LOOK_STICK;TODO;TODO
 ITEM_INV_SKULL;skull;calavera
 LOOK_SKULL;TODO;TODO
-ITEM_INV_JAR;jar;frasco
+ITEM_INV_JAR;flask;frasco
 LOOK_JAR;TODO;TODO
 ITEM_CAGE/TO_OFFICE;hole;hueco
 ITEM_CAGE/DOOR;door;puerta
@@ -36,6 +36,9 @@ ITEM_LIVING/PICTURE;picture;cuadro
 ITEM_LIVING/TO_OFFICE;corridor;pasillo
 ITEM_CELLAR/TO_CAGE;stairway;escaleras
 ITEM_CELLAR/TO_LAB;door;puerta
+ITEM_CELLAR/BUCKET;bucket;balde
+LOOK_BUCKET;It's just a bucket.;Es un simple balde.
+USE_X_WITH_BUCKET;Why would I put this in the bucket?;¿Para qué metería esto en el balde?
 ITEM_LAB/TO_CELLAR;door;puerta
 ITEM_LAB/STRETCHER;stretcher;camilla
 ITEM_LAB/DESK;desk;escritorio

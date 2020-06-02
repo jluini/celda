@@ -243,6 +243,14 @@ cellar/to_lab:
 		.load_room doc
 		#.curtain_up
 
+cellar/bucket:
+	look:
+		you.say LOOK_BUCKET
+	
+	use_with(*):
+		you.say USE_X_WITH_BUCKET
+
+
 doc/to_cellar:
 	walk_to:
 		.load_room cellar at=cellar/to_lab # TODO fix this position
