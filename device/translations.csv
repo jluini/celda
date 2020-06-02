@@ -19,6 +19,8 @@ LOOPIN_AFTER_FINAL;After final;Post-final
 USE_SONG_END;Use song end;Final según canción
 ALWAYS_FEDEOUT;Always fede-out;Siempre fede-out
 ALWAYS_SUDDEN;Always sudden;Siempre repentino
+CHOOSE_YOUR_THEME;Choose the font that you like the most ->;Elige la tipografía que más te guste ->
+THEME_EXAMPLE_BUTTON;Example button;Botón de ejemplo
 GROG-SERVER;grog-server;servidor
 LIST_SAVED_GAMES;List saved games;Listar juegos guardados
 SAVE_CURRENT_GAME;Save current game;Guardar juego actual

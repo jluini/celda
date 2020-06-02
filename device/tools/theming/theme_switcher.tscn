@@ -3,7 +3,6 @@
 [ext_resource path="res://tools/theming/theme_switcher.gd" type="Script" id=3]
 [ext_resource path="res://tools/theming/theme_selector.tscn" type="PackedScene" id=4]
 
-
 [node name="theme_switcher" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -37,25 +36,61 @@ __meta__ = {
 [node name="label" type="Label" parent="demo"]
 anchor_right = 1.0
 anchor_bottom = 0.2
-text = "Texto de ejemplo"
+text = "CHOOSE_YOUR_THEME"
 align = 1
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="button" type="Button" parent="demo"]
 anchor_top = 0.2
 anchor_right = 1.0
 anchor_bottom = 0.4
-text = "Botón de ejemplo"
+margin_left = 15.0
+margin_top = 15.0
+margin_right = -15.0
+margin_bottom = -15.0
+text = "THEME_EXAMPLE_BUTTON"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="theme_selector" parent="demo" instance=ExtResource( 4 )]
+[node name="label2" type="Label" parent="demo"]
 anchor_top = 0.4
 anchor_right = 1.0
+anchor_bottom = 0.6
+text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed interdum tortor id orci ullamcorper, quis blandit dolor dictum."
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="label3" type="Label" parent="demo"]
+anchor_top = 0.6
+anchor_right = 1.0
 anchor_bottom = 0.8
-margin_right = 0.0
-margin_bottom = 0.0
+text = "Benjamín pidió una bebida de kiwi y fresa. Noé, sin vergüenza, la más exquisita champaña del menú."
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="label4" type="Label" parent="demo"]
+anchor_top = 0.8
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "[1234567890]; Puntuación( . , ; : ) Guión (-); Comilla (\" '); Tateti (#); ¿Pregunta? ¡Admiración! Comparación (<=>)"
+align = 1
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="theme_list" type="VBoxContainer" parent="."]
 anchor_left = 0.5
