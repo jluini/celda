@@ -70,13 +70,13 @@ script = ExtResource( 2 )
 texture = ExtResource( 3 )
 centered = false
 
-[node name="inv_jar" type="Control" parent="."]
+[node name="inv_flask" type="Control" parent="."]
 margin_left = 1520.0
 margin_right = 1820.0
 margin_bottom = 150.0
 rect_min_size = Vector2( 300, 150 )
 script = ExtResource( 2 )
 
-[node name="sprite" type="Sprite" parent="inv_jar"]
+[node name="sprite" type="Sprite" parent="inv_flask"]
 texture = ExtResource( 7 )
 centered = false

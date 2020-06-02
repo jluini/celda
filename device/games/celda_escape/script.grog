@@ -25,7 +25,7 @@ main:
 				inv_key1.add
 				inv_skull.add
 				inv_book.add
-				inv_jar.add
+				inv_flask.add
 		else:
 			
 			.set poster_was_taken = true
@@ -99,9 +99,9 @@ inv_key1:
 	use:
 		self.set_tool use_with
 
-inv_jar:
+inv_flask:
 	look:
-		you.say LOOK_JAR
+		you.say LOOK_FLASK
 	use:
 		self.set_tool use_with
 
@@ -118,8 +118,8 @@ cage/toilet:
 		you.say USE_KEY_WITH_TOILET1
 		you.say USE_KEY_WITH_TOILET2
 	
-	use_with(inv_jar):
-		you.say USE_JAR_WITH_TOILET
+	use_with(inv_flask):
+		you.say USE_FLASK_WITH_TOILET
 	
 	use_with(inv_poster):
 		you.say USE_POSTER_WITH_TOILET
@@ -137,7 +137,7 @@ cage/bed:
 	use_with(inv_key*):
 		you.say USE_KEY_WITH_BED
 	
-	use_with(inv_jar):
+	use_with(inv_flask):
 		you.say FOR_WHAT
 	
 	use_with(*): TK
@@ -250,6 +250,21 @@ cellar/bucket:
 	use_with(*):
 		you.say USE_X_WITH_BUCKET
 
+cellar/pump:
+	look:
+		you.say LOOK_PUMP
+	
+	use_with(inv_stick):
+		you.say "*Ruido metálico*" # TODO
+	
+	use_with(inv_key*):
+		you.say USE_KEY_WITH_PUMP
+	
+	use_with(inv_flask):
+		you.say USE_FLASK_WITH_PUMP
+	
+	use_with(*):
+		you.say INVALID_COMBINATION
 
 doc/to_cellar:
 	walk_to:
