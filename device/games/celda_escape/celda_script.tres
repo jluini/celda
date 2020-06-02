@@ -1,4 +1,4 @@
-[gd_resource type="Resource" load_steps=14 format=2]
+[gd_resource type="Resource" load_steps=15 format=2]
 
 [ext_resource path="res://tools/grog/core/simple_game_script.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/actors/shabon/shabon.tscn" type="PackedScene" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://games/celda_escape/rooms/cellar/lab_door.tscn" type="PackedScene" id=11]
 [ext_resource path="res://games/celda_escape/rooms/cellar/doc.tscn" type="PackedScene" id=12]
 [ext_resource path="res://games/celda_escape/rooms/lab/desk.tscn" type="PackedScene" id=13]
+[ext_resource path="res://games/celda_escape/rooms/lab/guy.tscn" type="PackedScene" id=14]
 
 [resource]
 script = ExtResource( 1 )
@@ -22,6 +23,7 @@ rooms = {
 "cellar": ExtResource( 7 ),
 "desk": ExtResource( 13 ),
 "doc": ExtResource( 12 ),
+"guy": ExtResource( 14 ),
 "lab": ExtResource( 8 ),
 "lab_door": ExtResource( 11 ),
 "living": ExtResource( 5 ),

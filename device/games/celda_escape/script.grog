@@ -289,7 +289,12 @@ lab/to_cellar:
 
 lab/guy:
 	look:
-		you.say LOOK_GUY
+		#you.say LOOK_GUY
+		.load_room guy
+
+guy/to_lab:
+	walk_to:
+		.load_room lab at=lab/guy
 
 lab/desk:
 	look:
