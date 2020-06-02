@@ -203,6 +203,23 @@ office/armour:
 	use_with(*):
 		you.say INVALID_COMBINATION
 
+office/bust:
+	look:
+		you.say LOOK_BUST
+	
+	use_with(inv_stick):
+		you.say I_CANT_DO_ANYTHING
+	
+	use_with(inv_flask):
+		you.say IT_WOULDNT_BE_WISE
+	
+	use_with(inv_key*):
+		you.say DOES_NOT_HAVE_A_LOCK
+	
+	use_with(*):
+		you.say INVALID_COMBINATION
+	
+
 office/to_cage:
 	walk_to:
 		.load_room cage_open at=positions/from_office

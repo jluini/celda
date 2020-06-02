@@ -31,9 +31,10 @@ USE_X_WITH_TOILET;I wouldn't throw it here.;No lo tiraría aquí.
 ITEM_CAGE/TO_CELLAR;stairway;escaleras
 ITEM_OFFICE/ARMOUR;armour;armadura
 LOOK_ARMOUR;It's and old German armour.;Es una antigua armadura alemana.
+ITEM_OFFICE/BUST;bust;busto
+LOOK_BUST;She looks very happy.;Se la ve muy feliz.
 ITEM_OFFICE/TO_CAGE;hole;hueco
 ITEM_OFFICE/TO_LIVING;corridor;pasillo
-ITEM_OFFICE/BUST;bust;busto
 ITEM_LIVING/PICTURE;picture;cuadro
 ITEM_LIVING/TO_OFFICE;corridor;pasillo
 ITEM_LIVING/FURNITURE;furniture;mueble
@@ -80,6 +81,8 @@ FOR_WHAT;For what?;¿Para qué?
 DOES_NOT_WORK;It doesn't work.;No funciona.
 IT_IS_USELESS;It's useless.;Es inútil.
 NOTHING_HAPPENS;Nothing happens.;No sucede nada.
+I_CANT_DO_ANYTHING;I can't do anything.;No puedo hacer nada.
+IT_WOULDNT_BE_WISE;It wouldn't be wise.;No sería prudente.
 DOES_NOT_HAVE_A_LOCK;It doesn't have a lock.;No tiene cerradura.
 INVALID_COMBINATION;That doesn't seem to work.;Eso no parece funcionar.
 CANT_REACH_DOOR;I can't reach it.;No puedo alcanzarla.

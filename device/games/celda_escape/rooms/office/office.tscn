@@ -10,9 +10,9 @@
 [ext_resource path="res://games/celda_escape/rooms/office/images/armor_cover.jpg" type="Texture" id=8]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1905.7, 1072.42, 221.304, 1068.49, 546.559, 735.894, 1672.58, 901.901, 1897.07, 891.109, 1519.33, 740.016 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 3, 4, 0 ), PoolIntArray( 3, 2, 5 ) ]
-outlines = [ PoolVector2Array( 1897.07, 891.109, 1672.58, 901.901, 1519.33, 740.016, 546.559, 735.894, 221.304, 1068.49, 1905.7, 1072.42 ) ]
+vertices = PoolVector2Array( 1672.58, 901.901, 1905.7, 1072.42, 221.304, 1068.49, 546.559, 735.894, 1499.78, 842.606, 1897.07, 891.109, 1439.72, 739.679, 1624.01, 843.119 )
+polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 0, 5, 1 ), PoolIntArray( 3, 6, 4 ), PoolIntArray( 0, 4, 7 ) ]
+outlines = [ PoolVector2Array( 1897.07, 891.109, 1672.58, 901.901, 1624.01, 843.119, 1499.78, 842.606, 1439.72, 739.679, 546.559, 735.894, 221.304, 1068.49, 1905.7, 1072.42 ) ]
 
 [node name="office" type="Node"]
 script = ExtResource( 3 )
@@ -30,15 +30,9 @@ texture = ExtResource( 8 )
 centered = false
 
 [node name="front" type="Sprite" parent="sprites"]
-visible = false
 z_index = 4096
 texture = ExtResource( 2 )
 centered = false
-
-[node name="bust" type="Sprite" parent="sprites"]
-position = Vector2( 1578.32, 685.625 )
-z_index = 1
-texture = ExtResource( 7 )
 
 [node name="positions" type="Node" parent="."]
 
@@ -67,6 +61,22 @@ texture = ExtResource( 6 )
 [node name="positioning" type="Node2D" parent="items/armour"]
 position = Vector2( 97.5311, 226.368 )
 rotation = 3.57443
+script = ExtResource( 4 )
+
+[node name="bust" type="Node2D" parent="items"]
+position = Vector2( 1578.51, 686 )
+z_index = 686
+script = ExtResource( 5 )
+key = "office/bust"
+size = Vector2( 175, 315 )
+offset = Vector2( 0, -10 )
+
+[node name="sprite" type="Sprite" parent="items/bust"]
+texture = ExtResource( 7 )
+
+[node name="positioning" type="Node2D" parent="items/bust"]
+position = Vector2( -111.974, 99.793 )
+rotation = -0.432842
 script = ExtResource( 4 )
 
 [node name="to_cage" type="Node2D" parent="items"]
