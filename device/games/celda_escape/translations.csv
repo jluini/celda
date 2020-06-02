@@ -51,6 +51,13 @@ LOOK_LIVING_DOOR1;Fresh air passes underneath.;Un aire fresco pasa por debajo.
 LOOK_LIVING_DOOR2;I have to find a way to open it.;Tengo que buscar la forma de abrirla.
 USE_KEY_WITH_LIVING_DOOR;It doesn't even fit into the lock.;Ni siquiera entra en la cerradura.
 USE_X_WITH_LIVING_DOOR;I can't open it with this.;No me sirve para abrirla.
+ITEM_LIVING/STRONGBOX;strongbox;caja fuerte
+LOOK_STRONGBOX;It seems to be a strongbox.;Parece una caja fuerte.
+ITEM_LIVING/SMALL_BOX;small box;cajita
+LOOK_SMALL_BOX1;It's a delicate little box...;Es una delicada caja...
+LOOK_SMALL_BOX2;it seems to have something inside of it.;creo que tiene algo en su interior.
+ITEM_LIVING/CANDELABRUM;candelabrum;candelabro
+LOOK_CANDELABRUM;TODO;TODO
 ITEM_CELLAR/TO_CAGE;stairway;escaleras
 ITEM_CELLAR/TO_LAB;door;puerta
 ITEM_CELLAR/BUCKET;bucket;balde

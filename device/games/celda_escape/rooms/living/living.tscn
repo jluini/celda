@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/living/images/background.png" type="Texture" id=2]
@@ -8,11 +8,14 @@
 [ext_resource path="res://games/celda_escape/rooms/living/images/oso.png" type="Texture" id=6]
 [ext_resource path="res://games/celda_escape/rooms/living/images/cuadro.png" type="Texture" id=7]
 [ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=8]
+[ext_resource path="res://games/celda_escape/rooms/living/images/candelabro.png" type="Texture" id=9]
+[ext_resource path="res://games/celda_escape/rooms/living/images/cajafuerte.png" type="Texture" id=10]
+[ext_resource path="res://games/celda_escape/rooms/living/images/cajita.png" type="Texture" id=11]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1224.86, 736.069, 1214.29, 671.74, 1472.58, 670.866, 1580.64, 783.335, 1746.18, 959.857, 1894.34, 1054.07, 33.7435, 1059.65, 44.9015, 825.334, 231.798, 825.334, 382.432, 741.648, 1892.16, 956.684 )
-polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 5, 6, 7, 8 ), PoolIntArray( 5, 8, 9, 0, 4 ), PoolIntArray( 4, 10, 5 ) ]
-outlines = [ PoolVector2Array( 1580.64, 783.335, 1472.58, 670.866, 1214.29, 671.74, 1224.86, 736.069, 382.432, 741.648, 231.798, 825.334, 44.9015, 825.334, 33.7435, 1059.65, 1894.34, 1054.07, 1892.16, 956.684, 1746.18, 959.857 ) ]
+vertices = PoolVector2Array( 1224.86, 736.069, 1214.29, 671.74, 1441.19, 670.972, 1692.49, 959.412, 1894.34, 1054.07, 33.7435, 1059.65, 44.9015, 825.334, 231.798, 825.334, 382.432, 741.648, 1892.16, 956.684 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7 ), PoolIntArray( 4, 7, 8, 3 ), PoolIntArray( 3, 9, 4 ), PoolIntArray( 3, 8, 0 ) ]
+outlines = [ PoolVector2Array( 1441.19, 670.972, 1214.29, 671.74, 1224.86, 736.069, 382.432, 741.648, 231.798, 825.334, 44.9015, 825.334, 33.7435, 1059.65, 1894.34, 1054.07, 1892.16, 956.684, 1692.49, 959.412 ) ]
 
 [node name="room" type="Node"]
 script = ExtResource( 4 )
@@ -41,6 +44,18 @@ z_index = 4096
 texture = ExtResource( 5 )
 centered = false
 
+[node name="strongbox" type="Sprite" parent="sprites"]
+texture = ExtResource( 10 )
+centered = false
+
+[node name="small_box" type="Sprite" parent="sprites"]
+texture = ExtResource( 11 )
+centered = false
+
+[node name="candelabrum" type="Sprite" parent="sprites"]
+texture = ExtResource( 9 )
+centered = false
+
 [node name="positions" type="Node" parent="."]
 
 [node name="from_office" type="Node2D" parent="positions"]
@@ -62,15 +77,15 @@ rotation = -1.83958
 script = ExtResource( 8 )
 
 [node name="furniture" type="Node2D" parent="items"]
-position = Vector2( 915.966, 605.298 )
-z_index = 605
+position = Vector2( 915.966, 620 )
+z_index = 620
 script = ExtResource( 1 )
 key = "living/furniture"
-size = Vector2( 500, 235 )
+size = Vector2( 500, 200 )
 
 [node name="positioning" type="Node2D" parent="items/furniture"]
-position = Vector2( 0.185181, 133.222 )
-rotation = 4.71239
+position = Vector2( 0.185, 118 )
+rotation = 4.72984
 script = ExtResource( 8 )
 
 [node name="mirror" type="Node2D" parent="items"]
@@ -78,12 +93,49 @@ position = Vector2( 915.966, 605.298 )
 z_index = 605
 script = ExtResource( 1 )
 key = "living/mirror"
-size = Vector2( 330, 190 )
-offset = Vector2( 0, -220 )
+size = Vector2( 330, 80 )
+offset = Vector2( 0, -250 )
 
 [node name="positioning" type="Node2D" parent="items/mirror"]
 position = Vector2( 0.185181, 133.222 )
-rotation = 4.71239
+rotation = 4.72984
+script = ExtResource( 8 )
+
+[node name="candelabrum" type="Node2D" parent="items"]
+position = Vector2( 915.966, 605.298 )
+z_index = 605
+script = ExtResource( 1 )
+key = "living/candelabrum"
+size = Vector2( 100, 140 )
+offset = Vector2( -3, -155 )
+
+[node name="positioning" type="Node2D" parent="items/candelabrum"]
+position = Vector2( -50, 133.222 )
+rotation = 4.72984
+script = ExtResource( 8 )
+
+[node name="small_box" type="Node2D" parent="items"]
+position = Vector2( 767.361, 491.854 )
+z_index = 491
+script = ExtResource( 1 )
+key = "living/small_box"
+size = Vector2( 100, 55 )
+
+[node name="positioning" type="Node2D" parent="items/small_box"]
+position = Vector2( -45, 247.896 )
+rotation = 4.72984
+script = ExtResource( 8 )
+
+[node name="strongbox" type="Node2D" parent="items"]
+position = Vector2( 1713.67, 660.274 )
+z_index = 660
+script = ExtResource( 1 )
+key = "living/strongbox"
+size = Vector2( 240, 400 )
+
+[node name="positioning" type="Node2D" parent="items/strongbox"]
+position = Vector2( -140.936, 164.169 )
+rotation = -0.486947
 script = ExtResource( 8 )
 
 [node name="bear" type="Node2D" parent="items"]
@@ -94,8 +146,8 @@ key = "living/bear"
 size = Vector2( 235, 560 )
 
 [node name="positioning" type="Node2D" parent="items/bear"]
-position = Vector2( 26.8182, 291.886 )
-rotation = 4.56753
+position = Vector2( 72.7185, 291.886 )
+rotation = 4.2778
 script = ExtResource( 8 )
 
 [node name="door" type="Node2D" parent="items"]

@@ -270,6 +270,19 @@ living/door:
 	use_with(*):
 		you.say USE_X_WITH_LIVING_DOOR
 
+living/strongbox:
+	look:
+		you.say LOOK_STRONGBOX
+
+living/small_box:
+	look:
+		you.say LOOK_SMALL_BOX1
+		you.say LOOK_SMALL_BOX2
+
+living/candelabrum:
+	look:
+		you.say LOOK_CANDELABRUM
+
 living/picture:
 	look:
 		#you.say LOOK_PICTURE
