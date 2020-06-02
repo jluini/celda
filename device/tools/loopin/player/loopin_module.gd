@@ -93,7 +93,11 @@ func _on_song_ended(_song):
 	_title.text = "------"
 
 func _on_state_changed(_new_state):
-	_state_label.set_text(_new_state)
+	_state_label.set_text("LOOPIN_" + _new_state.to_upper())
+	
+	# hide and show to force refreshing layout
+	_state_label.hide()
+	_state_label.show()
 	
 	_state_color.modulate = state_colors[_new_state]
 
@@ -116,7 +120,7 @@ func play_song(song_name: String):
 
 func _on_song_selected(song):
 	if _loopin.loop_song(song):
-		_list.set_text("PLAY (%s)" % song.get_name())
+		_list.set_text(_play_text(song.get_name()))
 
 func _on_stop_button_pressed():
 	stop()
@@ -127,8 +131,7 @@ func stop_now():
 
 func stop():
 	if _loopin.stop():
-		_list.set_text("PLAY (nothing)")
-
+		_list.set_text(_play_text(""))
 
 func _on_separation_length_value_changed(value):
 	_loopin.set_separation_length(value)
@@ -149,3 +152,6 @@ func _set_length_label(setting_name: String, value):
 	var setting = _get_setting(setting_name)
 	var label = setting.get_node("value")
 	label.text = "%1.1f" % value
+
+func _play_text(song_name: String):
+	return "%s (%s)" % [tr("LOOPIN_PLAY"), song_name if song_name else tr("LOOPIN_NOTHING")]

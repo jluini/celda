@@ -3,6 +3,22 @@ MODULAR_QUIT;quit;salir
 MODULAR_LOGS;logs;mensajes
 THEME-SWITCHER;themes;temas
 LOOPIN;fede loopin;fede loopin
+LOOPIN_PLAY;play;reproducir
+LOOPIN_NOTHING;nothing;nada
+LOOPIN_STOP;stop;detener
+LOOPIN_STOPPED;stopped;detenido
+LOOPIN_PLAYING;playing;reproduc.
+LOOPIN_WAITINGEND;wait. end;esp. final
+LOOPIN_ENDING;ending;finaliz.
+LOOPIN_WAITING;waiting;espera
+LOOPIN_END_MODE;End mode;Terminación
+LOOPIN_SEPARATION;Separation;Separación
+LOOPIN_SEPARATION;Separation;Separación
+LOOPIN_FEDEOUT;Fede-out length;Duración fede-out
+LOOPIN_AFTER_FINAL;After final;Post-final
+USE_SONG_END;Use song end;Final según canción
+ALWAYS_FEDEOUT;Always fede-out;Siempre fede-out
+ALWAYS_SUDDEN;Always sudden;Siempre repentino
 GROG-SERVER;grog-server;servidor
 LIST_SAVED_GAMES;List saved games;Listar juegos guardados
 SAVE_CURRENT_GAME;Save current game;Guardar juego actual
