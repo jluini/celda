@@ -2,9 +2,7 @@
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
 [ext_resource path="res://tools/grog/core/room.gd" type="Script" id=2]
-[ext_resource path="res://games/celda_escape/rooms/cellar/images/walls.png" type="Texture" id=3]
-
-
+[ext_resource path="res://games/celda_escape/rooms/cellar/images/doc_zoom.png" type="Texture" id=3]
 
 [node name="room" type="Node"]
 script = ExtResource( 2 )

@@ -43,6 +43,7 @@ ITEM_CELLAR/PUMP;water pump;bomba de agua
 LOOK_PUMP;A rusty pump. It has not been used for a very long time.;Una bomba oxidada. No se usa hace muchísimo tiempo.
 USE_KEY_WITH_PUMP;I suspect that's not how it works.;Sospecho que no es así como funciona.
 USE_FLASK_WITH_PUMP;Of course not.;Desde luego que no.
+ITEM_CELLAR/DOC;doc?;doc?
 ITEM_LAB/TO_CELLAR;door;puerta
 ITEM_LAB/STRETCHER;stretcher;camilla
 ITEM_LAB/DESK;desk;escritorio

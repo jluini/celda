@@ -118,6 +118,19 @@ rotation = 3.41386
 scale = Vector2( 1, 1 )
 script = ExtResource( 8 )
 
+[node name="doc" type="Node2D" parent="items"]
+position = Vector2( 1174.81, 519.152 )
+z_index = 519
+script = ExtResource( 2 )
+key = "cellar/doc"
+size = Vector2( 250, 250 )
+
+[node name="positioning" type="Node2D" parent="items/doc"]
+position = Vector2( 168.496, 163.024 )
+rotation = 3.70184
+scale = Vector2( 1, 1 )
+script = ExtResource( 8 )
+
 [node name="navigation" type="Navigation2D" parent="."]
 
 [node name="polygon" type="NavigationPolygonInstance" parent="navigation"]

@@ -237,11 +237,6 @@ cellar/to_lab:
 	look:
 		.load_room lab_door
 		#.curtain_up
-	
-	# TODO remove this
-	doc:
-		.load_room doc
-		#.curtain_up
 
 cellar/bucket:
 	look:
@@ -266,9 +261,18 @@ cellar/pump:
 	use_with(*):
 		you.say INVALID_COMBINATION
 
+cellar/doc:
+	look:
+		.wait 1
+		.load_room doc
+		.wait 1
+		you.say "Es un tipo todo tirado."
+		you.say "Pero qué laaaaco..."
+		you.say "Casi que le entraría."
+
 doc/to_cellar:
 	walk_to:
-		.load_room cellar at=cellar/to_lab # TODO fix this position
+		.load_room cellar at=cellar/doc
 
 # Lab items
 
