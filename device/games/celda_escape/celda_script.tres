@@ -34,5 +34,5 @@ player = ExtResource( 2 )
 inventory_items_scene = ExtResource( 9 )
 default_action = "walk_to"
 default_color = Color( 0.96, 0.96, 0.96, 1 )
-stages = [ "default", "cage", "office", "living", "cage open", "cellar", "lab" ]
+stages = [ "introducción", "jaula (post-introducción)", "oficina", "living", "jaula abierta", "sótano", "laboratorio" ]
 script_path = "res://games/celda_escape/script.grog"

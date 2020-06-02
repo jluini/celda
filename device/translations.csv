@@ -4,4 +4,7 @@ MODULAR_LOGS;logs;mensajes
 THEME-SWITCHER;themes;temas
 LOOPIN;fede loopin;fede loopin
 GROG-SERVER;grog-server;servidor
+LIST_SAVED_GAMES;List saved games;Listar juegos guardados
+SAVE_CURRENT_GAME;Save current game;Guardar juego actual
+INITIAL_STAGE;Start in:;Comenzar en:
 GROG-CLIENT;back;volver

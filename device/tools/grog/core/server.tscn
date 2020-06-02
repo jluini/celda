@@ -24,7 +24,7 @@ __meta__ = {
 [node name="list_saved_games" type="Button" parent="control"]
 anchor_right = 1.0
 anchor_bottom = 0.2
-text = "List saved games"
+text = "LIST_SAVED_GAMES"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -51,7 +51,7 @@ margin_left = 88.0
 margin_top = 46.0
 margin_right = -29.28
 margin_bottom = 186.0
-text = "Save"
+text = "SAVE_CURRENT_GAME"
 
 [node name="control3" type="Control" parent="."]
 anchor_left = 0.667
@@ -64,7 +64,7 @@ __meta__ = {
 [node name="label" type="Label" parent="control3"]
 anchor_right = 1.0
 margin_bottom = 60.0
-text = "Initial stage:"
+text = "INITIAL_STAGE"
 valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
