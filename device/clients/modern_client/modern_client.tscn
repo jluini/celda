@@ -401,6 +401,7 @@ text = "Cancel"
 stream = ExtResource( 9 )
 
 [node name="label" type="Label" parent="."]
+visible = false
 margin_right = 46.0
 margin_bottom = 100.0
 custom_fonts/font = ExtResource( 8 )
@@ -413,6 +414,7 @@ __meta__ = {
 [node name="y" type="Label" parent="." groups=[
 "show_y",
 ]]
+visible = false
 margin_left = 45.429
 margin_right = 186.429
 margin_bottom = 100.0
@@ -423,6 +425,7 @@ __meta__ = {
 }
 
 [node name="label2" type="Label" parent="."]
+visible = false
 margin_left = 147.167
 margin_top = 0.175583
 margin_right = 484.167
@@ -437,6 +440,7 @@ __meta__ = {
 [node name="scale" type="Label" parent="." groups=[
 "show_scale",
 ]]
+visible = false
 margin_left = 241.549
 margin_right = 439.549
 margin_bottom = 100.0
