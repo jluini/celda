@@ -55,6 +55,8 @@ LOOK_BEAR;A majestic creature.;Una majestuosa criatura.
 USE_STICK_WITH_BEAR;I think it suffered too much to hit it with an iron.;Creo que ya sufrió demasiado como para darle con un fierro.
 USE_KEY_WITH_BEAR;Bears don't have keys.;Los osos no tienen llave.
 USE_SKULL_WITH_BEAR;It already has a head.;Ya tiene cabeza.
+ITEM_LIVING/WINDOW;window;ventana
+LOOK_LIVING_WINDOW;TODO;Está tapiada, ¿por qué lo habrán hecho?
 ITEM_LIVING/DOOR;door;puerta
 LOOK_LIVING_DOOR1;Fresh air passes underneath.;Un aire fresco pasa por debajo.
 LOOK_LIVING_DOOR2;I have to find a way to open it.;Tengo que buscar la forma de abrirla.

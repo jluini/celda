@@ -322,6 +322,16 @@ living/bear:
 	use_with(*):
 		you.say INVALID_COMBINATION
 
+living/window:
+	look:
+		you.say LOOK_LIVING_WINDOW
+	
+	use_with(inv_stick):
+		you.say "TODO ruido de golpear madera"
+	
+	use_with(*):
+		you.say INVALID_COMBINATION # TODO "No se abre así." ?
+
 living/door:
 	look:
 		you.say LOOK_LIVING_DOOR1

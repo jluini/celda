@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/living/images/background.png" type="Texture" id=2]
@@ -12,6 +12,9 @@
 [ext_resource path="res://games/celda_escape/rooms/living/images/cajafuerte.png" type="Texture" id=10]
 [ext_resource path="res://games/celda_escape/rooms/living/images/cajita.png" type="Texture" id=11]
 [ext_resource path="res://games/celda_escape/rooms/living/images/cajita_open.png" type="Texture" id=12]
+[ext_resource path="res://games/celda_escape/rooms/living/images/curtain.png" type="Texture" id=13]
+[ext_resource path="res://games/celda_escape/rooms/living/images/locked_window.png" type="Texture" id=14]
+[ext_resource path="res://games/celda_escape/rooms/living/images/window_close.png" type="Texture" id=15]
 
 [sub_resource type="Animation" id=1]
 resource_name = "default"
@@ -62,10 +65,6 @@ visible = false
 texture = ExtResource( 3 )
 centered = false
 
-[node name="oso" type="Sprite" parent="sprites"]
-texture = ExtResource( 6 )
-centered = false
-
 [node name="cuadro" type="Sprite" parent="sprites"]
 texture = ExtResource( 7 )
 centered = false
@@ -81,6 +80,22 @@ centered = false
 
 [node name="candelabrum" type="Sprite" parent="sprites"]
 texture = ExtResource( 9 )
+centered = false
+
+[node name="window1" type="Sprite" parent="sprites"]
+texture = ExtResource( 15 )
+centered = false
+
+[node name="window2" type="Sprite" parent="sprites"]
+texture = ExtResource( 14 )
+centered = false
+
+[node name="window3" type="Sprite" parent="sprites"]
+texture = ExtResource( 13 )
+centered = false
+
+[node name="oso" type="Sprite" parent="sprites"]
+texture = ExtResource( 6 )
 centered = false
 
 [node name="positions" type="Node" parent="."]
@@ -183,6 +198,18 @@ size = Vector2( 235, 560 )
 
 [node name="positioning" type="Node2D" parent="items/bear"]
 position = Vector2( 72.7185, 291.886 )
+rotation = 4.2778
+script = ExtResource( 8 )
+
+[node name="window" type="Node2D" parent="items"]
+position = Vector2( 380.785, 342.277 )
+z_index = 342
+script = ExtResource( 1 )
+key = "living/window"
+size = Vector2( 235, 440 )
+
+[node name="positioning" type="Node2D" parent="items/window"]
+position = Vector2( 66.2188, 400.063 )
 rotation = 4.2778
 script = ExtResource( 8 )
 
