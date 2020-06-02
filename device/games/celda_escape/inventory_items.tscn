@@ -6,7 +6,7 @@
 [ext_resource path="res://games/celda_escape/items/Book.png" type="Texture" id=4]
 [ext_resource path="res://games/celda_escape/items/skull.png" type="Texture" id=5]
 [ext_resource path="res://games/celda_escape/items/key1.png" type="Texture" id=6]
-[ext_resource path="res://games/celda_escape/items/mask.png" type="Texture" id=7]
+[ext_resource path="res://games/celda_escape/items/flask.png" type="Texture" id=7]
 
 [node name="inventory_items" type="GridContainer"]
 anchor_right = 1.0

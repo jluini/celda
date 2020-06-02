@@ -1,17 +1,15 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://games/celda_escape/rooms/cage/cage.tscn" type="PackedScene" id=1]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/grid_open.png" type="Texture" id=2]
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=3]
 [ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=4]
-
-
-
+[ext_resource path="res://games/celda_escape/rooms/cage/images/grid_open_back.png" type="Texture" id=5]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1658.13, 789.104, 1770.79, 877.876, 1683.98, 879.568, 1336.34, 791.689, 212.579, 875.382, 16.2492, 871.357, 40.0994, 778.606, 306.611, 802.842, 1899.14, 1062.89, 51.6174, 1057.93, 52.6107, 998.786, 1899.8, 990.71, 394.232, 735.25, 1704.66, 949.355, 1671.06, 917.047, 1859.74, 951.94, 1279.48, 745.164 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7 ), PoolIntArray( 8, 9, 10, 4 ), PoolIntArray( 8, 4, 7 ), PoolIntArray( 11, 8, 7, 12, 13 ), PoolIntArray( 3, 2, 14, 12 ), PoolIntArray( 13, 15, 11 ), PoolIntArray( 14, 13, 12 ), PoolIntArray( 12, 16, 3 ) ]
-outlines = [ PoolVector2Array( 394.232, 735.25, 306.611, 802.842, 40.0994, 778.606, 16.2492, 871.357, 212.579, 875.382, 52.6107, 998.786, 51.6174, 1057.93, 1899.14, 1062.89, 1899.8, 990.71, 1859.74, 951.94, 1704.66, 949.355, 1671.06, 917.047, 1683.98, 879.568, 1770.79, 877.876, 1658.13, 789.104, 1336.34, 791.689, 1279.48, 745.164 ) ]
+vertices = PoolVector2Array( 1658.13, 789.104, 1770.79, 877.876, 1683.98, 879.568, 1220.95, 891.535, 1180.84, 815.181, 1143.31, 741.416, 1279.48, 745.164, 1336.34, 791.689, 1328.37, 1061.36, 212.579, 875.382, 16.2492, 871.357, 40.0994, 778.606, 306.611, 802.842, 967.304, 942.006, 988.01, 1060.95, 51.6174, 1057.93, 52.6107, 998.786, 394.232, 735.25, 1055.3, 745.298, 1079.89, 811.299, 1120.01, 895.418, 1859.74, 951.94, 1899.8, 990.71, 1899.14, 1062.89, 1704.66, 949.355, 1671.06, 917.047 )
+polygons = [ PoolIntArray( 0, 1, 2 ), PoolIntArray( 3, 4, 5, 6, 7, 8 ), PoolIntArray( 9, 10, 11, 12 ), PoolIntArray( 13, 14, 15, 16, 9 ), PoolIntArray( 13, 9, 12, 17, 18, 19 ), PoolIntArray( 20, 13, 19, 4 ), PoolIntArray( 3, 20, 4 ), PoolIntArray( 21, 22, 23, 8, 24 ), PoolIntArray( 25, 24, 8, 7 ), PoolIntArray( 25, 7, 0, 2 ) ]
+outlines = [ PoolVector2Array( 394.232, 735.25, 306.611, 802.842, 40.0994, 778.606, 16.2492, 871.357, 212.579, 875.382, 52.6107, 998.786, 51.6174, 1057.93, 988.01, 1060.95, 967.304, 942.006, 1120.01, 895.418, 1220.95, 891.535, 1328.37, 1061.36, 1899.14, 1062.89, 1899.8, 990.71, 1859.74, 951.94, 1704.66, 949.355, 1671.06, 917.047, 1683.98, 879.568, 1770.79, 877.876, 1658.13, 789.104, 1336.34, 791.689, 1279.48, 745.164, 1143.31, 741.416, 1180.84, 815.181, 1079.89, 811.299, 1055.3, 745.298 ) ]
 
 [node name="room" instance=ExtResource( 1 )]
 
@@ -19,12 +17,18 @@ outlines = [ PoolVector2Array( 394.232, 735.25, 306.611, 802.842, 40.0994, 778.6
 position = Vector2( 1111.49, 587.494 )
 texture = ExtResource( 2 )
 
+[node name="gridback" type="Sprite" parent="sprites" index="4"]
+position = Vector2( 1112, 581.176 )
+texture = ExtResource( 5 )
+
 [node name="to_cellar" type="Node2D" parent="items" index="5"]
 position = Vector2( 191.066, 584.013 )
 z_index = 584
 script = ExtResource( 3 )
 key = "cage/to_cellar"
 size = Vector2( 360, 700 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
 [node name="positioning" type="Node2D" parent="items/to_cellar" index="0"]
 position = Vector2( -184.037, 236.295 )
