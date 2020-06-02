@@ -86,6 +86,18 @@ position = Vector2( 0.185181, 133.222 )
 rotation = 4.71239
 script = ExtResource( 8 )
 
+[node name="bear" type="Node2D" parent="items"]
+position = Vector2( 548.015, 448.896 )
+z_index = 448
+script = ExtResource( 1 )
+key = "living/bear"
+size = Vector2( 235, 560 )
+
+[node name="positioning" type="Node2D" parent="items/bear"]
+position = Vector2( 26.8182, 291.886 )
+rotation = 4.56753
+script = ExtResource( 8 )
+
 [node name="to_office" type="Node2D" parent="items"]
 position = Vector2( 136.578, 929.356 )
 z_index = 929

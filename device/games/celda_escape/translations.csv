@@ -41,6 +41,11 @@ USE_KEY_WITH_FURNITURE;It doesn't fit;No entra.
 ITEM_LIVING/MIRROR;mirror;espejo
 LOOK_MIRROR;TODO;TODO
 USE_STICK_WITH_MIRROR;I don't want to break it.;No quisiera romperlo.
+ITEM_LIVING/BEAR;bear;oso
+LOOK_BEAR;A majestic creature.;Una majestuosa criatura.
+USE_STICK_WITH_BEAR;I think it suffered too much to hit it with an iron.;Creo que ya sufrió demasiado como para darle con un fierro.
+USE_KEY_WITH_BEAR;Bears don't have keys.;Los osos no tienen llave.
+USE_SKULL_WITH_BEAR;It already has a head.;Ya tiene cabeza.
 ITEM_CELLAR/TO_CAGE;stairway;escaleras
 ITEM_CELLAR/TO_LAB;door;puerta
 ITEM_CELLAR/BUCKET;bucket;balde
@@ -58,5 +63,6 @@ LOOK_GUY;TODO;TODO
 BAD_IDEA;Bad idea.;Mala idea.
 SAY_NO;No.;No.
 FOR_WHAT;For what?;¿Para qué?
+DOES_NOT_WORK;It doesn't work.;No funciona.
 INVALID_COMBINATION;That doesn't seem to work.;Eso no parece funcionar.
 CANT_REACH_DOOR;I can't reach it.;No puedo alcanzarla.

@@ -233,6 +233,25 @@ living/mirror:
 	use_with(*):
 		you.say INVALID_COMBINATION
 
+living/bear:
+	look:
+		you.say LOOK_BEAR
+	
+	use_with(inv_stick):
+		you.say USE_STICK_WITH_BEAR
+	
+	use_with(inv_key*):
+		you.say USE_KEY_WITH_BEAR
+	
+	use_with(inv_flask):
+		you.say DOES_NOT_WORK
+	
+	use_with(inv_skull):
+		you.say USE_SKULL_WITH_BEAR
+	
+	use_with(*):
+		you.say INVALID_COMBINATION
+
 living/picture:
 	look:
 		#you.say LOOK_PICTURE
