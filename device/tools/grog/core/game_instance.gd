@@ -81,6 +81,8 @@ var _walking_time: float # seconds since current segment started
 var _walking_direction: Vector2
 var _walking_distance2: float
 
+const _minimum_walk_distance2 := pow(5.0, 2)
+
 # constants
 
 const _instant_termination = { termination = "instant" }
@@ -863,7 +865,9 @@ func _start_walking(subject: Node2D, target_positioning: Dictionary, reason: int
 	var origin_position: Vector2 = subject.position
 	var target_position: Vector2 = nav.get_closest_point(target_positioning.location)
 	
-	if origin_position.is_equal_approx(target_position):
+	var total_distance2: float = origin_position.distance_squared_to(target_position)
+	
+	if total_distance2 < _minimum_walk_distance2:
 		# care; returning false, same as in error cases
 		return false
 	
