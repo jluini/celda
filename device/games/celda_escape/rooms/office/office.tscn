@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://games/celda_escape/rooms/office/images/background.jpg" type="Texture" id=1]
 [ext_resource path="res://games/celda_escape/rooms/office/images/front.png" type="Texture" id=2]
@@ -7,14 +7,12 @@
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=5]
 [ext_resource path="res://games/celda_escape/rooms/office/images/armor.png" type="Texture" id=6]
 [ext_resource path="res://games/celda_escape/rooms/office/images/busto.png" type="Texture" id=7]
-
-
-
+[ext_resource path="res://games/celda_escape/rooms/office/images/armor_cover.jpg" type="Texture" id=8]
 
 [sub_resource type="NavigationPolygon" id=1]
-vertices = PoolVector2Array( 1905.7, 1072.42, 193.074, 1068.42, 500.535, 735.699, 1672.58, 901.901, 1897.07, 891.109, 1519.33, 740.016 )
+vertices = PoolVector2Array( 1905.7, 1072.42, 221.304, 1068.49, 546.559, 735.894, 1672.58, 901.901, 1897.07, 891.109, 1519.33, 740.016 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 3, 4, 0 ), PoolIntArray( 3, 2, 5 ) ]
-outlines = [ PoolVector2Array( 1897.07, 891.109, 1672.58, 901.901, 1519.33, 740.016, 500.535, 735.699, 193.074, 1068.42, 1905.7, 1072.42 ) ]
+outlines = [ PoolVector2Array( 1897.07, 891.109, 1672.58, 901.901, 1519.33, 740.016, 546.559, 735.894, 221.304, 1068.49, 1905.7, 1072.42 ) ]
 
 [node name="office" type="Node"]
 script = ExtResource( 3 )
@@ -25,7 +23,14 @@ script = ExtResource( 3 )
 texture = ExtResource( 1 )
 centered = false
 
+[node name="armor_cover" type="Sprite" parent="sprites"]
+position = Vector2( 295, 311 )
+z_index = 560
+texture = ExtResource( 8 )
+centered = false
+
 [node name="front" type="Sprite" parent="sprites"]
+visible = false
 z_index = 4096
 texture = ExtResource( 2 )
 centered = false
@@ -34,11 +39,6 @@ centered = false
 position = Vector2( 1578.32, 685.625 )
 z_index = 1
 texture = ExtResource( 7 )
-
-[node name="armor" type="Sprite" parent="sprites"]
-position = Vector2( 436.556, 530.523 )
-z_index = 1
-texture = ExtResource( 6 )
 
 [node name="positions" type="Node" parent="."]
 
@@ -52,6 +52,22 @@ rotation = 3.14159
 script = ExtResource( 4 )
 
 [node name="items" type="Node" parent="."]
+
+[node name="armour" type="Node2D" parent="items"]
+position = Vector2( 431.695, 531.874 )
+z_index = 531
+script = ExtResource( 5 )
+key = "office/armour"
+size = Vector2( 175, 500 )
+
+[node name="sprite" type="Sprite" parent="items/armour"]
+position = Vector2( 5, -1.32 )
+texture = ExtResource( 6 )
+
+[node name="positioning" type="Node2D" parent="items/armour"]
+position = Vector2( 97.5311, 226.368 )
+rotation = 3.57443
+script = ExtResource( 4 )
 
 [node name="to_cage" type="Node2D" parent="items"]
 position = Vector2( 172.252, 234 )

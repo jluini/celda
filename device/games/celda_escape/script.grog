@@ -190,6 +190,19 @@ cage/to_cellar:
 
 # Office items
 
+office/armour:
+	look:
+		you.say LOOK_ARMOUR
+	
+	use_with(inv_stick):
+		you.say "TODO ruido de palo contra metal"
+	
+	use_with(inv_key*):
+		you.say DOES_NOT_HAVE_A_LOCK
+	
+	use_with(*):
+		you.say INVALID_COMBINATION
+
 office/to_cage:
 	walk_to:
 		.load_room cage_open at=positions/from_office
