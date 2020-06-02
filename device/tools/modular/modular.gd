@@ -29,6 +29,8 @@ func _ready():
 	
 	var valid = true
 	
+	$ui/modules.set_tab_title(0, "MODULAR_LOGS")
+	
 	for index in range(_modules.size()):
 		var module: Control = _modules[index]
 		var result = _initialize_module(module)
@@ -37,7 +39,8 @@ func _ready():
 			_log_error("can't initialize module '%s'" % module.get_module_name())
 			_log_error(result.message)
 			break
-		$ui/modules.set_tab_title(index + 1, module.get_module_name())
+		var title: String = module.get_module_name().to_upper()
+		$ui/modules.set_tab_title(index + 1, title)
 		
 
 	var _topbar = $ui/topbar
@@ -57,7 +60,7 @@ func _ready():
 		
 		var app_thumbnail = preload("res://tools/modular/top_button.tscn").instance()
 		var button = app_thumbnail.get_node("button")
-		button.text = app.get_module_name()
+		button.text = app.get_module_name().to_upper()
 		button.connect("pressed", self, "_on_app_thumbnail_pressed", [index])
 		
 		_topbar.add_child(app_thumbnail)

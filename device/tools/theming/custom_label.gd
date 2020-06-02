@@ -12,7 +12,7 @@ func _ready():
 
 func _draw():
 	var font: Font = get_font(label_type, "Label")
-	var text_to_show = text
+	var text_to_show = tr(text)
 	
 	var center = rect_size / 2
 	var text_size = font.get_string_size(text_to_show)

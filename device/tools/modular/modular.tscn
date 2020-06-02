@@ -34,7 +34,7 @@ margin_left = -356.0
 margin_right = 0.0
 
 [node name="button" parent="ui/quit" index="0"]
-text = "QUIT"
+text = "MODULAR_QUIT"
 
 [node name="modules" type="TabContainer" parent="ui"]
 anchor_top = 0.2

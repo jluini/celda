@@ -300,7 +300,6 @@ anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource( 4 )
 text = "Celda"
-color = Color( 1, 1, 1, 1 )
 label_type = "big"
 
 [node name="game_list" type="Control" parent="ui/menu/tab_container/tabs"]
@@ -359,34 +358,34 @@ __meta__ = {
 ] instance=ExtResource( 21 )]
 margin_top = 80.0
 margin_bottom = 230.0
-caption = "Continue"
+caption = "MENU_CONTINUE"
 
 [node name="save_game" parent="ui/menu/side_menu/menu_buttons" groups=[
 "only_if_playing",
 ] instance=ExtResource( 21 )]
 margin_top = 234.0
 margin_bottom = 384.0
-caption = "Save game"
+caption = "MENU_SAVE_GAME"
 
 [node name="new_game" parent="ui/menu/side_menu/menu_buttons" instance=ExtResource( 21 )]
 margin_top = 388.0
 margin_bottom = 538.0
-caption = "New game"
+caption = "MENU_NEW_GAME"
 
 [node name="load_game" parent="ui/menu/side_menu/menu_buttons" instance=ExtResource( 21 )]
 margin_top = 542.0
 margin_bottom = 692.0
-caption = "Load game"
+caption = "MENU_LOAD_GAME"
 
 [node name="options" parent="ui/menu/side_menu/menu_buttons" instance=ExtResource( 21 )]
 margin_top = 696.0
 margin_bottom = 846.0
-caption = "Options"
+caption = "MENU_OPTIONS"
 
 [node name="quit" parent="ui/menu/side_menu/menu_buttons" instance=ExtResource( 21 )]
 margin_top = 850.0
 margin_bottom = 1000.0
-caption = "Quit"
+caption = "MENU_QUIT"
 
 [node name="tween" type="Tween" parent="ui/menu/side_menu"]
 
@@ -395,7 +394,10 @@ margin_left = 1061.05
 margin_top = 927.002
 margin_right = 1609.05
 margin_bottom = 1049.0
-text = "Cancel"
+text = "GO_BACK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="audio_player" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 9 )

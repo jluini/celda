@@ -1,11 +1,10 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://games/celda_escape/music_set.tres" type="Resource" id=1]
 [ext_resource path="res://games/celda_escape/celda_script.tres" type="Resource" id=2]
 [ext_resource path="res://themes/subtlety/subtlety.tres" type="Theme" id=3]
 [ext_resource path="res://themes/mortified/mortified.tres" type="Theme" id=4]
 [ext_resource path="res://clients/modern_client/modern_client.tscn" type="PackedScene" id=5]
-[ext_resource path="res://tools/modular/example_module.tscn" type="PackedScene" id=6]
 [ext_resource path="res://tools/theming/theme_switcher.tscn" type="PackedScene" id=7]
 [ext_resource path="res://tools/modular/modular.tscn" type="PackedScene" id=8]
 [ext_resource path="res://tools/loopin/player/loopin_module.tscn" type="PackedScene" id=9]
@@ -39,13 +38,6 @@ margin_top = 65.0
 margin_right = -4.0
 margin_bottom = -4.0
 loopin_set = ExtResource( 1 )
-
-[node name="example_module" parent="ui/modules" index="4" instance=ExtResource( 6 )]
-visible = false
-margin_left = 4.0
-margin_top = 65.0
-margin_right = -4.0
-margin_bottom = -4.0
 
 [node name="modern_display" parent="apps" index="0" instance=ExtResource( 5 )]
 

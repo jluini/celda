@@ -1,0 +1,16 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+
+[deps]
+
+files=[ "res://clients/modern_client/translations.en.translation", "res://clients/modern_client/translations.es.translation" ]
+
+source_file="res://clients/modern_client/translations.csv"
+dest_files=[ "res://clients/modern_client/translations.en.translation", "res://clients/modern_client/translations.es.translation" ]
+
+[params]
+
+compress=true
+delimiter=1
