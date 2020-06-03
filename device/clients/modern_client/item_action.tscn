@@ -4,7 +4,7 @@
 margin_top = 75.0
 margin_right = 293.0
 margin_bottom = 135.0
-rect_min_size = Vector2( 0, 60 )
+rect_min_size = Vector2( 0, 120 )
 mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false

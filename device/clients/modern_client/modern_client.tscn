@@ -181,7 +181,7 @@ margin_top = 5.0
 margin_right = -5.0
 margin_bottom = -5.0
 mouse_filter = 2
-custom_constants/separation = 15
+custom_constants/separation = 5
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -300,6 +300,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource( 4 )
 text = "Celda"
+color = Color( 1, 1, 1, 1 )
 label_type = "big"
 
 [node name="game_list" type="Control" parent="ui/menu/tab_container/tabs"]
