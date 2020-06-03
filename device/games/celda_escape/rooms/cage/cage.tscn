@@ -121,6 +121,11 @@ script = ExtResource( 10 )
 position = Vector2( 200.284, 823.214 )
 script = ExtResource( 10 )
 
+[node name="after_open_bars" type="Node2D" parent="positions"]
+position = Vector2( 1205.54, 837.846 )
+rotation = -3.14159
+script = ExtResource( 10 )
+
 [node name="items" type="Node" parent="."]
 
 [node name="poster" type="Node2D" parent="items"]
@@ -256,6 +261,20 @@ script = ExtResource( 10 )
 [node name="sprite" type="Sprite" parent="items/stick"]
 scale = Vector2( 4, 4 )
 texture = ExtResource( 14 )
+
+[node name="bars" type="Node2D" parent="items"]
+position = Vector2( 1174.83, 548.533 )
+z_index = 548
+script = ExtResource( 1 )
+key = "cage/bars"
+size = Vector2( 200, 350 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
+
+[node name="positioning" type="Node2D" parent="items/bars"]
+position = Vector2( 30.7117, 289.313 )
+rotation = 3.14159
+script = ExtResource( 10 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 

@@ -74,7 +74,10 @@ func _on_server_curtain_down():
 
 func _on_server_variable_set(var_name: String, new_value):
 	if var_name == "music":
-		_modular.broadcast("music", "start", [new_value])
+		if new_value:
+			_modular.broadcast("music", "start", [new_value])
+		else:
+			_modular.broadcast("music", "stop", [])
 
 func _on_server_tool_set(_item, _verb: String):
 	_log_warning("override _on_server_tool_set")

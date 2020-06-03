@@ -6,10 +6,11 @@ main:
 		
 		.set key1_was_taken=false
 		.set cobble_already_fell=false
+		.set cage_is_open=false
+		.set office_is_known=false
 		
 		cage/to_office.disable
 		cage/cobble.disable
-		
 		
 		if $stage < 2:
 			.load_room cage at=positions/initial
@@ -26,6 +27,7 @@ main:
 				inv_skull.add
 				inv_key2.add
 				inv_flask.add
+				inv_key1.add
 		else:
 			
 			cage/poster.disable
@@ -52,6 +54,8 @@ main:
 				.set key1_was_taken=true
 				inv_key1.add
 				living/small_box.play open
+				
+				# TODO otras modificaciones
 				
 				# cage-open stage
 				if $stage = 4:
@@ -198,8 +202,12 @@ cage/cobble:
 cage/to_office:
 	walk_to:
 		.load_room office at=positions/from_cage
-		.set music=office
-		#.curtain_up
+		
+		if not $office_is_known:
+			.set office_is_known=true
+			.set music=office
+			#.curtain_up
+			you.say "Mirá vo el cacho de oficina" # TODO
 	
 	use_with(inv_poster):
 		self.play closing blocking=true
@@ -216,19 +224,62 @@ cage/stick:
 		self.disable
 		inv_stick.add
 
-cage/door:
-	# TODO case with cage open
-	walk_to: # TK
-		you.say CANT_REACH_DOOR
+cage/bars:
 	look:
-		you.say CANT_REACH_DOOR
+		you.say LOOK_BARS
+	
+	use_with(inv_stick):
+		you.say "TODO ruido metal contra metal"
+	
+	use_with(inv_key1):
+		if not $cage_is_open:
+			.set music=""
+			you.say USE_KEY_WITH_BARS
+			.set music="uajari"
+			.set cage_is_open=true
+			.load_room cage_open at=positions/after_open_bars
+		else:
+			you.say USE_KEY_WITH_BARS_AGAIN
+		
+	use_with(inv_key*):
+		you.say WRONG_KEY
+	
+	use_with(inv_flask):
+		you.say NOT_A_GOOD_IDEA
+	
 	use_with(*):
-		you.say CANT_REACH_DOOR
+		if not $cage_is_open:
+			you.say CANT_OPEN_IT_WITH_THIS
+		else:
+			you.say FOR_WHAT
+
+cage/door:
+	walk_to:
+		if not $cage_is_open:
+			you.say CANT_REACH_DOOR
+		
+	look:
+		if not $cage_is_open:
+			you.say CANT_REACH_DOOR
+		else:
+			you.say TRY_TO_OPEN_CAGE_DOOR
+	
+	use_with(inv_key*):
+		if not $cage_is_open:
+			you.say CANT_REACH_DOOR
+		else:
+			you.say WRONG_KEY
+	
+	use_with(*):
+		if not $cage_is_open:
+			you.say CANT_REACH_DOOR
+		else:
+			you.say CANT_OPEN_IT_WITH_THIS
 
 cage/to_cellar:
 	walk_to:
 		.load_room cellar at=positions/from_cage
-		.set music=lab
+		# keep music 'uajari'
 		#.curtain_up
 
 # Office items
@@ -293,9 +344,14 @@ office/chair:
 
 office/to_cage:
 	walk_to:
-		.load_room cage_open at=positions/from_office
-		.set music=uajari
-		#.curtain_up
+		if not $cage_is_open:
+			.load_room cage at=positions/from_office
+			# keep music 'office'
+			#.curtain_up
+		else:
+			.load_room cage_open at=positions/from_office
+			# keep music 'office'
+			#.curtain_up
 
 office/to_living:
 	walk_to:
@@ -438,7 +494,7 @@ cellar/to_cage:
 cellar/to_lab:
 	walk_to:
 		.load_room lab at=positions/from_cellar
-		# keep music 'lab'
+		.set music=lab
 		#.curtain_up
 	look:
 		.load_room lab_door

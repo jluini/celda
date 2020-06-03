@@ -35,6 +35,18 @@ position = Vector2( -184.037, 236.295 )
 rotation = 3.14159
 script = ExtResource( 4 )
 
+[node name="positioning" parent="items/door" index="0"]
+position = Vector2( -61.1558, 213.39 )
+rotation = -1.35787
+
+[node name="bars" parent="items" index="8"]
+size = Vector2( 350, 350 )
+offset = Vector2( -100, 0 )
+
+[node name="positioning" parent="items/bars" index="0"]
+position = Vector2( -195.326, 330.31 )
+rotation = 1.0472
+
 [node name="polygon" parent="navigation" index="0"]
 enabled = false
 
