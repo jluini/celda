@@ -3,11 +3,13 @@
 main:
 	init:
 		# cage setup
-		.set door_seen=false
+		
 		.set poster_was_taken=false
 		.set key1_was_taken=false
-		cage/to_office.disable
+		.set cobble_already_fell=false
 		
+		cage/to_office.disable
+		cage/cobble.disable
 		
 		
 		if $stage < 2:
@@ -32,6 +34,8 @@ main:
 			.set poster_was_taken = true
 			cage/poster.disable
 			inv_poster.add
+			
+			# TODO
 			cage/to_office.enable
 			
 			
@@ -163,23 +167,36 @@ cage/poster:
 	pick_up:
 		self.disable
 		inv_poster.add
-		cage/to_office.enable
-		cage/to_office.play opening blocking=true
-		cage/to_office.play open
-	
+		
+		if $cobble_already_fell:
+			cage/to_office.enable
+			cage/to_office.play opening blocking=true
+			cage/to_office.play open
+		else:
+			cage/cobble.enable
+		
 	# TODO use_with(inv_stick): "No le haría daño" ?
 	
 	use_with(*):
 		you.say INVALID_COMBINATION
 
-cage/door:
-	# TODO case with cage open
-	walk_to: # TK
-		you.say CANT_REACH_DOOR
+cage/cobble:
 	look:
-		you.say CANT_REACH_DOOR
-	use_with(*):
-		you.say CANT_REACH_DOOR
+		you.say LOOK_COBBLE
+	
+	use_with(inv_poster):
+		self.disable
+		tool.remove
+		cage/poster.enable
+	
+	use_with(inv_stick):
+		you.say USE_STICK_WITH_COBBLE
+		self.disable
+		.set cobble_already_fell=true
+		
+		cage/to_office.enable
+		cage/to_office.play opening blocking=true
+		cage/to_office.play open
 
 cage/to_office:
 	walk_to:
@@ -193,6 +210,15 @@ cage/to_office:
 		self.disable
 		cage/poster.enable
 		tool.remove
+
+cage/door:
+	# TODO case with cage open
+	walk_to: # TK
+		you.say CANT_REACH_DOOR
+	look:
+		you.say CANT_REACH_DOOR
+	use_with(*):
+		you.say CANT_REACH_DOOR
 
 cage/to_cellar:
 	walk_to:

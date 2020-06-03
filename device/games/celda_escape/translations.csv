@@ -6,6 +6,9 @@ ACTION_PICK_UP;pick up;recoger
 ITEM_CAGE/POSTER;poster;póster
 ITEM_INV_POSTER;poster;póster
 LOOK_POSTER;"It says ""hang in there"".";"Dice ""hang in there""."
+ITEM_CAGE/COBBLE;cobble;adoquín
+LOOK_COBBLE;It seems loose.;Parece flojo.
+USE_STICK_WITH_COBBLE;Maybe I can move it.;Tal vez pueda moverlo.
 ITEM_INV_BOOK;book;libro
 LOOK_BOOK;TODO;TODO
 ITEM_INV_KEY1;key;llave
