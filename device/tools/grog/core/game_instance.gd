@@ -709,11 +709,10 @@ func _command_walk(_item_id: String, target_node_name: String) -> Dictionary:
 
 func _command_play(item_id: String, new_state: String, opts: Dictionary) -> Dictionary:
 	# TODO what about inventory items' states?
-	var item_symbol = symbols.get_symbol_of_types(item_id, ["scene_item"], true)
+	var item_symbol = _get_or_build_scene_item(item_id, "animate")
 	
-	if not item_symbol.type:
-		# absent or type mismatch
-		_game_warning("play: no scene item '%s'" % item_id)
+	if not item_symbol:
+		# type mismatch (error was already logged)
 		return _instant_termination
 	
 	# updates item_id (maybe it was 'self' or another alias)

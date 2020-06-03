@@ -4,7 +4,6 @@ main:
 	init:
 		# cage setup
 		
-		.set poster_was_taken=false
 		.set key1_was_taken=false
 		.set cobble_already_fell=false
 		
@@ -31,13 +30,10 @@ main:
 				inv_flask.add
 		else:
 			
-			.set poster_was_taken = true
 			cage/poster.disable
-			inv_poster.add
-			
-			# TODO
 			cage/to_office.enable
-			
+			cage/to_office.play open
+			inv_poster.add
 			
 			# office stage
 			if $stage = 2:
