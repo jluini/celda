@@ -33,6 +33,9 @@ main:
 			cage/to_office.play open
 			inv_poster.add
 			
+			cage/stick.disable
+			inv_stick.add
+			
 			# office stage
 			if $stage = 2:
 				.load_room office at=positions/from_cage
