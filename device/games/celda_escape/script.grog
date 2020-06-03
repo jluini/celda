@@ -22,9 +22,7 @@ main:
 			
 			else:
 				
-				inv_stick.add
-				#inv_book.add
-				#inv_key1.add
+				inv_book.add
 				inv_skull.add
 				inv_key2.add
 				inv_flask.add
@@ -89,7 +87,7 @@ inv_book:
 
 inv_stick:
 	look:
-		you.say LOOK_STICK
+		you.say LOOK_INV_STICK
 	use:
 		self.set_tool use_with
 
@@ -206,6 +204,14 @@ cage/to_office:
 		self.disable
 		cage/poster.enable
 		tool.remove
+
+cage/stick:
+	look:
+		you.say LOOK_CAGE_STICK
+	
+	pick_up:
+		self.disable
+		inv_stick.add
 
 cage/door:
 	# TODO case with cage open

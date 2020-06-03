@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/bed.png" type="Texture" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://games/celda_escape/rooms/cage/images/background.jpg" type="Texture" id=11]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/toilet.png" type="Texture" id=12]
 [ext_resource path="res://games/celda_escape/rooms/cage/images/adoquin.png" type="Texture" id=13]
+[ext_resource path="res://games/celda_escape/items/thing.png" type="Texture" id=14]
 
 [sub_resource type="Animation" id=1]
 resource_name = "closing"
@@ -234,9 +235,27 @@ offset = Vector2( 0, 0 )
 color = Color( 1, 1, 1, 1 )
 
 [node name="positioning" type="Node2D" parent="items/door"]
-position = Vector2( 553.689, 221.055 )
+position = Vector2( 600.018, 223.493 )
 rotation = -2.98626
 script = ExtResource( 10 )
+
+[node name="stick" type="Node2D" parent="items"]
+position = Vector2( 1248.27, 1006.27 )
+z_index = 1006
+script = ExtResource( 1 )
+key = "cage/stick"
+size = Vector2( 150, 150 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
+
+[node name="positioning" type="Node2D" parent="items/stick"]
+position = Vector2( 78.8337, 0 )
+rotation = 2.67734
+script = ExtResource( 10 )
+
+[node name="sprite" type="Sprite" parent="items/stick"]
+scale = Vector2( 4, 4 )
+texture = ExtResource( 14 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 

@@ -16,7 +16,7 @@ LOOK_KEY1;A little key.;Una pequeña llave.
 ITEM_INV_KEY2;key 2;llave 2
 LOOK_KEY2;Another little key.;Otra pequeña llave.
 ITEM_INV_STICK;stick;palo
-LOOK_STICK;TODO;TODO
+LOOK_INV_STICK;TODO;TODO
 ITEM_INV_SKULL;skull;calavera
 LOOK_SKULL;TODO;TODO
 ITEM_INV_FLASK;flask;frasco
@@ -33,6 +33,8 @@ USE_KEY_WITH_TOILET2;Maybe later it will help me.;Tal vez más tarde me sea úti
 USE_FLASK_WITH_TOILET;It would be a waste to throw it here.;Sería un desperdicio tirarlo aquí.
 USE_POSTER_WITH_TOILET;No. It could get clogged.;No. Podría taparse y quizás lo necesite.
 USE_X_WITH_TOILET;I wouldn't throw it here.;No lo tiraría aquí.
+ITEM_CAGE/STICK;stick?;palo?
+LOOK_CAGE_STICK;TODO;TODO
 ITEM_CAGE/TO_CELLAR;stairway;escaleras
 ITEM_OFFICE/ARMOUR;armour;armadura
 LOOK_ARMOUR;It's and old German armour.;Es una antigua armadura alemana.
