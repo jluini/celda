@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/stick.png-95516bc1abdce2b3aa3dd23551bb53b5.stex"
+path="res://.import/calavera.png-e304ec2de0f4722c4ad6421209c36dc3.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/items/stick.png"
-dest_files=[ "res://.import/stick.png-95516bc1abdce2b3aa3dd23551bb53b5.stex" ]
+source_file="res://games/celda_escape/items/calavera.png"
+dest_files=[ "res://.import/calavera.png-e304ec2de0f4722c4ad6421209c36dc3.stex" ]
 
 [params]
 

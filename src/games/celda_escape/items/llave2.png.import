@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/skull.png-458f7b6811aac348afeb44b3a5788d5d.stex"
+path="res://.import/llave2.png-7158427ba22dd36c25cdc29fe7a6d820.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/items/skull.png"
-dest_files=[ "res://.import/skull.png-458f7b6811aac348afeb44b3a5788d5d.stex" ]
+source_file="res://games/celda_escape/items/llave2.png"
+dest_files=[ "res://.import/llave2.png-7158427ba22dd36c25cdc29fe7a6d820.stex" ]
 
 [params]
 

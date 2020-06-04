@@ -24,11 +24,11 @@ main:
 				
 			else:
 				
-				inv_book.add
-				inv_skull.add
-				inv_key2.add
-				inv_flask.add
-				inv_key1.add
+				inv_libro.add
+				inv_calavera.add
+				inv_llave2.add
+				inv_frasco.add
+				inv_llave1.add
 		else:
 			
 			cage/poster.disable
@@ -37,7 +37,7 @@ main:
 			inv_poster.add
 			
 			cage/stick.disable
-			inv_stick.add
+			inv_palo.add
 			
 			# office stage
 			if $stage = 2:
@@ -53,7 +53,7 @@ main:
 			
 			else:
 				.set key1_was_taken=true
-				inv_key1.add
+				inv_llave1.add
 				living/small_box.play open
 				
 				# TODO otras modificaciones
@@ -87,37 +87,37 @@ inv_poster:
 	use:
 		self.set_tool use_with
 
-inv_book:
+inv_libro:
 	look:
 		you.say LOOK_BOOK
 	use:
 		self.set_tool use_with
 
-inv_stick:
+inv_palo:
 	look:
 		you.say LOOK_INV_STICK
 	use:
 		self.set_tool use_with
 
-inv_skull:
+inv_calavera:
 	look:
 		you.say LOOK_SKULL
 	use:
 		self.set_tool use_with
 
-inv_key1:
+inv_llave1:
 	look:
 		you.say LOOK_KEY1
 	use:
 		self.set_tool use_with
 
-inv_key2:
+inv_llave2:
 	look:
 		you.say LOOK_KEY2
 	use:
 		self.set_tool use_with
 
-inv_flask:
+inv_frasco:
 	look:
 		you.say LOOK_FLASK
 	use:
@@ -132,14 +132,14 @@ cage/toilet:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_stick):
+	use_with(inv_palo):
 		you.say BAD_IDEA
 	
-	use_with(inv_key*):
+	use_with(inv_llave*):
 		you.say USE_KEY_WITH_TOILET1
 		you.say USE_KEY_WITH_TOILET2
 	
-	use_with(inv_flask):
+	use_with(inv_frasco):
 		you.say USE_FLASK_WITH_TOILET
 	
 	use_with(inv_poster):
@@ -155,13 +155,13 @@ cage/bed:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_stick):
+	use_with(inv_palo):
 		you.say SAY_NO
 	
-	use_with(inv_key*):
+	use_with(inv_llave*):
 		you.say USE_KEY_WITH_BED
 	
-	use_with(inv_flask):
+	use_with(inv_frasco):
 		you.say FOR_WHAT
 	
 	use_with(*): TK
@@ -183,7 +183,7 @@ cage/poster:
 		else:
 			cage/cobble.enable
 		
-	# TODO use_with(inv_stick): "No le haría daño" ?
+	# TODO use_with(inv_palo): "No le haría daño" ?
 	
 	use_with(*):
 		you.say INVALID_COMBINATION
@@ -200,7 +200,7 @@ cage/cobble:
 		tool.remove
 		cage/poster.enable
 	
-	use_with(inv_stick):
+	use_with(inv_palo):
 		you.say USE_STICK_WITH_COBBLE
 		self.disable
 		.set cobble_already_fell=true
@@ -232,7 +232,7 @@ cage/stick:
 	
 	hand:
 		self.disable
-		inv_stick.add
+		inv_palo.add
 
 cage/bars:
 	look:
@@ -241,10 +241,10 @@ cage/bars:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_stick):
+	use_with(inv_palo):
 		you.say "TODO ruido metal contra metal"
 	
-	use_with(inv_key1):
+	use_with(inv_llave1):
 		if not $cage_is_open:
 			.set music=""
 			you.say USE_KEY_WITH_BARS
@@ -254,10 +254,10 @@ cage/bars:
 		else:
 			you.say USE_KEY_WITH_BARS_AGAIN
 		
-	use_with(inv_key*):
+	use_with(inv_llave*):
 		you.say WRONG_KEY
 	
-	use_with(inv_flask):
+	use_with(inv_frasco):
 		you.say NOT_A_GOOD_IDEA
 	
 	use_with(*):
@@ -279,7 +279,7 @@ cage/door:
 		else:
 			you.say TRY_TO_OPEN_CAGE_DOOR
 		
-	use_with(inv_key*):
+	use_with(inv_llave*):
 		if not $cage_is_open:
 			you.say CANT_REACH_DOOR
 		else:
@@ -306,10 +306,10 @@ office/armour:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_stick):
+	use_with(inv_palo):
 		you.say "TODO ruido de palo contra metal"
 	
-	use_with(inv_key*):
+	use_with(inv_llave*):
 		you.say DOES_NOT_HAVE_A_LOCK
 	
 	use_with(*):
@@ -322,13 +322,13 @@ office/bust:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_stick):
+	use_with(inv_palo):
 		you.say I_CANT_DO_ANYTHING
 	
-	use_with(inv_flask):
+	use_with(inv_frasco):
 		you.say IT_WOULDNT_BE_WISE
 	
-	use_with(inv_key*):
+	use_with(inv_llave*):
 		you.say DOES_NOT_HAVE_A_LOCK
 	
 	use_with(*):
@@ -341,13 +341,13 @@ office/desk:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_stick):
+	use_with(inv_palo):
 		you.say IT_IS_USELESS
 	
-	use_with(inv_key*):
+	use_with(inv_llave*):
 		you.say USE_KEY_WITH_OFFICE_DESK
 	
-	use_with(inv_flask):
+	use_with(inv_frasco):
 		you.say DOES_NOT_WORK
 	
 	use_with(*):
@@ -360,10 +360,10 @@ office/chair:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_stick):
+	use_with(inv_palo):
 		you.say IT_DOESNT_MAKE_SENSE
 	
-	use_with(inv_key*):
+	use_with(inv_llave*):
 		you.say CANT_BE_OPENED_WITH_KEY
 	
 	use_with(*):
@@ -401,10 +401,10 @@ living/furniture:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_stick):
+	use_with(inv_palo):
 		you.say USE_STICK_WITH_FURNITURE
 	
-	use_with(inv_key*):
+	use_with(inv_llave*):
 		you.say IT_DOESNT_FIT
 	
 	use_with(*):
@@ -417,7 +417,7 @@ living/mirror:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_stick):
+	use_with(inv_palo):
 		you.say USE_STICK_WITH_MIRROR
 	
 	use_with(*):
@@ -430,16 +430,16 @@ living/bear:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_stick):
+	use_with(inv_palo):
 		you.say USE_STICK_WITH_BEAR
 	
-	use_with(inv_key*):
+	use_with(inv_llave*):
 		you.say USE_KEY_WITH_BEAR
 	
-	use_with(inv_flask):
+	use_with(inv_frasco):
 		you.say DOES_NOT_WORK
 	
-	use_with(inv_skull):
+	use_with(inv_calavera):
 		you.say USE_SKULL_WITH_BEAR
 	
 	use_with(*):
@@ -452,7 +452,7 @@ living/window:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_stick):
+	use_with(inv_palo):
 		you.say "TODO ruido de golpear madera"
 	
 	use_with(*):
@@ -466,14 +466,14 @@ living/door:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_stick):
+	use_with(inv_palo):
 		you.say IT_IS_USELESS
 		# TODO ruido de palo contra madera
 	
-	use_with(inv_key*):
+	use_with(inv_llave*):
 		you.say USE_KEY_WITH_LIVING_DOOR
 	
-	use_with(inv_flask):
+	use_with(inv_frasco):
 		you.say NOTHING_HAPPENS
 	
 	use_with(*):
@@ -492,12 +492,12 @@ living/small_box:
 		you.say LOOK_SMALL_BOX1
 	
 	hand:
-		if $inv_key1 = 0:
+		if $inv_llave1 = 0:
 			if not $key1_was_taken:
 				you.say LOOK_SMALL_BOX2
 			else:
 				you.say LOOK_SMALL_BOX_AGAIN
-			inv_key1.add
+			inv_llave1.add
 			self.play open
 			if not $key1_was_taken:
 				you.say LOOK_SMALL_BOX3
@@ -505,12 +505,12 @@ living/small_box:
 		else:
 			you.say LOOK_SMALL_BOX_OPENED
 	
-	use_with(inv_key1):
+	use_with(inv_llave1):
 		you.say SAVE_KEY_IN_BOX
 		tool.remove
 		self.play default
 	
-	use_with(inv_key*):
+	use_with(inv_llave*):
 		you.say SAVE_ANOTHER_KEY_IN_BOX
 	
 	use_with(*):
@@ -572,13 +572,13 @@ cellar/pump:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_stick):
+	use_with(inv_palo):
 		you.say "*Ruido metálico*" # TODO
 	
-	use_with(inv_key*):
+	use_with(inv_llave*):
 		you.say USE_KEY_WITH_PUMP
 	
-	use_with(inv_flask):
+	use_with(inv_frasco):
 		you.say USE_FLASK_WITH_PUMP
 	
 	use_with(*):

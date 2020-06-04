@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/key2.png-41f4b915c7ce6ef3ad20f439b3c716f4.stex"
+path="res://.import/frasco.png-9de03bb1811170072b49bb8b3351da59.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/items/key2.png"
-dest_files=[ "res://.import/key2.png-41f4b915c7ce6ef3ad20f439b3c716f4.stex" ]
+source_file="res://games/celda_escape/items/frasco.png"
+dest_files=[ "res://.import/frasco.png-9de03bb1811170072b49bb8b3351da59.stex" ]
 
 [params]
 

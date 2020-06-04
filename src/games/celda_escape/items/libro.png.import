@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/key1.png-761713385f85fa0b2be31b64d24d7046.stex"
+path="res://.import/libro.png-5913dd2ebdf39b63157a71c1c9ab7bd6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/items/key1.png"
-dest_files=[ "res://.import/key1.png-761713385f85fa0b2be31b64d24d7046.stex" ]
+source_file="res://games/celda_escape/items/libro.png"
+dest_files=[ "res://.import/libro.png-5913dd2ebdf39b63157a71c1c9ab7bd6.stex" ]
 
 [params]
 
