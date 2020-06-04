@@ -40,7 +40,7 @@ main:
 			
 			# etapa oficina
 			if $stage = 2:
-				.load_room office at=posicion/de_jaula
+				.load_room oficina at=posicion/de_jaula
 				.set music=office
 				.curtain_up
 			
@@ -65,13 +65,13 @@ main:
 				
 				# Etapa sótano
 				elif $stage = 5:
-					.load_room cellar at=positions/from_cage
+					.load_room sotano at=positions/from_cage
 					.set music=lab
 					.curtain_up
 				
 				# lab stage
 				elif $stage = 6:
-					.load_room lab at=positions/from_cellar
+					.load_room laboratorio at=positions/from_cellar
 					.set music=lab
 					.curtain_up
 				
@@ -210,7 +210,7 @@ adoquin:
 
 jaula_a_oficina:
 	walk_to:
-		.load_room office at=posicion/de_jaula
+		.load_room oficina at=posicion/de_jaula
 		
 		if not $oficina_fue_descubierta:
 			.set oficina_fue_descubierta=true
@@ -292,7 +292,7 @@ puerta_jaula:
 
 jaula_a_sotano:
 	walk_to:
-		.load_room cellar at=positions/from_cage
+		.load_room sotano at=positions/from_cage
 		# keep music 'uajari'
 		#.curtain_up
 
@@ -389,7 +389,7 @@ oficina_a_living:
 
 living_a_oficina:
 	walk_to:
-		.load_room office at=posicion/de_living
+		.load_room oficina at=posicion/de_living
 		# keep music 'office'
 		#.curtain_up
 
@@ -524,36 +524,36 @@ candelabro:
 cuadro:
 	look:
 		#you.say LOOK_PICTURE
-		.load_room picture
+		.load_room cuadro
 		#.curtain_up
 	
 	hand:
-		.load_room picture
+		.load_room cuadro
 
-picture/to_living:
+cuadro_a_living:
 	walk_to:
 		.load_room living at=cuadro
 		#.curtain_up
 
-# Cellar items
+# Items sotano
 
-cellar/to_cage:
+sotano_a_jaula:
 	walk_to:
 		.load_room jaula_abierta at=posicion/de_sotano
 		.set music=uajari
 		#.curtain_up
 
-cellar/to_lab:
+sotano_a_laboratorio:
 	#hand:
 	walk_to:
-		.load_room lab at=positions/from_cellar
+		.load_room laboratorio at=positions/from_cellar
 		.set music=lab
 		#.curtain_up
 	#look:
-	#	.load_room lab_door
+	#	.load_room puerta_laboratorio
 	#	#.curtain_up
 
-cellar/bucket:
+balde:
 	look:
 		you.say LOOK_BUCKET
 	
@@ -563,7 +563,7 @@ cellar/bucket:
 	use_with(*):
 		you.say USE_X_WITH_BUCKET
 
-cellar/pump:
+bomba:
 	look:
 		you.say LOOK_PUMP
 	
@@ -582,7 +582,7 @@ cellar/pump:
 	use_with(*):
 		you.say INVALID_COMBINATION
 
-cellar/doc:
+doc:
 	look:
 		.wait 1
 		.load_room doc
@@ -599,20 +599,20 @@ cellar/doc:
 		you.say "Pero qué laaaaco..."
 		you.say "Casi que le entraría."
 
-doc/to_cellar:
+doc_a_sotano:
 	walk_to:
-		.load_room cellar at=cellar/doc
+		.load_room sotano at=doc
 
 # Lab items
 
-lab_door/to_cellar:
+puerta_laboratorio_a_sotano:
 	walk_to:
-		.load_room cellar at=cellar/to_lab
+		.load_room sotano at=sotano_a_laboratorio
 
 
 lab/to_cellar:
 	walk_to:
-		.load_room cellar at=positions/from_lab
+		.load_room sotano at=posicion/de_laboratorio
 		# keep music 'lab'
 		#.curtain_up
 

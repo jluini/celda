@@ -1,15 +1,15 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://games/celda_escape/rooms/cellar/images/background.jpg" type="Texture" id=1]
+[ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=1]
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=2]
-[ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=3]
-[ext_resource path="res://games/celda_escape/rooms/cellar/images/rejas.png" type="Texture" id=4]
-[ext_resource path="res://games/celda_escape/rooms/cellar/images/walls.png" type="Texture" id=5]
-[ext_resource path="res://games/celda_escape/rooms/cellar/images/Front.png" type="Texture" id=6]
-[ext_resource path="res://games/celda_escape/rooms/cellar/images/camas.png" type="Texture" id=7]
-[ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=8]
-[ext_resource path="res://games/celda_escape/rooms/cellar/images/balde.png" type="Texture" id=9]
-[ext_resource path="res://games/celda_escape/rooms/cellar/images/bombadeagua.png" type="Texture" id=10]
+[ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=3]
+[ext_resource path="res://games/celda_escape/rooms/sotano/camas.png" type="Texture" id=4]
+[ext_resource path="res://games/celda_escape/rooms/sotano/background.jpg" type="Texture" id=5]
+[ext_resource path="res://games/celda_escape/rooms/sotano/rejas.png" type="Texture" id=6]
+[ext_resource path="res://games/celda_escape/rooms/sotano/walls.png" type="Texture" id=7]
+[ext_resource path="res://games/celda_escape/rooms/sotano/Front.png" type="Texture" id=8]
+[ext_resource path="res://games/celda_escape/rooms/sotano/balde.png" type="Texture" id=9]
+[ext_resource path="res://games/celda_escape/rooms/sotano/bombadeagua.png" type="Texture" id=10]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1300.79, 759.644, 1530.69, 761.271, 659.376, 860.546, 668.697, 839.037, 1120.62, 759.644, 1816.89, 1039.53, 58.8726, 1040.51, 635.716, 880.263, 1368.53, 680.732, 1307.08, 610.425, 1411.34, 612.054, 1499.82, 714.951, 978.856, 677.24, 1282.63, 715.649, 1115.73, 712.157, 977.739, 713.091, 653.999, 805.698, 552.586, 754.416, 608.829, 793.867, 542.65, 754.165, 550.396, 793.15, 524.378, 779.984, 516.698, 805.698, 505.709, 796.27, 503.434, 824.339, 384.369, 790.523, 511.321, 860.905, 538.924, 879.188 )
@@ -17,12 +17,12 @@ polygons = [ PoolIntArray( 0, 1, 2, 3, 4 ), PoolIntArray( 1, 5, 6, 7 ), PoolIntA
 outlines = [ PoolVector2Array( 1530.69, 761.271, 1300.79, 759.644, 1282.63, 715.649, 1499.82, 714.951, 1411.34, 612.054, 1307.08, 610.425, 1368.53, 680.732, 978.856, 677.24, 977.739, 713.091, 1115.73, 712.157, 1120.62, 759.644, 552.586, 754.416, 542.65, 754.165, 524.378, 779.984, 505.709, 796.27, 384.369, 790.523, 58.8726, 1040.51, 1816.89, 1039.53 ), PoolVector2Array( 550.396, 793.15, 516.698, 805.698, 503.434, 824.339, 511.321, 860.905, 538.924, 879.188, 635.716, 880.263, 659.376, 860.546, 668.697, 839.037, 653.999, 805.698, 608.829, 793.867 ) ]
 
 [node name="room" type="Node"]
-script = ExtResource( 3 )
+script = ExtResource( 1 )
 
 [node name="sprites" type="Node" parent="."]
 
-[node name="background" type="Sprite" parent="sprites"]
-texture = ExtResource( 1 )
+[node name="fondo" type="Sprite" parent="sprites"]
+texture = ExtResource( 5 )
 centered = false
 
 [node name="bomba" type="Sprite" parent="sprites"]
@@ -30,106 +30,112 @@ z_index = 721
 texture = ExtResource( 10 )
 centered = false
 
-[node name="beds" type="Sprite" parent="sprites"]
+[node name="camas" type="Sprite" parent="sprites"]
 z_index = 670
-texture = ExtResource( 7 )
+texture = ExtResource( 4 )
 centered = false
 
-[node name="Front" type="Sprite" parent="sprites"]
+[node name="frente" type="Sprite" parent="sprites"]
 z_index = 4000
-texture = ExtResource( 6 )
+texture = ExtResource( 8 )
 centered = false
 
-[node name="Gate" type="Sprite" parent="sprites"]
+[node name="marcos" type="Sprite" parent="sprites"]
 z_index = 920
-texture = ExtResource( 5 )
+texture = ExtResource( 7 )
 centered = false
 
 [node name="rejas" type="Sprite" parent="sprites"]
 z_index = 720
-texture = ExtResource( 4 )
+texture = ExtResource( 6 )
 centered = false
 
-[node name="positions" type="Node" parent="."]
+[node name="posicion" type="Node" parent="."]
 
-[node name="from_cage" type="Node2D" parent="positions"]
+[node name="de_jaula" type="Node2D" parent="posicion"]
 position = Vector2( 336.815, 843.888 )
-script = ExtResource( 8 )
+script = ExtResource( 3 )
 
-[node name="from_lab" type="Node2D" parent="positions"]
+[node name="de_laboratorio" type="Node2D" parent="posicion"]
 position = Vector2( 1647.06, 873.498 )
 rotation = 3.14159
-script = ExtResource( 8 )
+script = ExtResource( 3 )
 
 [node name="items" type="Node" parent="."]
 
-[node name="to_cage" type="Node2D" parent="items"]
+[node name="a_jaula" type="Node2D" parent="items"]
 position = Vector2( 201.748, 585.948 )
 z_index = 585
 script = ExtResource( 2 )
-key = "cellar/to_cage"
+key = "sotano_a_jaula"
 size = Vector2( 350, 750 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/to_cage"]
+[node name="positioning" type="Node2D" parent="items/a_jaula"]
 position = Vector2( -9.25317, 161.005 )
 rotation = 4.02473
-script = ExtResource( 8 )
+script = ExtResource( 3 )
 
-[node name="to_lab" type="Node2D" parent="items"]
+[node name="a_laboratorio" type="Node2D" parent="items"]
 position = Vector2( 1740.19, 586.587 )
 z_index = 586
 script = ExtResource( 2 )
-key = "cellar/to_lab"
+key = "sotano_a_laboratorio"
 size = Vector2( 350, 750 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/to_lab"]
+[node name="positioning" type="Node2D" parent="items/a_laboratorio"]
 position = Vector2( -99.9727, 284.27 )
 rotation = -0.195477
-script = ExtResource( 8 )
+script = ExtResource( 3 )
 
-[node name="bucket" type="Node2D" parent="items"]
+[node name="balde" type="Node2D" parent="items"]
 position = Vector2( 578.31, 814 )
 z_index = 814
 script = ExtResource( 2 )
-key = "cellar/bucket"
+key = "balde"
 size = Vector2( 120, 125 )
 offset = Vector2( 0, -6 )
+color = Color( 1, 1, 1, 1 )
 
-[node name="sprite" type="Sprite" parent="items/bucket"]
+[node name="sprite" type="Sprite" parent="items/balde"]
 position = Vector2( 381.074, -274.334 )
 texture = ExtResource( 9 )
 
-[node name="positioning" type="Node2D" parent="items/bucket"]
+[node name="positioning" type="Node2D" parent="items/balde"]
 position = Vector2( 86.4393, 37.9429 )
 rotation = 3.55873
-scale = Vector2( 1, 1 )
-script = ExtResource( 8 )
+script = ExtResource( 3 )
 
-[node name="pump" type="Node2D" parent="items"]
+[node name="bomba" type="Node2D" parent="items"]
 position = Vector2( 448.503, 554.046 )
 z_index = 554
 script = ExtResource( 2 )
-key = "cellar/pump"
+key = "bomba"
 size = Vector2( 130, 450 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/pump"]
+[node name="positioning" type="Node2D" parent="items/bomba"]
 position = Vector2( 86.4714, 218.057 )
 rotation = 3.41386
-scale = Vector2( 1, 1 )
-script = ExtResource( 8 )
+script = ExtResource( 3 )
 
 [node name="doc" type="Node2D" parent="items"]
 position = Vector2( 1174.81, 519.152 )
 z_index = 519
 script = ExtResource( 2 )
-key = "cellar/doc"
+key = "doc"
 size = Vector2( 250, 250 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
 [node name="positioning" type="Node2D" parent="items/doc"]
 position = Vector2( 168.496, 163.024 )
 rotation = 3.70184
-scale = Vector2( 1, 1 )
-script = ExtResource( 8 )
+script = ExtResource( 3 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 

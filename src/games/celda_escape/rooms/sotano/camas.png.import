@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/balde.png-7a1041d045c91f816c0b6e2134f53c9b.stex"
+path="res://.import/camas.png-c6be36716c5e87687038e717217bc22c.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/cellar/images/balde.png"
-dest_files=[ "res://.import/balde.png-7a1041d045c91f816c0b6e2134f53c9b.stex" ]
+source_file="res://games/celda_escape/rooms/sotano/camas.png"
+dest_files=[ "res://.import/camas.png-c6be36716c5e87687038e717217bc22c.stex" ]
 
 [params]
 

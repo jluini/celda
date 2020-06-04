@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Front.png-70d740dea6e17f32bd3fb717c58e6e66.stex"
+path="res://.import/Front.png-c483be90523a12587b942afb2ce6eb43.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/cellar/images/Front.png"
-dest_files=[ "res://.import/Front.png-70d740dea6e17f32bd3fb717c58e6e66.stex" ]
+source_file="res://games/celda_escape/rooms/sotano/Front.png"
+dest_files=[ "res://.import/Front.png-c483be90523a12587b942afb2ce6eb43.stex" ]
 
 [params]
 

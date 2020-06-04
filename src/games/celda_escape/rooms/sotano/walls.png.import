@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/rejas.png-934bc55a0545dc31c59d65779a4258c7.stex"
+path="res://.import/walls.png-3210d4376741f20a36bd4d089f4fec61.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/cellar/images/rejas.png"
-dest_files=[ "res://.import/rejas.png-934bc55a0545dc31c59d65779a4258c7.stex" ]
+source_file="res://games/celda_escape/rooms/sotano/walls.png"
+dest_files=[ "res://.import/walls.png-3210d4376741f20a36bd4d089f4fec61.stex" ]
 
 [params]
 

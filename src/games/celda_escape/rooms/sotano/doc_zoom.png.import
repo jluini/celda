@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/bombadeagua.png-c0852214f258dc321f1d89a7345d6960.stex"
+path="res://.import/doc_zoom.png-096c6e492c32edb577432974f671f18b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/cellar/images/bombadeagua.png"
-dest_files=[ "res://.import/bombadeagua.png-c0852214f258dc321f1d89a7345d6960.stex" ]
+source_file="res://games/celda_escape/rooms/sotano/doc_zoom.png"
+dest_files=[ "res://.import/doc_zoom.png-096c6e492c32edb577432974f671f18b.stex" ]
 
 [params]
 

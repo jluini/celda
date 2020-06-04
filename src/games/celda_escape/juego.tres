@@ -1,18 +1,18 @@
 [gd_resource type="Resource" load_steps=15 format=2]
 
 [ext_resource path="res://games/celda_escape/items/inventario.tscn" type="PackedScene" id=1]
-[ext_resource path="res://games/celda_escape/rooms/living/picture.tscn" type="PackedScene" id=2]
+[ext_resource path="res://games/celda_escape/rooms/living/cuadro.tscn" type="PackedScene" id=2]
 [ext_resource path="res://games/celda_escape/rooms/lab/lab.tscn" type="PackedScene" id=3]
 [ext_resource path="res://games/celda_escape/actors/shabon/shabon.tscn" type="PackedScene" id=4]
 [ext_resource path="res://games/celda_escape/rooms/oficina/oficina.tscn" type="PackedScene" id=5]
 [ext_resource path="res://games/celda_escape/rooms/jaula/jaula_abierta.tscn" type="PackedScene" id=6]
 [ext_resource path="res://games/celda_escape/rooms/living/living.tscn" type="PackedScene" id=7]
 [ext_resource path="res://games/celda_escape/rooms/jaula/jaula.tscn" type="PackedScene" id=8]
-[ext_resource path="res://games/celda_escape/rooms/cellar/doc.tscn" type="PackedScene" id=9]
-[ext_resource path="res://games/celda_escape/rooms/cellar/lab_door.tscn" type="PackedScene" id=10]
+[ext_resource path="res://games/celda_escape/rooms/sotano/doc.tscn" type="PackedScene" id=9]
+[ext_resource path="res://games/celda_escape/rooms/sotano/puerta_laboratorio.tscn" type="PackedScene" id=10]
 [ext_resource path="res://games/celda_escape/rooms/lab/desk.tscn" type="PackedScene" id=11]
 [ext_resource path="res://games/celda_escape/rooms/lab/guy.tscn" type="PackedScene" id=12]
-[ext_resource path="res://games/celda_escape/rooms/cellar/cellar.tscn" type="PackedScene" id=13]
+[ext_resource path="res://games/celda_escape/rooms/sotano/sotano.tscn" type="PackedScene" id=13]
 [ext_resource path="res://tools/grog/core/simple_game_script.gd" type="Script" id=14]
 
 
@@ -20,17 +20,17 @@
 [resource]
 script = ExtResource( 14 )
 rooms = {
-"cellar": ExtResource( 13 ),
-"desk": ExtResource( 11 ),
+"cuadro": ExtResource( 2 ),
 "doc": ExtResource( 9 ),
-"guy": ExtResource( 12 ),
+"escritorio": ExtResource( 11 ),
+"hombre_flotante": ExtResource( 12 ),
 "jaula": ExtResource( 8 ),
 "jaula_abierta": ExtResource( 6 ),
-"lab": ExtResource( 3 ),
-"lab_door": ExtResource( 10 ),
+"laboratorio": ExtResource( 3 ),
 "living": ExtResource( 7 ),
-"office": ExtResource( 5 ),
-"picture": ExtResource( 2 )
+"oficina": ExtResource( 5 ),
+"puerta_laboratorio": ExtResource( 10 ),
+"sotano": ExtResource( 13 )
 }
 player = ExtResource( 4 )
 inventory_items_scene = ExtResource( 1 )
