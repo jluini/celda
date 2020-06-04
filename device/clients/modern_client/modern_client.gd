@@ -6,7 +6,7 @@ onready var _curtain = $ui/curtain_animation
 onready var _inventory_base = $ui/inventory_base
 onready var _inventory = $ui/inventory_base/inventory
 
-onready var _text: Label = $ui/text
+onready var _speech_label: Label = $ui/speech
 
 onready var _tabs = $ui/menu/tab_container/tabs
 onready var _game_list = $ui/menu/tab_container/tabs/game_list/v_box_container
@@ -56,6 +56,8 @@ func _on_init():
 	
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 	
+	_speech_label.hide()
+	
 	_side_menu.connect("completed", self, "_on_menu_completed")
 	
 	_modular.broadcast("music", "start", ["menu"])
@@ -93,7 +95,7 @@ func _start():
 	if _room_parent.get_child_count() > 0:
 		make_empty(_room_parent)
 	
-	_text.text = ""
+	_speech_label.hide() # just in case
 	_curtain.play("closed") # just in case
 	
 	_client_state = ClientState.Starting
@@ -129,8 +131,16 @@ func _on_item_disabled(item):
 func _on_server_say(subject: Node, speech: String, _duration: float, _skippable: bool):
 	var color = subject.get_color() if subject else game_instance.get_default_color()
 	
-	_text.text = speech
-	_text.modulate = color
+	_speech_label.text = speech
+	
+	# shrinks the height as much as possible
+	call_deferred("_shrink_speech")
+	
+	_speech_label.modulate = color
+	_speech_label.show()
+
+func _shrink_speech():
+	_speech_label.rect_size.y = 0
 
 func _on_server_item_added(item: Object):
 	_inventory.add_item(item)
@@ -468,7 +478,8 @@ func _try_to_skip() -> bool:
 	
 	if skip_accepted:
 		# TODO check text clearing
-		_text.text = ""
+		_speech_label.hide()
+		
 		_select_item(null)
 	else:
 		_log_warning("skip request ignored")

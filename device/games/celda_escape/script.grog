@@ -20,7 +20,8 @@ main:
 			if $stage = 0:
 				
 				# ... intro goes here
-			
+				.say INTRO
+				
 			else:
 				
 				inv_book.add

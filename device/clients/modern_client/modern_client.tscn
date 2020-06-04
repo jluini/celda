@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
@@ -10,8 +10,10 @@
 [ext_resource path="res://tools/modular/console_font.tres" type="DynamicFont" id=8]
 [ext_resource path="res://music/sources/new_game.ogg" type="AudioStream" id=9]
 [ext_resource path="res://clients/modern_client/selector.gd" type="Script" id=10]
+[ext_resource path="res://tools/theming/themed_label.gd" type="Script" id=11]
 [ext_resource path="res://clients/modern_client/saved/game_entry.tscn" type="PackedScene" id=12]
 [ext_resource path="res://clients/modern_client/inventory.gd" type="Script" id=13]
+[ext_resource path="res://clients/modern_client/images/speech_stylebox.tres" type="StyleBox" id=14]
 [ext_resource path="res://clients/modern_client/inventory_item.tscn" type="PackedScene" id=15]
 [ext_resource path="res://tools/ui_tools/slider.gd" type="Script" id=17]
 [ext_resource path="res://clients/modern_client/tabs.gd" type="Script" id=19]
@@ -235,14 +237,19 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="text" type="Label" parent="ui"]
+[node name="speech" type="Label" parent="ui"]
 anchor_right = 1.0
-margin_bottom = 72.0
+margin_left = 100.0
+margin_right = -99.9999
+margin_bottom = 44.0
+custom_styles/normal = ExtResource( 14 )
 align = 1
-valign = 1
+autowrap = true
+script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+label_type = "Speech"
 
 [node name="curtain_animation" type="AnimationPlayer" parent="ui"]
 anims/closed = SubResource( 1 )
@@ -300,7 +307,6 @@ anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource( 4 )
 text = "Celda"
-color = Color( 1, 1, 1, 1 )
 label_type = "big"
 
 [node name="game_list" type="Control" parent="ui/menu/tab_container/tabs"]

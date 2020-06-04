@@ -1,4 +1,5 @@
 id;en;es
+INTRO;Benjamín pidió una bebida de kiwi y fresa. Noé, sin vergüenza, la más exquisita champaña del menú.;Benjamín pidió una bebida de kiwi y fresa. Noé, sin vergüenza, la más exquisita champaña del menú.
 ACTION_WALK_TO;go;ir
 ACTION_LOOK;look;mirar
 ACTION_USE;use;usar
@@ -94,7 +95,7 @@ ITEM_CELLAR/BUCKET;bucket;balde
 LOOK_BUCKET;It's just a bucket.;Es un simple balde.
 USE_X_WITH_BUCKET;Why would I put this in the bucket?;¿Para qué metería esto en el balde?
 ITEM_CELLAR/PUMP;water pump;bomba de agua
-LOOK_PUMP;A rusty pump. It has not been used for a very long time.;Una bomba oxidada. No se usa hace muchísimo tiempo.
+LOOK_PUMP;A rusty pump. It has not been used for a very long time.;Benjamín pidió una bebida de kiwi y fresa. Noé, sin vergüenza, la más exquisita champaña del menú. Una bomba oxidada. No se usa hace muchísimo tiempo.
 USE_KEY_WITH_PUMP;I suspect that's not how it works.;Sospecho que no es así como funciona.
 USE_FLASK_WITH_PUMP;Of course not.;Desde luego que no.
 ITEM_CELLAR/DOC;doc?;doc?
