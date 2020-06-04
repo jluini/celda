@@ -4,7 +4,7 @@
 [ext_resource path="res://games/celda_escape/rooms/living/picture.tscn" type="PackedScene" id=2]
 [ext_resource path="res://games/celda_escape/rooms/lab/lab.tscn" type="PackedScene" id=3]
 [ext_resource path="res://games/celda_escape/actors/shabon/shabon.tscn" type="PackedScene" id=4]
-[ext_resource path="res://games/celda_escape/rooms/office/office.tscn" type="PackedScene" id=5]
+[ext_resource path="res://games/celda_escape/rooms/oficina/oficina.tscn" type="PackedScene" id=5]
 [ext_resource path="res://games/celda_escape/rooms/jaula/jaula_abierta.tscn" type="PackedScene" id=6]
 [ext_resource path="res://games/celda_escape/rooms/living/living.tscn" type="PackedScene" id=7]
 [ext_resource path="res://games/celda_escape/rooms/jaula/jaula.tscn" type="PackedScene" id=8]
@@ -14,6 +14,8 @@
 [ext_resource path="res://games/celda_escape/rooms/lab/guy.tscn" type="PackedScene" id=12]
 [ext_resource path="res://games/celda_escape/rooms/cellar/cellar.tscn" type="PackedScene" id=13]
 [ext_resource path="res://tools/grog/core/simple_game_script.gd" type="Script" id=14]
+
+
 
 [resource]
 script = ExtResource( 14 )

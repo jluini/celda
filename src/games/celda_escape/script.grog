@@ -6,7 +6,7 @@ main:
 		.set key1_was_taken=false
 		.set cobble_already_fell=false
 		.set jaula_esta_abierta=false
-		.set office_is_known=false
+		.set oficina_fue_descubierta=false
 		
 		jaula_a_oficina.disable
 		adoquin.disable
@@ -38,9 +38,9 @@ main:
 			palo.disable
 			inv_palo.add
 			
-			# office stage
+			# etapa oficina
 			if $stage = 2:
-				.load_room office at=positions/from_cage
+				.load_room office at=posicion/de_jaula
 				.set music=office
 				.curtain_up
 			
@@ -210,10 +210,10 @@ adoquin:
 
 jaula_a_oficina:
 	walk_to:
-		.load_room office at=positions/from_cage
+		.load_room office at=posicion/de_jaula
 		
-		if not $office_is_known:
-			.set office_is_known=true
+		if not $oficina_fue_descubierta:
+			.set oficina_fue_descubierta=true
 			.set music=office
 			#.curtain_up
 			you.say "Mirá vo el cacho de oficina" # TODO
@@ -296,9 +296,9 @@ jaula_a_sotano:
 		# keep music 'uajari'
 		#.curtain_up
 
-# Office items
+# Items oficina
 
-office/armour:
+armadura:
 	look:
 		you.say LOOK_ARMOUR
 	
@@ -314,7 +314,7 @@ office/armour:
 	use_with(*):
 		you.say INVALID_COMBINATION
 
-office/bust:
+busto:
 	look:
 		you.say LOOK_BUST
 	
@@ -333,7 +333,7 @@ office/bust:
 	use_with(*):
 		you.say INVALID_COMBINATION
 
-office/desk:
+escritorio_oficina:
 	look:
 		you.say LOOK_OFFICE_DESK
 	
@@ -352,7 +352,7 @@ office/desk:
 	use_with(*):
 		you.say INVALID_COMBINATION
 
-office/chair:
+silla_oficina:
 	look:
 		you.say LOOK_OFFICE_CHAIR
 	
@@ -368,18 +368,18 @@ office/chair:
 	use_with(*):
 		you.say INVALID_COMBINATION
 
-office/to_cage:
+oficina_a_jaula:
 	walk_to:
 		if not $jaula_esta_abierta:
 			.load_room jaula at=posicion/de_oficina
 			# keep music 'office'
 			#.curtain_up
 		else:
-			.load_room jaula_abierta at=positions/from_office
+			.load_room jaula_abierta at=posicion/de_oficina
 			# keep music 'office'
 			#.curtain_up
 
-office/to_living:
+oficina_a_living:
 	walk_to:
 		.load_room living at=positions/from_office
 		# keep music 'office'
@@ -389,7 +389,7 @@ office/to_living:
 
 living/to_office:
 	walk_to:
-		.load_room office at=positions/from_living
+		.load_room office at=posicion/de_living
 		# keep music 'office'
 		#.curtain_up
 

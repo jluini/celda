@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/front.png-f3e5252f4839bcec048db939f2fe2562.stex"
+path="res://.import/busto.png-1523b04dfd6945384335547e0fa5eb34.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/office/images/front.png"
-dest_files=[ "res://.import/front.png-f3e5252f4839bcec048db939f2fe2562.stex" ]
+source_file="res://games/celda_escape/rooms/oficina/images/busto.png"
+dest_files=[ "res://.import/busto.png-1523b04dfd6945384335547e0fa5eb34.stex" ]
 
 [params]
 
