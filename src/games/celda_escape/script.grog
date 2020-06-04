@@ -3,7 +3,7 @@
 main:
 	init:
 		
-		.set key1_was_taken=false
+		.set llave1_fue_agarrada=false
 		.set cobble_already_fell=false
 		.set jaula_esta_abierta=false
 		.set oficina_fue_descubierta=false
@@ -44,26 +44,26 @@ main:
 				.set music=office
 				.curtain_up
 			
-			# living stage
+			# Etapa living
 			elif $stage = 3:
-				.load_room living at=positions/from_office
+				.load_room living at=posicion/de_oficina
 				.set music=office
 				.curtain_up
 			
 			else:
-				.set key1_was_taken=true
+				.set llave1_fue_agarrada=true
 				inv_llave1.add
-				living/small_box.play open
+				cajita.play open
 				
 				# TODO otras modificaciones
 				
-				# etapa jaula abierta
+				# Etapa jaula abierta
 				if $stage = 4:
 					.load_room jaula_abierta at=posicion/de_oficina
 					.set music=uajari
 					.curtain_up
 				
-				# cellar stage
+				# Etapa sótano
 				elif $stage = 5:
 					.load_room cellar at=positions/from_cage
 					.set music=lab
@@ -265,7 +265,7 @@ reja:
 		else:
 			you.say FOR_WHAT
 
-jaula_puerta:
+puerta_jaula:
 	look:
 		if not $jaula_esta_abierta:
 			you.say CANT_REACH_DOOR
@@ -381,19 +381,19 @@ oficina_a_jaula:
 
 oficina_a_living:
 	walk_to:
-		.load_room living at=positions/from_office
+		.load_room living at=posicion/de_oficina
 		# keep music 'office'
 		#.curtain_up
 
-# Living items
+# Items living
 
-living/to_office:
+living_a_oficina:
 	walk_to:
 		.load_room office at=posicion/de_living
 		# keep music 'office'
 		#.curtain_up
 
-living/furniture:
+mueble:
 	look:
 		you.say LOOK_FURNITURE
 	
@@ -409,7 +409,7 @@ living/furniture:
 	use_with(*):
 		you.say INVALID_COMBINATION
 
-living/mirror:
+espejo:
 	look:
 		you.say LOOK_MIRROR
 	
@@ -422,7 +422,7 @@ living/mirror:
 	use_with(*):
 		you.say INVALID_COMBINATION
 
-living/bear:
+oso:
 	look:
 		you.say LOOK_BEAR
 	
@@ -444,7 +444,7 @@ living/bear:
 	use_with(*):
 		you.say INVALID_COMBINATION
 
-living/window:
+ventana_living:
 	look:
 		you.say LOOK_LIVING_WINDOW
 	
@@ -457,7 +457,7 @@ living/window:
 	use_with(*):
 		you.say INVALID_COMBINATION # TODO "No se abre así." ?
 
-living/door:
+puerta_living:
 	look:
 		you.say LOOK_LIVING_DOOR1
 		you.say LOOK_LIVING_DOOR2
@@ -478,29 +478,28 @@ living/door:
 	use_with(*):
 		you.say USE_X_WITH_LIVING_DOOR
 
-living/strongbox:
+caja_fuerte:
 	look:
 		you.say LOOK_STRONGBOX
 	
 	hand:
 		you.say "TODO"
-	
 
-living/small_box:
+cajita:
 	look:
 		you.say LOOK_SMALL_BOX1
 	
 	hand:
 		if $inv_llave1 = 0:
-			if not $key1_was_taken:
+			if not $llave1_fue_agarrada:
 				you.say LOOK_SMALL_BOX2
 			else:
 				you.say LOOK_SMALL_BOX_AGAIN
 			inv_llave1.add
 			self.play open
-			if not $key1_was_taken:
+			if not $llave1_fue_agarrada:
 				you.say LOOK_SMALL_BOX3
-				.set key1_was_taken=true
+				.set llave1_fue_agarrada=true
 		else:
 			you.say LOOK_SMALL_BOX_OPENED
 	
@@ -515,14 +514,14 @@ living/small_box:
 	use_with(*):
 		you.say SAVE_X_IN_BOX # OJO esto implica que cualquier objeto pequeño debe tener otra rutina
 
-living/candelabrum:
+candelabro:
 	look:
 		you.say LOOK_CANDELABRUM
 	
 	hand:
 		you.say "TODO"
 
-living/picture:
+cuadro:
 	look:
 		#you.say LOOK_PICTURE
 		.load_room picture
@@ -533,7 +532,7 @@ living/picture:
 
 picture/to_living:
 	walk_to:
-		.load_room living at=living/picture
+		.load_room living at=cuadro
 		#.curtain_up
 
 # Cellar items

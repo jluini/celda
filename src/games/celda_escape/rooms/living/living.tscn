@@ -56,7 +56,7 @@ script = ExtResource( 4 )
 
 [node name="sprites" type="Node" parent="."]
 
-[node name="background" type="Sprite" parent="sprites"]
+[node name="fondo" type="Sprite" parent="sprites"]
 texture = ExtResource( 2 )
 centered = false
 
@@ -69,28 +69,28 @@ centered = false
 texture = ExtResource( 7 )
 centered = false
 
-[node name="front" type="Sprite" parent="sprites"]
+[node name="frente" type="Sprite" parent="sprites"]
 z_index = 4096
 texture = ExtResource( 5 )
 centered = false
 
-[node name="strongbox" type="Sprite" parent="sprites"]
+[node name="caja_fuerte" type="Sprite" parent="sprites"]
 texture = ExtResource( 10 )
 centered = false
 
-[node name="candelabrum" type="Sprite" parent="sprites"]
+[node name="candelabro" type="Sprite" parent="sprites"]
 texture = ExtResource( 9 )
 centered = false
 
-[node name="window1" type="Sprite" parent="sprites"]
+[node name="ventana1" type="Sprite" parent="sprites"]
 texture = ExtResource( 15 )
 centered = false
 
-[node name="window2" type="Sprite" parent="sprites"]
+[node name="ventana2" type="Sprite" parent="sprites"]
 texture = ExtResource( 14 )
 centered = false
 
-[node name="window3" type="Sprite" parent="sprites"]
+[node name="ventana3" type="Sprite" parent="sprites"]
 texture = ExtResource( 13 )
 centered = false
 
@@ -98,141 +98,159 @@ centered = false
 texture = ExtResource( 6 )
 centered = false
 
-[node name="positions" type="Node" parent="."]
+[node name="posicion" type="Node" parent="."]
 
-[node name="from_office" type="Node2D" parent="positions"]
+[node name="de_oficina" type="Node2D" parent="posicion"]
 position = Vector2( 136.361, 915.565 )
 script = ExtResource( 8 )
 
 [node name="items" type="Node" parent="."]
 
-[node name="picture" type="Node2D" parent="items"]
+[node name="cuadro" type="Node2D" parent="items"]
 position = Vector2( 1139.77, 236 )
 z_index = 236
 script = ExtResource( 1 )
-key = "living/picture"
+key = "cuadro"
 size = Vector2( 125, 170 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/picture"]
+[node name="positioning" type="Node2D" parent="items/cuadro"]
 position = Vector2( 94.0897, 436.111 )
 rotation = -1.83958
 script = ExtResource( 8 )
 
-[node name="small_box" type="Node2D" parent="items"]
+[node name="cajita" type="Node2D" parent="items"]
 position = Vector2( 767.361, 491.854 )
 z_index = 491
 script = ExtResource( 1 )
-key = "living/small_box"
+key = "cajita"
 size = Vector2( 100, 55 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/small_box"]
+[node name="positioning" type="Node2D" parent="items/cajita"]
 position = Vector2( -74.7827, 247.896 )
 rotation = 5.16268
 script = ExtResource( 8 )
 
-[node name="sprite" type="Sprite" parent="items/small_box"]
+[node name="sprite" type="Sprite" parent="items/cajita"]
 position = Vector2( -767.361, -491.854 )
 texture = ExtResource( 11 )
 centered = false
 
-[node name="animation" type="AnimationPlayer" parent="items/small_box"]
+[node name="animation" type="AnimationPlayer" parent="items/cajita"]
 anims/default = SubResource( 1 )
 anims/open = SubResource( 2 )
 
-[node name="candelabrum" type="Node2D" parent="items"]
+[node name="candelabro" type="Node2D" parent="items"]
 position = Vector2( 915.966, 605.298 )
 z_index = 605
 script = ExtResource( 1 )
-key = "living/candelabrum"
+key = "candelabro"
 size = Vector2( 100, 140 )
 offset = Vector2( -3, -155 )
+color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/candelabrum"]
+[node name="positioning" type="Node2D" parent="items/candelabro"]
 position = Vector2( -50, 133.222 )
 rotation = 4.72984
 script = ExtResource( 8 )
 
-[node name="furniture" type="Node2D" parent="items"]
+[node name="mueble" type="Node2D" parent="items"]
 position = Vector2( 915.966, 620 )
 z_index = 620
 script = ExtResource( 1 )
-key = "living/furniture"
+key = "mueble"
 size = Vector2( 500, 200 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/furniture"]
+[node name="positioning" type="Node2D" parent="items/mueble"]
 position = Vector2( 0.185, 118 )
 rotation = 4.72984
 script = ExtResource( 8 )
 
-[node name="mirror" type="Node2D" parent="items"]
+[node name="espejo" type="Node2D" parent="items"]
 position = Vector2( 915.966, 605.298 )
 z_index = 605
 script = ExtResource( 1 )
-key = "living/mirror"
+key = "espejo"
 size = Vector2( 330, 200 )
 offset = Vector2( 0, -225 )
+color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/mirror"]
+[node name="positioning" type="Node2D" parent="items/espejo"]
 position = Vector2( 0.185181, 133.222 )
 rotation = 4.72984
 script = ExtResource( 8 )
 
-[node name="strongbox" type="Node2D" parent="items"]
+[node name="caja_fuerte" type="Node2D" parent="items"]
 position = Vector2( 1713.67, 660.274 )
 z_index = 660
 script = ExtResource( 1 )
-key = "living/strongbox"
+key = "caja_fuerte"
 size = Vector2( 240, 400 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/strongbox"]
+[node name="positioning" type="Node2D" parent="items/caja_fuerte"]
 position = Vector2( -140.936, 164.169 )
 rotation = -0.486947
 script = ExtResource( 8 )
 
-[node name="bear" type="Node2D" parent="items"]
+[node name="oso" type="Node2D" parent="items"]
 position = Vector2( 548.015, 448.896 )
 z_index = 448
 script = ExtResource( 1 )
-key = "living/bear"
+key = "oso"
 size = Vector2( 235, 560 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/bear"]
+[node name="positioning" type="Node2D" parent="items/oso"]
 position = Vector2( 72.7185, 291.886 )
 rotation = 4.2778
 script = ExtResource( 8 )
 
-[node name="window" type="Node2D" parent="items"]
+[node name="ventana" type="Node2D" parent="items"]
 position = Vector2( 380.785, 342.277 )
 z_index = 342
 script = ExtResource( 1 )
-key = "living/window"
+key = "ventana_living"
 size = Vector2( 235, 440 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/window"]
+[node name="positioning" type="Node2D" parent="items/ventana"]
 position = Vector2( 66.2188, 400.063 )
 rotation = 4.2778
 script = ExtResource( 8 )
 
-[node name="door" type="Node2D" parent="items"]
+[node name="puerta" type="Node2D" parent="items"]
 position = Vector2( 1398.53, 424.889 )
 z_index = 424
 script = ExtResource( 1 )
-key = "living/door"
+key = "puerta_living"
 size = Vector2( 195, 420 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/door"]
+[node name="positioning" type="Node2D" parent="items/puerta"]
 position = Vector2( -2.83, 246.277 )
 rotation = 4.72984
 script = ExtResource( 8 )
 
-[node name="to_office" type="Node2D" parent="items"]
+[node name="a_oficina" type="Node2D" parent="items"]
 position = Vector2( 136.578, 929.356 )
 z_index = 929
 script = ExtResource( 1 )
-key = "living/to_office"
+key = "living_a_oficina"
 size = Vector2( 300, 300 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/to_office"]
+[node name="positioning" type="Node2D" parent="items/a_oficina"]
 position = Vector2( -126.835, -15.7385 )
 rotation = -3.14159
 script = ExtResource( 8 )
