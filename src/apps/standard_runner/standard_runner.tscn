@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://games/celda_escape/music_set.tres" type="Resource" id=1]
-[ext_resource path="res://games/celda_escape/celda_script.tres" type="Resource" id=2]
+[ext_resource path="res://games/celda_escape/juego.tres" type="Resource" id=2]
 [ext_resource path="res://themes/subtlety/subtlety.tres" type="Theme" id=3]
 [ext_resource path="res://themes/mortified/mortified.tres" type="Theme" id=4]
 [ext_resource path="res://clients/modern_client/modern_client.tscn" type="PackedScene" id=5]
@@ -12,6 +12,7 @@
 [ext_resource path="res://themes/handy_george/handy_george.tres" type="Theme" id=11]
 [ext_resource path="res://themes/pixel/pixel.tres" type="Theme" id=12]
 [ext_resource path="res://themes/pointfree/pointfree.tres" type="Theme" id=13]
+
 
 [node name="standard_runner" instance=ExtResource( 8 )]
 pause_mode = 2
