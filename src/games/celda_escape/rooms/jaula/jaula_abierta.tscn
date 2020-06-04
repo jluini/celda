@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://games/celda_escape/rooms/jaula/jaula.tscn" type="PackedScene" id=1]
-[ext_resource path="res://games/celda_escape/rooms/jaula/images/grid_open.png" type="Texture" id=2]
+[ext_resource path="res://games/celda_escape/rooms/jaula/reja_abierta.png" type="Texture" id=2]
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=3]
 [ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=4]
-[ext_resource path="res://games/celda_escape/rooms/jaula/images/grid_open_back.png" type="Texture" id=5]
+[ext_resource path="res://games/celda_escape/rooms/jaula/reja_trasera.png" type="Texture" id=5]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1658.13, 789.104, 1770.79, 877.876, 1683.98, 879.568, 1192.53, 812.181, 1154.39, 743.678, 1279.48, 745.164, 212.579, 875.382, 16.2492, 871.357, 40.0994, 778.606, 306.611, 802.842, 869.345, 1060.18, 51.6174, 1057.93, 52.6107, 998.786, 391.377, 738.504, 935.521, 903.248, 1055.3, 745.298, 1079.89, 811.299, 1115.01, 871.125, 1222.88, 871.125, 1859.74, 951.94, 1899.8, 990.71, 1899.14, 1062.89, 1328.37, 1061.36, 1704.66, 949.355, 1671.06, 917.047, 1336.34, 791.689 )

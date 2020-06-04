@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/bed.png-a2aaa73915ff834aa0a672cd7bde5c7f.stex"
+path="res://.import/reja_cerrada.png-fa929cbdaf05c7bd3c380ee237b0b4e5.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/jaula/images/bed.png"
-dest_files=[ "res://.import/bed.png-a2aaa73915ff834aa0a672cd7bde5c7f.stex" ]
+source_file="res://games/celda_escape/rooms/jaula/reja_cerrada.png"
+dest_files=[ "res://.import/reja_cerrada.png-fa929cbdaf05c7bd3c380ee237b0b4e5.stex" ]
 
 [params]
 

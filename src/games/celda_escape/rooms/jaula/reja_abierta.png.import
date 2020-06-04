@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/adoquin.png-967182f953f67c26ad77b033e6f3abd4.stex"
+path="res://.import/reja_abierta.png-9e17439f94b898f38a74126e44a5004d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/jaula/images/adoquin.png"
-dest_files=[ "res://.import/adoquin.png-967182f953f67c26ad77b033e6f3abd4.stex" ]
+source_file="res://games/celda_escape/rooms/jaula/reja_abierta.png"
+dest_files=[ "res://.import/reja_abierta.png-9e17439f94b898f38a74126e44a5004d.stex" ]
 
 [params]
 
