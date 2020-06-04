@@ -18,6 +18,8 @@ onready var _back_button = $ui/menu/back_button
 onready var _item_selector = $ui/selector
 onready var _action_list = $ui/action_list
 
+onready var _item_bubbles = $ui/item_actions
+
 enum ClientState {
 	# no game yet (menu is open)
 	NoGame,
@@ -284,17 +286,29 @@ func _menu_click(position: Vector2) -> void:
 			_log_warning("unknown button '%s' clicked" % clicked_button.name)
 
 func _ready_click(position: Vector2) -> void:
-	# check action click first
-	if _selected_item and not _selected_as_tool:
-		var clicked_action : String = _action_list.get_item_action_at(position)
-		
-		if clicked_action:
-			if not game_instance.interact_request(_get_selected_item(), clicked_action):
-				_log_warning("interaction ignored (scene item)")
+	if _selected_item:
+		if _selected_item.is_scene_item():
+			# check bubble action
+			var clicked_action : String = _item_bubbles.get_item_action_at(position)
 			
-			_select_item(null)
+			if clicked_action:
+				if not game_instance.interact_request(_get_selected_item(), clicked_action):
+					_log_warning("interaction ignored (scene item)")
+				
+				_select_item(null)
+				
+				return
+		elif not _selected_as_tool:
+			# check inventory action
+			var clicked_action : String = _action_list.get_item_action_at(position)
 			
-			return
+			if clicked_action:
+				if not game_instance.interact_request(_get_selected_item(), clicked_action):
+					_log_warning("interaction ignored (scene item)")
+				
+				_select_item(null)
+				
+				return
 	
 	# then check inventory item click
 	
@@ -497,6 +511,8 @@ func _select_item(new_item, return_true_if_no_actions := false, tool_verb := "")
 	_item_selector.hide()
 	_action_list.hide()
 	
+	_item_bubbles.close()
+	
 	if not _selected_item:
 		return false
 	
@@ -515,10 +531,13 @@ func _select_item(new_item, return_true_if_no_actions := false, tool_verb := "")
 				return true
 			
 			# add default action as first option
-			item_actions.push_front(default_action)
-		
-		_action_list.set_item(actual_item, item_actions)
-		_action_list.show()
+			#item_actions.push_front(default_action)
+			
+			_item_bubbles.position = _selected_item.position
+			_item_bubbles.open()
+		else:
+			_action_list.set_item(actual_item, item_actions)
+			_action_list.show()
 	
 	var rect : Rect2 = _selected_item.get_item_rect()
 	_item_selector.show_rect(rect, _selected_as_tool)

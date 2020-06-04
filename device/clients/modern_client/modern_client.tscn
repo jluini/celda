@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
@@ -15,6 +15,7 @@
 [ext_resource path="res://clients/modern_client/inventory.gd" type="Script" id=13]
 [ext_resource path="res://clients/modern_client/images/speech_stylebox.tres" type="StyleBox" id=14]
 [ext_resource path="res://clients/modern_client/inventory_item.tscn" type="PackedScene" id=15]
+[ext_resource path="res://clients/modern_client/bubbles.tscn" type="PackedScene" id=16]
 [ext_resource path="res://tools/ui_tools/slider.gd" type="Script" id=17]
 [ext_resource path="res://clients/modern_client/tabs.gd" type="Script" id=19]
 [ext_resource path="res://clients/modern_client/side_menu.gd" type="Script" id=20]
@@ -150,24 +151,24 @@ item_scene = ExtResource( 15 )
 [node name="tween" type="Tween" parent="ui/inventory_base"]
 
 [node name="selector" type="ColorRect" parent="ui"]
-visible = false
 margin_left = 1255.61
 margin_top = 562.034
 margin_right = 1804.61
 margin_bottom = 872.034
 mouse_filter = 2
-color = Color( 1, 1, 1, 0.156863 )
+color = Color( 1, 1, 1, 0.0588235 )
 script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+normal_color = Color( 1, 1, 1, 0.0588235 )
 
 [node name="action_list" type="ColorRect" parent="ui"]
 visible = false
-margin_left = 475.935
-margin_top = 212.855
-margin_right = 778.935
-margin_bottom = 704.855
+margin_left = 1619.61
+margin_top = 629.241
+margin_right = 1922.61
+margin_bottom = 1084.98
 mouse_filter = 2
 color = Color( 0.027451, 0.0823529, 0.333333, 0.576471 )
 script = ExtResource( 6 )
@@ -226,6 +227,11 @@ anchor_bottom = 1.0
 mouse_filter = 2
 color = Color( 0, 0, 0, 0.478431 )
 
+[node name="item_actions" parent="ui" instance=ExtResource( 16 )]
+visible = false
+left_action = "look"
+right_action = "pick_up"
+
 [node name="curtain" type="TextureRect" parent="ui"]
 modulate = Color( 0, 0, 0, 0 )
 anchor_right = 1.0
@@ -238,6 +244,7 @@ __meta__ = {
 }
 
 [node name="speech" type="Label" parent="ui"]
+visible = false
 anchor_right = 1.0
 margin_left = 100.0
 margin_right = -99.9999
@@ -261,6 +268,7 @@ anims/up = SubResource( 4 )
 one_shot = true
 
 [node name="menu" type="ColorRect" parent="ui"]
+visible = false
 modulate = Color( 1, 1, 1, 0.901961 )
 self_modulate = Color( 0, 0, 0, 1 )
 anchor_right = 1.0
@@ -307,6 +315,7 @@ anchor_bottom = 1.0
 mouse_filter = 2
 script = ExtResource( 4 )
 text = "Celda"
+color = Color( 1, 1, 1, 1 )
 label_type = "big"
 
 [node name="game_list" type="Control" parent="ui/menu/tab_container/tabs"]
