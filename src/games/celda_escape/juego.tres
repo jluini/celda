@@ -5,9 +5,9 @@
 [ext_resource path="res://games/celda_escape/rooms/lab/lab.tscn" type="PackedScene" id=3]
 [ext_resource path="res://games/celda_escape/actors/shabon/shabon.tscn" type="PackedScene" id=4]
 [ext_resource path="res://games/celda_escape/rooms/office/office.tscn" type="PackedScene" id=5]
-[ext_resource path="res://games/celda_escape/rooms/cage/cage_open.tscn" type="PackedScene" id=6]
+[ext_resource path="res://games/celda_escape/rooms/jaula/jaula_abierta.tscn" type="PackedScene" id=6]
 [ext_resource path="res://games/celda_escape/rooms/living/living.tscn" type="PackedScene" id=7]
-[ext_resource path="res://games/celda_escape/rooms/cage/cage.tscn" type="PackedScene" id=8]
+[ext_resource path="res://games/celda_escape/rooms/jaula/jaula.tscn" type="PackedScene" id=8]
 [ext_resource path="res://games/celda_escape/rooms/cellar/doc.tscn" type="PackedScene" id=9]
 [ext_resource path="res://games/celda_escape/rooms/cellar/lab_door.tscn" type="PackedScene" id=10]
 [ext_resource path="res://games/celda_escape/rooms/lab/desk.tscn" type="PackedScene" id=11]
@@ -18,12 +18,12 @@
 [resource]
 script = ExtResource( 14 )
 rooms = {
-"cage": ExtResource( 8 ),
-"cage_open": ExtResource( 6 ),
 "cellar": ExtResource( 13 ),
 "desk": ExtResource( 11 ),
 "doc": ExtResource( 9 ),
 "guy": ExtResource( 12 ),
+"jaula": ExtResource( 8 ),
+"jaula_abierta": ExtResource( 6 ),
 "lab": ExtResource( 3 ),
 "lab_door": ExtResource( 10 ),
 "living": ExtResource( 7 ),

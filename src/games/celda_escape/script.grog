@@ -2,18 +2,17 @@
 
 main:
 	init:
-		# cage setup
 		
 		.set key1_was_taken=false
 		.set cobble_already_fell=false
-		.set cage_is_open=false
+		.set jaula_esta_abierta=false
 		.set office_is_known=false
 		
-		cage/to_office.disable
-		cage/cobble.disable
+		jaula_a_oficina.disable
+		adoquin.disable
 		
 		if $stage < 2:
-			.load_room cage at=positions/initial
+			.load_room jaula at=posicion/inicial
 			.set music=celda
 			.curtain_up
 			
@@ -31,12 +30,12 @@ main:
 				inv_llave1.add
 		else:
 			
-			cage/poster.disable
-			cage/to_office.enable
-			cage/to_office.play open
+			poster.disable
+			jaula_a_oficina.enable
+			jaula_a_oficina.play open
 			inv_poster.add
 			
-			cage/stick.disable
+			palo.disable
 			inv_palo.add
 			
 			# office stage
@@ -58,9 +57,9 @@ main:
 				
 				# TODO otras modificaciones
 				
-				# cage-open stage
+				# etapa jaula abierta
 				if $stage = 4:
-					.load_room cage_open at=positions/from_office
+					.load_room jaula_abierta at=posicion/de_oficina
 					.set music=uajari
 					.curtain_up
 				
@@ -123,9 +122,9 @@ inv_frasco:
 	use:
 		self.set_tool use_with
 
-# Cage items
+# Items jaula
 
-cage/toilet:
+inodoro:
 	look:
 		you.say LOOK_TOILET
 	
@@ -148,7 +147,7 @@ cage/toilet:
 	use_with(*):
 		you.say USE_X_WITH_TOILET
 
-cage/bed:
+cama:
 	look:
 		you.say LOOK_BED
 	
@@ -168,7 +167,7 @@ cage/bed:
 		you.say INVALID_COMBINATION
 	
 
-cage/poster:
+poster:
 	look:
 		you.say LOOK_POSTER
 	
@@ -177,18 +176,18 @@ cage/poster:
 		inv_poster.add
 		
 		if $cobble_already_fell:
-			cage/to_office.enable
-			cage/to_office.play opening blocking=true
-			cage/to_office.play open
+			jaula_a_oficina.enable
+			jaula_a_oficina.play opening blocking=true
+			jaula_a_oficina.play open
 		else:
-			cage/cobble.enable
+			adoquin.enable
 		
 	# TODO use_with(inv_palo): "No le haría daño" ?
 	
 	use_with(*):
 		you.say INVALID_COMBINATION
 
-cage/cobble:
+adoquin:
 	look:
 		you.say LOOK_COBBLE
 	
@@ -198,18 +197,18 @@ cage/cobble:
 	use_with(inv_poster):
 		self.disable
 		tool.remove
-		cage/poster.enable
+		poster.enable
 	
 	use_with(inv_palo):
 		you.say USE_STICK_WITH_COBBLE
 		self.disable
 		.set cobble_already_fell=true
 		
-		cage/to_office.enable
-		cage/to_office.play opening blocking=true
-		cage/to_office.play open
+		jaula_a_oficina.enable
+		jaula_a_oficina.play opening blocking=true
+		jaula_a_oficina.play open
 
-cage/to_office:
+jaula_a_oficina:
 	walk_to:
 		.load_room office at=positions/from_cage
 		
@@ -223,10 +222,10 @@ cage/to_office:
 		self.play closing blocking=true
 		self.play default
 		self.disable
-		cage/poster.enable
+		poster.enable
 		tool.remove
 
-cage/stick:
+palo:
 	look:
 		you.say LOOK_CAGE_STICK
 	
@@ -234,7 +233,7 @@ cage/stick:
 		self.disable
 		inv_palo.add
 
-cage/bars:
+reja:
 	look:
 		you.say LOOK_BARS
 	
@@ -245,12 +244,12 @@ cage/bars:
 		you.say "TODO ruido metal contra metal"
 	
 	use_with(inv_llave1):
-		if not $cage_is_open:
+		if not $jaula_esta_abierta:
 			.set music=""
 			you.say USE_KEY_WITH_BARS
 			.set music="uajari"
-			.set cage_is_open=true
-			.load_room cage_open at=positions/after_open_bars
+			.set jaula_esta_abierta=true
+			.load_room jaula_abierta at=posicion/abriendo_reja
 		else:
 			you.say USE_KEY_WITH_BARS_AGAIN
 		
@@ -261,37 +260,37 @@ cage/bars:
 		you.say NOT_A_GOOD_IDEA
 	
 	use_with(*):
-		if not $cage_is_open:
+		if not $jaula_esta_abierta:
 			you.say CANT_OPEN_IT_WITH_THIS
 		else:
 			you.say FOR_WHAT
 
-cage/door:
+jaula_puerta:
 	look:
-		if not $cage_is_open:
+		if not $jaula_esta_abierta:
 			you.say CANT_REACH_DOOR
 		else:
 			you.say "TODO"
 	
 	hand:
-		if not $cage_is_open:
+		if not $jaula_esta_abierta:
 			you.say CANT_REACH_DOOR
 		else:
 			you.say TRY_TO_OPEN_CAGE_DOOR
 		
 	use_with(inv_llave*):
-		if not $cage_is_open:
+		if not $jaula_esta_abierta:
 			you.say CANT_REACH_DOOR
 		else:
 			you.say WRONG_KEY
 	
 	use_with(*):
-		if not $cage_is_open:
+		if not $jaula_esta_abierta:
 			you.say CANT_REACH_DOOR
 		else:
 			you.say CANT_OPEN_IT_WITH_THIS
 
-cage/to_cellar:
+jaula_a_sotano:
 	walk_to:
 		.load_room cellar at=positions/from_cage
 		# keep music 'uajari'
@@ -371,12 +370,12 @@ office/chair:
 
 office/to_cage:
 	walk_to:
-		if not $cage_is_open:
-			.load_room cage at=positions/from_office
+		if not $jaula_esta_abierta:
+			.load_room jaula at=posicion/de_oficina
 			# keep music 'office'
 			#.curtain_up
 		else:
-			.load_room cage_open at=positions/from_office
+			.load_room jaula_abierta at=positions/from_office
 			# keep music 'office'
 			#.curtain_up
 
@@ -541,7 +540,7 @@ picture/to_living:
 
 cellar/to_cage:
 	walk_to:
-		.load_room cage_open at=positions/from_cellar
+		.load_room jaula_abierta at=posicion/de_sotano
 		.set music=uajari
 		#.curtain_up
 

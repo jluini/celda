@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/grid_open_back.png-efef5e748482a30eafef417d83e2308d.stex"
+path="res://.import/grid_open_back.png-4b9e10438a818820e92c368e6b70c7c8.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/cage/images/grid_open_back.png"
-dest_files=[ "res://.import/grid_open_back.png-efef5e748482a30eafef417d83e2308d.stex" ]
+source_file="res://games/celda_escape/rooms/jaula/images/grid_open_back.png"
+dest_files=[ "res://.import/grid_open_back.png-4b9e10438a818820e92c368e6b70c7c8.stex" ]
 
 [params]
 

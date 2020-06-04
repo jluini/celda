@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/poster.png-62223cf4513960f8fb75b26f780ef9e8.stex"
+path="res://.import/toilet.png-ec6d29bf8dce2dd25e29b080ffb1170b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/cage/images/poster.png"
-dest_files=[ "res://.import/poster.png-62223cf4513960f8fb75b26f780ef9e8.stex" ]
+source_file="res://games/celda_escape/rooms/jaula/images/toilet.png"
+dest_files=[ "res://.import/toilet.png-ec6d29bf8dce2dd25e29b080ffb1170b.stex" ]
 
 [params]
 
@@ -23,12 +23,12 @@ flags/repeat=0
 flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
-flags/srgb=2
+flags/srgb=0
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

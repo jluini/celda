@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/gate.png-7c0e795ce337605c1352f0b412a26b6c.stex"
+path="res://.import/gate.png-d915ac9a374b85c2055a7599b1d24644.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/cage/images/gate.png"
-dest_files=[ "res://.import/gate.png-7c0e795ce337605c1352f0b412a26b6c.stex" ]
+source_file="res://games/celda_escape/rooms/jaula/images/gate.png"
+dest_files=[ "res://.import/gate.png-d915ac9a374b85c2055a7599b1d24644.stex" ]
 
 [params]
 
