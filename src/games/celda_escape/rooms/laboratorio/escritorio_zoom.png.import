@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/hombre_flotante_zoom.png-0a68e2990eae365a74e588f3b44fd8a1.stex"
+path="res://.import/escritorio_zoom.png-654289c557c08b43b920a8b5439facab.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/lab/images/hombre_flotante_zoom.png"
-dest_files=[ "res://.import/hombre_flotante_zoom.png-0a68e2990eae365a74e588f3b44fd8a1.stex" ]
+source_file="res://games/celda_escape/rooms/laboratorio/escritorio_zoom.png"
+dest_files=[ "res://.import/escritorio_zoom.png-654289c557c08b43b920a8b5439facab.stex" ]
 
 [params]
 
