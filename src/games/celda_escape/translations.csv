@@ -1,108 +1,107 @@
 id;en;es
+ITEM_CAGE/POSTER;poster;póster
+ITEM_CAGE/COBBLE;cobble;adoquín
+ITEM_INV_POSTER;poster;póster
+ITEM_INV_BOOK;book;libro
+ITEM_INV_KEY1;key;llave
+ITEM_INV_KEY2;key 2;llave 2
+ITEM_INV_STICK;stick;palo
+ITEM_INV_SKULL;skull;calavera
+ITEM_INV_FLASK;flask;frasco
+ITEM_CAGE/TO_OFFICE;hole;hueco
+ITEM_CAGE/DOOR;door;puerta
+ITEM_CAGE/BED;bed;cama
+ITEM_CAGE/TOILET;toilet;inodoro
+ITEM_CAGE/STICK;stick?;palo?
+ITEM_CAGE/BARS;bars;rejas
+ITEM_CAGE/TO_CELLAR;stairway;escaleras
+ITEM_OFFICE/ARMOUR;armour;armadura
+ITEM_OFFICE/BUST;bust;busto
+ITEM_OFFICE/DESK;desk;escritorio
+ITEM_OFFICE/CHAIR;chair;silla
+ITEM_OFFICE/TO_CAGE;hole;hueco
+ITEM_OFFICE/TO_LIVING;corridor;pasillo
+ITEM_LIVING/PICTURE;picture;cuadro
+ITEM_LIVING/TO_OFFICE;corridor;pasillo
+ITEM_LIVING/FURNITURE;furniture;mueble
+ITEM_LIVING/MIRROR;mirror;espejo
+ITEM_LIVING/BEAR;bear;oso
+ITEM_LIVING/WINDOW;window;ventana
+ITEM_LIVING/DOOR;door;puerta
+ITEM_LIVING/STRONGBOX;strongbox;caja fuerte
+ITEM_LIVING/SMALL_BOX;small box;cajita
+ITEM_LIVING/CANDELABRUM;candelabrum;candelabro
+ITEM_CELLAR/TO_CAGE;stairway;escaleras
+ITEM_CELLAR/TO_LAB;door;puerta
+ITEM_CELLAR/BUCKET;bucket;balde
+ITEM_CELLAR/PUMP;water pump;bomba de agua
+ITEM_CELLAR/DOC;doc?;doc?
+ITEM_LAB/TO_CELLAR;door;puerta
+ITEM_LAB/STRETCHER;stretcher;camilla
+ITEM_LAB/DESK;desk;escritorio
 INTRO;Benjamín pidió una bebida de kiwi y fresa. Noé, sin vergüenza, la más exquisita champaña del menú.;Benjamín pidió una bebida de kiwi y fresa. Noé, sin vergüenza, la más exquisita champaña del menú.
 ACTION_WALK_TO;go;ir
 ACTION_LOOK;look;mirar
 ACTION_USE;use;usar
 ACTION_PICK_UP;pick up;recoger
-ITEM_CAGE/POSTER;poster;póster
-ITEM_INV_POSTER;poster;póster
 LOOK_POSTER;"It says ""hang in there"".";"Dice ""hang in there""."
-ITEM_CAGE/COBBLE;cobble;adoquín
 LOOK_COBBLE;It seems loose.;Parece flojo.
 USE_STICK_WITH_COBBLE;Maybe I can move it.;Tal vez pueda moverlo.
-ITEM_INV_BOOK;book;libro
 LOOK_BOOK;TODO;TODO
-ITEM_INV_KEY1;key;llave
 LOOK_KEY1;A little key.;Una pequeña llave.
-ITEM_INV_KEY2;key 2;llave 2
 LOOK_KEY2;Another little key.;Otra pequeña llave.
-ITEM_INV_STICK;stick;palo
 LOOK_INV_STICK;TODO;TODO
-ITEM_INV_SKULL;skull;calavera
 LOOK_SKULL;TODO;TODO
-ITEM_INV_FLASK;flask;frasco
 LOOK_FLASK;TODO;TODO
-ITEM_CAGE/TO_OFFICE;hole;hueco
-ITEM_CAGE/DOOR;door;puerta
 CANT_REACH_DOOR;I can't reach it.;No puedo alcanzarla.
 TRY_TO_OPEN_CAGE_DOOR;It seems to be locked.;Parece estar trabada.
-ITEM_CAGE/BED;bed;cama
 LOOK_BED;It's not less hard than the stones on the ground.;No es menos dura que las piedras del suelo.
 USE_KEY_WITH_BED;I don't think it will be unlocked.;No parece abrirse con llave.
-ITEM_CAGE/TOILET;toilet;inodoro
 LOOK_TOILET;It has not been used for a long time.;No se usa hace largo tiempo.
 USE_KEY_WITH_TOILET1;I wouldn't discard the key here.;No tiraría la llave al inodoro.
 USE_KEY_WITH_TOILET2;Maybe later it will help me.;Tal vez más tarde me sea útil.
 USE_FLASK_WITH_TOILET;It would be a waste to throw it here.;Sería un desperdicio tirarlo aquí.
 USE_POSTER_WITH_TOILET;No. It could get clogged.;No. Podría taparse y quizás lo necesite.
 USE_X_WITH_TOILET;I wouldn't throw it here.;No lo tiraría aquí.
-ITEM_CAGE/STICK;stick?;palo?
 LOOK_CAGE_STICK;TODO;TODO
-ITEM_CAGE/BARS;bars;rejas
 LOOK_BARS;It's old and very rusty.;Está vieja y muy oxidada.
 USE_KEY_WITH_BARS;Oh, it fits perfectly!;Oh, ¡entra perfectamente!
 USE_KEY_WITH_BARS_AGAIN;I don't want to close it, it could get stuck.;No quisiera cerrarla, podría trabarse.
 WRONG_KEY;It's not the right key.;No es la llave correcta.
 CANT_OPEN_IT_WITH_THIS;I can't open it with this.;No puedo abrirla con esto.
-ITEM_CAGE/TO_CELLAR;stairway;escaleras
-ITEM_OFFICE/ARMOUR;armour;armadura
 LOOK_ARMOUR;It's and old German armour.;Es una antigua armadura alemana.
-ITEM_OFFICE/BUST;bust;busto
 LOOK_BUST;She looks very happy.;Se la ve muy feliz.
-ITEM_OFFICE/DESK;desk;escritorio
 LOOK_OFFICE_DESK;It's tidy and its drawers seem closed.;Está ordenado y sus cajones parecen cerrados.
 USE_KEY_WITH_OFFICE_DESK;It doesn't unlock any of its drawers.;No abre ninguno de sus cajones.
-ITEM_OFFICE/CHAIR;chair;silla
 LOOK_OFFICE_CHAIR;It looks comfortable, although the leather is battered.;Parece cómoda, aunque el cuero se ve maltratado.
-ITEM_OFFICE/TO_CAGE;hole;hueco
-ITEM_OFFICE/TO_LIVING;corridor;pasillo
-ITEM_LIVING/PICTURE;picture;cuadro
-ITEM_LIVING/TO_OFFICE;corridor;pasillo
-ITEM_LIVING/FURNITURE;furniture;mueble
 LOOK_FURNITURE;Antique piece of furniture, very luxurious.;Mueble antiguo, muy lujoso.
 USE_STICK_WITH_FURNITURE;It's not worth hitting it with the stick.;No vale la pena romperlo a palazos.
-ITEM_LIVING/MIRROR;mirror;espejo
 LOOK_MIRROR;TODO;TODO
 USE_STICK_WITH_MIRROR;I don't want to break it.;No quisiera romperlo.
-ITEM_LIVING/BEAR;bear;oso
 LOOK_BEAR;A majestic creature.;Una majestuosa criatura.
 USE_STICK_WITH_BEAR;I think it suffered too much to hit it with an iron.;Creo que ya sufrió demasiado como para darle con un fierro.
 USE_KEY_WITH_BEAR;Bears don't have keys.;Los osos no tienen llave.
 USE_SKULL_WITH_BEAR;It already has a head.;Ya tiene cabeza.
-ITEM_LIVING/WINDOW;window;ventana
 LOOK_LIVING_WINDOW;TODO;Está tapiada, ¿por qué lo habrán hecho?
-ITEM_LIVING/DOOR;door;puerta
 LOOK_LIVING_DOOR1;Fresh air passes underneath.;Un aire fresco pasa por debajo.
 LOOK_LIVING_DOOR2;I have to find a way to open it.;Tengo que buscar la forma de abrirla.
 USE_KEY_WITH_LIVING_DOOR;It doesn't even fit into the lock.;Ni siquiera entra en la cerradura.
 USE_X_WITH_LIVING_DOOR;I can't open it with this.;No me sirve para abrirla.
-ITEM_LIVING/STRONGBOX;strongbox;caja fuerte
 LOOK_STRONGBOX;It seems to be a strongbox.;Parece una caja fuerte.
-ITEM_LIVING/SMALL_BOX;small box;cajita
-LOOK_SMALL_BOX1;It's a delicate little box...;Es una delicada caja...
-LOOK_SMALL_BOX2;it seems to have something inside of it.;creo que tiene algo en su interior.
-LOOK_SMALL_BOX3;A little key!;¡Una pequeña llave!
+LOOK_SMALL_BOX1;It's a delicate little box.;Es una delicada caja.
+LOOK_SMALL_BOX2;It seems to have something inside of it...;Creo que tiene algo en su interior...
+LOOK_SMALL_BOX3;a little key!;¡una pequeña llave!
 LOOK_SMALL_BOX_AGAIN;I will take the key again.;Tomaré la llave otra vez.
 LOOK_SMALL_BOX_OPENED;It's the box where I got the key from.;Es la caja de donde obtuve la llave.
 SAVE_KEY_IN_BOX;I'll leave the key in its place.;Dejaré la llave en su lugar.
 SAVE_ANOTHER_KEY_IN_BOX;I don't want to play hiding keys.;No quiero jugar a esconder llaves.
 SAVE_X_IN_BOX;It doesn't fit in this little box.;No entra en esta pequeña cajita.
-ITEM_LIVING/CANDELABRUM;candelabrum;candelabro
 LOOK_CANDELABRUM;TODO;TODO
-ITEM_CELLAR/TO_CAGE;stairway;escaleras
-ITEM_CELLAR/TO_LAB;door;puerta
-ITEM_CELLAR/BUCKET;bucket;balde
 LOOK_BUCKET;It's just a bucket.;Es un simple balde.
 USE_X_WITH_BUCKET;Why would I put this in the bucket?;¿Para qué metería esto en el balde?
-ITEM_CELLAR/PUMP;water pump;bomba de agua
 LOOK_PUMP;A rusty pump. It has not been used for a very long time.;Benjamín pidió una bebida de kiwi y fresa. Noé, sin vergüenza, la más exquisita champaña del menú. Una bomba oxidada. No se usa hace muchísimo tiempo.
 USE_KEY_WITH_PUMP;I suspect that's not how it works.;Sospecho que no es así como funciona.
 USE_FLASK_WITH_PUMP;Of course not.;Desde luego que no.
-ITEM_CELLAR/DOC;doc?;doc?
-ITEM_LAB/TO_CELLAR;door;puerta
-ITEM_LAB/STRETCHER;stretcher;camilla
-ITEM_LAB/DESK;desk;escritorio
-LOOK_GUY;TODO;TODO
 BAD_IDEA;Bad idea.;Mala idea.
 NOT_A_GOOD_IDEA;Not a good idea.;No es buena idea.
 SAY_NO;No.;No.

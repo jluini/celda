@@ -40,9 +40,9 @@ position = Vector2( 449.7, 549.838 )
 script = ExtResource( 3 )
 
 [node name="bubble_anchor" type="Node2D" parent="."]
+position = Vector2( 0, -200 )
 
 [node name="bubbles" type="Node2D" parent="bubble_anchor"]
-scale = Vector2( 1e-05, 1e-05 )
 
 [node name="bubble_left" type="Node2D" parent="bubble_anchor/bubbles"]
 position = Vector2( -60, 0 )

@@ -129,6 +129,9 @@ cage/toilet:
 	look:
 		you.say LOOK_TOILET
 	
+	hand:
+		you.say "TODO"
+	
 	use_with(inv_stick):
 		you.say BAD_IDEA
 	
@@ -149,6 +152,9 @@ cage/bed:
 	look:
 		you.say LOOK_BED
 	
+	hand:
+		you.say "TODO"
+	
 	use_with(inv_stick):
 		you.say SAY_NO
 	
@@ -166,7 +172,7 @@ cage/poster:
 	look:
 		you.say LOOK_POSTER
 	
-	pick_up:
+	hand:
 		self.disable
 		inv_poster.add
 		
@@ -185,6 +191,9 @@ cage/poster:
 cage/cobble:
 	look:
 		you.say LOOK_COBBLE
+	
+	hand:
+		you.say "TODO"
 	
 	use_with(inv_poster):
 		self.disable
@@ -221,13 +230,16 @@ cage/stick:
 	look:
 		you.say LOOK_CAGE_STICK
 	
-	pick_up:
+	hand:
 		self.disable
 		inv_stick.add
 
 cage/bars:
 	look:
 		you.say LOOK_BARS
+	
+	hand:
+		you.say "TODO"
 	
 	use_with(inv_stick):
 		you.say "TODO ruido metal contra metal"
@@ -255,16 +267,18 @@ cage/bars:
 			you.say FOR_WHAT
 
 cage/door:
-	walk_to:
-		if not $cage_is_open:
-			you.say CANT_REACH_DOOR
-		
 	look:
 		if not $cage_is_open:
 			you.say CANT_REACH_DOOR
 		else:
-			you.say TRY_TO_OPEN_CAGE_DOOR
+			you.say "TODO"
 	
+	hand:
+		if not $cage_is_open:
+			you.say CANT_REACH_DOOR
+		else:
+			you.say TRY_TO_OPEN_CAGE_DOOR
+		
 	use_with(inv_key*):
 		if not $cage_is_open:
 			you.say CANT_REACH_DOOR
@@ -289,6 +303,9 @@ office/armour:
 	look:
 		you.say LOOK_ARMOUR
 	
+	hand:
+		you.say "TODO"
+	
 	use_with(inv_stick):
 		you.say "TODO ruido de palo contra metal"
 	
@@ -301,6 +318,9 @@ office/armour:
 office/bust:
 	look:
 		you.say LOOK_BUST
+	
+	hand:
+		you.say "TODO"
 	
 	use_with(inv_stick):
 		you.say I_CANT_DO_ANYTHING
@@ -318,6 +338,9 @@ office/desk:
 	look:
 		you.say LOOK_OFFICE_DESK
 	
+	hand:
+		you.say "TODO"
+	
 	use_with(inv_stick):
 		you.say IT_IS_USELESS
 	
@@ -333,6 +356,9 @@ office/desk:
 office/chair:
 	look:
 		you.say LOOK_OFFICE_CHAIR
+	
+	hand:
+		you.say "TODO"
 	
 	use_with(inv_stick):
 		you.say IT_DOESNT_MAKE_SENSE
@@ -372,6 +398,9 @@ living/furniture:
 	look:
 		you.say LOOK_FURNITURE
 	
+	hand:
+		you.say "TODO"
+	
 	use_with(inv_stick):
 		you.say USE_STICK_WITH_FURNITURE
 	
@@ -385,6 +414,9 @@ living/mirror:
 	look:
 		you.say LOOK_MIRROR
 	
+	hand:
+		you.say "TODO"
+	
 	use_with(inv_stick):
 		you.say USE_STICK_WITH_MIRROR
 	
@@ -394,6 +426,9 @@ living/mirror:
 living/bear:
 	look:
 		you.say LOOK_BEAR
+	
+	hand:
+		you.say "TODO"
 	
 	use_with(inv_stick):
 		you.say USE_STICK_WITH_BEAR
@@ -414,6 +449,9 @@ living/window:
 	look:
 		you.say LOOK_LIVING_WINDOW
 	
+	hand:
+		you.say "TODO"
+	
 	use_with(inv_stick):
 		you.say "TODO ruido de golpear madera"
 	
@@ -424,6 +462,9 @@ living/door:
 	look:
 		you.say LOOK_LIVING_DOOR1
 		you.say LOOK_LIVING_DOOR2
+	
+	hand:
+		you.say "TODO"
 	
 	use_with(inv_stick):
 		you.say IT_IS_USELESS
@@ -441,12 +482,18 @@ living/door:
 living/strongbox:
 	look:
 		you.say LOOK_STRONGBOX
+	
+	hand:
+		you.say "TODO"
+	
 
 living/small_box:
 	look:
+		you.say LOOK_SMALL_BOX1
+	
+	hand:
 		if $inv_key1 = 0:
 			if not $key1_was_taken:
-				you.say LOOK_SMALL_BOX1
 				you.say LOOK_SMALL_BOX2
 			else:
 				you.say LOOK_SMALL_BOX_AGAIN
@@ -472,12 +519,18 @@ living/small_box:
 living/candelabrum:
 	look:
 		you.say LOOK_CANDELABRUM
+	
+	hand:
+		you.say "TODO"
 
 living/picture:
 	look:
 		#you.say LOOK_PICTURE
 		.load_room picture
 		#.curtain_up
+	
+	hand:
+		.load_room picture
 
 picture/to_living:
 	walk_to:
@@ -493,17 +546,21 @@ cellar/to_cage:
 		#.curtain_up
 
 cellar/to_lab:
+	#hand:
 	walk_to:
 		.load_room lab at=positions/from_cellar
 		.set music=lab
 		#.curtain_up
-	look:
-		.load_room lab_door
-		#.curtain_up
+	#look:
+	#	.load_room lab_door
+	#	#.curtain_up
 
 cellar/bucket:
 	look:
 		you.say LOOK_BUCKET
+	
+	hand:
+		you.say "TODO"
 	
 	use_with(*):
 		you.say USE_X_WITH_BUCKET
@@ -511,6 +568,9 @@ cellar/bucket:
 cellar/pump:
 	look:
 		you.say LOOK_PUMP
+	
+	hand:
+		you.say "TODO"
 	
 	use_with(inv_stick):
 		you.say "*Ruido metálico*" # TODO
@@ -526,6 +586,14 @@ cellar/pump:
 
 cellar/doc:
 	look:
+		.wait 1
+		.load_room doc
+		.wait 1
+		you.say "Es un tipo todo tirado."
+		you.say "Pero qué laaaaco..."
+		you.say "Casi que le entraría."
+	hand:
+		# TODO codigo duplicado
 		.wait 1
 		.load_room doc
 		.wait 1
@@ -552,7 +620,8 @@ lab/to_cellar:
 
 lab/guy:
 	look:
-		#you.say LOOK_GUY
+		.load_room guy
+	hand:
 		.load_room guy
 
 guy/to_lab:
@@ -561,6 +630,8 @@ guy/to_lab:
 
 lab/desk:
 	look:
+		.load_room desk
+	hand:
 		.load_room desk
 
 desk/to_lab:
