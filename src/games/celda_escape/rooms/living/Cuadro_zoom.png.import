@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/cajafuerte.png-d2dd808844dbee5f4e88b5a6b6db1662.stex"
+path="res://.import/Cuadro_zoom.png-d438c980220de8705a799a9ffc14a92b.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/living/images/cajafuerte.png"
-dest_files=[ "res://.import/cajafuerte.png-d2dd808844dbee5f4e88b5a6b6db1662.stex" ]
+source_file="res://games/celda_escape/rooms/living/Cuadro_zoom.png"
+dest_files=[ "res://.import/Cuadro_zoom.png-d438c980220de8705a799a9ffc14a92b.stex" ]
 
 [params]
 

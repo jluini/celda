@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/locked_window.png-7c86d4147fb3b6455d7da6710293ea20.stex"
+path="res://.import/cuadro.png-4db6835f67c3a8b6cb29dc3782d1e3ac.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/living/images/locked_window.png"
-dest_files=[ "res://.import/locked_window.png-7c86d4147fb3b6455d7da6710293ea20.stex" ]
+source_file="res://games/celda_escape/rooms/living/cuadro.png"
+dest_files=[ "res://.import/cuadro.png-4db6835f67c3a8b6cb29dc3782d1e3ac.stex" ]
 
 [params]
 

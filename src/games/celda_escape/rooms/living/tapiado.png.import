@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/cuadro.png-56745030d6402779beead2e0957d1801.stex"
+path="res://.import/tapiado.png-9be29bfd2f96263243dbdeee28a7c2a2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/living/images/cuadro.png"
-dest_files=[ "res://.import/cuadro.png-56745030d6402779beead2e0957d1801.stex" ]
+source_file="res://games/celda_escape/rooms/living/tapiado.png"
+dest_files=[ "res://.import/tapiado.png-9be29bfd2f96263243dbdeee28a7c2a2.stex" ]
 
 [params]
 

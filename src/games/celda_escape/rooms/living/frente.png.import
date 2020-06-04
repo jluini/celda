@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/oso.png-38f67590495bfc22fd0438664921fb5d.stex"
+path="res://.import/frente.png-695f95d60b59fc354995065ad6a93847.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/living/images/oso.png"
-dest_files=[ "res://.import/oso.png-38f67590495bfc22fd0438664921fb5d.stex" ]
+source_file="res://games/celda_escape/rooms/living/frente.png"
+dest_files=[ "res://.import/frente.png-695f95d60b59fc354995065ad6a93847.stex" ]
 
 [params]
 

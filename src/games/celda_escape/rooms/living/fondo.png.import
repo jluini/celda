@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/candelabro.png-5cea63f0033bc213dd5f3c2e3ad27e49.stex"
+path="res://.import/fondo.png-7625e22b80e954fec0fd73389867c204.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/living/images/candelabro.png"
-dest_files=[ "res://.import/candelabro.png-5cea63f0033bc213dd5f3c2e3ad27e49.stex" ]
+source_file="res://games/celda_escape/rooms/living/fondo.png"
+dest_files=[ "res://.import/fondo.png-7625e22b80e954fec0fd73389867c204.stex" ]
 
 [params]
 

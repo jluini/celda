@@ -1,20 +1,28 @@
 [gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
-[ext_resource path="res://games/celda_escape/rooms/living/images/background.png" type="Texture" id=2]
-[ext_resource path="res://games/celda_escape/rooms/living/images/cabezas.png" type="Texture" id=3]
+[ext_resource path="res://games/celda_escape/rooms/living/fondo.png" type="Texture" id=2]
+[ext_resource path="res://games/celda_escape/rooms/living/cabezas.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=4]
-[ext_resource path="res://games/celda_escape/rooms/living/images/front.png" type="Texture" id=5]
-[ext_resource path="res://games/celda_escape/rooms/living/images/oso.png" type="Texture" id=6]
-[ext_resource path="res://games/celda_escape/rooms/living/images/cuadro.png" type="Texture" id=7]
+[ext_resource path="res://games/celda_escape/rooms/living/frente.png" type="Texture" id=5]
+[ext_resource path="res://games/celda_escape/rooms/living/oso.png" type="Texture" id=6]
+[ext_resource path="res://games/celda_escape/rooms/living/cuadro.png" type="Texture" id=7]
 [ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=8]
-[ext_resource path="res://games/celda_escape/rooms/living/images/candelabro.png" type="Texture" id=9]
-[ext_resource path="res://games/celda_escape/rooms/living/images/cajafuerte.png" type="Texture" id=10]
-[ext_resource path="res://games/celda_escape/rooms/living/images/cajita.png" type="Texture" id=11]
-[ext_resource path="res://games/celda_escape/rooms/living/images/cajita_open.png" type="Texture" id=12]
-[ext_resource path="res://games/celda_escape/rooms/living/images/curtain.png" type="Texture" id=13]
-[ext_resource path="res://games/celda_escape/rooms/living/images/locked_window.png" type="Texture" id=14]
-[ext_resource path="res://games/celda_escape/rooms/living/images/window_close.png" type="Texture" id=15]
+[ext_resource path="res://games/celda_escape/rooms/living/candelabro.png" type="Texture" id=9]
+[ext_resource path="res://games/celda_escape/rooms/living/cajafuerte.png" type="Texture" id=10]
+[ext_resource path="res://games/celda_escape/rooms/living/cajita.png" type="Texture" id=11]
+[ext_resource path="res://games/celda_escape/rooms/living/cajita_abierta.png" type="Texture" id=12]
+[ext_resource path="res://games/celda_escape/rooms/living/cortinas.png" type="Texture" id=13]
+[ext_resource path="res://games/celda_escape/rooms/living/tapiado.png" type="Texture" id=14]
+[ext_resource path="res://games/celda_escape/rooms/living/ventana.png" type="Texture" id=15]
+
+
+
+
+
+
+
+
 
 [sub_resource type="Animation" id=1]
 resource_name = "default"

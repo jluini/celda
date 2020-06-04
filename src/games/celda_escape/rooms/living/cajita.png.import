@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/front.png-aa4d8d3875d65dcf1663db1c10490e0e.stex"
+path="res://.import/cajita.png-db95adb986e34cb8ef553610089199e2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/living/images/front.png"
-dest_files=[ "res://.import/front.png-aa4d8d3875d65dcf1663db1c10490e0e.stex" ]
+source_file="res://games/celda_escape/rooms/living/cajita.png"
+dest_files=[ "res://.import/cajita.png-db95adb986e34cb8ef553610089199e2.stex" ]
 
 [params]
 

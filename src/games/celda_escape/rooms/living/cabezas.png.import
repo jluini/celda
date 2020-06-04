@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/window_close.png-5e1338df0e084ee032881eb122dbf50b.stex"
+path="res://.import/cabezas.png-28d51b5db12863bf8b6e2f240b0f63a2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/living/images/window_close.png"
-dest_files=[ "res://.import/window_close.png-5e1338df0e084ee032881eb122dbf50b.stex" ]
+source_file="res://games/celda_escape/rooms/living/cabezas.png"
+dest_files=[ "res://.import/cabezas.png-28d51b5db12863bf8b6e2f240b0f63a2.stex" ]
 
 [params]
 
