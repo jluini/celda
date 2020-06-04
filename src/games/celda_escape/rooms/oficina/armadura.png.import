@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/mesa.png-8d33bfb477ae81964960ebd6605e2ec0.stex"
+path="res://.import/armadura.png-275c0d189ac365c29a9ec6b1e591fb20.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/oficina/images/mesa.png"
-dest_files=[ "res://.import/mesa.png-8d33bfb477ae81964960ebd6605e2ec0.stex" ]
+source_file="res://games/celda_escape/rooms/oficina/armadura.png"
+dest_files=[ "res://.import/armadura.png-275c0d189ac365c29a9ec6b1e591fb20.stex" ]
 
 [params]
 

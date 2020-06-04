@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/armor_cover.jpg-ec811adbb669f53052b226d144842a79.stex"
+path="res://.import/busto.png-69afd8f2a21c2712b050b44c19295b32.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/oficina/images/armor_cover.jpg"
-dest_files=[ "res://.import/armor_cover.jpg-ec811adbb669f53052b226d144842a79.stex" ]
+source_file="res://games/celda_escape/rooms/oficina/busto.png"
+dest_files=[ "res://.import/busto.png-69afd8f2a21c2712b050b44c19295b32.stex" ]
 
 [params]
 

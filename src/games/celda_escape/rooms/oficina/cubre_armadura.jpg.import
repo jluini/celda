@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/silla.png-f294cf7b911dec0b5e3083772c7e041f.stex"
+path="res://.import/cubre_armadura.jpg-538a2efdcaaaf4e42b9f6c2032aa1459.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/oficina/images/silla.png"
-dest_files=[ "res://.import/silla.png-f294cf7b911dec0b5e3083772c7e041f.stex" ]
+source_file="res://games/celda_escape/rooms/oficina/cubre_armadura.jpg"
+dest_files=[ "res://.import/cubre_armadura.jpg-538a2efdcaaaf4e42b9f6c2032aa1459.stex" ]
 
 [params]
 
