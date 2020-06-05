@@ -2,7 +2,7 @@
 
 [ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
-[ext_resource path="res://games/celda_escape/menu.jpg" type="Texture" id=3]
+[ext_resource path="res://games/celda_escape/menu.png" type="Texture" id=3]
 [ext_resource path="res://tools/theming/custom_label.gd" type="Script" id=4]
 [ext_resource path="res://clients/modern_client/saved/game_list.gd" type="Script" id=5]
 [ext_resource path="res://clients/modern_client/action_list.gd" type="Script" id=6]

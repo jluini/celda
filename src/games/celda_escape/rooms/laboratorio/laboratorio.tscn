@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
-[ext_resource path="res://games/celda_escape/rooms/laboratorio/fondo.jpg" type="Texture" id=2]
+[ext_resource path="res://games/celda_escape/rooms/laboratorio/fondo.png" type="Texture" id=2]
 [ext_resource path="res://games/celda_escape/rooms/laboratorio/frente.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=4]
 [ext_resource path="res://games/celda_escape/rooms/laboratorio/marco.png" type="Texture" id=5]

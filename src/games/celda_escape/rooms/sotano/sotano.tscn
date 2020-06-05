@@ -4,15 +4,12 @@
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=2]
 [ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=3]
 [ext_resource path="res://games/celda_escape/rooms/sotano/camas.png" type="Texture" id=4]
-[ext_resource path="res://games/celda_escape/rooms/sotano/fondo.jpg" type="Texture" id=5]
+[ext_resource path="res://games/celda_escape/rooms/sotano/fondo.png" type="Texture" id=5]
 [ext_resource path="res://games/celda_escape/rooms/sotano/rejas.png" type="Texture" id=6]
 [ext_resource path="res://games/celda_escape/rooms/sotano/marcos.png" type="Texture" id=7]
 [ext_resource path="res://games/celda_escape/rooms/sotano/frente.png" type="Texture" id=8]
 [ext_resource path="res://games/celda_escape/rooms/sotano/balde.png" type="Texture" id=9]
 [ext_resource path="res://games/celda_escape/rooms/sotano/bombadeagua.png" type="Texture" id=10]
-
-
-
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1300.79, 759.644, 1530.69, 761.271, 659.376, 860.546, 668.697, 839.037, 1120.62, 759.644, 1816.89, 1039.53, 58.8726, 1040.51, 635.716, 880.263, 1368.53, 680.732, 1307.08, 610.425, 1411.34, 612.054, 1499.82, 714.951, 978.856, 677.24, 1282.63, 715.649, 1115.73, 712.157, 977.739, 713.091, 653.999, 805.698, 552.586, 754.416, 608.829, 793.867, 542.65, 754.165, 550.396, 793.15, 524.378, 779.984, 516.698, 805.698, 505.709, 796.27, 503.434, 824.339, 384.369, 790.523, 511.321, 860.905, 538.924, 879.188 )

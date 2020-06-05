@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/fondo.jpg-ddaf81728ed96a6e0faa9a96bfacf762.stex"
+path="res://.import/fondo.png-4f8ec93cf8744eb5b34cbafcce6ca49f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/sotano/fondo.jpg"
-dest_files=[ "res://.import/fondo.jpg-ddaf81728ed96a6e0faa9a96bfacf762.stex" ]
+source_file="res://games/celda_escape/rooms/sotano/fondo.png"
+dest_files=[ "res://.import/fondo.png-4f8ec93cf8744eb5b34cbafcce6ca49f.stex" ]
 
 [params]
 
