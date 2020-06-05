@@ -4,22 +4,22 @@
 [ext_resource path="res://tools/grog/core/room.gd" type="Script" id=2]
 [ext_resource path="res://games/celda_escape/rooms/sotano/doc_zoom.png" type="Texture" id=3]
 
-
-
 [node name="room" type="Node"]
 script = ExtResource( 2 )
 
 [node name="sprites" type="Node" parent="."]
 
-[node name="background" type="Sprite" parent="sprites"]
+[node name="fondo" type="Sprite" parent="sprites"]
 texture = ExtResource( 3 )
 centered = false
 
 [node name="items" type="Node" parent="."]
 
-[node name="to_cellar" type="Node2D" parent="items"]
+[node name="a_sotano" type="Node2D" parent="items"]
 position = Vector2( 960, 540 )
 z_index = 540
 script = ExtResource( 1 )
-key = "doc/to_cellar"
+key = "doc_a_sotano"
 size = Vector2( 1920, 1080 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )

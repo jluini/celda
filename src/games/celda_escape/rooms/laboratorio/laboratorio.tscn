@@ -9,13 +9,7 @@
 [ext_resource path="res://games/celda_escape/rooms/laboratorio/hombre_flotante.png" type="Texture" id=7]
 [ext_resource path="res://games/celda_escape/rooms/laboratorio/vidrio.png" type="Texture" id=8]
 
-
-
-
-
-
-
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 resource_name = "default"
 length = 8.0
 loop = true
@@ -33,7 +27,7 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, 25 ), Vector2( 0, 0 ), Vector2( 0, -25 ) ]
 }
 
-[sub_resource type="NavigationPolygon" id=1]
+[sub_resource type="NavigationPolygon" id=2]
 vertices = PoolVector2Array( 1883.04, 1053.02, 172.878, 1049.34, 361.694, 830.317, 465.398, 729.364, 158.083, 827.906, 213.199, 717.673, 560.599, 627.483, 657.47, 645.855, 745.99, 637.504, 804.447, 607.44, 1553.58, 825.813, 806.117, 550.654, 1328.65, 548.619, 1814.87, 834.902, 1873.95, 898.52 )
 polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 2, 4, 5, 3 ), PoolIntArray( 0, 3, 6, 7 ), PoolIntArray( 0, 7, 8 ), PoolIntArray( 0, 8, 9, 10 ), PoolIntArray( 9, 11, 12, 10 ), PoolIntArray( 0, 10, 13, 14 ) ]
 outlines = [ PoolVector2Array( 1553.58, 825.813, 1328.65, 548.619, 806.117, 550.654, 804.447, 607.44, 745.99, 637.504, 657.47, 645.855, 560.599, 627.483, 465.398, 729.364, 213.199, 717.673, 158.083, 827.906, 361.694, 830.317, 172.878, 1049.34, 1883.04, 1053.02, 1873.95, 898.52, 1814.87, 834.902 ) ]
@@ -44,90 +38,87 @@ default_y = 700
 
 [node name="sprites" type="Node" parent="."]
 
-[node name="background" type="Sprite" parent="sprites"]
+[node name="fondo" type="Sprite" parent="sprites"]
 texture = ExtResource( 2 )
 centered = false
 
-[node name="gate" type="Sprite" parent="sprites"]
+[node name="marco" type="Sprite" parent="sprites"]
 z_index = 840
 texture = ExtResource( 5 )
 centered = false
 
-[node name="front" type="Sprite" parent="sprites"]
+[node name="frente" type="Sprite" parent="sprites"]
 z_index = 4096
 texture = ExtResource( 3 )
 centered = false
 
-[node name="positions" type="Node" parent="."]
+[node name="posicion" type="Node" parent="."]
 
-[node name="from_cellar" type="Node2D" parent="positions"]
+[node name="de_sotano" type="Node2D" parent="posicion"]
 position = Vector2( 296.101, 766.162 )
 script = ExtResource( 6 )
 
-[node name="position_2d" type="Position2D" parent="positions"]
-position = Vector2( 810.974, 570.466 )
-
 [node name="items" type="Node" parent="."]
 
-[node name="to_cellar" type="Node2D" parent="items"]
+[node name="a_sotano" type="Node2D" parent="items"]
 position = Vector2( 293.914, 436.411 )
 z_index = 436
 script = ExtResource( 1 )
-key = "lab/to_cellar"
+key = "laboratorio_a_sotano"
 size = Vector2( 350, 750 )
 offset = Vector2( 0, 0 )
 color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/to_cellar"]
+[node name="positioning" type="Node2D" parent="items/a_sotano"]
 position = Vector2( -92.5316, 327.562 )
 rotation = 3.14159
 z_index = 4096
 script = ExtResource( 6 )
 
-[node name="desk" type="Node2D" parent="items"]
+[node name="escritorio" type="Node2D" parent="items"]
 position = Vector2( 1131.37, 413.148 )
 z_index = 413
 script = ExtResource( 1 )
-key = "lab/desk"
+key = "escritorio_laboratorio"
 size = Vector2( 500, 250 )
 offset = Vector2( 0, 0 )
 color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/desk"]
+[node name="positioning" type="Node2D" parent="items/escritorio"]
 position = Vector2( -6.67664, 136.137 )
 rotation = 4.71239
 script = ExtResource( 6 )
 
-[node name="guy" type="Node2D" parent="items"]
+[node name="hombre_flotante" type="Node2D" parent="items"]
 position = Vector2( 683, 552 )
 z_index = 552
 script = ExtResource( 1 )
-key = "lab/guy"
+key = "hombre_flotante"
 size = Vector2( 185, 500 )
 offset = Vector2( 0, -227 )
 color = Color( 1, 1, 1, 1 )
 
-[node name="positioning" type="Node2D" parent="items/guy"]
+[node name="positioning" type="Node2D" parent="items/hombre_flotante"]
 position = Vector2( 104.492, 61.847 )
 rotation = 3.81529
 z_index = 4096
 script = ExtResource( 6 )
 
-[node name="sprite" type="Sprite" parent="items/guy"]
+[node name="sprite" type="Sprite" parent="items/hombre_flotante"]
 show_behind_parent = true
 texture = ExtResource( 7 )
 offset = Vector2( 0, -200 )
 
-[node name="glass" type="Sprite" parent="items/guy"]
+[node name="vidrio" type="Sprite" parent="items/hombre_flotante"]
 show_behind_parent = true
 texture = ExtResource( 8 )
 offset = Vector2( 0, -227 )
 
-[node name="animation" type="AnimationPlayer" parent="items/guy"]
+[node name="animation" type="AnimationPlayer" parent="items/hombre_flotante"]
 playback_speed = 0.5
-anims/default = SubResource( 2 )
+anims/default = SubResource( 1 )
 
 [node name="navigation" type="Navigation2D" parent="."]
 
 [node name="polygon" type="NavigationPolygonInstance" parent="navigation"]
-navpoly = SubResource( 1 )
+navpoly = SubResource( 2 )

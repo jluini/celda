@@ -4,7 +4,7 @@ main:
 	init:
 		
 		.set llave1_fue_agarrada=false
-		.set cobble_already_fell=false
+		.set adoquin_ya_cayo=false
 		.set jaula_esta_abierta=false
 		.set oficina_fue_descubierta=false
 		
@@ -38,7 +38,7 @@ main:
 			palo.disable
 			inv_palo.add
 			
-			# etapa oficina
+			# Etapa oficina
 			if $stage = 2:
 				.load_room oficina at=posicion/de_jaula
 				.set music=office
@@ -65,62 +65,62 @@ main:
 				
 				# Etapa sótano
 				elif $stage = 5:
-					.load_room sotano at=positions/from_cage
+					.load_room sotano at=posicion/de_jaula
 					.set music=lab
 					.curtain_up
 				
-				# lab stage
+				# Etapa laboratorio
 				elif $stage = 6:
-					.load_room laboratorio at=positions/from_cellar
+					.load_room laboratorio at=posicion/de_sotano
 					.set music=lab
 					.curtain_up
 				
 				# ...
 
-# Inventory items
+# Items inventario
 
 inv_poster:
 	look:
 		you.say LOOK_POSTER
 	
 	use:
-		self.set_tool use_with
+		self.set_tool usar_con
 
 inv_libro:
 	look:
 		you.say LOOK_BOOK
 	use:
-		self.set_tool use_with
+		self.set_tool usar_con
 
 inv_palo:
 	look:
 		you.say LOOK_INV_STICK
 	use:
-		self.set_tool use_with
+		self.set_tool usar_con
 
 inv_calavera:
 	look:
 		you.say LOOK_SKULL
 	use:
-		self.set_tool use_with
+		self.set_tool usar_con
 
 inv_llave1:
 	look:
 		you.say LOOK_KEY1
 	use:
-		self.set_tool use_with
+		self.set_tool usar_con
 
 inv_llave2:
 	look:
 		you.say LOOK_KEY2
 	use:
-		self.set_tool use_with
+		self.set_tool usar_con
 
 inv_frasco:
 	look:
 		you.say LOOK_FLASK
 	use:
-		self.set_tool use_with
+		self.set_tool usar_con
 
 # Items jaula
 
@@ -131,20 +131,20 @@ inodoro:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_palo):
+	usar_con(inv_palo):
 		you.say BAD_IDEA
 	
-	use_with(inv_llave*):
+	usar_con(inv_llave*):
 		you.say USE_KEY_WITH_TOILET1
 		you.say USE_KEY_WITH_TOILET2
 	
-	use_with(inv_frasco):
+	usar_con(inv_frasco):
 		you.say USE_FLASK_WITH_TOILET
 	
-	use_with(inv_poster):
+	usar_con(inv_poster):
 		you.say USE_POSTER_WITH_TOILET
 	
-	use_with(*):
+	usar_con(*):
 		you.say USE_X_WITH_TOILET
 
 cama:
@@ -154,18 +154,17 @@ cama:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_palo):
+	usar_con(inv_palo):
 		you.say SAY_NO
 	
-	use_with(inv_llave*):
+	usar_con(inv_llave*):
 		you.say USE_KEY_WITH_BED
 	
-	use_with(inv_frasco):
+	usar_con(inv_frasco):
 		you.say FOR_WHAT
 	
-	use_with(*): TK
+	usar_con(*): TK
 		you.say INVALID_COMBINATION
-	
 
 poster:
 	look:
@@ -175,16 +174,16 @@ poster:
 		self.disable
 		inv_poster.add
 		
-		if $cobble_already_fell:
+		if $adoquin_ya_cayo:
 			jaula_a_oficina.enable
 			jaula_a_oficina.play opening blocking=true
 			jaula_a_oficina.play open
 		else:
 			adoquin.enable
 		
-	# TODO use_with(inv_palo): "No le haría daño" ?
+	# TODO usar_con(inv_palo): "No le haría daño" ?
 	
-	use_with(*):
+	usar_con(*):
 		you.say INVALID_COMBINATION
 
 adoquin:
@@ -194,15 +193,15 @@ adoquin:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_poster):
+	usar_con(inv_poster):
 		self.disable
 		tool.remove
 		poster.enable
 	
-	use_with(inv_palo):
+	usar_con(inv_palo):
 		you.say USE_STICK_WITH_COBBLE
 		self.disable
-		.set cobble_already_fell=true
+		.set adoquin_ya_cayo=true
 		
 		jaula_a_oficina.enable
 		jaula_a_oficina.play opening blocking=true
@@ -218,7 +217,7 @@ jaula_a_oficina:
 			#.curtain_up
 			you.say "Mirá vo el cacho de oficina" # TODO
 	
-	use_with(inv_poster):
+	usar_con(inv_poster):
 		self.play closing blocking=true
 		self.play default
 		self.disable
@@ -240,10 +239,10 @@ reja:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_palo):
+	usar_con(inv_palo):
 		you.say "TODO ruido metal contra metal"
 	
-	use_with(inv_llave1):
+	usar_con(inv_llave1):
 		if not $jaula_esta_abierta:
 			.set music=""
 			you.say USE_KEY_WITH_BARS
@@ -253,13 +252,13 @@ reja:
 		else:
 			you.say USE_KEY_WITH_BARS_AGAIN
 		
-	use_with(inv_llave*):
+	usar_con(inv_llave*):
 		you.say WRONG_KEY
 	
-	use_with(inv_frasco):
+	usar_con(inv_frasco):
 		you.say NOT_A_GOOD_IDEA
 	
-	use_with(*):
+	usar_con(*):
 		if not $jaula_esta_abierta:
 			you.say CANT_OPEN_IT_WITH_THIS
 		else:
@@ -278,13 +277,13 @@ puerta_jaula:
 		else:
 			you.say TRY_TO_OPEN_CAGE_DOOR
 		
-	use_with(inv_llave*):
+	usar_con(inv_llave*):
 		if not $jaula_esta_abierta:
 			you.say CANT_REACH_DOOR
 		else:
 			you.say WRONG_KEY
 	
-	use_with(*):
+	usar_con(*):
 		if not $jaula_esta_abierta:
 			you.say CANT_REACH_DOOR
 		else:
@@ -292,7 +291,7 @@ puerta_jaula:
 
 jaula_a_sotano:
 	walk_to:
-		.load_room sotano at=positions/from_cage
+		.load_room sotano at=posicion/de_jaula
 		# keep music 'uajari'
 		#.curtain_up
 
@@ -305,13 +304,13 @@ armadura:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_palo):
+	usar_con(inv_palo):
 		you.say "TODO ruido de palo contra metal"
 	
-	use_with(inv_llave*):
+	usar_con(inv_llave*):
 		you.say DOES_NOT_HAVE_A_LOCK
 	
-	use_with(*):
+	usar_con(*):
 		you.say INVALID_COMBINATION
 
 busto:
@@ -321,16 +320,16 @@ busto:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_palo):
+	usar_con(inv_palo):
 		you.say I_CANT_DO_ANYTHING
 	
-	use_with(inv_frasco):
+	usar_con(inv_frasco):
 		you.say IT_WOULDNT_BE_WISE
 	
-	use_with(inv_llave*):
+	usar_con(inv_llave*):
 		you.say DOES_NOT_HAVE_A_LOCK
 	
-	use_with(*):
+	usar_con(*):
 		you.say INVALID_COMBINATION
 
 escritorio_oficina:
@@ -340,16 +339,16 @@ escritorio_oficina:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_palo):
+	usar_con(inv_palo):
 		you.say IT_IS_USELESS
 	
-	use_with(inv_llave*):
+	usar_con(inv_llave*):
 		you.say USE_KEY_WITH_OFFICE_DESK
 	
-	use_with(inv_frasco):
+	usar_con(inv_frasco):
 		you.say DOES_NOT_WORK
 	
-	use_with(*):
+	usar_con(*):
 		you.say INVALID_COMBINATION
 
 silla_oficina:
@@ -359,13 +358,13 @@ silla_oficina:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_palo):
+	usar_con(inv_palo):
 		you.say IT_DOESNT_MAKE_SENSE
 	
-	use_with(inv_llave*):
+	usar_con(inv_llave*):
 		you.say CANT_BE_OPENED_WITH_KEY
 	
-	use_with(*):
+	usar_con(*):
 		you.say INVALID_COMBINATION
 
 oficina_a_jaula:
@@ -400,13 +399,13 @@ mueble:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_palo):
+	usar_con(inv_palo):
 		you.say USE_STICK_WITH_FURNITURE
 	
-	use_with(inv_llave*):
+	usar_con(inv_llave*):
 		you.say IT_DOESNT_FIT
 	
-	use_with(*):
+	usar_con(*):
 		you.say INVALID_COMBINATION
 
 espejo:
@@ -416,10 +415,10 @@ espejo:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_palo):
+	usar_con(inv_palo):
 		you.say USE_STICK_WITH_MIRROR
 	
-	use_with(*):
+	usar_con(*):
 		you.say INVALID_COMBINATION
 
 oso:
@@ -429,19 +428,19 @@ oso:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_palo):
+	usar_con(inv_palo):
 		you.say USE_STICK_WITH_BEAR
 	
-	use_with(inv_llave*):
+	usar_con(inv_llave*):
 		you.say USE_KEY_WITH_BEAR
 	
-	use_with(inv_frasco):
+	usar_con(inv_frasco):
 		you.say DOES_NOT_WORK
 	
-	use_with(inv_calavera):
+	usar_con(inv_calavera):
 		you.say USE_SKULL_WITH_BEAR
 	
-	use_with(*):
+	usar_con(*):
 		you.say INVALID_COMBINATION
 
 ventana_living:
@@ -451,10 +450,10 @@ ventana_living:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_palo):
+	usar_con(inv_palo):
 		you.say "TODO ruido de golpear madera"
 	
-	use_with(*):
+	usar_con(*):
 		you.say INVALID_COMBINATION # TODO "No se abre así." ?
 
 puerta_living:
@@ -465,17 +464,17 @@ puerta_living:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_palo):
+	usar_con(inv_palo):
 		you.say IT_IS_USELESS
 		# TODO ruido de palo contra madera
 	
-	use_with(inv_llave*):
+	usar_con(inv_llave*):
 		you.say USE_KEY_WITH_LIVING_DOOR
 	
-	use_with(inv_frasco):
+	usar_con(inv_frasco):
 		you.say NOTHING_HAPPENS
 	
-	use_with(*):
+	usar_con(*):
 		you.say USE_X_WITH_LIVING_DOOR
 
 caja_fuerte:
@@ -503,15 +502,15 @@ cajita:
 		else:
 			you.say LOOK_SMALL_BOX_OPENED
 	
-	use_with(inv_llave1):
+	usar_con(inv_llave1):
 		you.say SAVE_KEY_IN_BOX
 		tool.remove
 		self.play default
 	
-	use_with(inv_llave*):
+	usar_con(inv_llave*):
 		you.say SAVE_ANOTHER_KEY_IN_BOX
 	
-	use_with(*):
+	usar_con(*):
 		you.say SAVE_X_IN_BOX # OJO esto implica que cualquier objeto pequeño debe tener otra rutina
 
 candelabro:
@@ -546,7 +545,7 @@ sotano_a_jaula:
 sotano_a_laboratorio:
 	#hand:
 	walk_to:
-		.load_room laboratorio at=positions/from_cellar
+		.load_room laboratorio at=posicion/de_sotano
 		.set music=lab
 		#.curtain_up
 	#look:
@@ -560,7 +559,7 @@ balde:
 	hand:
 		you.say "TODO"
 	
-	use_with(*):
+	usar_con(*):
 		you.say USE_X_WITH_BUCKET
 
 bomba:
@@ -570,16 +569,16 @@ bomba:
 	hand:
 		you.say "TODO"
 	
-	use_with(inv_palo):
+	usar_con(inv_palo):
 		you.say "*Ruido metálico*" # TODO
 	
-	use_with(inv_llave*):
+	usar_con(inv_llave*):
 		you.say USE_KEY_WITH_PUMP
 	
-	use_with(inv_frasco):
+	usar_con(inv_frasco):
 		you.say USE_FLASK_WITH_PUMP
 	
-	use_with(*):
+	usar_con(*):
 		you.say INVALID_COMBINATION
 
 doc:
@@ -610,28 +609,28 @@ puerta_laboratorio_a_sotano:
 		.load_room sotano at=sotano_a_laboratorio
 
 
-lab/to_cellar:
+laboratorio_a_sotano:
 	walk_to:
 		.load_room sotano at=posicion/de_laboratorio
 		# keep music 'lab'
 		#.curtain_up
 
-lab/guy:
+hombre_flotante:
 	look:
-		.load_room guy
+		.load_room hombre_flotante
 	hand:
-		.load_room guy
+		.load_room hombre_flotante
 
-guy/to_lab:
+hombre_flotante_a_laboratorio:
 	walk_to:
-		.load_room lab at=lab/guy
+		.load_room laboratorio at=hombre_flotante
 
-lab/desk:
+escritorio_laboratorio:
 	look:
-		.load_room desk
+		.load_room escritorio
 	hand:
-		.load_room desk
+		.load_room escritorio
 
-desk/to_lab:
+escritorio_a_laboratorio:
 	walk_to:
-		.load_room lab at=lab/desk
+		.load_room laboratorio at=escritorio_laboratorio
