@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/oficina.ogg-97edff503e28626c1e8ecc99b40828c9.oggstr"
+
+[deps]
+
+source_file="res://music/sources/oficina.ogg"
+dest_files=[ "res://.import/oficina.ogg-97edff503e28626c1e8ecc99b40828c9.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

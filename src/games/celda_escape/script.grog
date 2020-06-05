@@ -13,7 +13,7 @@ main:
 		
 		if $stage < 2:
 			.load_room jaula at=posicion/inicial
-			.set music=celda
+			.set music=jaula
 			.curtain_up
 			
 			if $stage = 0:
@@ -41,13 +41,13 @@ main:
 			# Etapa oficina
 			if $stage = 2:
 				.load_room oficina at=posicion/de_jaula
-				.set music=office
+				.set music=oficina
 				.curtain_up
 			
 			# Etapa living
 			elif $stage = 3:
 				.load_room living at=posicion/de_oficina
-				.set music=office
+				.set music=oficina
 				.curtain_up
 			
 			else:
@@ -213,7 +213,7 @@ jaula_a_oficina:
 		
 		if not $oficina_fue_descubierta:
 			.set oficina_fue_descubierta=true
-			.set music=office
+			.set music=oficina
 			#.curtain_up
 			you.say "Mirá vo el cacho de oficina" # TODO
 	
@@ -292,7 +292,7 @@ puerta_jaula:
 jaula_a_sotano:
 	ir:
 		.load_room sotano at=posicion/de_jaula
-		# keep music 'uajari'
+		# mantener música uajari'
 		#.curtain_up
 
 # Items oficina
@@ -371,17 +371,17 @@ oficina_a_jaula:
 	ir:
 		if not $jaula_esta_abierta:
 			.load_room jaula at=posicion/de_oficina
-			# keep music 'office'
+			# mantener música 'oficina'
 			#.curtain_up
 		else:
 			.load_room jaula_abierta at=posicion/de_oficina
-			# keep music 'office'
+			# mantener música 'oficina'
 			#.curtain_up
 
 oficina_a_living:
 	ir:
 		.load_room living at=posicion/de_oficina
-		# keep music 'office'
+		# mantener música 'oficina'
 		#.curtain_up
 
 # Items living
@@ -389,7 +389,7 @@ oficina_a_living:
 living_a_oficina:
 	ir:
 		.load_room oficina at=posicion/de_living
-		# keep music 'office'
+		# mantener música 'oficina'
 		#.curtain_up
 
 mueble:
@@ -612,7 +612,7 @@ puerta_laboratorio_a_sotano:
 laboratorio_a_sotano:
 	ir:
 		.load_room sotano at=posicion/de_laboratorio
-		# keep music 'lab'
+		# mantener música 'lab'
 		#.curtain_up
 
 hombre_flotante:

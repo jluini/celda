@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/jaula.ogg-3e50b54f730ff314d04e1d534f89a3eb.oggstr"
+
+[deps]
+
+source_file="res://music/sources/jaula.ogg"
+dest_files=[ "res://.import/jaula.ogg-3e50b54f730ff314d04e1d534f89a3eb.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0
