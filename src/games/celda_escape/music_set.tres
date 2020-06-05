@@ -1,9 +1,7 @@
-[gd_resource type="Resource" load_steps=15 format=2]
+[gd_resource type="Resource" load_steps=12 format=2]
 
 [ext_resource path="res://tools/loopin/set_resource.gd" type="Script" id=1]
 [ext_resource path="res://tools/loopin/song_resource.gd" type="Script" id=2]
-[ext_resource path="res://music/sources/uajari_final.ogg" type="AudioStream" id=3]
-[ext_resource path="res://music/sources/uajari.ogg" type="AudioStream" id=4]
 [ext_resource path="res://music/sources/oficina.ogg" type="AudioStream" id=5]
 [ext_resource path="res://music/sources/oficina_final.ogg" type="AudioStream" id=6]
 [ext_resource path="res://music/sources/jaula.ogg" type="AudioStream" id=7]
@@ -15,24 +13,12 @@ resource_name = "oficina"
 script = ExtResource( 2 )
 main_loop_stream = ExtResource( 5 )
 final_stream = ExtResource( 6 )
-number_of_measures = 48
-measure_numerator = 8
-measure_denominator = 3
+number_of_measures = 0
+measure_numerator = 0
+measure_denominator = 0
 end_mode = 2
-breaking_mode = 2
-breaking_measures = 2
-
-[sub_resource type="Resource" id=2]
-resource_name = "uajari"
-script = ExtResource( 2 )
-main_loop_stream = ExtResource( 4 )
-final_stream = ExtResource( 3 )
-number_of_measures = 22
-measure_numerator = 4
-measure_denominator = 1
-end_mode = 2
-breaking_mode = 2
-breaking_measures = 1
+breaking_mode = 1
+breaking_measures = 0
 
 [sub_resource type="Resource" id=3]
 resource_name = "jaula"
@@ -69,4 +55,4 @@ breaking_measures = 0
 
 [resource]
 script = ExtResource( 1 )
-songs = [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ]
+songs = [ SubResource( 1 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ) ]

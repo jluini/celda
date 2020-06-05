@@ -3,10 +3,10 @@
 main:
 	init:
 		
-		.set llave1_fue_agarrada=false
-		.set adoquin_ya_cayo=false
 		.set jaula_esta_abierta=false
+		.set adoquin_ya_cayo=false
 		.set oficina_fue_descubierta=false
+		.set llave1_fue_agarrada=false
 		
 		jaula_a_oficina.disable
 		adoquin.disable
@@ -34,6 +34,8 @@ main:
 			jaula_a_oficina.enable
 			jaula_a_oficina.play open
 			inv_poster.add
+			.set adoquin_ya_cayo=true
+			.set oficina_fue_descubierta=true
 			
 			palo.disable
 			inv_palo.add
@@ -55,18 +57,16 @@ main:
 				inv_llave1.add
 				cajita.play open
 				
-				# TODO otras modificaciones
-				
 				# Etapa jaula abierta
 				if $stage = 4:
 					.load_room jaula_abierta at=posicion/de_oficina
-					.set music=uajari
+					.set music=jaula
 					.curtain_up
 				
 				# Etapa sótano
 				elif $stage = 5:
 					.load_room sotano at=posicion/de_jaula
-					.set music=lab
+					.set music=jaula
 					.curtain_up
 				
 				# Etapa laboratorio
@@ -210,11 +210,11 @@ adoquin:
 jaula_a_oficina:
 	ir:
 		.load_room oficina at=posicion/de_jaula
+		#.curtain_up
+		.set music=oficina
 		
 		if not $oficina_fue_descubierta:
 			.set oficina_fue_descubierta=true
-			.set music=oficina
-			#.curtain_up
 			you.say "Mirá vo el cacho de oficina" # TODO
 	
 	usar_con(inv_poster):
@@ -244,9 +244,7 @@ reja:
 	
 	usar_con(inv_llave1):
 		if not $jaula_esta_abierta:
-			.set music=""
 			you.say LLAVE_EN_REJA
-			.set music="uajari"
 			.set jaula_esta_abierta=true
 			.load_room jaula_abierta at=posicion/abriendo_reja
 		else:
@@ -292,7 +290,7 @@ puerta_jaula:
 jaula_a_sotano:
 	ir:
 		.load_room sotano at=posicion/de_jaula
-		# mantener música uajari'
+		# mantener música jaula
 		#.curtain_up
 
 # Items oficina
@@ -371,12 +369,11 @@ oficina_a_jaula:
 	ir:
 		if not $jaula_esta_abierta:
 			.load_room jaula at=posicion/de_oficina
-			# mantener música 'oficina'
-			#.curtain_up
 		else:
 			.load_room jaula_abierta at=posicion/de_oficina
-			# mantener música 'oficina'
-			#.curtain_up
+		
+		#.curtain_up
+		.set music=jaula
 
 oficina_a_living:
 	ir:
@@ -539,18 +536,14 @@ cuadro_a_living:
 sotano_a_jaula:
 	ir:
 		.load_room jaula_abierta at=posicion/de_sotano
-		.set music=uajari
+		# mantener música 'jaula'
 		#.curtain_up
 
 sotano_a_laboratorio:
-	#mano:
 	ir:
 		.load_room laboratorio at=posicion/de_sotano
 		.set music=lab
 		#.curtain_up
-	#mirar:
-	#	.load_room puerta_laboratorio
-	#	#.curtain_up
 
 balde:
 	mirar:
@@ -612,7 +605,7 @@ puerta_laboratorio_a_sotano:
 laboratorio_a_sotano:
 	ir:
 		.load_room sotano at=posicion/de_laboratorio
-		# mantener música 'lab'
+		.set music=jaula
 		#.curtain_up
 
 hombre_flotante:
