@@ -199,13 +199,19 @@ adoquin:
 		poster.enable
 	
 	usar_con(inv_palo):
+		.set music=""
+		
 		you.say PALO_EN_ADOQUIN
 		self.disable
 		.set adoquin_ya_cayo=true
 		
+		.signal sound/agujero
+		
 		jaula_a_oficina.enable
 		jaula_a_oficina.play opening blocking=true
 		jaula_a_oficina.play open
+		
+		
 
 jaula_a_oficina:
 	ir:

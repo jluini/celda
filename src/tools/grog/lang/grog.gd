@@ -176,6 +176,13 @@ const commands = {
 		required_params = []
 	},
 	
+	"signal": {
+		subject = SubjectType.None,
+		
+		required_params = [
+			{ name = "signal_name", type = ParameterType.Identifier }
+		]
+	}
 }
 
 const item_id_separator := "/"

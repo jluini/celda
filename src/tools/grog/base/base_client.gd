@@ -2,10 +2,16 @@ extends "res://tools/modular/module.gd"
 
 signal game_ended
 
+export (Dictionary) var named_sounds = {}
+
+onready var _audio_player = $audio_player
+
 var server
 var game_instance = null
 
 var _loaded_items: Array
+
+var _sound_signal_prefix := "sound/"
 
 func _get_module_name():
 	return "grog-client"
@@ -82,6 +88,18 @@ func _on_server_variable_set(var_name: String, new_value):
 func _on_server_tool_set(_item, _verb: String):
 	_log_warning("override _on_server_tool_set")
 
+func _on_server_signal_emitted(signal_name: String):
+	if signal_name.begins_with(_sound_signal_prefix):
+		var sound_name: String = signal_name.substr(_sound_signal_prefix.length())
+		
+		var sound: AudioStream = named_sounds.get(sound_name, null)
+		if sound:
+			# TODO check not looped?
+			_play_sound(sound)
+		else:
+			_log_warning("sound '%s' not found" % sound_name)
+	else:
+		_log_warning("ignoring signal '%s'" % signal_name)
 ###
 
 func _get_scene_item_at(position: Vector2):
@@ -147,3 +165,7 @@ func _start_game_from(filename: String) -> Dictionary:
 		game_instance.connect("game_event", self, "on_server_event")
 	
 	return new_game_result
+
+func _play_sound(sound_stream: AudioStream):
+	_audio_player.stream = sound_stream
+	_audio_player.play()

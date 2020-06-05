@@ -18,16 +18,17 @@ Instructions can be:
 | **load\_room**    | Loads a new room.                             | `            .load_room    <room_id> at=<initial_player_position>                   ` |
 | **curtain\_up**   | Curtain up.                                   | `            .curtain_up                                                            ` |
 | **set**           | Sets the value of a global variable.          | `            .set          <var_name>=<expression...>                               ` |
-| **wait**          | Waits `delay` seconds.                        | `            .wait         <delay> [skippable=true\|false]                          ` |
-| **say**           | The environment or an item says something.    | ` [<subject>].say          <speech> [skippable=true\|false]  [duration=<delay>]     ` |
+| **wait**          | Waits `delay` seconds.                        | `            .wait         <delay> [skippable=<bool>]                               ` |
+| **say**           | The environment or an item says something.    | ` [<subject>].say          <speech> [skippable=<bool>]  [duration=<delay>]          ` |
 | **enable**        | Enable a scene item (loaded or not).          | `   <sc_item>.enable                                                                ` |
 | **disable**       | Disable a scene item (loaded or not).         | `   <sc_item>.disable                                                               ` |
 | **add**           | Increments an inventory item's count.         | `  <inv_item>.add                                                                   ` |
 | **remove**        | Decrements an inventory item's count.         | `  <inv_item>.remove                                                                ` |
 | **teleport**      | Moves the player or item.                     | `   <subject>.teleport     to=<target_name>   [angle=<int>]                         ` |
 | **walk**          | Player or item walks to position.             | `   <subject>.walk         to=<target_name>                                         ` |
-| **play**          | Sets a state to a scene item (loaded or not). | `   <sc_item>.play         <animation_name>                                         ` |
+| **play**          | Sets a state to a scene item (loaded or not). | `   <sc_item>.play         <animation_name>   [blocking=<bool>]                     ` |
 | **set\_tool**     | Sets a scene/inventory item as "tool".        | `      <item>.set_tool     <verb_name>                                              ` |
+| **signal**        | Emits a signal.                               | `            .signal       <signal_name>                                            ` |
 | **debug**         | Shows evaluation result in console.           | `            .debug        <expression...>                                          ` |
 | **end**           | Ends the game.                                | `            .end                                                                   ` |
 
@@ -107,12 +108,20 @@ TODO add documentation.
 
 ## play
 
-TODO not implemented.
+TODO add documentation.
 
 
 ## set_tool
 
 Sets an item (usually the interacting one) as current *tool*. That means it can be combined with another items for further interactions.
+
+## signal
+
+Emits a named signal so that the client can react to it. The signal doesn't affect the game at all.
+
+These signals can be used to trigger sounds in the client.
+
+	.signal sound/sound1        # the client can implement this by playing a sound 'sound1'
 
 ## debug
 

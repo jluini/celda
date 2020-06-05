@@ -1,5 +1,7 @@
 extends "res://tools/grog/base/base_client.gd"
 
+export (AudioStream) var new_game_audio
+
 onready var _room_parent = $viewport_container/viewport
 onready var _side_menu = $ui/menu/side_menu
 onready var _curtain = $ui/curtain_animation
@@ -88,7 +90,8 @@ func _start():
 #		_log_warning("unexpected state %s" % _client_state_str())
 #		return
 	_modular.broadcast("music", "stop", [])
-	$audio_player.play()
+	
+	_play_sound(new_game_audio)
 	
 	_item_selector.hide() # just in case
 	_action_list.hide() # just in case

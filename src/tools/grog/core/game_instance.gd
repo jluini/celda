@@ -756,6 +756,11 @@ func _command_set_tool(item_id: String, verb: String) -> Dictionary:
 func _set_tool(item, verb: String):
 	_game_event("tool_set", [item, verb])
 
+func _command_signal(signal_name: String):
+	_game_event("signal_emitted", [signal_name])
+	
+	return _instant_termination
+
 ### command utils
 
 # TODO this must be revised
