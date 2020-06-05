@@ -40,79 +40,73 @@ ITEM_LAB/TO_CELLAR;door;puerta
 ITEM_LAB/STRETCHER;stretcher;camilla
 ITEM_LAB/DESK;desk;escritorio
 INTRO;Benjamín pidió una bebida de kiwi y fresa. Noé, sin vergüenza, la más exquisita champaña del menú.;Benjamín pidió una bebida de kiwi y fresa. Noé, sin vergüenza, la más exquisita champaña del menú.
-ACTION_WALK_TO;go;ir
-ACTION_LOOK;look;mirar
-ACTION_USE;use;usar
-ACTION_PICK_UP;pick up;recoger
-LOOK_POSTER;"It says ""hang in there"".";"Dice ""hang in there""."
-LOOK_COBBLE;It seems loose.;Parece flojo.
-USE_STICK_WITH_COBBLE;Maybe I can move it.;Tal vez pueda moverlo.
-LOOK_BOOK;TODO;TODO
-LOOK_KEY1;A little key.;Una pequeña llave.
-LOOK_KEY2;Another little key.;Otra pequeña llave.
-LOOK_INV_STICK;TODO;TODO
-LOOK_SKULL;TODO;TODO
-LOOK_FLASK;TODO;TODO
-CANT_REACH_DOOR;I can't reach it.;No puedo alcanzarla.
-TRY_TO_OPEN_CAGE_DOOR;It seems to be locked.;Parece estar trabada.
-LOOK_BED;It's not less hard than the stones on the ground.;No es menos dura que las piedras del suelo.
-USE_KEY_WITH_BED;I don't think it will be unlocked.;No parece abrirse con llave.
-LOOK_TOILET;It has not been used for a long time.;No se usa hace largo tiempo.
-USE_KEY_WITH_TOILET1;I wouldn't discard the key here.;No tiraría la llave al inodoro.
-USE_KEY_WITH_TOILET2;Maybe later it will help me.;Tal vez más tarde me sea útil.
-USE_FLASK_WITH_TOILET;It would be a waste to throw it here.;Sería un desperdicio tirarlo aquí.
-USE_POSTER_WITH_TOILET;No. It could get clogged.;No. Podría taparse y quizás lo necesite.
-USE_X_WITH_TOILET;I wouldn't throw it here.;No lo tiraría aquí.
-LOOK_CAGE_STICK;TODO;TODO
-LOOK_BARS;It's old and very rusty.;Está vieja y muy oxidada.
-USE_KEY_WITH_BARS;Oh, it fits perfectly!;Oh, ¡entra perfectamente!
-USE_KEY_WITH_BARS_AGAIN;I don't want to close it, it could get stuck.;No quisiera cerrarla, podría trabarse.
-WRONG_KEY;It's not the right key.;No es la llave correcta.
-CANT_OPEN_IT_WITH_THIS;I can't open it with this.;No puedo abrirla con esto.
-LOOK_ARMOUR;It's and old German armour.;Es una antigua armadura alemana.
-LOOK_BUST;She looks very happy.;Se la ve muy feliz.
-LOOK_OFFICE_DESK;It's tidy and its drawers seem closed.;Está ordenado y sus cajones parecen cerrados.
-USE_KEY_WITH_OFFICE_DESK;It doesn't unlock any of its drawers.;No abre ninguno de sus cajones.
-LOOK_OFFICE_CHAIR;It looks comfortable, although the leather is battered.;Parece cómoda, aunque el cuero se ve maltratado.
-LOOK_FURNITURE;Antique piece of furniture, very luxurious.;Mueble antiguo, muy lujoso.
-USE_STICK_WITH_FURNITURE;It's not worth hitting it with the stick.;No vale la pena romperlo a palazos.
-LOOK_MIRROR;TODO;TODO
-USE_STICK_WITH_MIRROR;I don't want to break it.;No quisiera romperlo.
-LOOK_BEAR;A majestic creature.;Una majestuosa criatura.
-USE_STICK_WITH_BEAR;I think it suffered too much to hit it with an iron.;Creo que ya sufrió demasiado como para darle con un fierro.
-USE_KEY_WITH_BEAR;Bears don't have keys.;Los osos no tienen llave.
-USE_SKULL_WITH_BEAR;It already has a head.;Ya tiene cabeza.
-LOOK_LIVING_WINDOW;TODO;Está tapiada, ¿por qué lo habrán hecho?
-LOOK_LIVING_DOOR1;Fresh air passes underneath.;Un aire fresco pasa por debajo.
-LOOK_LIVING_DOOR2;I have to find a way to open it.;Tengo que buscar la forma de abrirla.
-USE_KEY_WITH_LIVING_DOOR;It doesn't even fit into the lock.;Ni siquiera entra en la cerradura.
-USE_X_WITH_LIVING_DOOR;I can't open it with this.;No me sirve para abrirla.
-LOOK_STRONGBOX;It seems to be a strongbox.;Parece una caja fuerte.
-LOOK_SMALL_BOX1;It's a delicate little box.;Es una delicada caja.
-LOOK_SMALL_BOX2;It seems to have something inside of it...;Creo que tiene algo en su interior...
-LOOK_SMALL_BOX3;a little key!;¡una pequeña llave!
-LOOK_SMALL_BOX_AGAIN;I will take the key again.;Tomaré la llave otra vez.
-LOOK_SMALL_BOX_OPENED;It's the box where I got the key from.;Es la caja de donde obtuve la llave.
-SAVE_KEY_IN_BOX;I'll leave the key in its place.;Dejaré la llave en su lugar.
-SAVE_ANOTHER_KEY_IN_BOX;I don't want to play hiding keys.;No quiero jugar a esconder llaves.
-SAVE_X_IN_BOX;It doesn't fit in this little box.;No entra en esta pequeña cajita.
-LOOK_CANDELABRUM;TODO;TODO
-LOOK_BUCKET;It's just a bucket.;Es un simple balde.
-USE_X_WITH_BUCKET;Why would I put this in the bucket?;¿Para qué metería esto en el balde?
-LOOK_PUMP;A rusty pump. It has not been used for a very long time.;Benjamín pidió una bebida de kiwi y fresa. Noé, sin vergüenza, la más exquisita champaña del menú. Una bomba oxidada. No se usa hace muchísimo tiempo.
-USE_KEY_WITH_PUMP;I suspect that's not how it works.;Sospecho que no es así como funciona.
-USE_FLASK_WITH_PUMP;Of course not.;Desde luego que no.
-BAD_IDEA;Bad idea.;Mala idea.
-NOT_A_GOOD_IDEA;Not a good idea.;No es buena idea.
-SAY_NO;No.;No.
-FOR_WHAT;For what?;¿Para qué?
-DOES_NOT_WORK;It doesn't work.;No funciona.
-IT_DOESNT_MAKE_SENSE;It doesn't make sense.;No tiene sentido.
-IT_IS_USELESS;It's useless.;Es inútil.
-NOTHING_HAPPENS;Nothing happens.;No sucede nada.
-IT_DOESNT_FIT;It doesn't fit;No entra.
-I_CANT_DO_ANYTHING;I can't do anything.;No puedo hacer nada.
-IT_WOULDNT_BE_WISE;It wouldn't be wise.;No sería prudente.
-DOES_NOT_HAVE_A_LOCK;It doesn't have a lock.;No tiene cerradura.
-CANT_BE_OPENED_WITH_KEY;It can't be opened with a key.;No se abre con llave.
-INVALID_COMBINATION;That doesn't seem to work.;Eso no parece funcionar.
+MIRAR_POSTER;"It says ""hang in there"".";"Dice ""hang in there""."
+MIRAR_ADOQUIN;It seems loose.;Parece flojo.
+MIRAR_LIBRO;TODO;TODO
+MIRAR_LLAVE1;A little key.;Una pequeña llave.
+MIRAR_LLAVE2;Another little key.;Otra pequeña llave.
+MIRAR_PALO;TODO;TODO
+MIRAR_CALAVERA;TODO;TODO
+MIRAR_FRASCO;TODO;TODO
+MIRAR_CAMA;It's not less hard than the stones on the ground.;No es menos dura que las piedras del suelo.
+MIRAR_INODORO;It has not been used for a long time.;No se usa hace largo tiempo.
+MIRAR_REJA;It's old and very rusty.;Está vieja y muy oxidada.
+MIRAR_ARMADURA;It's and old German armour.;Es una antigua armadura alemana.
+MIRAR_BUSTO;She looks very happy.;Se la ve muy feliz.
+MIRAR_ESCRITORIO_OFICINA;It's tidy and its drawers seem closed.;Está ordenado y sus cajones parecen cerrados.
+MIRAR_SILLA_OFICINA;It looks comfortable, although the leather is battered.;Parece cómoda, aunque el cuero se ve maltratado.
+MIRAR_MUEBLE;Antique piece of furniture, very luxurious.;Mueble antiguo, muy lujoso.
+MIRAR_ESPEJO;TODO;TODO
+MIRAR_OSO;A majestic creature.;Una majestuosa criatura.
+MIRAR_VENTANA_LIVING;TODO;Está tapiada, ¿por qué lo habrán hecho?
+MIRAR_PUERTA_LIVING1;Fresh air passes underneath.;Un aire fresco pasa por debajo.
+MIRAR_PUERTA_LIVING2;I have to find a way to open it.;Tengo que buscar la forma de abrirla.
+MIRAR_CAJA_FUERTE;It seems to be a strongbox.;Parece una caja fuerte.
+MIRAR_CAJITA;It's a delicate little box.;Es una delicada caja.
+MIRAR_CANDELABRO;TODO;TODO
+MIRAR_BALDE;It's just a bucket.;Es un simple balde.
+MIRAR_BOMBA;A rusty pump. It has not been used for a very long time.;Benjamín pidió una bebida de kiwi y fresa. Noé, sin vergüenza, la más exquisita champaña del menú. Una bomba oxidada. No se usa hace muchísimo tiempo.
+FRASCO_EN_INODORO;It would be a waste to throw it here.;Sería un desperdicio tirarlo aquí.
+POSTER_EN_INODORO;No. It could get clogged.;No. Podría taparse y quizás lo necesite.
+X_EN_INODORO;I wouldn't throw it here.;No lo tiraría aquí.
+PALO_EN_ADOQUIN;Maybe I can move it.;Tal vez pueda moverlo.
+PALO_EN_MUEBLE;It's not worth hitting it with the stick.;No vale la pena romperlo a palazos.
+PALO_EN_ESPEJO;I don't want to break it.;No quisiera romperlo.
+PALO_EN_OSO;I think it suffered too much to hit it with an iron.;Creo que ya sufrió demasiado como para darle con un fierro.
+LLAVE_EN_INODORO1;I wouldn't discard the key here.;No tiraría la llave al inodoro.
+LLAVE_EN_INODORO2;Maybe later it will help me.;Tal vez más tarde me sea útil.
+LLAVE_EN_REJA;Oh, it fits perfectly!;Oh, ¡entra perfectamente!
+LLAVE_EN_REJA_OTRA_VEZ;I don't want to close it, it could get stuck.;No quisiera cerrarla, podría trabarse.
+LLAVE_EN_ESCRITORIO;It doesn't unlock any of its drawers.;No abre ninguno de sus cajones.
+LLAVE_EN_OSO;Bears don't have keys.;Los osos no tienen llave.
+LLAVE_EN_PUERTA_LIVING;It doesn't even fit into the lock.;Ni siquiera entra en la cerradura.
+LLAVE_EN_CAJITA;I'll leave the key in its place.;Dejaré la llave en su lugar.
+OTRA_LLAVE_EN_CAJITA;I don't want to play hiding keys.;No quiero jugar a esconder llaves.
+NO_ENTRA_EN_CAJITA;It doesn't fit in this little box.;No entra en esta pequeña cajita.
+TOMAR_CAJITA1;It seems to have something inside of it...;Creo que tiene algo en su interior...
+TOMAR_CAJITA2;a little key!;¡una pequeña llave!
+TOMAR_CAJITA_OTRA_VEZ;I will take the key again.;Tomaré la llave otra vez.
+CALAVERA_EN_OSO;It already has a head.;Ya tiene cabeza.
+X_EN_BALDE;Why would I put this in the bucket?;¿Para qué metería esto en el balde?
+MALA_IDEA;Bad idea.;Mala idea.
+DECIR_NO;No.;No.
+PARA_QUE;For what?;¿Para qué?
+NO_ES_LA_LLAVE_CORRECTA;It's not the right key.;No es la llave correcta.
+NO_PARECE_ABRIRSE_CON_LLAVE;I don't think it will be unlocked.;No parece abrirse con llave.
+NO_SE_ABRE_CON_LLAVE;It can't be opened with a key.;No se abre con llave.
+NO_TIENE_CERRADURA;It doesn't have a lock.;No tiene cerradura.
+PARECE_ESTAR_TRABADA;It seems to be locked.;Parece estar trabada.
+NO_PUEDO_ABRIRLA_CON_ESTO;I can't open it with this.;No puedo abrirla con esto.
+NO_ME_SIRVE_PARA_ABRIRLA;I can't open it with this.;No me sirve para abrirla.
+NO_ES_BUENA_IDEA;Not a good idea.;No es buena idea.
+NO_PUEDO_ALCANZARLA;I can't reach it.;No puedo alcanzarla.
+NO_PUEDO_HACER_NADA;I can't do anything.;No puedo hacer nada.
+NO_SERIA_PRUDENTE;It wouldn't be wise.;No sería prudente.
+NO_TIENE_SENTIDO;It doesn't make sense.;No tiene sentido.
+ES_INUTIL;It's useless.;Es inútil.
+NO_FUNCIONA;It doesn't work.;No funciona.
+NO_ENTRA;It doesn't fit;No entra.
+NADA_SUCEDE;Nothing happens.;No sucede nada.
+SOSPECHO_QUE_ASI_NO_FUNCIONA;I suspect that's not how it works.;Sospecho que no es así como funciona.
+DESDE_LUEGO_QUE_NO;Of course not.;Desde luego que no.
+COMBINACION_INVALIDA;That doesn't seem to work.;Eso no parece funcionar.
