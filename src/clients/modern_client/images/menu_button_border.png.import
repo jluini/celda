@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/borde.png-9967b1d1cf3548f988026f5e8885d20b.stex"
+path="res://.import/menu_button_border.png-db3ecf30557a0777224983760b9df458.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://clients/modern_client/images/borde.png"
-dest_files=[ "res://.import/borde.png-9967b1d1cf3548f988026f5e8885d20b.stex" ]
+source_file="res://clients/modern_client/images/menu_button_border.png"
+dest_files=[ "res://.import/menu_button_border.png-db3ecf30557a0777224983760b9df458.stex" ]
 
 [params]
 

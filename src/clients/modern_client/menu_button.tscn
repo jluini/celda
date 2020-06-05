@@ -1,8 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://clients/modern_client/main_menu_button.gd" type="Script" id=1]
-[ext_resource path="res://clients/modern_client/images/border.png" type="Texture" id=2]
+[ext_resource path="res://clients/modern_client/images/menu_button_border.png" type="Texture" id=2]
 [ext_resource path="res://tools/theming/custom_label.gd" type="Script" id=3]
+
 
 [node name="button" type="TextureRect"]
 self_modulate = Color( 1, 1, 1, 0 )
