@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/walls.png-3210d4376741f20a36bd4d089f4fec61.stex"
+path="res://.import/marcos.png-7deb047de461ddceac74ef4efa4c6f4d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://games/celda_escape/rooms/sotano/walls.png"
-dest_files=[ "res://.import/walls.png-3210d4376741f20a36bd4d089f4fec61.stex" ]
+source_file="res://games/celda_escape/rooms/sotano/marcos.png"
+dest_files=[ "res://.import/marcos.png-7deb047de461ddceac74ef4efa4c6f4d.stex" ]
 
 [params]
 
