@@ -1,13 +1,15 @@
 id;en;es
+ACTION_MIRAR;look;mirar
+ACTION_MANO;use;usar
+ITEM_INV_POSTER;poster;póster
+ITEM_INV_LIBRO;book;libro
+ITEM_INV_LLAVE1;key;llave
+ITEM_INV_LLAVE2;key 2;llave 2
+ITEM_INV_PALO;stick;palo
+ITEM_INV_CALAVERA;skull;calavera
+ITEM_INV_FRASCO;flask;frasco
 ITEM_CAGE/POSTER;poster;póster
 ITEM_CAGE/COBBLE;cobble;adoquín
-ITEM_INV_POSTER;poster;póster
-ITEM_INV_BOOK;book;libro
-ITEM_INV_KEY1;key;llave
-ITEM_INV_KEY2;key 2;llave 2
-ITEM_INV_STICK;stick;palo
-ITEM_INV_SKULL;skull;calavera
-ITEM_INV_FLASK;flask;frasco
 ITEM_CAGE/TO_OFFICE;hole;hueco
 ITEM_CAGE/DOOR;door;puerta
 ITEM_CAGE/BED;bed;cama

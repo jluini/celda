@@ -164,11 +164,12 @@ __meta__ = {
 normal_color = Color( 1, 1, 1, 0.0588235 )
 
 [node name="action_list" type="ColorRect" parent="ui"]
-visible = false
-margin_left = 1619.61
-margin_top = 629.241
-margin_right = 1922.61
-margin_bottom = 1084.98
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -300.0
+margin_top = -310.0
 mouse_filter = 2
 color = Color( 0.027451, 0.0823529, 0.333333, 0.576471 )
 script = ExtResource( 6 )
@@ -184,13 +185,12 @@ margin_top = 5.0
 margin_right = -5.0
 margin_bottom = -5.0
 mouse_filter = 2
-custom_constants/separation = 5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="header" type="Control" parent="ui/action_list/rows"]
-margin_right = 293.0
+margin_right = 290.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 0, 60 )
 mouse_filter = 2

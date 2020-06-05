@@ -57,5 +57,6 @@ position = Vector2( 60, 0 )
 texture = ExtResource( 2 )
 
 [node name="animation" type="AnimationPlayer" parent="."]
+playback_speed = 1.5
 anims/default = SubResource( 1 )
 anims/open = SubResource( 2 )
