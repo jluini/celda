@@ -156,6 +156,7 @@ item_scene = ExtResource( 15 )
 [node name="tween" type="Tween" parent="ui/inventory_base"]
 
 [node name="selector" type="ColorRect" parent="ui"]
+visible = false
 margin_left = 1255.61
 margin_top = 562.034
 margin_right = 1804.61
@@ -169,6 +170,7 @@ __meta__ = {
 normal_color = Color( 1, 1, 1, 0.0588235 )
 
 [node name="action_list" type="ColorRect" parent="ui"]
+visible = false
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0

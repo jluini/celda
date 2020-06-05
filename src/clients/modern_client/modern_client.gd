@@ -447,10 +447,8 @@ func _on_quit_pressed():
 	if not already_quitting:
 		_quit_button.set_pressed(true)
 		_pressed_button = _quit_button
-
-	# TODO!!
-	#get_tree().quit()
-
+	
+	get_tree().quit()
 
 func _on_back_button_pressed():
 	_close_all()
