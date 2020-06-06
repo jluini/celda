@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
 [ext_resource path="res://tools/grog/core/room.gd" type="Script" id=2]
 [ext_resource path="res://games/celda_escape/rooms/sotano/doc_zoom.png" type="Texture" id=3]
+[ext_resource path="res://games/celda_escape/rooms/sotano/doc_zoom_frasco.png" type="Texture" id=4]
 
 [node name="room" type="Node"]
 script = ExtResource( 2 )
@@ -25,6 +26,8 @@ offset = Vector2( 0, 0 )
 color = Color( 1, 1, 1, 1 )
 
 [node name="sprite" type="Sprite" parent="items/frasco"]
+position = Vector2( 0, 9.95129 )
+texture = ExtResource( 4 )
 
 [node name="a_sotano" type="Node2D" parent="items"]
 position = Vector2( 960, 540 )
