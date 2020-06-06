@@ -24,6 +24,8 @@ size = Vector2( 125, 95 )
 offset = Vector2( 0, 0 )
 color = Color( 1, 1, 1, 1 )
 
+[node name="sprite" type="Sprite" parent="items/frasco"]
+
 [node name="a_sotano" type="Node2D" parent="items"]
 position = Vector2( 960, 540 )
 z_index = 540

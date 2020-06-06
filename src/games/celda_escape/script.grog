@@ -605,7 +605,8 @@ frasco:
 	mirar:
 		you.say MIRAR_FRASCO
 	mano:
-		you.say "No puedo, está dibujado."
+		self.disable
+		inv_frasco.add
 
 # Lab items
 
