@@ -601,6 +601,12 @@ doc_a_sotano:
 	ir:
 		.load_room sotano at=doc
 
+frasco:
+	mirar:
+		you.say MIRAR_FRASCO
+	mano:
+		you.say "No puedo, está dibujado."
+
 # Lab items
 
 puerta_laboratorio_a_sotano:

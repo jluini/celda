@@ -15,6 +15,15 @@ centered = false
 
 [node name="items" type="Node" parent="."]
 
+[node name="frasco" type="Node2D" parent="items"]
+position = Vector2( 1507.55, 528.539 )
+z_index = 528
+script = ExtResource( 1 )
+key = "frasco"
+size = Vector2( 125, 95 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
+
 [node name="a_sotano" type="Node2D" parent="items"]
 position = Vector2( 960, 540 )
 z_index = 540
