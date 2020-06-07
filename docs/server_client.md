@@ -1,4 +1,4 @@
-[<- back to index](index.md)
+[<- back to grog index](index.md)
 
 # Requests sent from client to server
 
@@ -34,4 +34,4 @@
 |  `tool_set(new_tool, verb)                                           `  |  An item is set as _tool_.                                |
 |  `signal_emitted(signal_name: String)                                `  |  A named signal was emitted by the game.                  |
 
-[<- back to index](index.md)
+[<- back to grog index](index.md)

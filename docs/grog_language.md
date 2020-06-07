@@ -1,4 +1,4 @@
-[<- back to index](index.md)
+[<- back to grog index](index.md)
 
 # Grog language
 
@@ -131,4 +131,4 @@ TODO not implemented.
 
 TODO not implemented.
 
-[<- back to index](index.md)
+[<- back to grog index](index.md)
