@@ -14,12 +14,12 @@ main:
 		if $stage < 2:
 			.load_room jaula at=posicion/inicial
 			.set music=jaula
-			.curtain_up
+			
 			
 			if $stage = 0:
 				
 				# ... intro goes here
-				.say INTRO
+				#.say INTRO
 				
 			else:
 				
@@ -28,6 +28,8 @@ main:
 				inv_llave2.add
 				inv_frasco.add
 				inv_llave1.add
+			
+			.curtain_up
 		else:
 			
 			poster.disable

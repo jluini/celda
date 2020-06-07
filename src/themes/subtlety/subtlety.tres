@@ -8,6 +8,6 @@
 [resource]
 resource_name = "subtlety"
 default_font = ExtResource( 1 )
-Label/fonts/Speech = ExtResource( 4 )
 Label/fonts/big = ExtResource( 3 )
 Label/fonts/huge = ExtResource( 2 )
+Label/fonts/speech = ExtResource( 4 )

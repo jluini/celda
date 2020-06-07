@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
@@ -10,10 +10,9 @@
 [ext_resource path="res://tools/modular/console_font.tres" type="DynamicFont" id=8]
 [ext_resource path="res://music/sources/nuevo_juego.ogg" type="AudioStream" id=9]
 [ext_resource path="res://clients/modern_client/selector.gd" type="Script" id=10]
-[ext_resource path="res://tools/theming/themed_label.gd" type="Script" id=11]
+[ext_resource path="res://clients/modern_client/speech.tscn" type="PackedScene" id=11]
 [ext_resource path="res://clients/modern_client/saved/game_entry.tscn" type="PackedScene" id=12]
 [ext_resource path="res://clients/modern_client/inventory.gd" type="Script" id=13]
-[ext_resource path="res://clients/modern_client/images/speech_stylebox.tres" type="StyleBox" id=14]
 [ext_resource path="res://clients/modern_client/inventory_item.tscn" type="PackedScene" id=15]
 [ext_resource path="res://clients/modern_client/bubbles.tscn" type="PackedScene" id=16]
 [ext_resource path="res://tools/ui_tools/slider.gd" type="Script" id=17]
@@ -51,7 +50,6 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=3]
-length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("curtain:modulate")
 tracks/0/interp = 1
@@ -65,8 +63,7 @@ tracks/0/keys = {
 "values": [ Color( 0, 0, 0, 0 ), Color( 0, 0, 0, 1 ) ]
 }
 
-[sub_resource type="Animation" id=4]
-length = 2.0
+[sub_resource type="Animation" id=6]
 tracks/0/type = "value"
 tracks/0/path = NodePath("curtain:modulate")
 tracks/0/interp = 1
@@ -250,26 +247,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="speech" type="Label" parent="ui"]
-visible = false
-anchor_right = 1.0
-margin_left = 100.0
-margin_right = -99.9999
-margin_bottom = 44.0
-custom_styles/normal = ExtResource( 14 )
-align = 1
-autowrap = true
-script = ExtResource( 11 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-label_type = "Speech"
+[node name="speech" parent="ui" instance=ExtResource( 11 )]
 
 [node name="curtain_animation" type="AnimationPlayer" parent="ui"]
 anims/closed = SubResource( 1 )
 anims/default = SubResource( 2 )
 anims/down = SubResource( 3 )
-anims/up = SubResource( 4 )
+anims/up = SubResource( 6 )
 
 [node name="timer" type="Timer" parent="ui"]
 one_shot = true

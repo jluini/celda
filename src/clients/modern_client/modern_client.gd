@@ -60,8 +60,6 @@ func _on_init():
 	
 	#Input.set_mouse_mode(Input.MOUSE_MODE_CONFINED)
 	
-	_speech_label.hide()
-	
 	_side_menu.connect("completed", self, "_on_menu_completed")
 	
 	_modular.broadcast("music", "start", ["menu"])
@@ -93,15 +91,13 @@ func _start():
 	
 	_play_sound(new_game_audio)
 	
-	_item_selector.hide() # just in case
-	_action_list.hide() # just in case
 	_select_item(null)
 	
 	if _room_parent.get_child_count() > 0:
 		make_empty(_room_parent)
 	
-	_speech_label.hide() # just in case
-	_curtain.play("closed") # just in case
+	# immediately closes the curtain
+	_curtain.play("closed") 
 	
 	_client_state = ClientState.Starting
 	
@@ -136,17 +132,8 @@ func _on_item_disabled(item):
 func _on_server_say(subject: Node, speech: String, _duration: float, _skippable: bool):
 	var color = subject.get_color() if subject else game_instance.get_default_color()
 	
-	_speech_label.text = speech
+	_speech_label.show_speech(speech, color)
 	
-	# shrinks the height as much as possible
-	call_deferred("_shrink_speech")
-	
-	_speech_label.modulate = color
-	_speech_label.show()
-
-func _shrink_speech():
-	_speech_label.rect_size.y = 0
-
 func _on_server_item_added(item: Object):
 	_inventory.add_item(item)
 
@@ -493,7 +480,7 @@ func _try_to_skip() -> bool:
 	
 	if skip_accepted:
 		# TODO check text clearing
-		_speech_label.hide()
+		_speech_label.hide_speech()
 		
 		_select_item(null)
 	else:

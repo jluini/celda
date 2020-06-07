@@ -529,7 +529,9 @@ func _command_load_room(room_name: String, opts: Dictionary) -> Dictionary:
 func _command_curtain_up():
 	_game_event("curtain_up")
 	
-	return _instant_termination
+	var delay := 1.0
+	
+	return { termination = "timed", delay = delay }
 
 func _command_set(var_name: String, new_value_expression) -> Dictionary:
 	var new_value = new_value_expression.evaluate(self)
