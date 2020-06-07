@@ -587,17 +587,13 @@ doc:
 		.wait 1
 		.load_room doc
 		.wait 1
-		you.say "Es un tipo todo tirado."
-		you.say "Pero qué laaaaco..."
-		you.say "Casi que le entraría."
+		you.say "TODO"
 	mano:
 		# TODO codigo duplicado
 		.wait 1
 		.load_room doc
 		.wait 1
-		you.say "Es un tipo todo tirado."
-		you.say "Pero qué laaaaco..."
-		you.say "Casi que le entraría."
+		you.say "TODO"
 
 doc_a_sotano:
 	ir:
