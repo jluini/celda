@@ -574,12 +574,8 @@ func _parse_lines(compiled_script, lines: Array, number_of_section_levels = 1): 
 								if actual_param.type != Grog.TokenType.Identifier:
 									compiled_script.add_error("Expected identifier in command %s (line %s)" % [command_name, line.line_number])
 									return
-									
-								if actual_param.data.indirection_level != 0:
-									compiled_script.add_error("Indirection levels not implemented in command %s (line %s)" % [command_name, line.line_number])
-									return
 								
-								final_params.append(actual_param.data.key)
+								final_params.append(IdentifierExpression.new(actual_param.data.indirection_level, actual_param.data.key))
 							
 							Grog.ParameterType.QuoteOrIdentifier:
 								if actual_param.type != Grog.TokenType.Identifier and actual_param.type != Grog.TokenType.Quote:

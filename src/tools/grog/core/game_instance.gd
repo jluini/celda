@@ -418,7 +418,9 @@ func _run_command(command: Dictionary) -> Dictionary:
 
 ### commands
 
-func _command_load_room(room_name: String, opts: Dictionary) -> Dictionary:
+func _command_load_room(room_name_expression: Object, opts: Dictionary) -> Dictionary:
+	var room_name: String = _evaluate_as_string(room_name_expression, "room name for 'load_room' commmand")
+	
 	# TODO validate state? same for all commands
 	
 	var room_resource = _get_room_resource(room_name)
@@ -533,7 +535,13 @@ func _command_curtain_up():
 	
 	return { termination = "timed", delay = delay }
 
-func _command_set(var_name: String, new_value_expression) -> Dictionary:
+func _command_set(var_name_expression: Object, new_value_expression: Object) -> Dictionary:
+	var var_name: String = _evaluate_as_string(var_name_expression, "variable name for 'set' command")
+	
+	if typeof(var_name) != TYPE_STRING:
+		_game_warning("set: variable name evaluate to '%s' instead of a string" % Grog._typestr(var_name))
+		var_name = str(var_name)
+	
 	var new_value = new_value_expression.evaluate(self)
 	
 	#_log_debug("setting global '%s' to '%s' (type %s, class %s)" % [var_name, new_value, Grog._typestr(new_value), new_value.get_class() if typeof(new_value) == TYPE_OBJECT else "-"])
@@ -674,10 +682,12 @@ func _command_remove(item_id: String) -> Dictionary:
 
 # TODO ignoring item_id (only 'you' is possible now)
 # TODO ignoring teleport opts
-func _command_teleport(_item_id: String, target_node_name: String, _opts: Dictionary) -> Dictionary:
+func _command_teleport(_item_id: String, target_node_expression: Object, _opts: Dictionary) -> Dictionary:
 	if not is_player_in_room():
 		_game_error("command 'teleport' but there's no player in room")
 		return _instant_termination
+	
+	var target_node_name: String = _evaluate_as_string(target_node_expression, "target for 'teleport'")
 	
 	var positioning = _get_target_positioning("teleport", target_node_name)
 	
@@ -693,10 +703,12 @@ func _command_teleport(_item_id: String, target_node_name: String, _opts: Dictio
 	return _instant_termination
 
 # TODO ignoring item_id (only 'you' is possible now)
-func _command_walk(_item_id: String, target_node_name: String) -> Dictionary:
+func _command_walk(_item_id: String, target_node_expression: Object) -> Dictionary:
 	if not is_player_in_room():
 		_game_error("command 'walk' but there's no player in room")
 		return _instant_termination
+	
+	var target_node_name: String = _evaluate_as_string(target_node_expression, "target for 'teleport'")
 	
 	var positioning = _get_target_positioning("walk", target_node_name)
 	
@@ -709,7 +721,7 @@ func _command_walk(_item_id: String, target_node_name: String) -> Dictionary:
 	
 	return { termination = "custom" }
 
-func _command_play(item_id: String, new_state: String, opts: Dictionary) -> Dictionary:
+func _command_play(item_id: String, new_state_expression: Object, opts: Dictionary) -> Dictionary:
 	# TODO what about inventory items' states?
 	var item_symbol = _get_or_build_scene_item(item_id, "animate")
 	
@@ -719,6 +731,8 @@ func _command_play(item_id: String, new_state: String, opts: Dictionary) -> Dict
 	
 	# updates item_id (maybe it was 'self' or another alias)
 	item_id = item_symbol.symbol_name
+	
+	var new_state: String = _evaluate_as_string(new_state_expression, "state for '%s' in 'play' command" % item_id)
 	
 	if item_symbol.state == new_state:
 		_game_warning("play: item '%s' is already in state '%s' (ignoring it)" % [item_id, new_state])
@@ -741,7 +755,7 @@ func _command_play(item_id: String, new_state: String, opts: Dictionary) -> Dict
 		
 	return _instant_termination
 
-func _command_set_tool(item_id: String, verb: String) -> Dictionary:
+func _command_set_tool(item_id: String, verb_expression: Object) -> Dictionary:
 	# TODO include scene items
 	var item_symbol = symbols.get_symbol_of_types(item_id, ["inventory_item_instance"], true)
 	
@@ -751,6 +765,8 @@ func _command_set_tool(item_id: String, verb: String) -> Dictionary:
 		_game_warning("set_tool: no inventory item instance '%s'" % item_id)
 		return _instant_termination
 	
+	var verb: String = _evaluate_as_string(verb_expression, "verb for 'set_tool' command over '%s'" % item_id)
+	
 	_set_tool(item_symbol.target, verb)
 	
 	return _instant_termination
@@ -758,12 +774,32 @@ func _command_set_tool(item_id: String, verb: String) -> Dictionary:
 func _set_tool(item, verb: String):
 	_game_event("tool_set", [item, verb])
 
-func _command_signal(signal_name: String):
+func _command_signal(signal_name_expression: Object):
+	var signal_name: String = _evaluate_as_string(signal_name_expression, "signal name")
+	
 	_game_event("signal_emitted", [signal_name])
 	
 	return _instant_termination
 
+func _command_debug(expression):
+	var new_value = expression.evaluate(self)
+	
+	_log_debug("Debugged value='%s'" % new_value)
+	_log_debug("(of type '%s')" % Grog._typestr(new_value))
+	
+	return _instant_termination
+
 ### command utils
+
+func _evaluate_as_string(expression: Object, context_for_warning: String) -> String:
+	var expression_result = expression.evaluate(self)
+	
+	if typeof(expression_result) != TYPE_STRING:
+		_game_warning("%s: evaluates to '%s' instead of a string" % [context_for_warning, Grog._typestr(expression_result)])
+		expression_result = str(expression_result)
+	
+	return expression_result
+	
 
 # TODO this must be revised
 # currently always returns the player so doesn't make much sense
@@ -946,7 +982,7 @@ func start_game_request(room_parent: Node) -> bool:
 			# TODO use another function name for this
 			# TODO this has changed, starting positioning is needed now
 			# warning-ignore:return_value_discarded
-			_command_load_room(_current_room_name, {})
+			_command_load_room(FixedExpression.new(_current_room_name), {})
 			
 			if not current_room:
 				_log_error("loading saved '%s' room failed" % _current_room_name)

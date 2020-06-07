@@ -13,10 +13,21 @@ main:
 		
 		sotano_a_laboratorio.disable
 		
+		.set candado/digito_izquierda_valor = 4
+		.set candado/digito_centro_valor = 6
+		.set candado/digito_derecha_valor = 3
+		
+		.set candado/digito_izquierda_anim = "digito" + $candado/digito_izquierda_valor
+		.set candado/digito_centro_anim    = "digito" + $candado/digito_centro_valor
+		.set candado/digito_derecha_anim   = "digito" + $candado/digito_derecha_valor
+		
+		candado/digito_izquierda.play $candado/digito_izquierda_anim
+		candado/digito_centro.play    $candado/digito_centro_anim
+		candado/digito_derecha.play   $candado/digito_derecha_anim
+		
 		if $stage < 2:
 			.load_room jaula at=posicion/inicial
 			.set music=jaula
-			
 			
 			if $stage = 0:
 				
@@ -625,6 +636,22 @@ puerta_laboratorio:
 puerta_laboratorio_a_sotano:
 	ir:
 		.load_room sotano at=puerta_laboratorio
+
+
+candado/digito_izquierda:
+	ir:
+		.set mensaje="Valor izquierda = " + $candado/digito_izquierda_valor + "."
+		you.say $mensaje
+
+candado/digito_centro:
+	ir:
+		.set mensaje="Valor centro = " + $candado/digito_centro_valor + "."
+		you.say $mensaje
+
+candado/digito_derecha:
+	ir:
+		.set mensaje="Valor derecha = " + $candado/digito_derecha_valor + "."
+		you.say $mensaje
 
 # Lab items
 
