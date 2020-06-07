@@ -588,7 +588,7 @@ bomba:
 		you.say MIRAR_BOMBA
 	
 	mano:
-		you.say "TODO"
+		.signal sound/bomba_de_agua
 	
 	usar_con(inv_palo):
 		you.say "*Ruido metálico*" # TODO

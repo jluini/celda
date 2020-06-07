@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/sacar_poster.ogg-8e61071f77c35dea9f54e3d96fbc43d6.oggstr"
+
+[deps]
+
+source_file="res://games/celda_escape/effects/sacar_poster.ogg"
+dest_files=[ "res://.import/sacar_poster.ogg-8e61071f77c35dea9f54e3d96fbc43d6.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

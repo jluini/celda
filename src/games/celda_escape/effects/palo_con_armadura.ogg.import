@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/palo_con_armadura.ogg-d7f14a19d71c83fb3918dd40ec12e9ea.oggstr"
+
+[deps]
+
+source_file="res://games/celda_escape/effects/palo_con_armadura.ogg"
+dest_files=[ "res://.import/palo_con_armadura.ogg-d7f14a19d71c83fb3918dd40ec12e9ea.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

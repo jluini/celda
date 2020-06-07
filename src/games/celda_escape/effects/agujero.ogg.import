@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/agujero.ogg-568b9eace2f132f06deb5b8b2df9acc6.oggstr"
+
+[deps]
+
+source_file="res://games/celda_escape/effects/agujero.ogg"
+dest_files=[ "res://.import/agujero.ogg-568b9eace2f132f06deb5b8b2df9acc6.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/palo_con_reja.ogg-e4526b5203e21f906327068aa7ddd075.oggstr"
+
+[deps]
+
+source_file="res://games/celda_escape/effects/palo_con_reja.ogg"
+dest_files=[ "res://.import/palo_con_reja.ogg-e4526b5203e21f906327068aa7ddd075.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
