@@ -365,9 +365,8 @@ margin_top = 80.0
 margin_bottom = 230.0
 caption = "MENU_CONTINUE"
 
-[node name="save_game" parent="ui/menu/side_menu/menu_buttons" groups=[
-"only_if_playing",
-] instance=ExtResource( 21 )]
+[node name="save_game" parent="ui/menu/side_menu/menu_buttons" instance=ExtResource( 21 )]
+visible = false
 margin_top = 234.0
 margin_bottom = 384.0
 caption = "MENU_SAVE_GAME"
@@ -378,6 +377,7 @@ margin_bottom = 538.0
 caption = "MENU_NEW_GAME"
 
 [node name="load_game" parent="ui/menu/side_menu/menu_buttons" instance=ExtResource( 21 )]
+visible = false
 margin_top = 542.0
 margin_bottom = 692.0
 caption = "MENU_LOAD_GAME"
