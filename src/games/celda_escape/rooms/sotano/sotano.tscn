@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=1]
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://games/celda_escape/rooms/sotano/frente.png" type="Texture" id=8]
 [ext_resource path="res://games/celda_escape/rooms/sotano/balde.png" type="Texture" id=9]
 [ext_resource path="res://games/celda_escape/rooms/sotano/bombadeagua.png" type="Texture" id=10]
+[ext_resource path="res://games/celda_escape/rooms/sotano/puerta_lab_close.png" type="Texture" id=11]
 
 [sub_resource type="NavigationPolygon" id=1]
 vertices = PoolVector2Array( 1300.79, 759.644, 1530.69, 761.271, 659.376, 860.546, 668.697, 839.037, 1120.62, 759.644, 1816.89, 1039.53, 58.8726, 1040.51, 635.716, 880.263, 1368.53, 680.732, 1307.08, 610.425, 1411.34, 612.054, 1499.82, 714.951, 978.856, 677.24, 1282.63, 715.649, 1115.73, 712.157, 977.739, 713.091, 653.999, 805.698, 552.586, 754.416, 608.829, 793.867, 542.65, 754.165, 550.396, 793.15, 524.378, 779.984, 516.698, 805.698, 505.709, 796.27, 503.434, 824.339, 384.369, 790.523, 511.321, 860.905, 538.924, 879.188 )
@@ -57,7 +58,7 @@ position = Vector2( 336.815, 843.888 )
 script = ExtResource( 3 )
 
 [node name="de_laboratorio" type="Node2D" parent="posicion"]
-position = Vector2( 1647.06, 873.498 )
+position = Vector2( 1624.09, 852.145 )
 rotation = 3.14159
 script = ExtResource( 3 )
 
@@ -136,6 +137,24 @@ color = Color( 1, 1, 1, 1 )
 position = Vector2( 168.496, 163.024 )
 rotation = 3.70184
 script = ExtResource( 3 )
+
+[node name="puerta_laboratorio" type="Node2D" parent="items"]
+position = Vector2( 1706.31, 589.473 )
+z_index = 589
+script = ExtResource( 2 )
+key = "puerta_laboratorio"
+size = Vector2( 200, 700 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
+
+[node name="positioning" type="Node2D" parent="items/puerta_laboratorio"]
+position = Vector2( -82.7294, 262.857 )
+script = ExtResource( 3 )
+
+[node name="sprite" type="Sprite" parent="items/puerta_laboratorio"]
+position = Vector2( -1706.31, -589.473 )
+texture = ExtResource( 11 )
+centered = false
 
 [node name="navigation" type="Navigation2D" parent="."]
 

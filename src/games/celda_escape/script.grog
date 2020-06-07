@@ -11,6 +11,8 @@ main:
 		jaula_a_oficina.disable
 		adoquin.disable
 		
+		sotano_a_laboratorio.disable
+		
 		if $stage < 2:
 			.load_room jaula at=posicion/inicial
 			.set music=jaula
@@ -71,13 +73,20 @@ main:
 					.set music=jaula
 					.curtain_up
 				
-				# Etapa laboratorio
-				elif $stage = 6:
-					.load_room laboratorio at=posicion/de_sotano
-					.set music=lab
-					.curtain_up
-				
-				# ...
+				else:
+					frasco.disable
+					inv_frasco.add
+					
+					puerta_laboratorio.disable
+					sotano_a_laboratorio.enable
+					
+					# Etapa laboratorio
+					if $stage = 6:
+						.load_room laboratorio at=posicion/de_sotano
+						.set music=lab
+						.curtain_up
+					
+					# ...
 
 # Items inventario
 
@@ -606,11 +615,18 @@ frasco:
 		self.disable
 		inv_frasco.add
 
-# Lab items
-
+puerta_laboratorio:
+	mirar:
+		.load_room puerta_laboratorio
+	mano:
+		self.disable
+		sotano_a_laboratorio.enable
+		
 puerta_laboratorio_a_sotano:
 	ir:
-		.load_room sotano at=sotano_a_laboratorio
+		.load_room sotano at=puerta_laboratorio
+
+# Lab items
 
 
 laboratorio_a_sotano:
