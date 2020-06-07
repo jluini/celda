@@ -1,8 +1,8 @@
-[<- back to celda](..)
+[<- back to celda](../README.md)
 
 # Grog documentation
 
-**Grog** is a Godot's framefork for *point &amp; click adventure games*. Its name stands for "Godot's recipe of grog";
+**Grog** is a Godot framefork for *point &amp; click adventure games*. Its name stands for "Godot's recipe of grog";
 note that this acronym is **not** recursive as the *grog* word it contains refers to a well-known fantasy drink and
 not to the framework itself.
 
@@ -55,10 +55,9 @@ Every grog game has a *game data* or *game script* that defines its contents. Th
 
 - the list of the *rooms* (or scenes)
 - the actor who plays the role of the character controlled by the user (the only one actor supported at the moment)
-- the **script** itself; this is coded in the [grog language](grog_language.md) and contains a main routine
+- the **script** itself; it is coded in the [grog language](grog_language.md) and contains a main routine
 (executed when game starts) and a routine for each possible interaction; the **celda** script file is
 [here](/src/games/celda_escape/script.grog) (game elements are named in spanish)
 
 
-
-[<- back to celda](..)
+[<- back to celda](../README.md)
