@@ -223,7 +223,7 @@ jaula_a_oficina:
 		
 		if not $oficina_fue_descubierta:
 			.set oficina_fue_descubierta=true
-			you.say "Mirá vo el cacho de oficina" # TODO
+			# you.say "Mirá vo el cacho de oficina" # TODO
 	
 	usar_con(inv_poster):
 		self.play closing blocking=true

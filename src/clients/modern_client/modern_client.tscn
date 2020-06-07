@@ -110,8 +110,6 @@ gui_disable_input = true
 [node name="texture_rect" type="TextureRect" parent="viewport_container/viewport"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 40.0
-margin_bottom = 40.0
 mouse_filter = 2
 texture = ExtResource( 3 )
 expand = true
