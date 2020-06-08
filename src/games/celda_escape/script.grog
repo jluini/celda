@@ -7,6 +7,7 @@ main:
 		.set adoquin_ya_cayo=false
 		.set oficina_fue_descubierta=false
 		.set llave1_fue_agarrada=false
+		.set bomba_fue_usada=false
 		
 		jaula_a_oficina.disable
 		adoquin.disable
@@ -193,6 +194,8 @@ poster:
 		you.say MIRAR_POSTER
 	
 	mano:
+		.signal sound/sacar_poster
+		.wait 0.5
 		self.disable
 		inv_poster.add
 		
@@ -216,14 +219,30 @@ adoquin:
 		you.say "TODO"
 	
 	usar_con(inv_poster):
+		.signal sound/sacar_poster
+		.wait 0.5
 		self.disable
 		tool.remove
 		poster.enable
 	
 	usar_con(inv_palo):
-		.set music=""
+		if $stage = 0:
+			you.say PALO_EN_ADOQUIN
+			
+			.set music=""
+			.wait 1
+			.signal sound/palo_con_adoquin
+			.wait 2
+		else:
+			.set music=""
+			you.say PALO_EN_ADOQUIN
+			
+			.signal sound/palo_con_adoquin
+			.wait 1
+			.wait 2
 		
-		you.say PALO_EN_ADOQUIN
+		.signal sound/agujero
+		
 		self.disable
 		.set adoquin_ya_cayo=true
 		
@@ -246,6 +265,8 @@ jaula_a_oficina:
 			# you.say "Mirá vo el cacho de oficina" # TODO
 	
 	usar_con(inv_poster):
+		.signal sound/sacar_poster
+		
 		self.play closing blocking=true
 		self.play default
 		self.disable
@@ -268,11 +289,16 @@ reja:
 		you.say "TODO"
 	
 	usar_con(inv_palo):
-		you.say "TODO ruido metal contra metal"
+		.signal sound/palo_con_reja
+		.wait 1
 	
 	usar_con(inv_llave1):
 		if not $jaula_esta_abierta:
 			you.say LLAVE_EN_REJA
+			
+			.signal sound/abrir_candado
+			.wait 1
+			
 			.set jaula_esta_abierta=true
 			.load_room jaula_abierta at=posicion/abriendo_reja
 		else:
@@ -331,7 +357,8 @@ armadura:
 		you.say "TODO"
 	
 	usar_con(inv_palo):
-		you.say "TODO ruido de palo contra metal"
+		.signal sound/palo_con_armadura
+		.wait 0.5
 	
 	usar_con(inv_llave*):
 		you.say NO_TIENE_CERRADURA
@@ -476,7 +503,8 @@ ventana_living:
 		you.say "TODO"
 	
 	usar_con(inv_palo):
-		you.say "TODO ruido de golpear madera"
+		.signal sound/palo_con_ventana
+		.wait 0.5
 	
 	usar_con(*):
 		you.say COMBINACION_INVALIDA # TODO "No se abre así." ?
@@ -588,10 +616,16 @@ bomba:
 		you.say MIRAR_BOMBA
 	
 	mano:
-		.signal sound/bomba_de_agua
-	
+		if not $bomba_fue_usada:
+			.set bomba_fue_usada=true
+			.signal sound/bomba_de_agua
+			.wait 3
+		
+		you.say NO_FUNCIONA
+		
 	usar_con(inv_palo):
-		you.say "*Ruido metálico*" # TODO
+		.signal sound/palo_con_bomba
+		.wait 0.5
 	
 	usar_con(inv_llave*):
 		you.say SOSPECHO_QUE_ASI_NO_FUNCIONA

@@ -98,6 +98,7 @@ func _start():
 	
 	# immediately closes the curtain
 	_curtain.play("closed") 
+	_speech_label.hide_speech()
 	
 	_client_state = ClientState.Starting
 	

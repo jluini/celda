@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/abrir_candado.wav-58fb4dc6ded29c20dbcd294cd0a32161.sample"
+
+[deps]
+
+source_file="res://games/celda_escape/effects/abrir_candado.wav"
+dest_files=[ "res://.import/abrir_candado.wav-58fb4dc6ded29c20dbcd294cd0a32161.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

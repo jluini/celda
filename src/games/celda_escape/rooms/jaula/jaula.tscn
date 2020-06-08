@@ -245,8 +245,8 @@ rotation = -2.98626
 script = ExtResource( 13 )
 
 [node name="palo" type="Node2D" parent="items"]
-position = Vector2( 1251.95, 946.111 )
-z_index = 946
+position = Vector2( 1205.3, 893.318 )
+z_index = 893
 script = ExtResource( 14 )
 key = "palo"
 size = Vector2( 150, 150 )

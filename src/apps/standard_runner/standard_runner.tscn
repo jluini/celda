@@ -13,7 +13,7 @@
 [ext_resource path="res://themes/handy_george/handy_george.tres" type="Theme" id=11]
 [ext_resource path="res://themes/pixel/pixel.tres" type="Theme" id=12]
 [ext_resource path="res://themes/pointfree/pointfree.tres" type="Theme" id=13]
-[ext_resource path="res://games/celda_escape/effects/llave_con_reja.ogg" type="AudioStream" id=14]
+[ext_resource path="res://games/celda_escape/effects/abrir_candado.wav" type="AudioStream" id=14]
 [ext_resource path="res://games/celda_escape/effects/bomba_de_agua.ogg" type="AudioStream" id=15]
 [ext_resource path="res://games/celda_escape/effects/palo_con_adoquin.ogg" type="AudioStream" id=16]
 [ext_resource path="res://games/celda_escape/effects/palo_con_armadura.ogg" type="AudioStream" id=17]
@@ -50,9 +50,9 @@ loopin_set = ExtResource( 1 )
 
 [node name="modern_display" parent="apps" index="0" instance=ExtResource( 5 )]
 named_sounds = {
+"abrir_candado": ExtResource( 14 ),
 "agujero": ExtResource( 6 ),
 "bomba_de_agua": ExtResource( 15 ),
-"llave_con_reja": ExtResource( 14 ),
 "palo_con_adoquin": ExtResource( 16 ),
 "palo_con_armadura": ExtResource( 17 ),
 "palo_con_bomba": ExtResource( 18 ),
