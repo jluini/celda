@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/boton02.wav-5a16882879b3a32528f4ff0ea81c574b.sample"
+
+[deps]
+
+source_file="res://games/celda_escape/effects/boton02.wav"
+dest_files=[ "res://.import/boton02.wav-5a16882879b3a32528f4ff0ea81c574b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

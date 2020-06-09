@@ -16,14 +16,6 @@
 [ext_resource path="res://games/celda_escape/rooms/living/tapiado.png" type="Texture" id=14]
 [ext_resource path="res://games/celda_escape/rooms/living/ventana.png" type="Texture" id=15]
 
-
-
-
-
-
-
-
-
 [sub_resource type="Animation" id=1]
 resource_name = "default"
 tracks/0/type = "value"

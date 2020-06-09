@@ -14,9 +14,9 @@ main:
 		
 		sotano_a_laboratorio.disable
 		
-		.set candado/digito_izquierda_valor = 4
-		.set candado/digito_centro_valor = 6
-		.set candado/digito_derecha_valor = 3
+		.set candado/digito_izquierda_valor = 2
+		.set candado/digito_centro_valor = 7
+		.set candado/digito_derecha_valor = 5
 		
 		.set candado/digito_izquierda_anim = "digito" + $candado/digito_izquierda_valor
 		.set candado/digito_centro_anim    = "digito" + $candado/digito_centro_valor
@@ -661,31 +661,63 @@ frasco:
 		inv_frasco.add
 
 puerta_laboratorio:
-	mirar:
+	ir:
 		.load_room puerta_laboratorio
-	mano:
-		self.disable
-		sotano_a_laboratorio.enable
-		
+
 puerta_laboratorio_a_sotano:
 	ir:
 		.load_room sotano at=puerta_laboratorio
 
-
 candado/digito_izquierda:
 	ir:
-		.set mensaje="Valor izquierda = " + $candado/digito_izquierda_valor + "."
-		you.say $mensaje
+		.signal sound/boton02
+
+		.set candado/digito_izquierda_valor = $candado/digito_izquierda_valor + 1
+		if $candado/digito_izquierda_valor > 9:
+			.set candado/digito_izquierda_valor = 0
+		
+		.set candado/digito_izquierda_anim = "digito" + $candado/digito_izquierda_valor
+		candado/digito_izquierda.play $candado/digito_izquierda_anim
+	
+		if $candado/digito_izquierda_valor = 8 and $candado/digito_centro_valor = 3 and $candado/digito_derecha_valor = 6:
+			.wait 0.5
+			.load_room sotano at=puerta_laboratorio
+			puerta_laboratorio.disable
+			sotano_a_laboratorio.enable
 
 candado/digito_centro:
 	ir:
-		.set mensaje="Valor centro = " + $candado/digito_centro_valor + "."
-		you.say $mensaje
+		.signal sound/boton02
+
+		.set candado/digito_centro_valor = $candado/digito_centro_valor + 1
+		if $candado/digito_centro_valor > 9:
+			.set candado/digito_centro_valor = 0
+		
+		.set candado/digito_centro_anim = "digito" + $candado/digito_centro_valor
+		candado/digito_centro.play $candado/digito_centro_anim
+
+		if $candado/digito_izquierda_valor = 8 and $candado/digito_centro_valor = 3 and $candado/digito_derecha_valor = 6:
+			.wait 0.5
+			.load_room sotano at=puerta_laboratorio
+			puerta_laboratorio.disable
+			sotano_a_laboratorio.enable
 
 candado/digito_derecha:
 	ir:
-		.set mensaje="Valor derecha = " + $candado/digito_derecha_valor + "."
-		you.say $mensaje
+		.signal sound/boton02
+
+		.set candado/digito_derecha_valor = $candado/digito_derecha_valor + 1
+		if $candado/digito_derecha_valor > 9:
+			.set candado/digito_derecha_valor = 0
+		
+		.set candado/digito_derecha_anim = "digito" + $candado/digito_derecha_valor
+		candado/digito_derecha.play $candado/digito_derecha_anim
+
+		if $candado/digito_izquierda_valor = 8 and $candado/digito_centro_valor = 3 and $candado/digito_derecha_valor = 6:
+			.wait 0.5
+			.load_room sotano at=puerta_laboratorio
+			puerta_laboratorio.disable
+			sotano_a_laboratorio.enable
 
 # Lab items
 

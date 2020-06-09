@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://games/celda_escape/music_set.tres" type="Resource" id=1]
 [ext_resource path="res://games/celda_escape/juego.tres" type="Resource" id=2]
@@ -22,6 +22,7 @@
 [ext_resource path="res://games/celda_escape/effects/palo_con_ventana.ogg" type="AudioStream" id=20]
 [ext_resource path="res://games/celda_escape/effects/sacar_poster.ogg" type="AudioStream" id=21]
 [ext_resource path="res://music/sources/nuevo_juego.ogg" type="AudioStream" id=22]
+[ext_resource path="res://games/celda_escape/effects/boton02.wav" type="AudioStream" id=23]
 
 [node name="standard_runner" instance=ExtResource( 8 )]
 pause_mode = 2
@@ -53,6 +54,7 @@ named_sounds = {
 "abrir_candado": ExtResource( 14 ),
 "agujero": ExtResource( 6 ),
 "bomba_de_agua": ExtResource( 15 ),
+"boton02": ExtResource( 23 ),
 "palo_con_adoquin": ExtResource( 16 ),
 "palo_con_armadura": ExtResource( 17 ),
 "palo_con_bomba": ExtResource( 18 ),

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
 [ext_resource path="res://tools/grog/core/room.gd" type="Script" id=2]
 [ext_resource path="res://games/celda_escape/rooms/sotano/puerta_laboratorio.png" type="Texture" id=3]
 [ext_resource path="res://games/celda_escape/rooms/sotano/digito.tscn" type="PackedScene" id=4]
+[ext_resource path="res://themes/mortified/mortified_huge.tres" type="DynamicFont" id=5]
 
 [node name="room" type="Node"]
 script = ExtResource( 2 )
@@ -20,25 +21,16 @@ centered = false
 position = Vector2( 722.475, 572.68 )
 z_index = 572
 key = "candado/digito_izquierda"
-size = Vector2( 100, 100 )
-offset = Vector2( 0, 0 )
-color = Color( 1, 1, 1, 1 )
 
 [node name="digito_centro" parent="items" instance=ExtResource( 4 )]
 position = Vector2( 829.496, 581.724 )
 z_index = 581
 key = "candado/digito_centro"
-size = Vector2( 100, 100 )
-offset = Vector2( 0, 0 )
-color = Color( 1, 1, 1, 1 )
 
 [node name="digito_derecha" parent="items" instance=ExtResource( 4 )]
 position = Vector2( 939.532, 587.754 )
 z_index = 587
 key = "candado/digito_derecha"
-size = Vector2( 100, 100 )
-offset = Vector2( 0, 0 )
-color = Color( 1, 1, 1, 1 )
 
 [node name="a_sotano" type="Node2D" parent="items"]
 position = Vector2( 960, 540 )
@@ -48,3 +40,15 @@ key = "puerta_laboratorio_a_sotano"
 size = Vector2( 1920, 1080 )
 offset = Vector2( 0, 0 )
 color = Color( 1, 1, 1, 1 )
+
+[node name="pista" type="Label" parent="."]
+margin_left = 195.482
+margin_top = 262.271
+margin_right = 557.482
+margin_bottom = 378.271
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "(clave 836)"
+__meta__ = {
+"_edit_use_anchors_": false
+}

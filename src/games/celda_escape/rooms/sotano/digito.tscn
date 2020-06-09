@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
-[ext_resource path="res://themes/mortified/mortified_big.tres" type="DynamicFont" id=2]
+[ext_resource path="res://themes/mortified/mortified_speech.tres" type="DynamicFont" id=2]
 
 [sub_resource type="Animation" id=1]
 resource_name = "default"
@@ -173,6 +173,9 @@ position = Vector2( 725.49, 571.173 )
 z_index = 571
 script = ExtResource( 1 )
 key = ""
+size = Vector2( 100, 100 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
 
 [node name="label" type="Label" parent="."]
 margin_left = -50.0
@@ -180,6 +183,7 @@ margin_top = -50.0
 margin_right = 50.0
 margin_bottom = 50.0
 custom_fonts/font = ExtResource( 2 )
+custom_colors/font_color = Color( 0.545098, 0.545098, 0.545098, 1 )
 text = "-"
 align = 1
 valign = 1
