@@ -96,9 +96,9 @@ func _start():
 	if _room_parent.get_child_count() > 0:
 		make_empty(_room_parent)
 	
-	# immediately closes the curtain
-	_curtain.play("closed") 
-	_speech_label.hide_speech()
+	_curtain.play("closed") # immediately closes the curtain
+	
+	_speech_label.hide_speech() # immediately hides the speech
 	
 	_client_state = ClientState.Starting
 	
@@ -133,7 +133,7 @@ func _on_item_disabled(item):
 func _on_server_say(subject: Node, speech: String, _duration: float, _skippable: bool):
 	var color = subject.get_color() if subject else game_instance.get_default_color()
 	
-	_speech_label.show_speech(speech, color)
+	_speech_label.start_speech(speech, color)
 	
 func _on_server_item_added(item: Object):
 	_inventory.add_item(item)
@@ -481,7 +481,7 @@ func _try_to_skip() -> bool:
 	
 	if skip_accepted:
 		# TODO check text clearing
-		_speech_label.hide_speech()
+		_speech_label.end_speech()
 		
 		_select_item(null)
 	else:
