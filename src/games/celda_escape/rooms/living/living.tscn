@@ -47,9 +47,9 @@ tracks/0/keys = {
 }
 
 [sub_resource type="NavigationPolygon" id=3]
-vertices = PoolVector2Array( 1224.86, 736.069, 1214.29, 671.74, 1441.19, 670.972, 1692.49, 959.412, 1894.34, 1054.07, 33.7435, 1059.65, 44.9015, 825.334, 231.798, 825.334, 382.432, 741.648, 1892.16, 956.684 )
-polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 7 ), PoolIntArray( 4, 7, 8, 3 ), PoolIntArray( 3, 9, 4 ), PoolIntArray( 3, 8, 0 ) ]
-outlines = [ PoolVector2Array( 1441.19, 670.972, 1214.29, 671.74, 1224.86, 736.069, 382.432, 741.648, 231.798, 825.334, 44.9015, 825.334, 33.7435, 1059.65, 1894.34, 1054.07, 1892.16, 956.684, 1692.49, 959.412 ) ]
+vertices = PoolVector2Array( 1224.86, 736.069, 1214.29, 671.74, 1441.19, 670.972, 1692.49, 959.412, 1892.16, 956.684, 1894.34, 1054.07, 0.304596, 1060.39, 1.09903, 825.234, 231.798, 825.334, 382.432, 741.648 )
+polygons = [ PoolIntArray( 0, 1, 2, 3 ), PoolIntArray( 4, 5, 6, 3 ), PoolIntArray( 3, 6, 7, 8 ), PoolIntArray( 3, 8, 9, 0 ) ]
+outlines = [ PoolVector2Array( 1441.19, 670.972, 1214.29, 671.74, 1224.86, 736.069, 382.432, 741.648, 231.798, 825.334, 1.09903, 825.234, 0.304596, 1060.39, 1894.34, 1054.07, 1892.16, 956.684, 1692.49, 959.412 ) ]
 
 [node name="room" type="Node"]
 script = ExtResource( 4 )
@@ -101,7 +101,7 @@ centered = false
 [node name="posicion" type="Node" parent="."]
 
 [node name="de_oficina" type="Node2D" parent="posicion"]
-position = Vector2( 136.361, 915.565 )
+position = Vector2( 65.0542, 923.556 )
 script = ExtResource( 8 )
 
 [node name="items" type="Node" parent="."]
@@ -251,7 +251,7 @@ offset = Vector2( 0, 0 )
 color = Color( 1, 1, 1, 1 )
 
 [node name="positioning" type="Node2D" parent="items/a_oficina"]
-position = Vector2( -126.835, -15.7385 )
+position = Vector2( -134.826, -6.51782 )
 rotation = -3.14159
 script = ExtResource( 8 )
 

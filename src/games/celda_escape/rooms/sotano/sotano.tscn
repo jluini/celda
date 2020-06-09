@@ -70,7 +70,7 @@ z_index = 585
 script = ExtResource( 2 )
 key = "sotano_a_jaula"
 size = Vector2( 350, 750 )
-offset = Vector2( 0, 0 )
+offset = Vector2( -30, 0 )
 color = Color( 1, 1, 1, 1 )
 
 [node name="positioning" type="Node2D" parent="items/a_jaula"]
@@ -84,11 +84,11 @@ z_index = 586
 script = ExtResource( 2 )
 key = "sotano_a_laboratorio"
 size = Vector2( 350, 750 )
-offset = Vector2( 0, 0 )
+offset = Vector2( 40, 0 )
 color = Color( 1, 1, 1, 1 )
 
 [node name="positioning" type="Node2D" parent="items/a_laboratorio"]
-position = Vector2( -99.9727, 284.27 )
+position = Vector2( -94.4965, 267.406 )
 rotation = -0.195477
 script = ExtResource( 3 )
 
@@ -143,8 +143,8 @@ position = Vector2( 1706.31, 589.473 )
 z_index = 589
 script = ExtResource( 2 )
 key = "puerta_laboratorio"
-size = Vector2( 200, 700 )
-offset = Vector2( 0, 0 )
+size = Vector2( 320, 700 )
+offset = Vector2( 60, 0 )
 color = Color( 1, 1, 1, 1 )
 
 [node name="positioning" type="Node2D" parent="items/puerta_laboratorio"]

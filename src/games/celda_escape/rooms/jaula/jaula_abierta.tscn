@@ -27,7 +27,7 @@ z_index = 584
 script = ExtResource( 3 )
 key = "jaula_a_sotano"
 size = Vector2( 360, 700 )
-offset = Vector2( 0, 0 )
+offset = Vector2( -20, 0 )
 color = Color( 1, 1, 1, 1 )
 
 [node name="positioning" type="Node2D" parent="items/a_sotano" index="0"]
