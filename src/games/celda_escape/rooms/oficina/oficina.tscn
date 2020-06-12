@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://games/celda_escape/rooms/oficina/fondo.png" type="Texture" id=1]
 [ext_resource path="res://games/celda_escape/rooms/oficina/frente.png" type="Texture" id=2]
@@ -7,7 +7,6 @@
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=5]
 [ext_resource path="res://games/celda_escape/rooms/oficina/armadura.png" type="Texture" id=6]
 [ext_resource path="res://games/celda_escape/rooms/oficina/busto.png" type="Texture" id=7]
-[ext_resource path="res://games/celda_escape/rooms/oficina/cubre_armadura.jpg" type="Texture" id=8]
 [ext_resource path="res://games/celda_escape/rooms/oficina/escritorio.png" type="Texture" id=9]
 [ext_resource path="res://games/celda_escape/rooms/oficina/silla.png" type="Texture" id=10]
 
@@ -24,12 +23,6 @@ navigation_path = NodePath("../room/navigation")
 
 [node name="fondo" type="Sprite" parent="sprites"]
 texture = ExtResource( 1 )
-centered = false
-
-[node name="cubre_armadura" type="Sprite" parent="sprites"]
-position = Vector2( 295, 311 )
-z_index = 560
-texture = ExtResource( 8 )
 centered = false
 
 [node name="frente" type="Sprite" parent="sprites"]
@@ -51,8 +44,8 @@ script = ExtResource( 4 )
 [node name="items" type="Node" parent="."]
 
 [node name="armadura" type="Node2D" parent="items"]
-position = Vector2( 431.695, 531.874 )
-z_index = 531
+position = Vector2( 375.923, 604.226 )
+z_index = 604
 script = ExtResource( 5 )
 key = "armadura"
 size = Vector2( 175, 500 )
@@ -60,7 +53,7 @@ offset = Vector2( 0, 0 )
 color = Color( 1, 1, 1, 1 )
 
 [node name="sprite" type="Sprite" parent="items/armadura"]
-position = Vector2( 5, -1.32 )
+position = Vector2( 590.429, -61.8688 )
 texture = ExtResource( 6 )
 
 [node name="positioning" type="Node2D" parent="items/armadura"]
@@ -78,6 +71,7 @@ offset = Vector2( 0, -10 )
 color = Color( 1, 1, 1, 1 )
 
 [node name="sprite" type="Sprite" parent="items/busto"]
+position = Vector2( -625.313, -145.52 )
 texture = ExtResource( 7 )
 
 [node name="positioning" type="Node2D" parent="items/busto"]
