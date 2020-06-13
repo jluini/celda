@@ -144,6 +144,34 @@ color = Color( 1, 1, 1, 1 )
 position = Vector2( 116.705, 4.36963 )
 script = ExtResource( 4 )
 
+[node name="biblioteca1" type="Node2D" parent="items"]
+position = Vector2( 619.813, 340.935 )
+z_index = 340
+script = ExtResource( 5 )
+key = "biblioteca1"
+size = Vector2( 240, 350 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
+
+[node name="positioning" type="Node2D" parent="items/biblioteca1"]
+position = Vector2( 9.33081, 396.11 )
+rotation = 4.71239
+script = ExtResource( 4 )
+
+[node name="biblioteca2" type="Node2D" parent="items"]
+position = Vector2( 1363.96, 342.883 )
+z_index = 342
+script = ExtResource( 5 )
+key = "biblioteca2"
+size = Vector2( 240, 350 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
+
+[node name="positioning" type="Node2D" parent="items/biblioteca2"]
+position = Vector2( 9.33081, 396.11 )
+rotation = 4.71239
+script = ExtResource( 4 )
+
 [node name="navigation" type="Navigation2D" parent="."]
 
 [node name="polygon" type="NavigationPolygonInstance" parent="navigation"]

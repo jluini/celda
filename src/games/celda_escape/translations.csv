@@ -5,7 +5,7 @@ ITEM_INV_POSTER;poster;póster
 ITEM_INV_LIBRO;book;libro
 ITEM_INV_LLAVE1;key;llave
 ITEM_INV_LLAVE2;key 2;llave 2
-ITEM_INV_PALO;stick;palo
+ITEM_INV_PALO;bar;barrote
 ITEM_INV_CALAVERA;skull;calavera
 ITEM_INV_FRASCO;flask;frasco
 ITEM_CAGE/POSTER;poster;póster
@@ -47,20 +47,30 @@ MIRAR_ADOQUIN;It seems loose.;Parece flojo.
 MIRAR_LIBRO;TODO;TODO
 MIRAR_LLAVE1;A little key.;Una pequeña llave.
 MIRAR_LLAVE2;Another little key.;Otra pequeña llave.
-MIRAR_PALO;TODO;TODO
+MIRAR_PALO_INVENTARIO;A pretty rusty iron.;Un hierro bastante oxidado.
+MIRAR_PALO_EN_REJA;One of the bars is loose.;Uno de los barrotes está suelto.
 MIRAR_CALAVERA;TODO;TODO
 MIRAR_FRASCO;It's a flask with some transparent liquid.;Es un frasco con un líquido transparente.
 MIRAR_CAMA;It's not less hard than the stones on the ground.;No es menos dura que las piedras del suelo.
 MIRAR_INODORO;It has not been used for a long time.;No se usa hace largo tiempo.
+USAR_INODORO;Hmmmm, not now.;Mmmmm, ahora no.
 MIRAR_REJA;It's old and very rusty.;Está vieja y muy oxidada.
+RECOGER_REJA;It's rusty but I can't break it.;Está oxidada pero no puedo romperla.
+MIRAR_PUERTA_JAULA;The wood is somewhat rotten, but it's immovable.;La madera está algo podrida, pero es inamovible.
 MIRAR_ARMADURA;It's and old German armour.;Es una antigua armadura alemana.
 MIRAR_BUSTO;She looks very happy.;Se la ve muy feliz.
+RECOGER_BUSTO;I can't, it's very heavy.;No puedo, pesa muchísimo.
 MIRAR_ESCRITORIO_OFICINA;It's tidy and its drawers seem closed.;Está ordenado y sus cajones parecen cerrados.
 MIRAR_SILLA_OFICINA;It looks comfortable, although the leather is battered.;Parece cómoda, aunque el cuero se ve maltratado.
+MIRAR_BIBLIOTECA1;There are books on alchemy, anatomy, occult science.;Hay libros de alquimia, anatomía, ciencias ocultas.
+RECOGER_BIBLIOTECA1;If I touched any of these books it would turn to dust.;Si tocara alguno de estos libros se volvería polvo.
+MIRAR_BIBLIOTECA2_1;;"""La solución de prusiato amarillo es una buena tinta invisible..."
+MIRAR_BIBLIOTECA2_2;;"...basta impregnar el papel escrito con solución de vitriolo verde..."
+MIRAR_BIBLIOTECA2_3;;"...para revelar la escritura de otro modo oculta."""
 MIRAR_MUEBLE;Antique piece of furniture, very luxurious.;Mueble antiguo, muy lujoso.
 MIRAR_ESPEJO;TODO;TODO
 MIRAR_OSO;A majestic creature.;Una majestuosa criatura.
-MIRAR_VENTANA_LIVING;TODO;Está tapiada, ¿por qué lo habrán hecho?
+MIRAR_VENTANA_LIVING;It's boarded up so I can't go out.;Está tapiada así que no puedo salir.
 MIRAR_PUERTA_LIVING1;Fresh air passes underneath.;Un aire fresco pasa por debajo.
 MIRAR_PUERTA_LIVING2;I have to find a way to open it.;Tengo que buscar la forma de abrirla.
 MIRAR_CAJA_FUERTE;It seems to be a strongbox.;Parece una caja fuerte.
@@ -90,6 +100,8 @@ TOMAR_CAJITA2;a little key!;¡una pequeña llave!
 TOMAR_CAJITA_OTRA_VEZ;I will take the key again.;Tomaré la llave otra vez.
 CALAVERA_EN_OSO;It already has a head.;Ya tiene cabeza.
 X_EN_BALDE;Why would I put this in the bucket?;¿Para qué metería esto en el balde?
+DEMASIADO_PESADA;It's too heavy.;Es demasiado pesada.
+PODRIA_SER_DE_UTILIDAD;It could be useful.;Podría ser de utilidad.
 MALA_IDEA;Bad idea.;Mala idea.
 DECIR_NO;No.;No.
 PARA_QUE;For what?;¿Para qué?
@@ -106,6 +118,7 @@ NO_PUEDO_HACER_NADA;I can't do anything.;No puedo hacer nada.
 NO_SERIA_PRUDENTE;It wouldn't be wise.;No sería prudente.
 NO_TIENE_SENTIDO;It doesn't make sense.;No tiene sentido.
 ES_INUTIL;It's useless.;Es inútil.
+ES_IMPOSIBLE;It is impossible.;Es imposible.
 NO_FUNCIONA;It doesn't work.;No funciona.
 NO_ENTRA;It doesn't fit;No entra.
 NADA_SUCEDE;Nothing happens.;No sucede nada.

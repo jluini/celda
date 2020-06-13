@@ -72,6 +72,7 @@ main:
 				.set llave1_fue_agarrada=true
 				inv_llave1.add
 				cajita.play open
+				.set jaula_esta_abierta=true
 				
 				# Etapa jaula abierta
 				if $stage = 4:
@@ -117,7 +118,7 @@ inv_libro:
 
 inv_palo:
 	mirar:
-		you.say MIRAR_PALO
+		you.say MIRAR_PALO_INVENTARIO
 	mano:
 		self.set_tool usar_con
 
@@ -152,7 +153,7 @@ inodoro:
 		you.say MIRAR_INODORO
 	
 	mano:
-		you.say "TODO"
+		you.say USAR_INODORO
 	
 	usar_con(inv_palo):
 		you.say MALA_IDEA
@@ -175,7 +176,7 @@ cama:
 		you.say MIRAR_CAMA
 	
 	mano:
-		you.say "TODO"
+		you.say DEMASIADO_PESADA
 	
 	usar_con(inv_palo):
 		you.say DECIR_NO
@@ -275,18 +276,19 @@ jaula_a_oficina:
 
 palo:
 	mirar:
-		you.say MIRAR_PALO
+		you.say MIRAR_PALO_EN_REJA
 	
 	mano:
 		self.disable
 		inv_palo.add
+		you.say PODRIA_SER_DE_UTILIDAD
 
 reja:
 	mirar:
 		you.say MIRAR_REJA
 	
 	mano:
-		you.say "TODO"
+		you.say RECOGER_REJA
 	
 	usar_con(inv_palo):
 		.signal sound/palo_con_reja
@@ -321,7 +323,7 @@ puerta_jaula:
 		if not $jaula_esta_abierta:
 			you.say NO_PUEDO_ALCANZARLA
 		else:
-			you.say "TODO"
+			you.say MIRAR_PUERTA_JAULA
 	
 	mano:
 		if not $jaula_esta_abierta:
@@ -354,7 +356,8 @@ armadura:
 		you.say MIRAR_ARMADURA
 	
 	mano:
-		you.say "TODO"
+		you.say "TODO: ruido metálico"
+		you.say ES_IMPOSIBLE
 	
 	usar_con(inv_palo):
 		.signal sound/palo_con_armadura
@@ -366,12 +369,28 @@ armadura:
 	usar_con(*):
 		you.say COMBINACION_INVALIDA
 
+biblioteca1:
+	mirar:
+		you.say MIRAR_BIBLIOTECA1
+	mano:
+		you.say RECOGER_BIBLIOTECA1
+
+biblioteca2:
+	mirar:
+		you.say MIRAR_BIBLIOTECA2_1
+		you.say MIRAR_BIBLIOTECA2_2
+		you.say MIRAR_BIBLIOTECA2_3
+	mano:
+		you.say MIRAR_BIBLIOTECA2_1
+		you.say MIRAR_BIBLIOTECA2_2
+		you.say MIRAR_BIBLIOTECA2_3
+
 busto:
 	mirar:
 		you.say MIRAR_BUSTO
 	
 	mano:
-		you.say "TODO"
+		you.say RECOGER_BUSTO
 	
 	usar_con(inv_palo):
 		you.say NO_PUEDO_HACER_NADA
@@ -500,7 +519,7 @@ ventana_living:
 		you.say MIRAR_VENTANA_LIVING
 	
 	mano:
-		you.say "TODO"
+		you.say "TODO: ruido de tironeos"
 	
 	usar_con(inv_palo):
 		.signal sound/palo_con_ventana
