@@ -9,7 +9,7 @@
 [ext_resource path="res://games/celda_escape/rooms/jaula/fondo.png" type="Texture" id=7]
 [ext_resource path="res://games/celda_escape/rooms/jaula/inodoro.png" type="Texture" id=8]
 [ext_resource path="res://games/celda_escape/rooms/jaula/frente.png" type="Texture" id=9]
-[ext_resource path="res://games/celda_escape/items/thing.png" type="Texture" id=10]
+[ext_resource path="res://games/celda_escape/rooms/jaula/palo.png" type="Texture" id=10]
 [ext_resource path="res://games/celda_escape/rooms/jaula/adoquin.png" type="Texture" id=11]
 [ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=12]
 [ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=13]
@@ -245,8 +245,8 @@ rotation = -2.98626
 script = ExtResource( 13 )
 
 [node name="palo" type="Node2D" parent="items"]
-position = Vector2( 1205.3, 893.318 )
-z_index = 893
+position = Vector2( 1297.12, 908.566 )
+z_index = 908
 script = ExtResource( 14 )
 key = "palo"
 size = Vector2( 150, 150 )
@@ -254,12 +254,14 @@ offset = Vector2( 0, 0 )
 color = Color( 1, 1, 1, 1 )
 
 [node name="positioning" type="Node2D" parent="items/palo"]
-position = Vector2( 78.8337, 0 )
+position = Vector2( 67.6675, 23.5605 )
 rotation = 2.67734
 script = ExtResource( 13 )
 
 [node name="sprite" type="Sprite" parent="items/palo"]
-scale = Vector2( 4, 4 )
+position = Vector2( 12.767, -3.94159 )
+rotation = -0.278167
+scale = Vector2( 1.03847, 0.803171 )
 texture = ExtResource( 10 )
 
 [node name="reja" type="Node2D" parent="items"]
