@@ -1,20 +1,12 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/living/fondo.png" type="Texture" id=2]
-[ext_resource path="res://games/celda_escape/rooms/living/cabezas.png" type="Texture" id=3]
 [ext_resource path="res://tools/grog/twod/room2d.gd" type="Script" id=4]
 [ext_resource path="res://games/celda_escape/rooms/living/frente.png" type="Texture" id=5]
-[ext_resource path="res://games/celda_escape/rooms/living/oso.png" type="Texture" id=6]
-[ext_resource path="res://games/celda_escape/rooms/living/cuadro.png" type="Texture" id=7]
 [ext_resource path="res://tools/grog/core/positioning.gd" type="Script" id=8]
-[ext_resource path="res://games/celda_escape/rooms/living/candelabro.png" type="Texture" id=9]
-[ext_resource path="res://games/celda_escape/rooms/living/cajafuerte.png" type="Texture" id=10]
 [ext_resource path="res://games/celda_escape/rooms/living/cajita.png" type="Texture" id=11]
 [ext_resource path="res://games/celda_escape/rooms/living/cajita_abierta.png" type="Texture" id=12]
-[ext_resource path="res://games/celda_escape/rooms/living/cortinas.png" type="Texture" id=13]
-[ext_resource path="res://games/celda_escape/rooms/living/tapiado.png" type="Texture" id=14]
-[ext_resource path="res://games/celda_escape/rooms/living/ventana.png" type="Texture" id=15]
 
 [sub_resource type="Animation" id=1]
 resource_name = "default"
@@ -60,43 +52,9 @@ script = ExtResource( 4 )
 texture = ExtResource( 2 )
 centered = false
 
-[node name="cabezas" type="Sprite" parent="sprites"]
-visible = false
-texture = ExtResource( 3 )
-centered = false
-
-[node name="cuadro" type="Sprite" parent="sprites"]
-texture = ExtResource( 7 )
-centered = false
-
 [node name="frente" type="Sprite" parent="sprites"]
 z_index = 4096
 texture = ExtResource( 5 )
-centered = false
-
-[node name="caja_fuerte" type="Sprite" parent="sprites"]
-texture = ExtResource( 10 )
-centered = false
-
-[node name="candelabro" type="Sprite" parent="sprites"]
-position = Vector2( 133, 6 )
-texture = ExtResource( 9 )
-centered = false
-
-[node name="ventana1" type="Sprite" parent="sprites"]
-texture = ExtResource( 15 )
-centered = false
-
-[node name="ventana2" type="Sprite" parent="sprites"]
-texture = ExtResource( 14 )
-centered = false
-
-[node name="ventana3" type="Sprite" parent="sprites"]
-texture = ExtResource( 13 )
-centered = false
-
-[node name="oso" type="Sprite" parent="sprites"]
-texture = ExtResource( 6 )
 centered = false
 
 [node name="posicion" type="Node" parent="."]
@@ -145,7 +103,7 @@ anims/default = SubResource( 1 )
 anims/open = SubResource( 2 )
 
 [node name="candelabro" type="Node2D" parent="items"]
-position = Vector2( 1046.97, 610.298 )
+position = Vector2( 1028, 610.298 )
 z_index = 610
 script = ExtResource( 1 )
 key = "candelabro"
@@ -201,11 +159,11 @@ rotation = -0.486947
 script = ExtResource( 8 )
 
 [node name="oso" type="Node2D" parent="items"]
-position = Vector2( 548.015, 448.896 )
+position = Vector2( 565, 448.896 )
 z_index = 448
 script = ExtResource( 1 )
 key = "oso"
-size = Vector2( 235, 560 )
+size = Vector2( 200, 560 )
 offset = Vector2( 0, 0 )
 color = Color( 1, 1, 1, 1 )
 
