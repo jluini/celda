@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
-[ext_resource path="res://themes/mortified/mortified_speech.tres" type="DynamicFont" id=2]
+[ext_resource path="res://games/celda_escape/rooms/sotano/fuente_digitos.tres" type="DynamicFont" id=2]
 
 [sub_resource type="Animation" id=1]
 resource_name = "default"
