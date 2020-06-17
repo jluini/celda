@@ -221,7 +221,7 @@ adoquin:
 		you.say MIRAR_ADOQUIN
 	
 	mano:
-		you.say "TODO"
+		you.say NO_PUEDO_MOVERLO
 	
 	usar_con(inv_poster):
 		.signal sound/sacar_poster
@@ -360,7 +360,7 @@ armadura:
 		you.say MIRAR_ARMADURA
 	
 	mano:
-		you.say "TODO: ruido metálico"
+		#you.say "TODO: ruido metálico"
 		you.say ES_IMPOSIBLE
 	
 	usar_con(inv_palo):
@@ -392,38 +392,36 @@ biblioteca2:
 biblioteca3:
 	mirar:
 		if $tinta_fue_revelada:
-			you.say "TODO: Ya me llevé lo que me interesaba."
+			you.say ME_LLEVE_LO_QUE_INTERESABA
 		else:
 			you.say UN_LIBRO_SOBRESALE
 			
 	mano:
-		#you.say UN_LIBRO_SOBRESALE
-		#.wait 1
 		if $tinta_fue_revelada:
-			you.say "TODO: Ya me llevé lo que me interesaba."
+			you.say ME_LLEVE_LO_QUE_INTERESABA
 		else:
 			.load_room libro
 			if not $hoja_fue_vista:
 				.wait 1.5
-				you.say "TODO: Tiene marcada una hoja en blanco."
-				you.say "TODO: ¡Qué extraño!"
+				you.say PAGINA_EN_BLANCO_MARCADA
+				you.say QUE_EXTRANIO
 				.set hoja_fue_vista=true
 
 libro_a_oficina:
 	ir:
 		.load_room oficina at=biblioteca3
 		if $tinta_fue_revelada:
-			you.say "TODO: Me llevaré el libro."
+			you.say LLEVARE_EL_LIBRO
 			inv_libro.add
 		else:
-			you.say "TODO: Dejaré el libro en su lugar."
+			you.say DEJARE_EL_LIBRO
 
 libro/hoja:
 	mirar:
-		you.say "TODO: Está en blanco."
+		you.say ESTA_EN_BLANCO
 
 	mano:
-		you.say "TODO: No quiero romperla."
+		you.say NO_QUIERO_ROMPERLA
 	
 	usar_con(inv_frasco):
 		libro/tinta.enable
@@ -431,14 +429,14 @@ libro/hoja:
 		libro/tinta.play revelada
 		self.disable
 		.set tinta_fue_revelada=true
-		you.say "TODO: ¡Aparecen cosas escritas!"
+		you.say APARECEN_COSAS_ESCRITAS
 
 libro/tinta:
 	mirar:
 		you.say MIRAR_LIBRO1
 		you.say MIRAR_LIBRO2
 	mano:
-		you.say "TODO: No quiero romperla."
+		you.say NO_QUIERO_ROMPERLA
 
 busto:
 	mirar:
@@ -464,7 +462,7 @@ escritorio_oficina:
 		you.say MIRAR_ESCRITORIO_OFICINA
 	
 	mano:
-		you.say "TODO"
+		you.say PESA_MUCHISIMO
 	
 	usar_con(inv_palo):
 		you.say ES_INUTIL
@@ -483,7 +481,7 @@ silla_oficina:
 		you.say MIRAR_SILLA_OFICINA
 	
 	mano:
-		you.say "TODO"
+		you.say PESA_MUCHISIMO
 	
 	usar_con(inv_palo):
 		you.say NO_TIENE_SENTIDO
@@ -523,7 +521,7 @@ mueble:
 		you.say MIRAR_MUEBLE
 	
 	mano:
-		you.say "TODO"
+		you.say PESA_MUCHISIMO
 	
 	usar_con(inv_palo):
 		you.say PALO_EN_MUEBLE
@@ -539,7 +537,7 @@ espejo:
 		you.say MIRAR_ESPEJO
 	
 	mano:
-		you.say "TODO"
+		you.say TOCAR_ESPEJO
 	
 	usar_con(inv_palo):
 		you.say PALO_EN_ESPEJO
@@ -644,7 +642,7 @@ caja_fuerte:
 		you.say MIRAR_CAJA_FUERTE
 	
 	mano:
-		you.say "TODO"
+		you.say PESA_MUCHISIMO
 
 cajita:
 	mirar:
@@ -662,7 +660,7 @@ cajita:
 				you.say TOMAR_CAJITA2
 				.set llave1_fue_agarrada=true
 		else:
-			you.say "TODO"
+			you.say YA_TENGO_LA_LLAVE
 	
 	usar_con(inv_llave1):
 		you.say LLAVE_EN_CAJITA
@@ -680,7 +678,7 @@ candelabro:
 		you.say MIRAR_CANDELABRO
 	
 	mano:
-		you.say "TODO"
+		you.say NO_CREO_QUE_LO_NECESITE
 
 cuadro:
 	mirar:
@@ -719,7 +717,10 @@ balde:
 		you.say MIRAR_BALDE
 	
 	mano:
-		you.say "TODO"
+		you.say MEJOR_NO
+	
+	usar_con(inv_palo):
+		you.say PALO_EN_BALDE
 	
 	usar_con(*):
 		you.say X_EN_BALDE

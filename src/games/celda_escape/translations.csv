@@ -50,7 +50,7 @@ MIRAR_LLAVE1;A little key.;Una pequeña llave.
 MIRAR_LLAVE2;Another little key.;Otra pequeña llave.
 MIRAR_PALO_INVENTARIO;A pretty rusty iron.;Un hierro bastante oxidado.
 MIRAR_PALO_EN_REJA;One of the bars is loose.;Uno de los barrotes está suelto.
-MIRAR_CALAVERA;TODO;TODO
+MIRAR_CALAVERA;A human skull.;Un cráneo humano.
 MIRAR_FRASCO;It's a flask with some transparent liquid.;Es un frasco con un líquido transparente.
 MIRAR_CAMA;It's not less hard than the stones on the ground.;No es menos dura que las piedras del suelo.
 MIRAR_INODORO;It has not been used for a long time.;No se usa hace largo tiempo.
@@ -69,8 +69,17 @@ MIRAR_BIBLIOTECA2_1;"""The yellow prussiate solution is a good invisible ink..."
 MIRAR_BIBLIOTECA2_2;...just impregnate the written paper with green vitriol solution...;...basta impregnar el papel escrito con solución de vitriolo verde...
 MIRAR_BIBLIOTECA2_3;"...to reveal the hidden writing.""";"...para revelar la escritura oculta."""
 UN_LIBRO_SOBRESALE;There's a book sticking out.;Hay un libro que sobresale.
+ME_LLEVE_LO_QUE_INTERESABA;I already took what interested me.;Ya me llevé lo que me interesaba.
+PAGINA_EN_BLANCO_MARCADA;There's a blank page marked.;Hay una página en blanco marcada.
+QUE_EXTRANIO;How weird!;¡Qué extraño!
+LLEVARE_EL_LIBRO;I'll take the book with me.;Me llevaré el libro.
+DEJARE_EL_LIBRO;I'll leave the book in its place.;Dejaré el libro en su lugar.
+ESTA_EN_BLANCO;It is blank.;Está en blanco.
+NO_QUIERO_ROMPERLA;I don't want to break it.;No quiero romperla.
+APARECEN_COSAS_ESCRITAS;Written things appear!;¡Aparecen cosas escritas!
 MIRAR_MUEBLE;Antique piece of furniture, very luxurious.;Mueble antiguo, muy lujoso.
-MIRAR_ESPEJO;TODO;TODO
+MIRAR_ESPEJO;A broken mirror. I barely see myself.;Un espejo roto. Apenas me veo.
+TOCAR_ESPEJO;It could hurt me.;Podría lastimarme.
 MAJESTUOSA_CRIATURA;A majestic creature.;Una majestuosa criatura.
 CABEZA_DISECADA;A stuffed head.;Una cabeza disecada.
 MIRAR_VENTANA_LIVING;It's boarded up so I can't go out.;Está tapiada así que no puedo salir.
@@ -78,7 +87,7 @@ MIRAR_PUERTA_LIVING1;Fresh air passes underneath.;Un aire fresco pasa por debajo
 MIRAR_PUERTA_LIVING2;I have to find a way to open it.;Tengo que buscar la forma de abrirla.
 MIRAR_CAJA_FUERTE;It seems to be a strongbox.;Parece una caja fuerte.
 MIRAR_CAJITA;It's a delicate little box.;Es una delicada caja.
-MIRAR_CANDELABRO;TODO;TODO
+MIRAR_CANDELABRO;A beautiful candelabrum.;Un hermoso candelabro.
 MIRAR_CUADRO1;A lady for whom the years were devastating.;Una señora para quien los años fueron devastadores.
 MIRAR_CUADRO2;Up close she's even more repulsive.;De cerca es aún más repulsiva.
 MIRAR_BALDE;It's just a bucket.;Es un simple balde.
@@ -89,6 +98,7 @@ X_EN_INODORO;I wouldn't throw it here.;No lo tiraría aquí.
 PALO_EN_ADOQUIN;Maybe I can move it.;Tal vez pueda moverlo.
 PALO_EN_MUEBLE;It's not worth hitting it with the stick.;No vale la pena romperlo a palazos.
 PALO_EN_ESPEJO;I don't want to break it.;No quisiera romperlo.
+PALO_EN_BALDE;I don't feel like cleaning.;No me quiero poner a limpiar.
 YA_SUFRIO_DEMASIADO;I think it suffered too much to hit it with an iron.;Creo que ya sufrió demasiado como para darle con un fierro.
 LLAVE_EN_INODORO1;I wouldn't discard the key here.;No tiraría la llave al inodoro.
 LLAVE_EN_INODORO2;Maybe later it will help me.;Tal vez más tarde me sea útil.
@@ -109,6 +119,7 @@ NO_ENTRA_EN_CAJITA;It doesn't fit in this little box.;No entra en esta pequeña 
 TOMAR_CAJITA1;It seems to have something inside of it...;Creo que tiene algo en su interior...
 TOMAR_CAJITA2;a little key!;¡una pequeña llave!
 TOMAR_CAJITA_OTRA_VEZ;I will take the key again.;Tomaré la llave otra vez.
+YA_TENGO_LA_LLAVE;I already have the key.;Ya tengo la llave.
 YA_TIENE_CABEZA;It already has a head.;Ya tiene cabeza.
 X_EN_BALDE;Why would I put this in the bucket?;¿Para qué metería esto en el balde?
 DEMASIADO_PESADA;It's too heavy.;Es demasiado pesada.
@@ -132,6 +143,9 @@ ES_INUTIL;It's useless.;Es inútil.
 ES_IMPOSIBLE;It is impossible.;Es imposible.
 NO_FUNCIONA;It doesn't work.;No funciona.
 NO_ENTRA;It doesn't fit;No entra.
+NO_CREO_QUE_LO_NECESITE;I don't think I will need it.;No creo que lo necesite.
+NO_PUEDO_MOVERLO;I can't move it.;No puedo moverlo.
+MEJOR_NO;Better not.;Mejor no.
 NADA_SUCEDE;Nothing happens.;No sucede nada.
 SOSPECHO_QUE_ASI_NO_FUNCIONA;I suspect that's not how it works.;Sospecho que no es así como funciona.
 DESDE_LUEGO_QUE_NO;Of course not.;Desde luego que no.
