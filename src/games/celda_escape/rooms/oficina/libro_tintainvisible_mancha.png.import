@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/right.png-f9a072861a51533dc648687ba26616b7.stex"
+path="res://.import/libro_tintainvisible_mancha.png-4ff4ae0c92e7ef2b14ec63df9337abae.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://clients/modern_client/images/right.png"
-dest_files=[ "res://.import/right.png-f9a072861a51533dc648687ba26616b7.stex" ]
+source_file="res://games/celda_escape/rooms/oficina/libro_tintainvisible_mancha.png"
+dest_files=[ "res://.import/libro_tintainvisible_mancha.png-4ff4ae0c92e7ef2b14ec63df9337abae.stex" ]
 
 [params]
 

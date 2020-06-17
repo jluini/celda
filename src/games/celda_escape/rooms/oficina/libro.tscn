@@ -1,14 +1,16 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://tools/grog/core/room.gd" type="Script" id=1]
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=2]
 [ext_resource path="res://games/celda_escape/rooms/oficina/libro_tintainvisible.png" type="Texture" id=3]
 [ext_resource path="res://games/celda_escape/rooms/oficina/libro_tintainvisible_visible.png" type="Texture" id=4]
+[ext_resource path="res://games/celda_escape/rooms/oficina/libro_tintainvisible_mancha.png" type="Texture" id=5]
+[ext_resource path="res://clients/modern_client/images/arrow.png" type="Texture" id=6]
 
 [sub_resource type="Animation" id=1]
 resource_name = "default"
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:modulate")
+tracks/0/path = NodePath("tinta:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -19,11 +21,23 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("mancha:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
 
 [sub_resource type="Animation" id=2]
 resource_name = "revelada"
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:modulate")
+tracks/0/path = NodePath("tinta:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -34,21 +48,45 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("mancha:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=3]
 resource_name = "revelandose"
-length = 2.0
+length = 4.0
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:modulate")
-tracks/0/interp = 1
+tracks/0/path = NodePath("tinta:modulate")
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 1.5, 4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("mancha:modulate")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.4, 1.3, 4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 0.733333 ), Color( 1, 1, 1, 0.737255 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [node name="room" type="Node"]
@@ -62,30 +100,58 @@ centered = false
 
 [node name="items" type="Node" parent="."]
 
-[node name="hoja_invisible" type="Node2D" parent="items"]
+[node name="tinta" type="Node2D" parent="items"]
 position = Vector2( 1258, 369.3 )
 z_index = 369
 script = ExtResource( 2 )
-key = "hoja_invisible"
+key = "libro/tinta"
 size = Vector2( 800, 800 )
 offset = Vector2( 0, 0 )
 color = Color( 1, 1, 1, 1 )
 
-[node name="sprite" type="Sprite" parent="items/hoja_invisible"]
+[node name="mancha" type="Sprite" parent="items/tinta"]
+modulate = Color( 1, 1, 1, 0 )
+position = Vector2( -1258, -369.3 )
+texture = ExtResource( 5 )
+centered = false
+
+[node name="tinta" type="Sprite" parent="items/tinta"]
+modulate = Color( 1, 1, 1, 0 )
 position = Vector2( -1258, -369.3 )
 texture = ExtResource( 4 )
 centered = false
 
-[node name="animation" type="AnimationPlayer" parent="items/hoja_invisible"]
+[node name="animation" type="AnimationPlayer" parent="items/tinta"]
 anims/default = SubResource( 1 )
 anims/revelada = SubResource( 2 )
 anims/revelandose = SubResource( 3 )
 
-[node name="a_oficina" type="Node2D" parent="items"]
-position = Vector2( 960, 540 )
-z_index = 540
+[node name="hoja" type="Node2D" parent="items"]
+position = Vector2( 1258, 369.3 )
+z_index = 369
 script = ExtResource( 2 )
-key = "libro_a_oficina"
-size = Vector2( 1920, 1080 )
+key = "libro/hoja"
+size = Vector2( 800, 800 )
 offset = Vector2( 0, 0 )
 color = Color( 1, 1, 1, 1 )
+
+[node name="a_oficina" type="Node2D" parent="items"]
+position = Vector2( 156.154, 930.292 )
+z_index = 930
+script = ExtResource( 2 )
+key = "libro_a_oficina"
+size = Vector2( 300, 300 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
+
+[node name="sprite" type="Sprite" parent="items/a_oficina"]
+scale = Vector2( 2, 2 )
+texture = ExtResource( 6 )
+flip_h = true
+
+[node name="color_rect" type="ColorRect" parent="items/a_oficina"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}

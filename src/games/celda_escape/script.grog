@@ -4,16 +4,19 @@ main:
 	init:
 		
 		.set jaula_esta_abierta=false
-		.set adoquin_ya_cayo=false
 		.set oficina_fue_descubierta=false
 		.set llave1_fue_agarrada=false
 		.set bomba_fue_usada=false
-		.set hoja_fue_revelada=false
 		
+		.set adoquin_ya_cayo=false
 		jaula_a_oficina.disable
 		adoquin.disable
 		
 		sotano_a_laboratorio.disable
+		
+		.set hoja_fue_vista=false
+		.set tinta_fue_revelada=false
+		libro/tinta.disable
 		
 		.set candado/digito_izquierda_valor = 2
 		.set candado/digito_centro_valor = 7
@@ -38,7 +41,6 @@ main:
 				
 			else:
 				
-				inv_libro.add
 				inv_calavera.add
 				inv_llave2.add
 				inv_frasco.add
@@ -62,7 +64,7 @@ main:
 				.load_room oficina at=posicion/de_jaula
 				.set music=oficina
 				.curtain_up
-			
+				
 			# Etapa living
 			elif $stage = 3:
 				.load_room living at=posicion/de_oficina
@@ -113,7 +115,8 @@ inv_poster:
 
 inv_libro:
 	mirar:
-		you.say MIRAR_LIBRO
+		you.say MIRAR_LIBRO1
+		you.say MIRAR_LIBRO2
 	mano:
 		self.set_tool usar_con
 
@@ -388,34 +391,54 @@ biblioteca2:
 
 biblioteca3:
 	mirar:
-		you.say MIRAR_BIBLIOTECA3
-		.wait 1
-		.load_room libro
+		if $tinta_fue_revelada:
+			you.say "TODO: Ya me llevé lo que me interesaba."
+		else:
+			you.say UN_LIBRO_SOBRESALE
+			
 	mano:
-		you.say MIRAR_BIBLIOTECA3
-		.wait 1
-		.load_room libro
+		#you.say UN_LIBRO_SOBRESALE
+		#.wait 1
+		if $tinta_fue_revelada:
+			you.say "TODO: Ya me llevé lo que me interesaba."
+		else:
+			.load_room libro
+			if not $hoja_fue_vista:
+				.wait 1.5
+				you.say "TODO: Tiene marcada una hoja en blanco."
+				you.say "TODO: ¡Qué extraño!"
+				.set hoja_fue_vista=true
 
 libro_a_oficina:
 	ir:
 		.load_room oficina at=biblioteca3
-
-hoja_invisible:
-	mirar:
-		if $hoja_fue_revelada:
-			you.say "TODO"
+		if $tinta_fue_revelada:
+			you.say "TODO: Me llevaré el libro."
+			inv_libro.add
 		else:
-			you.say "TODO"
-	
+			you.say "TODO: Dejaré el libro en su lugar."
+
+libro/hoja:
+	mirar:
+		you.say "TODO: Está en blanco."
+
 	mano:
-		you.say "TODO"
+		you.say "TODO: No quiero romperla."
 	
 	usar_con(inv_frasco):
-		if not $hoja_fue_revelada:
-			self.play revelandose blocking=true
-			self.play revelada blocking=true
-			.set hoja_fue_revelada=true
-			you.say "TODO"
+		libro/tinta.enable
+		libro/tinta.play revelandose blocking=true
+		libro/tinta.play revelada
+		self.disable
+		.set tinta_fue_revelada=true
+		you.say "TODO: ¡Aparecen cosas escritas!"
+
+libro/tinta:
+	mirar:
+		you.say MIRAR_LIBRO1
+		you.say MIRAR_LIBRO2
+	mano:
+		you.say "TODO: No quiero romperla."
 
 busto:
 	mirar:

@@ -207,7 +207,7 @@ func get_tokens(compiled_script, line: Dictionary) -> Array:
 					return []
 				
 				current_token.content += c # escaped character in quote
-				state = TokenizerState.ReadingQuotedToken
+				state = TokenizerState.ReadingQuote
 			
 			_:
 				compiled_script.add_error("Grog error: unexpected state %s" % TokenizerState.keys()[state])
