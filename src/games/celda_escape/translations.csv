@@ -68,16 +68,19 @@ RECOGER_BIBLIOTECA1;If I touched any of these books it would turn to dust.;Si to
 MIRAR_BIBLIOTECA2_1;"""The yellow prussiate solution is a good invisible ink...";"""La solución de prusiato amarillo es una buena tinta invisible..."
 MIRAR_BIBLIOTECA2_2;...just impregnate the written paper with green vitriol solution...;...basta impregnar el papel escrito con solución de vitriolo verde...
 MIRAR_BIBLIOTECA2_3;"...to reveal the hidden writing.""";"...para revelar la escritura oculta."""
-UN_LIBRO_SOBRESALE;TODO;Un libro sobresale.
+UN_LIBRO_SOBRESALE;There's a book sticking out.;Hay un libro que sobresale.
 MIRAR_MUEBLE;Antique piece of furniture, very luxurious.;Mueble antiguo, muy lujoso.
 MIRAR_ESPEJO;TODO;TODO
 MAJESTUOSA_CRIATURA;A majestic creature.;Una majestuosa criatura.
+CABEZA_DISECADA;A stuffed head.;Una cabeza disecada.
 MIRAR_VENTANA_LIVING;It's boarded up so I can't go out.;Está tapiada así que no puedo salir.
 MIRAR_PUERTA_LIVING1;Fresh air passes underneath.;Un aire fresco pasa por debajo.
 MIRAR_PUERTA_LIVING2;I have to find a way to open it.;Tengo que buscar la forma de abrirla.
 MIRAR_CAJA_FUERTE;It seems to be a strongbox.;Parece una caja fuerte.
 MIRAR_CAJITA;It's a delicate little box.;Es una delicada caja.
 MIRAR_CANDELABRO;TODO;TODO
+MIRAR_CUADRO1;A lady for whom the years were devastating.;Una señora para quien los años fueron devastadores.
+MIRAR_CUADRO2;Up close she's even more repulsive.;De cerca es aún más repulsiva.
 MIRAR_BALDE;It's just a bucket.;Es un simple balde.
 MIRAR_BOMBA;A rusty pump. It has not been used for a very long time.;Una bomba oxidada. No se usa hace muchísimo tiempo.
 FRASCO_EN_INODORO;It would be a waste to throw it here.;Sería un desperdicio tirarlo aquí.
@@ -100,6 +103,7 @@ LLAVE_EN_CAJITA;I'll leave the key in its place.;Dejaré la llave en su lugar.
 PLACA_LEON;"The plaque says ""Animal Nº 8"".";"La placa dice ""Animal Nº 8""."
 PLACA_OSO;"The plaque says ""Animal Nº 3"".";"La placa dice ""Animal Nº 3""."
 PLACA_CABRA;"The plaque says ""Animal Nº 6"".";"La placa dice ""Animal Nº 6""."
+QUE_SUAVE_PELAJE;What a soft fur.;Qué suave pelaje.
 OTRA_LLAVE_EN_CAJITA;I don't want to play hiding keys.;No quiero jugar a esconder llaves.
 NO_ENTRA_EN_CAJITA;It doesn't fit in this little box.;No entra en esta pequeña cajita.
 TOMAR_CAJITA1;It seems to have something inside of it...;Creo que tiene algo en su interior...
@@ -120,7 +124,7 @@ PARECE_ESTAR_TRABADA;It seems to be locked.;Parece estar trabada.
 NO_PUEDO_ABRIRLA_CON_ESTO;I can't open it with this.;No puedo abrirla con esto.
 NO_ME_SIRVE_PARA_ABRIRLA;I can't open it with this.;No me sirve para abrirla.
 NO_ES_BUENA_IDEA;Not a good idea.;No es buena idea.
-NO_PUEDO_ALCANZARLA;I can't reach it.;No puedo alcanzarla.
+NO_LLEGO;I can't reach it.;No llego.
 NO_PUEDO_HACER_NADA;I can't do anything.;No puedo hacer nada.
 NO_SERIA_PRUDENTE;It wouldn't be wise.;No sería prudente.
 NO_TIENE_SENTIDO;It doesn't make sense.;No tiene sentido.

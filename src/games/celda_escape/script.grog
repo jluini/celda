@@ -325,25 +325,25 @@ reja:
 puerta_jaula:
 	mirar:
 		if not $jaula_esta_abierta:
-			you.say NO_PUEDO_ALCANZARLA
+			you.say NO_LLEGO
 		else:
 			you.say MIRAR_PUERTA_JAULA
 	
 	mano:
 		if not $jaula_esta_abierta:
-			you.say NO_PUEDO_ALCANZARLA
+			you.say NO_LLEGO
 		else:
 			you.say PARECE_ESTAR_TRABADA
 		
 	usar_con(inv_llave*):
 		if not $jaula_esta_abierta:
-			you.say NO_PUEDO_ALCANZARLA
+			you.say NO_LLEGO
 		else:
 			you.say NO_ES_LA_LLAVE_CORRECTA
 	
 	usar_con(*):
 		if not $jaula_esta_abierta:
-			you.say NO_PUEDO_ALCANZARLA
+			you.say NO_LLEGO
 		else:
 			you.say NO_PUEDO_ABRIRLA_CON_ESTO
 
@@ -553,7 +553,7 @@ oso:
 		you.say PLACA_OSO
 	
 	mano:
-		you.say PESA_MUCHISIMO
+		you.say QUE_SUAVE_PELAJE
 	
 	usar_con(inv_palo):
 		you.say YA_SUFRIO_DEMASIADO
@@ -572,11 +572,11 @@ oso:
 
 leon:
 	mirar:
-		you.say MAJESTUOSA_CRIATURA
+		you.say CABEZA_DISECADA
 		you.say PLACA_LEON
 	
 	mano:
-		you.say PESA_MUCHISIMO
+		you.say NO_LLEGO
 	
 	usar_con(inv_palo):
 		you.say YA_SUFRIO_DEMASIADO
@@ -584,22 +584,16 @@ leon:
 	usar_con(inv_llave*):
 		you.say LLAVE_EN_LEON
 	
-	usar_con(inv_frasco):
-		you.say NO_FUNCIONA
-	
-	usar_con(inv_calavera):
-		you.say YA_TIENE_CABEZA
-	
 	usar_con(*):
-		you.say COMBINACION_INVALIDA
+		you.say NO_LLEGO
 
 cabra:
 	mirar:
-		you.say MAJESTUOSA_CRIATURA
+		you.say CABEZA_DISECADA
 		you.say PLACA_CABRA
 	
 	mano:
-		you.say PESA_MUCHISIMO
+		you.say NO_LLEGO
 	
 	usar_con(inv_palo):
 		you.say YA_SUFRIO_DEMASIADO
@@ -607,14 +601,8 @@ cabra:
 	usar_con(inv_llave*):
 		you.say LLAVE_EN_CABRA
 	
-	usar_con(inv_frasco):
-		you.say NO_FUNCIONA
-	
-	usar_con(inv_calavera):
-		you.say YA_TIENE_CABEZA
-	
 	usar_con(*):
-		you.say COMBINACION_INVALIDA
+		you.say NO_LLEGO
 
 ventana_living:
 	mirar:
@@ -696,12 +684,16 @@ candelabro:
 
 cuadro:
 	mirar:
-		#you.say MIRAR_CUADRO
+		you.say MIRAR_CUADRO1
 		.load_room cuadro
-		#.curtain_up
+		.wait 2.5
+		you.say MIRAR_CUADRO2
 	
 	mano:
+		you.say MIRAR_CUADRO1
 		.load_room cuadro
+		.wait 2.5
+		you.say MIRAR_CUADRO2
 
 cuadro_a_living:
 	ir:
