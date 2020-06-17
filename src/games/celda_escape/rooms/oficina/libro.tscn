@@ -136,7 +136,7 @@ offset = Vector2( 0, 0 )
 color = Color( 1, 1, 1, 1 )
 
 [node name="a_oficina" type="Node2D" parent="items"]
-position = Vector2( 156.154, 930.292 )
+position = Vector2( 150, 930 )
 z_index = 930
 script = ExtResource( 2 )
 key = "libro_a_oficina"
