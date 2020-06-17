@@ -1,0 +1,91 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://tools/grog/core/room.gd" type="Script" id=1]
+[ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=2]
+[ext_resource path="res://games/celda_escape/rooms/oficina/libro_tintainvisible.png" type="Texture" id=3]
+[ext_resource path="res://games/celda_escape/rooms/oficina/libro_tintainvisible_visible.png" type="Texture" id=4]
+
+[sub_resource type="Animation" id=1]
+resource_name = "default"
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "revelada"
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "revelandose"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[node name="room" type="Node"]
+script = ExtResource( 1 )
+
+[node name="sprites" type="Node" parent="."]
+
+[node name="fondo" type="Sprite" parent="sprites"]
+texture = ExtResource( 3 )
+centered = false
+
+[node name="items" type="Node" parent="."]
+
+[node name="hoja_invisible" type="Node2D" parent="items"]
+position = Vector2( 1258, 369.3 )
+z_index = 369
+script = ExtResource( 2 )
+key = "hoja_invisible"
+size = Vector2( 800, 800 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
+
+[node name="sprite" type="Sprite" parent="items/hoja_invisible"]
+position = Vector2( -1258, -369.3 )
+texture = ExtResource( 4 )
+centered = false
+
+[node name="animation" type="AnimationPlayer" parent="items/hoja_invisible"]
+anims/default = SubResource( 1 )
+anims/revelada = SubResource( 2 )
+anims/revelandose = SubResource( 3 )
+
+[node name="a_oficina" type="Node2D" parent="items"]
+position = Vector2( 960, 540 )
+z_index = 540
+script = ExtResource( 2 )
+key = "libro_a_oficina"
+size = Vector2( 1920, 1080 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )

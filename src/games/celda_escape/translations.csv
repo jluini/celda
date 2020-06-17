@@ -64,9 +64,10 @@ MIRAR_ESCRITORIO_OFICINA;It's tidy and its drawers seem closed.;Está ordenado y
 MIRAR_SILLA_OFICINA;It looks comfortable, although the leather is battered.;Parece cómoda, aunque el cuero se ve maltratado.
 MIRAR_BIBLIOTECA1;There are books on alchemy, anatomy, occult science.;Hay libros de alquimia, anatomía, ciencias ocultas.
 RECOGER_BIBLIOTECA1;If I touched any of these books it would turn to dust.;Si tocara alguno de estos libros se volvería polvo.
-MIRAR_BIBLIOTECA2_1;;"""La solución de prusiato amarillo es una buena tinta invisible..."
-MIRAR_BIBLIOTECA2_2;;"...basta impregnar el papel escrito con solución de vitriolo verde..."
-MIRAR_BIBLIOTECA2_3;;"...para revelar la escritura de otro modo oculta."""
+MIRAR_BIBLIOTECA2_1;"""The yellow prussiate solution is a good invisible ink...";"""La solución de prusiato amarillo es una buena tinta invisible..."
+MIRAR_BIBLIOTECA2_2;...just impregnate the written paper with green vitriol solution...;...basta impregnar el papel escrito con solución de vitriolo verde...
+MIRAR_BIBLIOTECA2_3;"...to reveal the hidden writing.""";"...para revelar la escritura oculta."""
+MIRAR_BIBLIOTECA3;TODO;Un libro sobresale.
 MIRAR_MUEBLE;Antique piece of furniture, very luxurious.;Mueble antiguo, muy lujoso.
 MIRAR_ESPEJO;TODO;TODO
 MIRAR_OSO;A majestic creature.;Una majestuosa criatura.

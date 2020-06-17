@@ -8,6 +8,7 @@ main:
 		.set oficina_fue_descubierta=false
 		.set llave1_fue_agarrada=false
 		.set bomba_fue_usada=false
+		.set hoja_fue_revelada=false
 		
 		jaula_a_oficina.disable
 		adoquin.disable
@@ -384,6 +385,37 @@ biblioteca2:
 		you.say MIRAR_BIBLIOTECA2_1
 		you.say MIRAR_BIBLIOTECA2_2
 		you.say MIRAR_BIBLIOTECA2_3
+
+biblioteca3:
+	mirar:
+		you.say MIRAR_BIBLIOTECA3
+		.wait 1
+		.load_room libro
+	mano:
+		you.say MIRAR_BIBLIOTECA3
+		.wait 1
+		.load_room libro
+
+libro_a_oficina:
+	ir:
+		.load_room oficina at=biblioteca3
+
+hoja_invisible:
+	mirar:
+		if $hoja_fue_revelada:
+			you.say "TODO"
+		else:
+			you.say "TODO"
+	
+	mano:
+		you.say "TODO"
+	
+	usar_con(inv_frasco):
+		if not $hoja_fue_revelada:
+			self.play revelandose blocking=true
+			self.play revelada blocking=true
+			.set hoja_fue_revelada=true
+			you.say "TODO"
 
 busto:
 	mirar:
