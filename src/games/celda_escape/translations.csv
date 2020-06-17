@@ -60,7 +60,7 @@ RECOGER_REJA;It's rusty but I can't break it.;Está oxidada pero no puedo romper
 MIRAR_PUERTA_JAULA;The wood is somewhat rotten, but it's immovable.;La madera está algo podrida, pero es inamovible.
 MIRAR_ARMADURA;It's and old German armour.;Es una antigua armadura alemana.
 MIRAR_BUSTO;She looks very happy.;Se la ve muy feliz.
-RECOGER_BUSTO;I can't, it's very heavy.;No puedo, pesa muchísimo.
+PESA_MUCHISIMO;I can't, it's very heavy.;No puedo, pesa muchísimo.
 MIRAR_ESCRITORIO_OFICINA;It's tidy and its drawers seem closed.;Está ordenado y sus cajones parecen cerrados.
 MIRAR_SILLA_OFICINA;It looks comfortable, although the leather is battered.;Parece cómoda, aunque el cuero se ve maltratado.
 MIRAR_BIBLIOTECA1;There are books on alchemy, anatomy, occult science.;Hay libros de alquimia, anatomía, ciencias ocultas.
@@ -71,7 +71,7 @@ MIRAR_BIBLIOTECA2_3;"...to reveal the hidden writing.""";"...para revelar la esc
 UN_LIBRO_SOBRESALE;TODO;Un libro sobresale.
 MIRAR_MUEBLE;Antique piece of furniture, very luxurious.;Mueble antiguo, muy lujoso.
 MIRAR_ESPEJO;TODO;TODO
-MIRAR_OSO;A majestic creature.;Una majestuosa criatura.
+MAJESTUOSA_CRIATURA;A majestic creature.;Una majestuosa criatura.
 MIRAR_VENTANA_LIVING;It's boarded up so I can't go out.;Está tapiada así que no puedo salir.
 MIRAR_PUERTA_LIVING1;Fresh air passes underneath.;Un aire fresco pasa por debajo.
 MIRAR_PUERTA_LIVING2;I have to find a way to open it.;Tengo que buscar la forma de abrirla.
@@ -86,21 +86,26 @@ X_EN_INODORO;I wouldn't throw it here.;No lo tiraría aquí.
 PALO_EN_ADOQUIN;Maybe I can move it.;Tal vez pueda moverlo.
 PALO_EN_MUEBLE;It's not worth hitting it with the stick.;No vale la pena romperlo a palazos.
 PALO_EN_ESPEJO;I don't want to break it.;No quisiera romperlo.
-PALO_EN_OSO;I think it suffered too much to hit it with an iron.;Creo que ya sufrió demasiado como para darle con un fierro.
+YA_SUFRIO_DEMASIADO;I think it suffered too much to hit it with an iron.;Creo que ya sufrió demasiado como para darle con un fierro.
 LLAVE_EN_INODORO1;I wouldn't discard the key here.;No tiraría la llave al inodoro.
 LLAVE_EN_INODORO2;Maybe later it will help me.;Tal vez más tarde me sea útil.
 LLAVE_EN_REJA;Oh, it fits perfectly!;Oh, ¡entra perfectamente!
 LLAVE_EN_REJA_OTRA_VEZ;I don't want to close it, it could get stuck.;No quisiera cerrarla, podría trabarse.
 LLAVE_EN_ESCRITORIO;It doesn't unlock any of its drawers.;No abre ninguno de sus cajones.
 LLAVE_EN_OSO;Bears don't have keys.;Los osos no tienen llave.
+LLAVE_EN_LEON;Lions don't have keys.;Los leones no tienen llave.
+LLAVE_EN_CABRA;Goats don't have keys.;Las cabras no tienen llave.
 LLAVE_EN_PUERTA_LIVING;It doesn't even fit into the lock.;Ni siquiera entra en la cerradura.
 LLAVE_EN_CAJITA;I'll leave the key in its place.;Dejaré la llave en su lugar.
+PLACA_LEON;"The plaque says ""Animal Nº 8"".";"La placa dice ""Animal Nº 8""."
+PLACA_OSO;"The plaque says ""Animal Nº 3"".";"La placa dice ""Animal Nº 3""."
+PLACA_CABRA;"The plaque says ""Animal Nº 6"".";"La placa dice ""Animal Nº 6""."
 OTRA_LLAVE_EN_CAJITA;I don't want to play hiding keys.;No quiero jugar a esconder llaves.
 NO_ENTRA_EN_CAJITA;It doesn't fit in this little box.;No entra en esta pequeña cajita.
 TOMAR_CAJITA1;It seems to have something inside of it...;Creo que tiene algo en su interior...
 TOMAR_CAJITA2;a little key!;¡una pequeña llave!
 TOMAR_CAJITA_OTRA_VEZ;I will take the key again.;Tomaré la llave otra vez.
-CALAVERA_EN_OSO;It already has a head.;Ya tiene cabeza.
+YA_TIENE_CABEZA;It already has a head.;Ya tiene cabeza.
 X_EN_BALDE;Why would I put this in the bucket?;¿Para qué metería esto en el balde?
 DEMASIADO_PESADA;It's too heavy.;Es demasiado pesada.
 PODRIA_SER_DE_UTILIDAD;It could be useful.;Podría ser de utilidad.

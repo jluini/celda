@@ -200,6 +200,34 @@ position = Vector2( -2.83, 246.277 )
 rotation = 4.72984
 script = ExtResource( 8 )
 
+[node name="cabra" type="Node2D" parent="items"]
+position = Vector2( 1818.53, 342.889 )
+z_index = 342
+script = ExtResource( 1 )
+key = "cabra"
+size = Vector2( 180, 180 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
+
+[node name="positioning" type="Node2D" parent="items/cabra"]
+position = Vector2( -206.4, 526.485 )
+rotation = 5.77704
+script = ExtResource( 8 )
+
+[node name="leon" type="Node2D" parent="items"]
+position = Vector2( 1678.86, 282.832 )
+z_index = 282
+script = ExtResource( 1 )
+key = "leon"
+size = Vector2( 180, 180 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
+
+[node name="positioning" type="Node2D" parent="items/leon"]
+position = Vector2( -154.288, 485.156 )
+rotation = 5.77704
+script = ExtResource( 8 )
+
 [node name="a_oficina" type="Node2D" parent="items"]
 position = Vector2( 136.578, 929.356 )
 z_index = 929

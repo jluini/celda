@@ -445,7 +445,7 @@ busto:
 		you.say MIRAR_BUSTO
 	
 	mano:
-		you.say RECOGER_BUSTO
+		you.say PESA_MUCHISIMO
 	
 	usar_con(inv_palo):
 		you.say NO_PUEDO_HACER_NADA
@@ -549,13 +549,14 @@ espejo:
 
 oso:
 	mirar:
-		you.say MIRAR_OSO
+		you.say MAJESTUOSA_CRIATURA
+		you.say PLACA_OSO
 	
 	mano:
-		you.say "TODO"
+		you.say PESA_MUCHISIMO
 	
 	usar_con(inv_palo):
-		you.say PALO_EN_OSO
+		you.say YA_SUFRIO_DEMASIADO
 	
 	usar_con(inv_llave*):
 		you.say LLAVE_EN_OSO
@@ -564,7 +565,53 @@ oso:
 		you.say NO_FUNCIONA
 	
 	usar_con(inv_calavera):
-		you.say CALAVERA_EN_OSO
+		you.say YA_TIENE_CABEZA
+	
+	usar_con(*):
+		you.say COMBINACION_INVALIDA
+
+leon:
+	mirar:
+		you.say MAJESTUOSA_CRIATURA
+		you.say PLACA_LEON
+	
+	mano:
+		you.say PESA_MUCHISIMO
+	
+	usar_con(inv_palo):
+		you.say YA_SUFRIO_DEMASIADO
+	
+	usar_con(inv_llave*):
+		you.say LLAVE_EN_LEON
+	
+	usar_con(inv_frasco):
+		you.say NO_FUNCIONA
+	
+	usar_con(inv_calavera):
+		you.say YA_TIENE_CABEZA
+	
+	usar_con(*):
+		you.say COMBINACION_INVALIDA
+
+cabra:
+	mirar:
+		you.say MAJESTUOSA_CRIATURA
+		you.say PLACA_CABRA
+	
+	mano:
+		you.say PESA_MUCHISIMO
+	
+	usar_con(inv_palo):
+		you.say YA_SUFRIO_DEMASIADO
+	
+	usar_con(inv_llave*):
+		you.say LLAVE_EN_CABRA
+	
+	usar_con(inv_frasco):
+		you.say NO_FUNCIONA
+	
+	usar_con(inv_calavera):
+		you.say YA_TIENE_CABEZA
 	
 	usar_con(*):
 		you.say COMBINACION_INVALIDA
