@@ -8,8 +8,18 @@ Fuentes:
     Licencia:
       This Font Software is licensed under the SIL Open Font License, Version 1.1.
       http://scripts.sil.org/OFL
+  
+  Zector:
+    Descargada de:
+      https://www.dafont.com/es/zector.font
+    Autor:
+      GGBot (https://ggbot.net)
+    Licencia:
+      This font are licensed under the SIL Open Font License, Version 1.1.
       
-  Kermesse:
+      You can use them freely in your products & projects - print or digital, commercial or otherwise. However, you can't sell the fonts on their own.
+  
+  Kermesse (no se está usando):
     Descargada de:
       https://www.dafont.com/es/kermesse.font
     Autor:
