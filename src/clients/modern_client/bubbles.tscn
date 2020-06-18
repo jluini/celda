@@ -48,13 +48,15 @@ position = Vector2( 0, -200 )
 position = Vector2( -60, 0 )
 
 [node name="sprite" type="Sprite" parent="bubble_anchor/bubbles/bubble_left"]
-texture = ExtResource( 1 )
+rotation = -1.5708
+texture = ExtResource( 2 )
 
 [node name="bubble_right" type="Node2D" parent="bubble_anchor/bubbles"]
 position = Vector2( 60, 0 )
 
 [node name="sprite" type="Sprite" parent="bubble_anchor/bubbles/bubble_right"]
-texture = ExtResource( 2 )
+texture = ExtResource( 1 )
+flip_h = true
 
 [node name="animation" type="AnimationPlayer" parent="."]
 playback_speed = 1.5
