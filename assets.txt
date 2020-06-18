@@ -9,28 +9,3 @@ Fuentes:
       This Font Software is licensed under the SIL Open Font License, Version 1.1.
       http://scripts.sil.org/OFL
   
-  Zector:
-    Descargada de:
-      https://www.dafont.com/es/zector.font
-    Autor:
-      GGBot (https://ggbot.net)
-    Licencia:
-      This font are licensed under the SIL Open Font License, Version 1.1.
-      
-      You can use them freely in your products & projects - print or digital, commercial or otherwise. However, you can't sell the fonts on their own.
-  
-  Kermesse (no se está usando):
-    Descargada de:
-      https://www.dafont.com/es/kermesse.font
-    Autor:
-      Type Sailor (David Espinosa) - https://www.instagram.com/typesailor/ - david.ignorant@gmail.com - d.espinosa.mar@gmail.com
-    Licencia:
-      "Just for personal use."
-      
-      Thank you for get this typeface! 
-
-      This font was designed with a 45º inclination of conjuntions. 
-      If you want to donnate or make contact,
-      please don't doubt it. Write me to david.ignorant@gmail.com or d.espinosa.mar@gmail.com
-
-      Copyright 2011. David Espinosa Type Foundry. Just for personal use.
