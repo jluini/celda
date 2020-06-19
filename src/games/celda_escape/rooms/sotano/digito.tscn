@@ -1,12 +1,13 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://tools/grog/core/scene_item.gd" type="Script" id=1]
 [ext_resource path="res://games/celda_escape/rooms/sotano/numeros.png" type="Texture" id=3]
 
 [sub_resource type="Animation" id=1]
-resource_name = "default"
+resource_name = "digito0"
+length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:frame")
+tracks/0/path = NodePath("sprite:region_rect")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -14,14 +15,31 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 0 ]
+"update": 0,
+"values": [ Rect2( 0, 0, 100, 100 ) ]
+}
+
+[sub_resource type="Animation" id=20]
+resource_name = "digito0_pre"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:region_rect")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 0.143587 ),
+"update": 0,
+"values": [ Rect2( 0, 900, 100, 100 ), Rect2( 0, 980, 100, 100 ), Rect2( 0, 1000, 100, 100 ) ]
 }
 
 [sub_resource type="Animation" id=2]
-resource_name = "digito0"
+resource_name = "digito1"
+length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:frame")
+tracks/0/path = NodePath("sprite:region_rect")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -29,29 +47,31 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 0 ]
+"update": 0,
+"values": [ Rect2( 0, 100, 100, 100 ) ]
 }
 
 [sub_resource type="Animation" id=3]
-resource_name = "digito1"
+resource_name = "digito1_pre"
+length = 0.5
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:frame")
-tracks/0/interp = 1
+tracks/0/path = NodePath("sprite:region_rect")
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 1 ]
+"times": PoolRealArray( 0, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 0.143587 ),
+"update": 0,
+"values": [ Rect2( 0, 0, 100, 100 ), Rect2( 0, 80, 100, 100 ), Rect2( 0, 100, 100, 100 ) ]
 }
 
 [sub_resource type="Animation" id=4]
 resource_name = "digito2"
+length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:frame")
+tracks/0/path = NodePath("sprite:region_rect")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -59,29 +79,31 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 2 ]
+"update": 0,
+"values": [ Rect2( 0, 200, 100, 100 ) ]
 }
 
 [sub_resource type="Animation" id=5]
-resource_name = "digito3"
+resource_name = "digito2_pre"
+length = 0.5
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:frame")
-tracks/0/interp = 1
+tracks/0/path = NodePath("sprite:region_rect")
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 3 ]
+"times": PoolRealArray( 0, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 0.143587 ),
+"update": 0,
+"values": [ Rect2( 0, 100, 100, 100 ), Rect2( 0, 180, 100, 100 ), Rect2( 0, 200, 100, 100 ) ]
 }
 
 [sub_resource type="Animation" id=6]
-resource_name = "digito4"
+resource_name = "digito3"
+length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:frame")
+tracks/0/path = NodePath("sprite:region_rect")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -89,29 +111,31 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 4 ]
+"update": 0,
+"values": [ Rect2( 0, 300, 100, 100 ) ]
 }
 
 [sub_resource type="Animation" id=7]
-resource_name = "digito5"
+resource_name = "digito3_pre"
+length = 0.5
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:frame")
-tracks/0/interp = 1
+tracks/0/path = NodePath("sprite:region_rect")
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 5 ]
+"times": PoolRealArray( 0, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 0.143587 ),
+"update": 0,
+"values": [ Rect2( 0, 200, 100, 100 ), Rect2( 0, 280, 100, 100 ), Rect2( 0, 300, 100, 100 ) ]
 }
 
 [sub_resource type="Animation" id=8]
-resource_name = "digito6"
+resource_name = "digito4"
+length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:frame")
+tracks/0/path = NodePath("sprite:region_rect")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -119,29 +143,31 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 6 ]
+"update": 0,
+"values": [ Rect2( 0, 400, 100, 100 ) ]
 }
 
 [sub_resource type="Animation" id=9]
-resource_name = "digito7"
+resource_name = "digito4_pre"
+length = 0.5
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:frame")
-tracks/0/interp = 1
+tracks/0/path = NodePath("sprite:region_rect")
+tracks/0/interp = 2
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 7 ]
+"times": PoolRealArray( 0, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 0.143587 ),
+"update": 0,
+"values": [ Rect2( 0, 300, 100, 100 ), Rect2( 0, 380, 100, 100 ), Rect2( 0, 400, 100, 100 ) ]
 }
 
 [sub_resource type="Animation" id=10]
-resource_name = "digito8"
+resource_name = "digito5"
+length = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:frame")
+tracks/0/path = NodePath("sprite:region_rect")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -149,14 +175,31 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 8 ]
+"update": 0,
+"values": [ Rect2( 0, 500, 100, 100 ) ]
 }
 
 [sub_resource type="Animation" id=11]
-resource_name = "digito9"
+resource_name = "digito5_pre"
+length = 0.5
 tracks/0/type = "value"
-tracks/0/path = NodePath("sprite:frame")
+tracks/0/path = NodePath("sprite:region_rect")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 0.143587 ),
+"update": 0,
+"values": [ Rect2( 0, 400, 100, 100 ), Rect2( 0, 480, 100, 100 ), Rect2( 0, 500, 100, 100 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+resource_name = "digito6"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:region_rect")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -164,8 +207,120 @@ tracks/0/enabled = true
 tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 9 ]
+"update": 0,
+"values": [ Rect2( 0, 600, 100, 100 ) ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "digito6_pre"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:region_rect")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 0.143587 ),
+"update": 0,
+"values": [ Rect2( 0, 500, 100, 100 ), Rect2( 0, 580, 100, 100 ), Rect2( 0, 600, 100, 100 ) ]
+}
+
+[sub_resource type="Animation" id=14]
+resource_name = "digito7"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Rect2( 0, 700, 100, 100 ) ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "digito7_pre"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:region_rect")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 0.143587 ),
+"update": 0,
+"values": [ Rect2( 0, 600, 100, 100 ), Rect2( 0, 680, 100, 100 ), Rect2( 0, 700, 100, 100 ) ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "digito8"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Rect2( 0, 800, 100, 100 ) ]
+}
+
+[sub_resource type="Animation" id=17]
+resource_name = "digito8_pre"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:region_rect")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 0.143587 ),
+"update": 0,
+"values": [ Rect2( 0, 700, 100, 100 ), Rect2( 0, 780, 100, 100 ), Rect2( 0, 800, 100, 100 ) ]
+}
+
+[sub_resource type="Animation" id=18]
+resource_name = "digito9"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:region_rect")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Rect2( 0, 900, 100, 100 ) ]
+}
+
+[sub_resource type="Animation" id=19]
+resource_name = "digito9_pre"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:region_rect")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 0.143587 ),
+"update": 0,
+"values": [ Rect2( 0, 800, 100, 100 ), Rect2( 0, 880, 100, 100 ), Rect2( 0, 900, 100, 100 ) ]
 }
 
 [node name="digito" type="Node2D"]
@@ -177,20 +332,29 @@ size = Vector2( 100, 100 )
 offset = Vector2( 0, 0 )
 color = Color( 1, 1, 1, 1 )
 
-[node name="animation" type="AnimationPlayer" parent="."]
-anims/default = SubResource( 1 )
-anims/digito0 = SubResource( 2 )
-anims/digito1 = SubResource( 3 )
-anims/digito2 = SubResource( 4 )
-anims/digito3 = SubResource( 5 )
-anims/digito4 = SubResource( 6 )
-anims/digito5 = SubResource( 7 )
-anims/digito6 = SubResource( 8 )
-anims/digito7 = SubResource( 9 )
-anims/digito8 = SubResource( 10 )
-anims/digito9 = SubResource( 11 )
-
 [node name="sprite" type="Sprite" parent="."]
 texture = ExtResource( 3 )
-vframes = 11
-region_rect = Rect2( 0, 100, 100, 100 )
+region_enabled = true
+region_rect = Rect2( 0, 1000, 100, 100 )
+
+[node name="animation" type="AnimationPlayer" parent="."]
+anims/digito0 = SubResource( 1 )
+anims/digito0_pre = SubResource( 20 )
+anims/digito1 = SubResource( 2 )
+anims/digito1_pre = SubResource( 3 )
+anims/digito2 = SubResource( 4 )
+anims/digito2_pre = SubResource( 5 )
+anims/digito3 = SubResource( 6 )
+anims/digito3_pre = SubResource( 7 )
+anims/digito4 = SubResource( 8 )
+anims/digito4_pre = SubResource( 9 )
+anims/digito5 = SubResource( 10 )
+anims/digito5_pre = SubResource( 11 )
+anims/digito6 = SubResource( 12 )
+anims/digito6_pre = SubResource( 13 )
+anims/digito7 = SubResource( 14 )
+anims/digito7_pre = SubResource( 15 )
+anims/digito8 = SubResource( 16 )
+anims/digito8_pre = SubResource( 17 )
+anims/digito9 = SubResource( 18 )
+anims/digito9_pre = SubResource( 19 )

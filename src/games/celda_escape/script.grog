@@ -790,9 +790,12 @@ candado/digito_izquierda:
 		if $candado/digito_izquierda_valor > 9:
 			.set candado/digito_izquierda_valor = 0
 		
+		.set candado/digito_izquierda_preanim = "digito" + $candado/digito_izquierda_valor + "_pre"
 		.set candado/digito_izquierda_anim = "digito" + $candado/digito_izquierda_valor
+		
+		candado/digito_izquierda.play $candado/digito_izquierda_preanim blocking=true
 		candado/digito_izquierda.play $candado/digito_izquierda_anim
-	
+		
 		if $candado/digito_izquierda_valor = 8 and $candado/digito_centro_valor = 3 and $candado/digito_derecha_valor = 6:
 			.wait 0.5
 			.load_room sotano at=puerta_laboratorio
@@ -807,9 +810,12 @@ candado/digito_centro:
 		if $candado/digito_centro_valor > 9:
 			.set candado/digito_centro_valor = 0
 		
+		.set candado/digito_centro_preanim = "digito" + $candado/digito_centro_valor + "_pre"
 		.set candado/digito_centro_anim = "digito" + $candado/digito_centro_valor
+		
+		candado/digito_centro.play $candado/digito_centro_preanim blocking=true
 		candado/digito_centro.play $candado/digito_centro_anim
-
+		
 		if $candado/digito_izquierda_valor = 8 and $candado/digito_centro_valor = 3 and $candado/digito_derecha_valor = 6:
 			.wait 0.5
 			.load_room sotano at=puerta_laboratorio
@@ -824,9 +830,12 @@ candado/digito_derecha:
 		if $candado/digito_derecha_valor > 9:
 			.set candado/digito_derecha_valor = 0
 		
+		.set candado/digito_derecha_preanim = "digito" + $candado/digito_derecha_valor + "_pre"
 		.set candado/digito_derecha_anim = "digito" + $candado/digito_derecha_valor
+		
+		candado/digito_derecha.play $candado/digito_derecha_preanim blocking=true
 		candado/digito_derecha.play $candado/digito_derecha_anim
-
+		
 		if $candado/digito_izquierda_valor = 8 and $candado/digito_centro_valor = 3 and $candado/digito_derecha_valor = 6:
 			.wait 0.5
 			.load_room sotano at=puerta_laboratorio
