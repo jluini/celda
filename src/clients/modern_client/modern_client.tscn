@@ -1,11 +1,10 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://clients/modern_client/modern_client.gd" type="Script" id=1]
 [ext_resource path="res://clients/util/curtain.png" type="Texture" id=2]
 [ext_resource path="res://games/celda_escape/menu.png" type="Texture" id=3]
 [ext_resource path="res://tools/theming/custom_label.gd" type="Script" id=4]
 [ext_resource path="res://clients/modern_client/saved/game_list.gd" type="Script" id=5]
-[ext_resource path="res://clients/modern_client/action_list.gd" type="Script" id=6]
 [ext_resource path="res://clients/modern_client/clicking.gd" type="Script" id=7]
 [ext_resource path="res://tools/modular/console_font.tres" type="DynamicFont" id=8]
 [ext_resource path="res://clients/modern_client/selector.gd" type="Script" id=10]
@@ -157,71 +156,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 normal_color = Color( 1, 1, 1, 0.0588235 )
-
-[node name="action_list" type="ColorRect" parent="ui"]
-visible = false
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -300.0
-margin_top = -310.0
-mouse_filter = 2
-color = Color( 0.027451, 0.0823529, 0.333333, 0.576471 )
-script = ExtResource( 6 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="rows" type="VBoxContainer" parent="ui/action_list"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 5.0
-margin_top = 5.0
-margin_right = -5.0
-margin_bottom = -5.0
-mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="header" type="Control" parent="ui/action_list/rows"]
-margin_right = 290.0
-margin_bottom = 60.0
-rect_min_size = Vector2( 0, 60 )
-mouse_filter = 2
-
-[node name="item_name_container" type="Control" parent="ui/action_list/rows/header"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = -60.0
-mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="item_name" type="Label" parent="ui/action_list/rows/header/item_name_container"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-text = "Inodoro"
-align = 1
-valign = 1
-
-[node name="close_button" type="Control" parent="ui/action_list/rows/header"]
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -60.0
-mouse_filter = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="background" type="ColorRect" parent="ui/action_list/rows/header/close_button"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-mouse_filter = 2
-color = Color( 0, 0, 0, 0.478431 )
 
 [node name="item_actions" parent="ui" instance=ExtResource( 16 )]
 visible = false

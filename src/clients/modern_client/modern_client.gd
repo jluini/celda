@@ -18,7 +18,6 @@ onready var _options_button = $ui/menu/side_menu/menu_buttons/options
 onready var _back_button = $ui/menu/back_button
 
 onready var _item_selector = $ui/selector
-onready var _action_list = $ui/action_list
 
 onready var _item_bubbles = $ui/item_actions
 
@@ -48,8 +47,6 @@ var _drag_state = DragState.None
 
 
 var _selected_item = null
-var _selected_as_tool := false
-var _tool_verb := ""
 
 func _on_init():
 	_back_button.hide()
@@ -152,14 +149,8 @@ func _on_server_curtain_down():
 	_curtain.play("down")
 
 func _on_server_tool_set(item, verb: String):
-	var item_view = _inventory.get_view(item)
+	_log_warning("_on_server_tool_set is not used anymore (id='%s', verb='%s')" % [item.get_id(), verb])
 	
-	if not item_view:
-		_log_warning("tool '%s' not found as inventory item" % item.get_id())
-		return
-	
-	_select_item(item_view, false, verb)
-
 ### Clicking ui events
 
 func _on_ui_click(position: Vector2):
@@ -289,33 +280,17 @@ func _ready_click(position: Vector2) -> void:
 				_select_item(null)
 				
 				return
-		elif not _selected_as_tool:
-			# check inventory action
-			var clicked_action : String = _action_list.get_item_action_at(position)
-			
-			if clicked_action:
-				if not game_instance.interact_request(_get_selected_item(), clicked_action):
-					_log_warning("interaction ignored (scene item)")
-				
-				_select_item(null)
-				
-				return
 	
 	# then check inventory item click
 	
 	var clicked_item = _inventory.get_item_at(position)
 	
 	if clicked_item:
-		if _selected_item and _selected_as_tool:
-			var _tool = _get_selected_item()
-			var _with = clicked_item.get_item_instance()
-			
-			if _tool == _with:
-				_select_item(null)
-			else:
-				pass # print("interact tool '%s' with inventory item '%s' (%s)" % [_tool.get_id(), _with.get_id(), _tool_verb])
+		if _selected_item == clicked_item:
+			_select_item(null)
 		else:
 			_select_item(clicked_item)
+		
 		return
 	
 	# then check scene item click
@@ -323,11 +298,10 @@ func _ready_click(position: Vector2) -> void:
 	clicked_item = _get_scene_item_at(position)
 	
 	if clicked_item:
-		if _selected_item and _selected_as_tool:
+		if _selected_item and not _selected_item.is_scene_item():
 			var _tool = _get_selected_item()
 			var _with = clicked_item
-			
-			pass # print("interact tool '%s' with scene item '%s' (%s)" % [_tool.get_id(), _with.get_id(), _tool_verb])
+			var _tool_verb = "usar_con" # TODO harcoded combination action
 			
 			if game_instance.interact_request(_with, _tool_verb, _tool):
 				# successful combination
@@ -489,16 +463,13 @@ func _try_to_skip() -> bool:
 	
 	return skip_accepted
 
-func _select_item(new_item, return_true_if_no_actions := false, tool_verb := ""):
+func _select_item(new_item, return_true_if_no_actions := false):
 	if _selected_item == new_item:
 		return false
 	
 	_selected_item = new_item
-	_selected_as_tool = tool_verb != ""
-	_tool_verb = tool_verb
 	
 	_item_selector.hide()
-	_action_list.hide()
 	
 	_item_bubbles.close()
 	
@@ -506,30 +477,24 @@ func _select_item(new_item, return_true_if_no_actions := false, tool_verb := "")
 		return false
 	
 	var actual_item = _get_selected_item()
+	var is_scene_item = _selected_item.is_scene_item()
 	
-	if not _selected_as_tool:
+	if is_scene_item:
 		var item_actions: Array = game_instance.get_item_actions(actual_item)
 		var default_action: String = game_instance.get_default_action()
 		
 		# remove default action from list if present
 		item_actions.erase(default_action)
 		
-		if _selected_item.is_scene_item():
-			if return_true_if_no_actions and item_actions.empty():
-				_selected_item = null
-				return true
-			
-			# add default action as first option
-			#item_actions.push_front(default_action)
-			
-			_item_bubbles.position = _selected_item.position
-			_item_bubbles.open()
-		else:
-			_action_list.set_item(actual_item, item_actions)
-			_action_list.show()
+		if return_true_if_no_actions and item_actions.empty():
+			_selected_item = null
+			return true
+		
+		_item_bubbles.position = _selected_item.position
+		_item_bubbles.open()
 	
 	var rect : Rect2 = _selected_item.get_item_rect()
-	_item_selector.show_rect(rect, _selected_as_tool)
+	_item_selector.show_rect(rect, not is_scene_item)
 	
 	return false
 
