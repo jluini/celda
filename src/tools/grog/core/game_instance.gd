@@ -1107,7 +1107,7 @@ func interact_request(item, trigger_name: String, _tool = null) -> bool:
 			
 			InteractionType.Combination:
 				# impossible combination
-				_log_debug("impossible combination: %s %s with %s" % [trigger_name, _tool.get_id(), item_id])
+				#_log_debug("impossible combination: %s %s with %s" % [trigger_name, _tool.get_id(), item_id])
 				return false
 	
 	# TODO log warning if routine is non-telekinetic but can't execute as such
