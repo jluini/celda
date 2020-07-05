@@ -83,6 +83,7 @@ TOCAR_ESPEJO;It could hurt me.;Podría lastimarme.
 MAJESTUOSA_CRIATURA;A majestic creature.;Una majestuosa criatura.
 CABEZA_DISECADA;A stuffed head.;Una cabeza disecada.
 MIRAR_VENTANA_LIVING;It's boarded up so I can't go out.;Está tapiada así que no puedo salir.
+ESTAN_BIEN_CLAVADAS;They are very well nailed.;Están muy bien clavadas.
 MIRAR_PUERTA_LIVING1;Fresh air passes underneath.;Un aire fresco pasa por debajo.
 MIRAR_PUERTA_LIVING2;I have to find a way to open it.;Tengo que buscar la forma de abrirla.
 MIRAR_CAJA_FUERTE;It seems to be a strongbox.;Parece una caja fuerte.
@@ -137,6 +138,7 @@ NO_SE_ABRE_CON_LLAVE;It can't be opened with a key.;No se abre con llave.
 NO_TIENE_CERRADURA;It doesn't have a lock.;No tiene cerradura.
 PARECE_ESTAR_TRABADA;It seems to be locked.;Parece estar trabada.
 NO_PUEDO_ABRIRLA_CON_ESTO;I can't open it with this.;No puedo abrirla con esto.
+NO_PUEDO_ABRIRLA;I can't open it.;No puedo abrirla.
 NO_ME_SIRVE_PARA_ABRIRLA;I can't open it with this.;No me sirve para abrirla.
 NO_ES_BUENA_IDEA;Not a good idea.;No es buena idea.
 NO_LLEGO;I can't reach it.;No llego.

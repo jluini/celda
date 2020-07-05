@@ -607,7 +607,7 @@ ventana_living:
 		you.say MIRAR_VENTANA_LIVING
 	
 	mano:
-		you.say "TODO: ruido de tironeos"
+		you.say ESTAN_BIEN_CLAVADAS # TODO: ruido de tironeos
 	
 	usar_con(inv_palo):
 		.signal sound/palo_con_ventana
@@ -622,7 +622,7 @@ puerta_living:
 		you.say MIRAR_PUERTA_LIVING2
 	
 	mano:
-		you.say "TODO"
+		you.say NO_PUEDO_ABRIRLA
 	
 	usar_con(inv_palo):
 		you.say ES_INUTIL
