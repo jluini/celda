@@ -30,6 +30,15 @@ color = Color( 1, 1, 1, 1 )
 position = Vector2( 0, 9.95129 )
 texture = ExtResource( 4 )
 
+[node name="doc_cercano" type="Node2D" parent="items"]
+position = Vector2( 927.192, 562.989 )
+z_index = 562
+script = ExtResource( 1 )
+key = "doc_cercano"
+size = Vector2( 1000, 650 )
+offset = Vector2( 0, 0 )
+color = Color( 1, 1, 1, 1 )
+
 [node name="a_sotano" type="Node2D" parent="items"]
 position = Vector2( 150, 540 )
 z_index = 540

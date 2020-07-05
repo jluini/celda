@@ -92,6 +92,10 @@ MIRAR_CUADRO1;A lady for whom the years were devastating.;Una señora para quien
 MIRAR_CUADRO2;Up close she's even more repulsive.;De cerca es aún más repulsiva.
 MIRAR_BALDE;It's just a bucket.;Es un simple balde.
 MIRAR_BOMBA;A rusty pump. It has not been used for a very long time.;Una bomba oxidada. No se usa hace muchísimo tiempo.
+MIRAR_DOC1;It's a man! He seems dead.;¡Es un hombre! Parece muerto.
+MIRAR_DOC2;I don't get it... he is dressed like me.;No entiendo... está vestido como yo.
+MIRAR_DOC3;Hey! Hey! He doesn't respond.;¡Ey! ¡Ey! No reacciona.
+NO_QUIERO_MOLESTARLO;I don't want to bother him.;No quiero molestarlo.
 FRASCO_EN_INODORO;It would be a waste to throw it here.;Sería un desperdicio tirarlo aquí.
 POSTER_EN_INODORO;No. It could get clogged.;No. Podría taparse y quizás lo necesite.
 X_EN_INODORO;I wouldn't throw it here.;No lo tiraría aquí.

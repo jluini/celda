@@ -750,18 +750,20 @@ bomba:
 	usar_con(*):
 		you.say COMBINACION_INVALIDA
 
-doc:
-	mirar:
+doc: # doc visto desde el sótano
+	ir:
 		.wait 1
 		.load_room doc
 		.wait 1
-		you.say "TODO"
-	mano:
-		# TODO codigo duplicado
-		.wait 1
-		.load_room doc
-		.wait 1
-		you.say "TODO"
+		you.say MIRAR_DOC1
+		you.say MIRAR_DOC2
+
+doc_cercano: # doc visto desde cerca
+	ir:
+		you.say MIRAR_DOC3
+	
+	usar_con(*):
+		you.say NO_QUIERO_MOLESTARLO
 
 doc_a_sotano:
 	ir:
